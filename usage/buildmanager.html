@@ -367,13 +367,12 @@ usage: nornir_build -pipeline Mosaic [-h] [-Channels CHANNELSREGEX]
 <div class="section" id="assemble">
 <h4>Assemble<a class="headerlink" href="#assemble" title="Permalink to this headline">¶</a></h4>
 <blockquote>
-<div><p>Creates an assembled image from a transform and filter. Creates a new channel for output.</p>
+<div><p>Creates an assembled image from a transform and filter. Optionally creates a new channel for output.</p>
 <pre class="literal-block">
 usage: nornir_build -pipeline Assemble [-h] [-Downsample LEVELS]
                                        [-NoInterlace] [-Channels CHANNELREGEX]
                                        [-ChannelPrefix OUTPUTCHANNELPREFIX]
                                        [-Filters FILTERREGEX]
-                                       [-Output OUTPUTPATH]
                                        [-Transform TRANSFORMNAME]
 
 </pre>
@@ -401,13 +400,46 @@ usage: nornir_build -pipeline Assemble [-h] [-Downsample LEVELS]
 <kbd><span class="option">-Filters=(?![M|m]ask)</span></kbd></td>
 </tr>
 <tr><td>&nbsp;</td><td>Regular expression describing filters to be assembled</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Output</span></kbd></td>
-<td>Directory to move assembled images to</td></tr>
 <tr><td class="option-group" colspan="2">
 <kbd><span class="option">-Transform=Grid</span></kbd></td>
 </tr>
 <tr><td>&nbsp;</td><td>Directory to move assembled images to</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="exportimages">
+<h4>ExportImages<a class="headerlink" href="#exportimages" title="Permalink to this headline">¶</a></h4>
+<blockquote>
+<div><p>Copies images of sections to an output directory</p>
+<pre class="literal-block">
+usage: nornir_build -pipeline ExportImages [-h] [-Channels CHANNELREGEX]
+                                           [-Filters FILTERREGEX]
+                                           [-Downsample DOWNSAMPLE]
+                                           [-Output OUTPUTPATH]
+
+</pre>
+<dl class="docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be assembled</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-Filters=(?![M|m]ask)</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Regular expression describing filters to be assembled</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Downsample=1</span></kbd></td>
+<td>Downsample output images by this factor</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Output</span></kbd></td>
+<td>Directory to move assembled images to</td></tr>
 </tbody>
 </table>
 </dd>
@@ -822,40 +854,6 @@ usage: nornir_build -pipeline MosaicToVolume [-h] [-Channels CHANNELSREGEX]
 </dl>
 </div></blockquote>
 </div>
-<div class="section" id="exportmosaics">
-<h4>ExportMosaics<a class="headerlink" href="#exportmosaics" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p>Copies images of sections to an output directory</p>
-<pre class="literal-block">
-usage: nornir_build -pipeline ExportMosaics [-h]
-                                            [-AssembleDownsample ASSEMBLEDOWNSAMPLE]
-                                            [-Filter FILTER]
-                                            [-Output OUTPUTPATH]
-
-</pre>
-<dl class="docutils">
-<dt>Options:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-AssembleDownsample=8</span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Comma seperated list of downsample levels used for assembling output images</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-Filter=Leveled</span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Filter used to build leveled and mosaic images</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Output</span></kbd></td>
-<td>Directory to move assembled images to</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</div></blockquote>
-</div>
 <div class="section" id="renamefilter">
 <h4>RenameFilter<a class="headerlink" href="#renamefilter" title="Permalink to this headline">¶</a></h4>
 <blockquote>
@@ -910,6 +908,7 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
 <li><a class="reference internal" href="#adjustcontrast">AdjustContrast</a></li>
 <li><a class="reference internal" href="#mosaic">Mosaic</a></li>
 <li><a class="reference internal" href="#assemble">Assemble</a></li>
+<li><a class="reference internal" href="#exportimages">ExportImages</a></li>
 <li><a class="reference internal" href="#mosaicreport">MosaicReport</a></li>
 <li><a class="reference internal" href="#stosreport">StosReport</a></li>
 <li><a class="reference internal" href="#createvikingxml">CreateVikingXML</a></li>
@@ -920,7 +919,6 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
 <li><a class="reference internal" href="#scalevolumetransforms">ScaleVolumeTransforms</a></li>
 <li><a class="reference internal" href="#volumeimage">VolumeImage</a></li>
 <li><a class="reference internal" href="#mosaictovolume">MosaicToVolume</a></li>
-<li><a class="reference internal" href="#exportmosaics">ExportMosaics</a></li>
 <li><a class="reference internal" href="#renamefilter">RenameFilter</a></li>
 </ul>
 </li>

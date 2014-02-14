@@ -472,8 +472,14 @@ Discreet = True causes points outside the defined transform region to be clipped
 
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.WarpedImageToFixedSpace">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">WarpedImageToFixedSpace</tt><big>(</big><em>transform</em>, <em>FixedImageArea</em>, <em>WarpedImage</em>, <em>botleft=None</em>, <em>area=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.WarpedImageToFixedSpace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Warps every image in the WarpedImageList using the provided transform</p>
+<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">WarpedImageToFixedSpace</tt><big>(</big><em>transform</em>, <em>FixedImageArea</em>, <em>WarpedImage</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.WarpedImageToFixedSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warps every image in the WarpedImageList using the provided transform.
+:Param transform: transform to pass warped space coordinates through to obtain fixed space coordinates
+:Param FixedImageArea: Size of fixed space region to map pixels into
+:Param WarpedImage: Image to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.
+:Param botleft: Origin of region to map
+:Param area: Expected dimensions of output
+:Param cval: Value to place in unmappable regions, defaults to zero.</p>
 </dd></dl>
 
 </div>
