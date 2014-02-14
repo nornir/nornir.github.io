@@ -61,7 +61,13 @@
 <p><strong>A:</strong> This indicates that [PIP](<a class="reference external" href="http://www.pip-installer.org/en/latest/installing.html">http://www.pip-installer.org/en/latest/installing.html</a>) is not installed.</p>
 </li>
 <li><p class="first"><strong>Q:</strong> Upgrading with <cite>pip install git+https://github.com/jamesra/nornir-buildmanager.git &#8211;upgrade</cite> did not succeed.  It looks like it is trying to install a package?</p>
-<p><strong>A:</strong> One known cause is earlier versions of packages seem to override later versions of packages according to pip.  On a system with Numpy 1.7.1 and 1.8 installed pip will only see 1.7.1 and attempt to download and compile numpy 1.8.  The solution is to delete any versions of packages older than the latest version.</p>
+<p><strong>A:</strong> One known cause is earlier versions of packages seem to override later versions of packages according to pip.  On a system with Numpy 1.7.1 and 1.8 installed pip will only see 1.7.1 and attempt to download and compile numpy 1.8.  Verify the numpy version pip sees by looking at the known version for each installed package using:</p>
+<div class="highlight-python"><pre>pip list</pre>
+</div>
+<p>The solution is to delete any versions of packages older than the latest version.  Pip can do this by entering:</p>
+<div class="highlight-python"><pre>pip uninstall numpy</pre>
+</div>
+<p>Verify the correct version is detected by re-running &#8220;pip list&#8221;.</p>
 </li>
 <li><p class="first"><strong>Q:</strong> I get &#8220;Access denied&#8221; trying to follow the installation instructions</p>
 <p><strong>A:</strong> Make sure you are running the command prompt as an administrator.  Right clicking the command prompt icon in windows and select &#8220;Run as admistrator&#8221;.  One can also adjust an advanced property to always run the prompt as administrator.</p>
