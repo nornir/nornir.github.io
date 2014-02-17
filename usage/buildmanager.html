@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Using the build manager &mdash; Nornir 0.9 documentation</title>
+    <title>Using the build manager &mdash; Nornir 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.9',
+        VERSION:     '1.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 0.9 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
     <link rel="next" title="Packages" href="../packages/packages.html" />
     <link rel="prev" title="Running on a Cluster" href="../installation/cluster.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="../installation/cluster.html" title="Running on a Cluster"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 0.9 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,15 +54,21 @@
             
   <div class="section" id="using-the-build-manager">
 <h1>Using the build manager<a class="headerlink" href="#using-the-build-manager" title="Permalink to this headline">¶</a></h1>
+<p>This section reviews how to organize images for import into a volume and what operations can be performed on the volume.</p>
+<p>The build manager places data from various platforms into a single volume directory.  Users use the &#8220;nornir_build&#8221; command and provide a path to the volume&#8217;s directory to run specific operations on the volume:</p>
+<div class="highlight-python"><pre>nornir-build -volume &lt;volumepath&gt; -pipeline ...</pre>
+</div>
+<p>For various reasons volume operations are called pipelines.  The term pipeline is likely to be replaced with operation in the future.</p>
 <div class="section" id="importing-data">
 <h2>Importing data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
 <p>The first command for any Nornir volume:</p>
-<p><tt class="docutils literal"><span class="pre">nornir-build</span> <span class="pre">-volume</span> <span class="pre">&lt;volumepath&gt;</span> <span class="pre">-input</span> <span class="pre">&lt;inputpath&gt;</span></tt></p>
+<div class="highlight-python"><pre>nornir-build -volume &lt;volumepath&gt; -input &lt;inputpath&gt;</pre>
+</div>
 <p>For example <cite>nornir-build -volume Y:/Volumes/RC2 -input Y:/Captures/RC2/</cite> will instruct Nornir to check the &lt;i&gt;Y:/Captures/RC2/&lt;/i&gt; directory for sections and import any that it can find into the volume stored in &lt;i&gt;Y:/Volumes/RC2&lt;/i&gt;</p>
 <p>The import command extends volumes non-destructively provided different sections are not assigned the same number. Import can be run repeatedly as now sections become available.</p>
 <div class="section" id="organizing-data-for-import">
 <h3>Organizing data for import<a class="headerlink" href="#organizing-data-for-import" title="Permalink to this headline">¶</a></h3>
-<p>Nornir needs the data to be laid out in a predictable fashion.  For random reasons &lt;b&gt;no spaces are allowed in nornir folder names!&lt;/b&gt;.</p>
+<p>Nornir needs the data to be laid out in a predictable fashion.  No spaces are allowed in nornir folder names!</p>
 <p>The convention nornir uses is for a directory to exist for the volume with a numbered subdirectory for each mosaic.  The directory name should contain the section number, and optionally an underscore followed by the name of the section.</p>
 <p><tt class="docutils literal"><span class="pre">&lt;experimentfolder&gt;/&lt;section#&gt;_[sectionname]</span></tt></p>
 <p>Sometimes it is just useful to organize multiple mosaics into a single volume even though they aren&#8217;t a 3D volume.  In this case just invent different section numbers for each capture. For example lets say I capture three mosaics in SerialEM (which produces an .idoc meta-data file) for Bob&#8217;s eggplant and he had some ID #&#8217;s he wants to make sure get carried along with the data.</p>
@@ -104,6 +110,35 @@
 <div class="section" id="extending-the-importer">
 <h3>Extending the importer<a class="headerlink" href="#extending-the-importer" title="Permalink to this headline">¶</a></h3>
 <p>Nornir has an .xml file mapping extensions to importers.  It examines each directory for extensions and if the extensions are found it will attempt to load the python module specified in the xml file and pass it the directory containing the files with matching extensions.</p>
+</div>
+</div>
+<div class="section" id="platform-scripts">
+<h2>Platform Scripts<a class="headerlink" href="#platform-scripts" title="Permalink to this headline">¶</a></h2>
+<p>For SerialEM and Surveyor there are canned windows batch files for building TEM volumes and brightfield microscopy volumes respectively.  These are tailored for the Marc Lab&#8217;s workflow as needed, but can be a reference for development.  Scripts are run from the scripts directory of your Python installation.</p>
+<div class="section" id="transmission-electron-microscopy-via-serialem">
+<h3>Transmission Electron Microscopy via SerialEM<a class="headerlink" href="#transmission-electron-microscopy-via-serialem" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Import SerialEM .idoc files and remove tiles without enough features:</p>
+<div class="highlight-python"><pre>TEMPrepare  &lt;volume path&gt; &lt;import path&gt;</pre>
+</div>
+<p>Build mosaics and produce a report for SerialEM TEM:</p>
+<div class="highlight-python"><pre>TEMBuild  &lt;volume path&gt;</pre>
+</div>
+<p>Align the slices into a single volume:</p>
+<div class="highlight-python"><pre>TEMAlign  &lt;volume path&gt;</pre>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="brightfield-microscopy-via-surveyor">
+<h3>Brightfield Microscopy via Surveyor<a class="headerlink" href="#brightfield-microscopy-via-surveyor" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Import .pmg files, correct non-DAPI channels using brightfield shading correction:</p>
+<div class="highlight-python"><pre>CMPBuild &lt;volume path&gt; &lt;import path&gt;</pre>
+</div>
+<p>Align the slices into a single volume:</p>
+<div class="highlight-python"><pre>CMPAlign &lt;volume path&gt;</pre>
+</div>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="pipelines">
@@ -900,6 +935,11 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
 <li><a class="reference internal" href="#extending-the-importer">Extending the importer</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#platform-scripts">Platform Scripts</a><ul>
+<li><a class="reference internal" href="#transmission-electron-microscopy-via-serialem">Transmission Electron Microscopy via SerialEM</a></li>
+<li><a class="reference internal" href="#brightfield-microscopy-via-surveyor">Brightfield Microscopy via Surveyor</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#pipelines">Pipelines</a><ul>
 <li><a class="reference internal" href="#common-build-options">Common build options</a></li>
 <li><a class="reference internal" href="#id1">Pipelines</a><ul>
@@ -971,11 +1011,12 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
         <li class="right" >
           <a href="../installation/cluster.html" title="Running on a Cluster"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 0.9 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
+      Last updated on Feb 17, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>

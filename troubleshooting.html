@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Troubleshooting &mdash; Nornir 0.9 documentation</title>
+    <title>Troubleshooting &mdash; Nornir 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.9',
+        VERSION:     '1.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,9 +23,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Nornir 0.9 documentation" href="index.html" />
+    <link rel="top" title="Nornir 1.1.0 documentation" href="index.html" />
     <link rel="next" title="Background" href="background/background.html" />
-    <link rel="prev" title="Shared (nornir_shared)" href="packages/nornir_shared.html" /> 
+    <link rel="prev" title="Missing features" href="futurework.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,9 +41,9 @@
           <a href="background/background.html" title="Background"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
+          <a href="futurework.html" title="Missing features"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Nornir 0.9 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -60,17 +60,20 @@
 <li><p class="first"><strong>Q:</strong> &#8220;python setup.py install&#8221; results in <strong>unknown url type: git+http</strong> being displayed and the setup script exits</p>
 <p><strong>A:</strong> This indicates that [PIP](<a class="reference external" href="http://www.pip-installer.org/en/latest/installing.html">http://www.pip-installer.org/en/latest/installing.html</a>) is not installed.</p>
 </li>
+<li><p class="first"><strong>Q:</strong> I get &#8220;Access denied&#8221; trying to follow the installation instructions</p>
+<p><strong>A:</strong> Make sure you are running the command prompt as an administrator.  Right clicking the command prompt icon in windows and select &#8220;Run as admistrator&#8221;.  One can also adjust an advanced property to always run the prompt as administrator.</p>
+</li>
 <li><p class="first"><strong>Q:</strong> Upgrading with <cite>pip install git+https://github.com/jamesra/nornir-buildmanager.git &#8211;upgrade</cite> did not succeed.  It looks like it is trying to install a package?</p>
-<p><strong>A:</strong> One known cause is earlier versions of packages seem to override later versions of packages according to pip.  On a system with Numpy 1.7.1 and 1.8 installed pip will only see 1.7.1 and attempt to download and compile numpy 1.8.  Verify the numpy version pip sees by looking at the known version for each installed package using:</p>
+<p><strong>A1:</strong> One known cause is earlier versions of packages seem to override later versions of packages according to pip.  On a system with Numpy 1.7.1 and 1.8 installed pip will only see 1.7.1 and attempt to download and compile numpy 1.8.  Verify the numpy version pip sees by looking at the known version for each installed package using:</p>
 <div class="highlight-python"><pre>pip list</pre>
 </div>
 <p>The solution is to delete any versions of packages older than the latest version.  Pip can do this by entering:</p>
 <div class="highlight-python"><pre>pip uninstall numpy</pre>
 </div>
-<p>Verify the correct version is detected by re-running &#8220;pip list&#8221;.</p>
+<p>Verify the correct version is detected by re-running &#8220;pip list&#8221;.  Repeat the uninstall command until the most recently installed version is listed, or until nothing is listed and a clean install can be performed.</p>
 </li>
-<li><p class="first"><strong>Q:</strong> I get &#8220;Access denied&#8221; trying to follow the installation instructions</p>
-<p><strong>A:</strong> Make sure you are running the command prompt as an administrator.  Right clicking the command prompt icon in windows and select &#8220;Run as admistrator&#8221;.  One can also adjust an advanced property to always run the prompt as administrator.</p>
+<li><p class="first"><strong>Q:</strong> PIP says something about dependency_links requiring extra flags?</p>
+<p><strong>A:</strong> This began with PIP 1.5.  The current workaround is to install each package seperately as detailed on the installation page.</p>
 </li>
 </ul>
 </div>
@@ -91,8 +94,8 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="packages/nornir_shared.html"
-                        title="previous chapter">Shared (nornir_shared)</a></p>
+  <p class="topless"><a href="futurework.html"
+                        title="previous chapter">Missing features</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="background/background.html"
                         title="next chapter">Background</a></p>
@@ -131,13 +134,14 @@
           <a href="background/background.html" title="Background"
              >next</a> |</li>
         <li class="right" >
-          <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
+          <a href="futurework.html" title="Missing features"
              >previous</a> |</li>
-        <li><a href="index.html">Nornir 0.9 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
+      Last updated on Feb 17, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>

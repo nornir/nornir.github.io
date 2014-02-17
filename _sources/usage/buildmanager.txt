@@ -2,12 +2,20 @@
 Using the build manager
 =======================
 
+This section reviews how to organize images for import into a volume and what operations can be performed on the volume.
+
+The build manager places data from various platforms into a single volume directory.  Users use the "nornir_build" command and provide a path to the volume's directory to run specific operations on the volume::
+
+  nornir-build -volume <volumepath> -pipeline ... 
+
+For various reasons volume operations are called pipelines.  The term pipeline is likely to be replaced with operation in the future.    
+
 Importing data
 --------------
 
-The first command for any Nornir volume:
+The first command for any Nornir volume::
 
-``nornir-build -volume <volumepath> -input <inputpath>``
+  nornir-build -volume <volumepath> -input <inputpath>
 
 For example `nornir-build -volume Y:/Volumes/RC2 -input Y:/Captures/RC2/` will instruct Nornir to check the <i>Y:/Captures/RC2/</i> directory for sections and import any that it can find into the volume stored in <i>Y:/Volumes/RC2</i>
 
@@ -16,7 +24,7 @@ The import command extends volumes non-destructively provided different sections
 Organizing data for import
 ==========================
 
-Nornir needs the data to be laid out in a predictable fashion.  For random reasons <b>no spaces are allowed in nornir folder names!</b>. 
+Nornir needs the data to be laid out in a predictable fashion.  No spaces are allowed in nornir folder names! 
 
 The convention nornir uses is for a directory to exist for the volume with a numbered subdirectory for each mosaic.  The directory name should contain the section number, and optionally an underscore followed by the name of the section.  
 
@@ -60,6 +68,37 @@ Extending the importer
 
 Nornir has an .xml file mapping extensions to importers.  It examines each directory for extensions and if the extensions are found it will attempt to load the python module specified in the xml file and pass it the directory containing the files with matching extensions. 
 
+Platform Scripts
+----------------
+
+For SerialEM and Surveyor there are canned windows batch files for building TEM volumes and brightfield microscopy volumes respectively.  These are tailored for the Marc Lab's workflow as needed, but can be a reference for development.  Scripts are run from the scripts directory of your Python installation.  
+
+Transmission Electron Microscopy via SerialEM
+=============================================
+
+  Import SerialEM .idoc files and remove tiles without enough features::
+   
+    TEMPrepare  <volume path> <import path>
+  
+  Build mosaics and produce a report for SerialEM TEM::  
+ 
+    TEMBuild  <volume path>
+  
+  Align the slices into a single volume::
+   
+    TEMAlign  <volume path>
+    
+ 
+Brightfield Microscopy via Surveyor
+===================================
+
+  Import .pmg files, correct non-DAPI channels using brightfield shading correction::
+  
+    CMPBuild <volume path> <import path>
+     
+  Align the slices into a single volume::
+  
+    CMPAlign <volume path> 
 
 Pipelines
 ---------

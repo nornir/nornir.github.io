@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Missing features &mdash; Nornir 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Nornir 1.1.0 documentation" href="index.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="Shared (nornir_shared)" href="packages/nornir_shared.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="troubleshooting.html" title="Troubleshooting"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <p>Nornir has been a long project assembled by a single developer.  As such there are always blindspots.</p>
+<div class="section" id="missing-features">
+<h1>Missing features<a class="headerlink" href="#missing-features" title="Permalink to this headline">¶</a></h1>
+<p>These features make sense but are not required for the immediate needs of any users.  An E-mail request is likely to bump the priority of these features.</p>
+<div class="section" id="multiple-channels">
+<h2>Multiple channels<a class="headerlink" href="#multiple-channels" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Generating registrations from multiple channels from a single section directly into the volume.</p>
+<p>This feature was working at one point but was dropped to get the v1.1 release done.</p>
+</li>
+<li><p class="first">A mechanism to register multiple channels from a single section to each other.</p>
+<p>This need arises with captures of multiple fluorophores or when aligning optical and electron microscopy images.  There is no definined mechanism to store these registrations in the volume&#8217;s meta-data.  The workaround is to create a fake section number for each channel.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="import-issues">
+<h2>Import issues<a class="headerlink" href="#import-issues" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Import a single image for a section.</p>
+<p>It is easier to import a single large image for a section in a volume rather than a set of tiles.  This has worked in the past.
+However the importer and exporter do not have beginning to end integration tests written.  If one wants to export registered images
+from this type of input the SliceToVolume pipeline should be used.  Send an E-mail if issues are encountered so I can add this
+workflow to the tests.</p>
+</li>
+<li><p class="first">Overlapping mosaic tiles without position meta-data.</p>
+<p>On the todo list is to take a directory of overlapping images and produce the best guess mosaic.  Initial work has
+been done but it is not accessible yet.  The runtime of scales exponentially with the number of tiles.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="internal-quirks">
+<h2>Internal quirks<a class="headerlink" href="#internal-quirks" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>The volume metadata is currently stored in tree of plain text XML files.  The XML is read and converted into objects at runtime.  This decision is very high in the list of design decisions I would like to revisit.  Reading and writing the XML scales poorly and the search functionality is not adequate.  If could do the project over again I would use a real database or ZODB.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="future-work">
+<h1>Future work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">Web server for volume images</p>
+<p>I&#8217;m planning to provide a package which handles HTTP queries and returns images registered into the volume.</p>
+</li>
+<li><p class="first">Pyre documentation</p>
+<p>The method for manual registration fixes is undocumented.  This should change soon.</p>
+</li>
+<li><p class="first">User interface</p>
+<p>It is too difficult for users to adjust volume variables such as the contrast parameters for a channel.  Pipelines will be added to allow this operation without editting the XML files directly.</p>
+<p>The time to author a GUI is not current available.</p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Missing features</a><ul>
+<li><a class="reference internal" href="#multiple-channels">Multiple channels</a></li>
+<li><a class="reference internal" href="#import-issues">Import issues</a></li>
+<li><a class="reference internal" href="#internal-quirks">Internal quirks</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-work">Future work</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="packages/nornir_shared.html"
+                        title="previous chapter">Shared (nornir_shared)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="troubleshooting.html"
+                        title="next chapter">Troubleshooting</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/futurework.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="troubleshooting.html" title="Troubleshooting"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
+             >previous</a> |</li>
+        <li><a href="index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, James Anderson.
+      Last updated on Feb 17, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    </div>
+  </body>
+</html>

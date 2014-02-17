@@ -27,8 +27,17 @@ Installation
 There are many roads to installing the packages.  One of these options should work.  The alternatives are provided for troubleshooting 
 
 1. Best option, use pip
-   The simplest install is to go to the scripts directory for your python installation.  C:\Python27\scripts is a common location.  Install the nornir-buildmanager package directly from github via pip by typing the following command::
+   The simplest install is to go to the scripts directory for your python installation.  C:\Python27\scripts is a common location.  Install the nornir-buildmanager package directly from github via pip by typing the following command
+   
+   Pip has recently changed its behavior after version 1.4 to not install dependencies.  Using PIP 1.4 this command should be sufficient to install nornir.:: 
+   
+    pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade
     
+   Later versions of Pip require each package to be installed seperately.::
+    
+    pip install git+https://github.com/nornir/nornir-shared.git --upgrade
+    pip install git+https://github.com/nornir/nornir-pools.git --upgrade
+    pip install git+https://github.com/nornir/nornir-imageregistration.git --upgrade
     pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade
  
   If you are on a machine that can build C extensions for Python packages, for example a working Mac Ports install, the above approach should work even if one hasn't manually installed the ore-requisite packages. 

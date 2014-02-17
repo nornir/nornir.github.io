@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Background &mdash; Nornir 1.1.0 documentation</title>
+    <title>&lt;no title&gt; &mdash; Nornir 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
-    <link rel="prev" title="Troubleshooting" href="../troubleshooting.html" /> 
+    <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,9 +35,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../troubleshooting.html" title="Troubleshooting"
-             accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,35 +44,16 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="background">
-<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="glossary-of-terms-in-context">
-<h2>Glossary of terms in context<a class="headerlink" href="#glossary-of-terms-in-context" title="Permalink to this headline">¶</a></h2>
-<p>To build a 3D volume using our transmission electron microscopes we begin by taking a sample and embedding it in a <strong>block</strong> of plastic resin.  This block is then cut into thin, about 70-90nm, <strong>sections</strong>.  Each section is placed on a grid or a slide.  At 5000X our transmission electron microscope can produce an image representing an 8um square.  To collect a larger area we collect a <strong>mosaic</strong> of images with a 10%-12% overlap.  We refer to an image in a mosaic as a <strong>tile</strong> even though proper tiles wouldn&#8217;t overlap.  Nornir figures out how to layout the tiles so we can <strong>assemble</strong> a single image of the entire mosaic.</p>
-<p>We assemble a mosaic image for each section cut from the block.  Sometimes we call a section a <strong>slice</strong>.  Each section is then registered to the adjacent sections to produce <strong>slice-to-slice</strong> (stos) transformations.  We decide which mosaic is the <strong>center</strong> of the volume.  Transforms can then be added such that any point on a mosaic can be mapped through stos transforms until the center is reached.  This produces a mapping for each section to the volume. The <strong>slice-to-volume</strong> transforms can be used with <a class="reference external" href="http://connectomes.utah.edu/">Viking</a> or if the mosaic images are small enough volume aligned section images can be produced.</p>
-</div>
-</div>
-
+  
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Background</a><ul>
-<li><a class="reference internal" href="#glossary-of-terms-in-context">Glossary of terms in context</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../troubleshooting.html"
-                        title="previous chapter">Troubleshooting</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/background/background.txt"
+    <li><a href="../_sources/usage/pyre.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -105,9 +82,6 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../troubleshooting.html" title="Troubleshooting"
-             >previous</a> |</li>
         <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>

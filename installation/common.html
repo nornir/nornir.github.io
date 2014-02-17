@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Common Install Requirements &mdash; Nornir 0.9 documentation</title>
+    <title>Common Install Requirements &mdash; Nornir 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.9',
+        VERSION:     '1.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 0.9 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
     <link rel="up" title="Installation" href="toctree.html" />
     <link rel="next" title="Build Manager Installation" href="buildmanager.html" />
     <link rel="prev" title="Installation" href="toctree.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="toctree.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 0.9 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
           <li><a href="toctree.html" accesskey="U">Installation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -68,8 +68,10 @@
 <li>numpy</li>
 <li>scipy</li>
 <li>matplotlib</li>
+<li>rtree 0.7 or later</li>
 </ul>
-<p>Windows users can locate many pre-built installers at the excellent site maintained by <a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">Christoph Gohlke</a>.  Mac users can utilize mac ports to install many</p>
+<p>Windows users can locate many pre-built installers at the excellent site maintained by <a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">Christoph Gohlke</a>.  Mac users can utilize mac ports to install all package.</p>
+<p>If windows installation fails check the output for any references to missing packages.  Sometimes a dependency will require another package not listed here.  Gohlke&#8217;s site should have any missing packages required by dependencies.   Also check the troubleshooting section or send an E-mail.</p>
 </div>
 <div class="section" id="git-client">
 <h2>Git client<a class="headerlink" href="#git-client" title="Permalink to this headline">¶</a></h2>
@@ -80,7 +82,7 @@
 </div>
 <div class="section" id="upgrading-numpy-scipy-matplotlib">
 <h2>Upgrading Numpy, Scipy, Matplotlib<a class="headerlink" href="#upgrading-numpy-scipy-matplotlib" title="Permalink to this headline">¶</a></h2>
-<p>Circa 2013 the PIP installer appears to detect earlier versions of these libraries even if later versions are installed.  This results in downloading and building the libraries which fails if the machine does not have a build environment working for those tools.  It is best to delete old versions of Numpy/Scipy/Matplotlib from the Python27/lib/site-packages directory when upgrading to later versions.</p>
+<p>The PIP 1.4.x installer appears to detect earlier versions of these libraries even if later versions are installed.  This results in downloading and building the libraries which fails if the machine does not have a build environment working for those tools.  It is best to delete old versions of Numpy/Scipy/Matplotlib from the Python27/lib/site-packages directory when upgrading to later versions.</p>
 </div>
 <div class="section" id="optional-test-data">
 <h2>Optional test data<a class="headerlink" href="#optional-test-data" title="Permalink to this headline">¶</a></h2>
@@ -159,12 +161,13 @@ set TESTOUTPUTPATH=C:\temp</pre>
         <li class="right" >
           <a href="toctree.html" title="Installation"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 0.9 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
           <li><a href="toctree.html" >Installation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
+      Last updated on Feb 17, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>

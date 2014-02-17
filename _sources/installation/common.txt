@@ -20,8 +20,11 @@ The latest version of 64-bit `Python 2.7`_.X (http://python.org/) should be inst
 * numpy
 * scipy
 * matplotlib
+* rtree 0.7 or later
 
-Windows users can locate many pre-built installers at the excellent site maintained by `Christoph Gohlke`_.  Mac users can utilize mac ports to install many  
+Windows users can locate many pre-built installers at the excellent site maintained by `Christoph Gohlke`_.  Mac users can utilize mac ports to install all package.
+
+If windows installation fails check the output for any references to missing packages.  Sometimes a dependency will require another package not listed here.  Gohlke's site should have any missing packages required by dependencies.   Also check the troubleshooting section or send an E-mail.  
 
 Git client
 ----------
@@ -37,8 +40,7 @@ If installed correctly one can open a command prompt, type "git", and have some 
 Upgrading Numpy, Scipy, Matplotlib
 ----------------------------------
 
-Circa 2013 the PIP installer appears to detect earlier versions of these libraries even if later versions are installed.  This results in downloading and building the libraries which fails if the machine does not have a build environment working for those tools.  It is best to delete old versions of Numpy/Scipy/Matplotlib from the Python27/lib/site-packages directory when upgrading to later versions.
-     
+The PIP 1.4.x installer appears to detect earlier versions of these libraries even if later versions are installed.  This results in downloading and building the libraries which fails if the machine does not have a build environment working for those tools.  It is best to delete old versions of Numpy/Scipy/Matplotlib from the Python27/lib/site-packages directory when upgrading to later versions.
 
 Optional test data
 ------------------

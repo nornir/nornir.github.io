@@ -17,12 +17,12 @@ Contents
    Overview <overview/overview>
    Installation <installation/toctree>
    Use <usage/buildmanager>
+   
    Packages <packages/packages>
+   Known Issues and Future Work <futurework>
    TroubleShooting <troubleshooting>
    Glossary and Background <background/background>
    
-    
- 
 About Nornir
 ------------
 
