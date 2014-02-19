@@ -54,8 +54,99 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-nornir_shared">
-<span id="shared-nornir-shared"></span><h1>Shared (nornir_shared)<a class="headerlink" href="#module-nornir_shared" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="shared-nornir-shared">
+<h1>Shared (nornir_shared)<a class="headerlink" href="#shared-nornir-shared" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-nornir_shared"></span><div class="section" id="nornir-shared-package">
+<h2>Nornir Shared Package<a class="headerlink" href="#nornir-shared-package" title="Permalink to this headline">¶</a></h2>
+<p>Functions shared across the various Nornir and connectomics packages live in this module.</p>
+<div class="section" id="module-nornir_shared.checksum">
+<span id="checksum"></span><h3>checksum<a class="headerlink" href="#module-nornir_shared.checksum" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="nornir_shared.checksum.DataChecksum">
+<tt class="descclassname">nornir_shared.checksum.</tt><tt class="descname">DataChecksum</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#nornir_shared.checksum.DataChecksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes whitespace from strings before calculating md5 checksum</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>obj</em>) &#8211; string, list or object convertible to string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">md5 checksum</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_shared.checksum.FileChecksum">
+<tt class="descclassname">nornir_shared.checksum.</tt><tt class="descname">FileChecksum</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#nornir_shared.checksum.FileChecksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the md5 hash of a file read in txt mode</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">md5 checksum</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_shared.checksum.FilesizeChecksum">
+<tt class="descclassname">nornir_shared.checksum.</tt><tt class="descname">FilesizeChecksum</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#nornir_shared.checksum.FilesizeChecksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of a file in bytes for use as a simple checksum</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Size of file as a string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-nornir_shared.emaillib">
+<span id="emaillib"></span><h3>emaillib<a class="headerlink" href="#module-nornir_shared.emaillib" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="nornir_shared.emaillib.SendMail">
+<tt class="descclassname">nornir_shared.emaillib.</tt><tt class="descname">SendMail</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nornir_shared.emaillib.SendMail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends an email</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>host</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Address of smpt server</li>
+<li><strong>username</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; username for smtp account if required</li>
+<li><strong>password</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; password for smtp account if required</li>
+<li><strong>subject</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; subject for E-mail</li>
+<li><strong>message</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; text content of message</li>
+<li><strong>to</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Recipient addresses as string or list of strings</li>
+<li><strong>cc</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Recipient addresses as string or list of strings</li>
+<li><strong>from</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Sender&#8217;s E-mail address</li>
+<li><strong>fromFriendlyAddress</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Nice looking Sender&#8217;s E-mail address</li>
+<li><strong>files</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; comma delimited list of files to attach</li>
+<li><strong>port</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; port to use on server, default is 25</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
 </div>
 
 
@@ -64,6 +155,18 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Shared (nornir_shared)</a><ul>
+<li><a class="reference internal" href="#nornir-shared-package">Nornir Shared Package</a><ul>
+<li><a class="reference internal" href="#module-nornir_shared.checksum">checksum</a></li>
+<li><a class="reference internal" href="#module-nornir_shared.emaillib">emaillib</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="nornir_pools.html"
                         title="previous chapter">Pools (nornir_pools)</a></p>
@@ -113,7 +216,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Feb 17, 2014.
+      Last updated on Feb 18, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>

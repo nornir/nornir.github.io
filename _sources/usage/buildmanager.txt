@@ -1,6 +1,6 @@
-=======================
-Using the build manager
-=======================
+=================
+Creating a Volume
+=================
 
 This section reviews how to organize images for import into a volume and what operations can be performed on the volume.
 
@@ -17,7 +17,7 @@ The first command for any Nornir volume::
 
   nornir-build -volume <volumepath> -input <inputpath>
 
-For example `nornir-build -volume Y:/Volumes/RC2 -input Y:/Captures/RC2/` will instruct Nornir to check the <i>Y:/Captures/RC2/</i> directory for sections and import any that it can find into the volume stored in <i>Y:/Volumes/RC2</i>
+For example ``nornir-build -volume Y:/Volumes/RC2 -input Y:/Captures/RC2/`` will instruct Nornir to check the <i>Y:/Captures/RC2/</i> directory for sections and import any that it can find into the volume stored in <i>Y:/Volumes/RC2</i>
 
 The import command extends volumes non-destructively provided different sections are not assigned the same number. Import can be run repeatedly as now sections become available.
 

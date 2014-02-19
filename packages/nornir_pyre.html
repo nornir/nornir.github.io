@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyre (nornir_pyre) &mdash; Nornir 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
+    <link rel="up" title="Packages" href="packages.html" />
+    <link rel="next" title="Image Registration (nornir_imageregistration)" href="nornir_imageregistration.html" />
+    <link rel="prev" title="Buildmanager (nornir_buildmanager)" href="nornir_buildmanager.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nornir_imageregistration.html" title="Image Registration (nornir_imageregistration)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nornir_buildmanager.html" title="Buildmanager (nornir_buildmanager)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
+          <li><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyre">
+<span id="pyre-nornir-pyre"></span><h1>pyre (nornir_pyre)<a class="headerlink" href="#module-pyre" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pyre-commands">
+<h2>Pyre commands<a class="headerlink" href="#pyre-commands" title="Permalink to this headline">¶</a></h2>
+<p>The blinking point is the currently selected point</p>
+<div class="section" id="mouse">
+<h3>Mouse<a class="headerlink" href="#mouse" title="Permalink to this headline">¶</a></h3>
+<p>Left Button</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to select an existing point</p>
+<p><tt class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to add a new point</p>
+<p><tt class="docutils literal"><span class="pre">Alt+Shift</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to add a new point and auto-align</p>
+<p><tt class="docutils literal"><span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span> <span class="pre">+</span> <span class="pre">drag</span></tt> to move point under the cursor</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span> <span class="pre">+</span> <span class="pre">drag</span></tt> to translate warped image</p>
+<p><tt class="docutils literal"><span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to move currently selected point to mouse position</p>
+</div></blockquote>
+<p>Right Button</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">``</span></a>Shift + &lt;Right Click&gt; to delete point under the cursor</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>&lt;Right Click&gt; + drag to move the view</p>
+</div></blockquote>
+<p>Scroll wheel</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">&lt;Scroll</span> <span class="pre">wheel&gt;</span></tt> zoom in or out</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">&lt;Scroll</span> <span class="pre">wheel&gt;</span></tt> to rotate warped image</p>
+</div></blockquote>
+</div>
+<div class="section" id="keys">
+<h3>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">A,W,S,D</span></tt> Move the view</p>
+<p><tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Up/Down</span></tt> Change the magnification</p>
+<p><tt class="docutils literal"><span class="pre">M</span></tt> Match the view on all windows to look at the same point as the current window (Not Functional for Warped Image)</p>
+<p><tt class="docutils literal"><span class="pre">L</span></tt> Show transform mesh lines</p>
+<p><tt class="docutils literal"><span class="pre">Space</span></tt> Auto-align the selected point</p>
+<p><tt class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Space</span></tt> Auto-align all points</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl+Z</span></tt> to undo a step</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl+X</span></tt> to redo a step</p>
+<p><tt class="docutils literal"><span class="pre">Tab</span></tt> Change properties of the view.  A warped image may be displayed as it appears registered.  The composite view will switch to a different view.</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pyre (nornir_pyre)</a><ul>
+<li><a class="reference internal" href="#pyre-commands">Pyre commands</a><ul>
+<li><a class="reference internal" href="#mouse">Mouse</a></li>
+<li><a class="reference internal" href="#keys">Keys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nornir_buildmanager.html"
+                        title="previous chapter">Buildmanager (nornir_buildmanager)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="nornir_imageregistration.html"
+                        title="next chapter">Image Registration (nornir_imageregistration)</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/packages/nornir_pyre.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="nornir_imageregistration.html" title="Image Registration (nornir_imageregistration)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nornir_buildmanager.html" title="Buildmanager (nornir_buildmanager)"
+             >previous</a> |</li>
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
+          <li><a href="packages.html" >Packages</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, James Anderson.
+      Last updated on Feb 18, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+    </div>
+  </body>
+</html>

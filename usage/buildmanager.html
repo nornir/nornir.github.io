@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Using the build manager &mdash; Nornir 1.1.0 documentation</title>
+    <title>Creating a Volume &mdash; Nornir 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
-    <link rel="next" title="Packages" href="../packages/packages.html" />
-    <link rel="prev" title="Running on a Cluster" href="../installation/cluster.html" /> 
+    <link rel="up" title="Use" href="toctree.html" />
+    <link rel="next" title="Manual Registration and Pyre" href="pyre.html" />
+    <link rel="prev" title="Use" href="toctree.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,12 +39,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../packages/packages.html" title="Packages"
+          <a href="pyre.html" title="Manual Registration and Pyre"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../installation/cluster.html" title="Running on a Cluster"
+          <a href="toctree.html" title="Use"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
+          <li><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -52,8 +54,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="using-the-build-manager">
-<h1>Using the build manager<a class="headerlink" href="#using-the-build-manager" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="creating-a-volume">
+<h1>Creating a Volume<a class="headerlink" href="#creating-a-volume" title="Permalink to this headline">¶</a></h1>
 <p>This section reviews how to organize images for import into a volume and what operations can be performed on the volume.</p>
 <p>The build manager places data from various platforms into a single volume directory.  Users use the &#8220;nornir_build&#8221; command and provide a path to the volume&#8217;s directory to run specific operations on the volume:</p>
 <div class="highlight-python"><pre>nornir-build -volume &lt;volumepath&gt; -pipeline ...</pre>
@@ -64,7 +66,7 @@
 <p>The first command for any Nornir volume:</p>
 <div class="highlight-python"><pre>nornir-build -volume &lt;volumepath&gt; -input &lt;inputpath&gt;</pre>
 </div>
-<p>For example <cite>nornir-build -volume Y:/Volumes/RC2 -input Y:/Captures/RC2/</cite> will instruct Nornir to check the &lt;i&gt;Y:/Captures/RC2/&lt;/i&gt; directory for sections and import any that it can find into the volume stored in &lt;i&gt;Y:/Volumes/RC2&lt;/i&gt;</p>
+<p>For example <tt class="docutils literal"><span class="pre">nornir-build</span> <span class="pre">-volume</span> <span class="pre">Y:/Volumes/RC2</span> <span class="pre">-input</span> <span class="pre">Y:/Captures/RC2/</span></tt> will instruct Nornir to check the &lt;i&gt;Y:/Captures/RC2/&lt;/i&gt; directory for sections and import any that it can find into the volume stored in &lt;i&gt;Y:/Volumes/RC2&lt;/i&gt;</p>
 <p>The import command extends volumes non-destructively provided different sections are not assigned the same number. Import can be run repeatedly as now sections become available.</p>
 <div class="section" id="organizing-data-for-import">
 <h3>Organizing data for import<a class="headerlink" href="#organizing-data-for-import" title="Permalink to this headline">¶</a></h3>
@@ -928,7 +930,7 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Using the build manager</a><ul>
+<li><a class="reference internal" href="#">Creating a Volume</a><ul>
 <li><a class="reference internal" href="#importing-data">Importing data</a><ul>
 <li><a class="reference internal" href="#organizing-data-for-import">Organizing data for import</a></li>
 <li><a class="reference internal" href="#notes">Notes</a></li>
@@ -969,11 +971,11 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../installation/cluster.html"
-                        title="previous chapter">Running on a Cluster</a></p>
+  <p class="topless"><a href="toctree.html"
+                        title="previous chapter">Use</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../packages/packages.html"
-                        title="next chapter">Packages</a></p>
+  <p class="topless"><a href="pyre.html"
+                        title="next chapter">Manual Registration and Pyre</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/usage/buildmanager.txt"
@@ -1006,17 +1008,18 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../packages/packages.html" title="Packages"
+          <a href="pyre.html" title="Manual Registration and Pyre"
              >next</a> |</li>
         <li class="right" >
-          <a href="../installation/cluster.html" title="Running on a Cluster"
+          <a href="toctree.html" title="Use"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
+          <li><a href="toctree.html" >Use</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Feb 17, 2014.
+      Last updated on Feb 18, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>

@@ -16,8 +16,7 @@ Contents
    
    Overview <overview/overview>
    Installation <installation/toctree>
-   Use <usage/buildmanager>
-   
+   Use <usage/toctree>
    Packages <packages/packages>
    Known Issues and Future Work <futurework>
    TroubleShooting <troubleshooting>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; Nornir 1.1.0 documentation</title>
+    <title>Use &mdash; Nornir 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
-    <link rel="next" title="Common Install Requirements" href="common.html" />
-    <link rel="prev" title="Overview of volume building" href="../overview/overview.html" /> 
+    <link rel="next" title="Creating a Volume" href="buildmanager.html" />
+    <link rel="prev" title="Running on a Cluster" href="../installation/cluster.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="common.html" title="Common Install Requirements"
+          <a href="buildmanager.html" title="Creating a Volume"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../overview/overview.html" title="Overview of volume building"
+          <a href="../installation/cluster.html" title="Running on a Cluster"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>
@@ -52,39 +52,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="use">
+<h1>Use<a class="headerlink" href="#use" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="common.html">Common Install Requirements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="common.html#python">Python</a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#git-client">Git client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#upgrading-numpy-scipy-matplotlib">Upgrading Numpy, Scipy, Matplotlib</a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html#optional-test-data">Optional test data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buildmanager.html">Creating a Volume</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="buildmanager.html#importing-data">Importing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildmanager.html#platform-scripts">Platform Scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildmanager.html#pipelines">Pipelines</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="buildmanager.html">Build Manager Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="buildmanager.html#third-party-tools">Third-party tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="buildmanager.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="buildmanager.html#upgrade">Upgrade</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyre.html">Pyre Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyre.html#python-packages">Python packages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyre.html#installing-pyre-package">Installing Pyre package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyre.html#launching-pyre">Launching Pyre</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="server.html">Data Server Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="server.html#http-server-config">HTTP Server Config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.html#mime-types">Mime Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="server.html#annotation-databases">Annotation Databases</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cluster.html">Running on a Cluster</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cluster.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cluster.html#joining-the-cluster">Joining the cluster</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cluster.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyre.html">Manual Registration with Pyre</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyre.html#finding-registration-errors">Finding registration errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyre.html#fixing-errors">Fixing errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyre.html#stos-group-folders">Stos Group Folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyre.html#repairing-a-stos-file">Repairing a .stos file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyre.html#placment-help">Placment help</a></li>
 </ul>
 </li>
 </ul>
@@ -98,14 +81,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../overview/overview.html"
-                        title="previous chapter">Overview of volume building</a></p>
+  <p class="topless"><a href="../installation/cluster.html"
+                        title="previous chapter">Running on a Cluster</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="common.html"
-                        title="next chapter">Common Install Requirements</a></p>
+  <p class="topless"><a href="buildmanager.html"
+                        title="next chapter">Creating a Volume</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/installation/toctree.txt"
+    <li><a href="../_sources/usage/toctree.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -135,10 +118,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="common.html" title="Common Install Requirements"
+          <a href="buildmanager.html" title="Creating a Volume"
              >next</a> |</li>
         <li class="right" >
-          <a href="../overview/overview.html" title="Overview of volume building"
+          <a href="../installation/cluster.html" title="Running on a Cluster"
              >previous</a> |</li>
         <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li> 
       </ul>

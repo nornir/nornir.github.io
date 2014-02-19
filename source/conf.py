@@ -20,13 +20,33 @@ nornir_buildmanager_path = os.path.join(os.path.abspath('.'), '..', '..', 'norni
 nornir_imageregistration_path = os.path.join(os.path.abspath('.'), '..', '..', 'nornir-imageregistration')
 nornir_shared_path = os.path.join(os.path.abspath('.'), '..', '..', 'nornir-shared')
 nornir_pools_path = os.path.join(os.path.abspath('.'), '..', '..', 'nornir-pools')
+nornir_pyre_path = os.path.join(os.path.abspath('.'), '..', '..', 'nornir-pyre')
 
+if not os.path.exists(nornir_buildmanager_path):
+    print "Missing correct nornir-buildmanager path in conf.py\n" + nornir_buildmanager_path
+    raise Exception("Missing correct nornir-buildmanager path in conf.py\n" + nornir_buildmanager_path)
 
+if not os.path.exists(nornir_imageregistration_path):
+    print "Missing correct nornir-imageregistration path in conf.py\n" + nornir_imageregistration_path
+    raise Exception("Missing correct nornir-imageregistration path in conf.py\n" + nornir_imageregistration_path)
+
+if not os.path.exists(nornir_shared_path):
+    print "Missing correct nornir-shared path in conf.py\n" + nornir_shared_path
+    raise Exception("Missing correct nornir-shared path in conf.py\n" + nornir_shared_path)
+
+if not os.path.exists(nornir_pools_path):
+    print "Missing correct nornir-pools path in conf.py\n" + nornir_pools_path
+    raise Exception("Missing correct pools path in conf.py\n" + nornir_pools_path)
+
+if not os.path.exists(nornir_pyre_path):
+    print "Missing correct pyre path in conf.py\n" + nornir_pyre_path
+    raise Exception("Missing correct pyre path in conf.py\n" + nornir_pyre_path)
 
 sys.path.insert(0, nornir_buildmanager_path)
 sys.path.insert(0, nornir_imageregistration_path)
 sys.path.insert(0, nornir_shared_path)
 sys.path.insert(0, nornir_pools_path)
+sys.path.insert(0, nornir_pyre_path)
 
 intersphinx_mapping = {'python': ('http://docs.python.org/2.7', None)}
 
