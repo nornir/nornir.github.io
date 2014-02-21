@@ -8,8 +8,10 @@
   
 Welcome to Nornir's documentation!
 ==================================
+ 
+Nornir's takes large sets of overlapping images in 2D and produce registered (a.k.a. aligned) 2D and 3D volumes of any size and scale.  
 
-The repository for Nornir lives at `http://github.com/nornir/`_
+The github repository for Nornir lives at `http://github.com/nornir/`_
 
 Contents
 --------
@@ -25,11 +27,6 @@ Contents
    TroubleShooting <troubleshooting>
    Glossary and Background <background/background>
    
-About Nornir
-------------
-
-Nornir's mission is to take large sets of overlapping images in 2D and 3D and produce registered (a.k.a. aligned) 3D volumes of any size and scale.  
-
 History
 -------
 
