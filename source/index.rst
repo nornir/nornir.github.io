@@ -34,6 +34,12 @@ Nornir evolved from a collaboration between the `Marc Lab`_ and the `Scientific 
 
 Nornir is a work in progress.  It currently supports importing images from transmission electron microscopes running SerialEM (.idoc files), light microscopes running Surveyor (.pmg files), and other volumes represented with a single image per section (.png files).
 
+System requirements
+-------------------
+
+* 64-bit operating system, only tested on Windows at this time
+* 2GB of RAM per CPU core.  
+
 Related Tools
 -------------
 
