@@ -46,12 +46,15 @@ There are many roads to installing the packages.  One of these options should wo
 
    Open a command prompt "cmd.exe" and create a directory to store github code in.  I use _C:\src\git_.    
      1. Change to this directory::
+     
           cd \src\git
         
      2. Download the source::
+     
           git pull https://github.com/nornir/nornir-buildmanager.git  
        
      3. Install the package::
+     
           python setup.py install
 
 3. Manual Option:
@@ -66,12 +69,19 @@ There are many roads to installing the packages.  One of these options should wo
 Upgrade
 -------
 
-The biggest cause of problems during an upgrade is nornir requiring an updated version of a library that PIP is unable to build locally.  For example Scipy, Numpy, or Matplotlib.  This will cause the automated setup to fail.  In these cases the best approach is to locate the latest versions of those packages, install them manually, and then attempt the upgrade:: 
+To be thorough I suggest uninstalling the previous nornir version using pip::
 
-    pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade
-
-If that fails try using the git and setup approach above.  If that fails delete any packages starting with the name 'nornir' from your python site-packages and try again.
-
+    pip uninstall nornir-buildmanager
+    pip uninstall nornir-imageregistration
+    pip uninstall nornir-pools
+    pip uninstall nornir-shared
+    
+After uninstalling the old version follow the installation instructions above.  
+ 
+If installation fails scan the output for evidence of a missing package that could not be installed.  The biggest cause of problems 
+during an upgrade is nornir requiring an updated version of a library that PIP is unable to build locally.  For example Scipy, Numpy,
+or Matplotlib.  This will cause the automated setup to fail.  In these cases the best approach is to locate the latest versions of
+those packages, uninstall the old version, install the new version, and then attempt the installation again.
 
 .. _Image Magick: http://www.imagemagick.org/
 .. _NCR Tools: http://www.ucnia.org/download/ncrtoolset/

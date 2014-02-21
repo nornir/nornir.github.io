@@ -97,23 +97,17 @@ pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre
 <dl class="docutils">
 <dt>Open a command prompt &#8220;cmd.exe&#8221; and create a directory to store github code in.  I use _C:srcgit_.</dt>
 <dd><ol class="first last arabic">
-<li><dl class="first docutils">
-<dt>Change to this directory::</dt>
-<dd><p class="first last">cd srcgit</p>
-</dd>
-</dl>
+<li><p class="first">Change to this directory:</p>
+<div class="highlight-python"><pre>cd \src\git</pre>
+</div>
 </li>
-<li><dl class="first docutils">
-<dt>Download the source::</dt>
-<dd><p class="first last">git pull <a class="reference external" href="https://github.com/nornir/nornir-buildmanager.git">https://github.com/nornir/nornir-buildmanager.git</a></p>
-</dd>
-</dl>
+<li><p class="first">Download the source:</p>
+<div class="highlight-python"><pre>git pull https://github.com/nornir/nornir-buildmanager.git</pre>
+</div>
 </li>
-<li><dl class="first docutils">
-<dt>Install the package::</dt>
-<dd><p class="first last">python setup.py install</p>
-</dd>
-</dl>
+<li><p class="first">Install the package:</p>
+<div class="highlight-python"><pre>python setup.py install</pre>
+</div>
 </li>
 </ol>
 </dd>
@@ -132,10 +126,17 @@ pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre
 </div>
 <div class="section" id="upgrade">
 <h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h2>
-<p>The biggest cause of problems during an upgrade is nornir requiring an updated version of a library that PIP is unable to build locally.  For example Scipy, Numpy, or Matplotlib.  This will cause the automated setup to fail.  In these cases the best approach is to locate the latest versions of those packages, install them manually, and then attempt the upgrade:</p>
-<div class="highlight-python"><pre>pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre>
+<p>To be thorough I suggest uninstalling the previous nornir version using pip:</p>
+<div class="highlight-python"><pre>pip uninstall nornir-buildmanager
+pip uninstall nornir-imageregistration
+pip uninstall nornir-pools
+pip uninstall nornir-shared</pre>
 </div>
-<p>If that fails try using the git and setup approach above.  If that fails delete any packages starting with the name &#8216;nornir&#8217; from your python site-packages and try again.</p>
+<p>After uninstalling the old version follow the installation instructions above.</p>
+<p>If installation fails scan the output for evidence of a missing package that could not be installed.  The biggest cause of problems
+during an upgrade is nornir requiring an updated version of a library that PIP is unable to build locally.  For example Scipy, Numpy,
+or Matplotlib.  This will cause the automated setup to fail.  In these cases the best approach is to locate the latest versions of
+those packages, uninstall the old version, install the new version, and then attempt the installation again.</p>
 </div>
 </div>
 
