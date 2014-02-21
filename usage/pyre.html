@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Manual Registration and Pyre &mdash; Nornir 1.1.0 documentation</title>
+    <title>Manual Registration and Pyre &mdash; Nornir 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.1.0',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 1.1.0 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.1.1 documentation" href="../index.html" />
     <link rel="up" title="Use" href="toctree.html" />
     <link rel="next" title="Packages" href="../packages/packages.html" />
     <link rel="prev" title="Creating a Volume" href="buildmanager.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="buildmanager.html" title="Creating a Volume"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.1.1 documentation</a> &raquo;</li>
           <li><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
       </ul>
     </div>  
@@ -57,6 +57,46 @@
   <div class="section" id="manual-registration-and-pyre">
 <h1>Manual Registration and Pyre<a class="headerlink" href="#manual-registration-and-pyre" title="Permalink to this headline">¶</a></h1>
 <p>When automated registration fails the Pyre (Python Registration) tool is used to repair the transform for later operations on the volume.</p>
+<span class="target" id="module-pyre"></span><div class="section" id="pyre-commands">
+<h2>Pyre commands<a class="headerlink" href="#pyre-commands" title="Permalink to this headline">¶</a></h2>
+<p>The blinking point is the currently selected point</p>
+<div class="section" id="mouse">
+<h3>Mouse<a class="headerlink" href="#mouse" title="Permalink to this headline">¶</a></h3>
+<p>Left Button</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to select an existing point</p>
+<p><tt class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to add a new point</p>
+<p><tt class="docutils literal"><span class="pre">Alt+Shift</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to add a new point and auto-align</p>
+<p><tt class="docutils literal"><span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span> <span class="pre">+</span> <span class="pre">drag</span></tt> to move point under the cursor</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span> <span class="pre">+</span> <span class="pre">drag</span></tt> to translate warped image</p>
+<p><tt class="docutils literal"><span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to move currently selected point to mouse position</p>
+</div></blockquote>
+<p>Right Button</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">``</span></a>Shift + &lt;Right Click&gt; to delete point under the cursor</p>
+<p><a href="#id3"><span class="problematic" id="id4">``</span></a>&lt;Right Click&gt; + drag to move the view</p>
+</div></blockquote>
+<p>Scroll wheel</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">&lt;Scroll</span> <span class="pre">wheel&gt;</span></tt> zoom in or out</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">&lt;Scroll</span> <span class="pre">wheel&gt;</span></tt> to rotate warped image</p>
+</div></blockquote>
+</div>
+<div class="section" id="keys">
+<h3>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">A,W,S,D</span></tt> Move the view</p>
+<p><tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Up/Down</span></tt> Change the magnification</p>
+<p><tt class="docutils literal"><span class="pre">M</span></tt> Match the view on all windows to look at the same point as the current window (Not Functional for Warped Image)</p>
+<p><tt class="docutils literal"><span class="pre">L</span></tt> Show transform mesh lines</p>
+<p><tt class="docutils literal"><span class="pre">Space</span></tt> Auto-align the selected point</p>
+<p><tt class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Space</span></tt> Auto-align all points</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl+Z</span></tt> to undo a step</p>
+<p><tt class="docutils literal"><span class="pre">Ctrl+X</span></tt> to redo a step</p>
+<p><tt class="docutils literal"><span class="pre">Tab</span></tt> Change properties of the view.  A warped image may be displayed as it appears registered.  The composite view will switch to a different view.</p>
+</div></blockquote>
+</div>
+</div>
 <div class="section" id="finding-registration-errors">
 <h2>Finding registration errors<a class="headerlink" href="#finding-registration-errors" title="Permalink to this headline">¶</a></h2>
 <p>Brute force registration is the first step in registration.  If the initial rotation or translation is incorrect then later refinement stages will fail.</p>
@@ -66,7 +106,7 @@
 <div class="highlight-python"><pre>/TEM/Grid2/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png</pre>
 </div>
 <div class="figure">
-<a class="reference internal image-reference" href="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png"><img alt="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png" src="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png" style="width: 999.0px; height: 328.5px;" /></a>
+<a class="reference internal image-reference" href="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png"><img alt="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png" src="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png" style="width: 666.0px; height: 219.0px;" /></a>
 </div>
 <p>This mis-registration is close but still a failure.  Modifying the pipeline by adding iterations to the refinegrid operation may fix this error, but that is time consuming.</p>
 </div>
@@ -81,7 +121,7 @@ This is usually sufficient to allow later refinements to succeed which provide a
 <p>Each stos group folder has the following content</p>
 <ul class="simple">
 <li>&lt;GroupName&gt;<ul>
-<li><a href="#id1"><span class="problematic" id="id2">*</span></a>.stos</li>
+<li><a href="#id5"><span class="problematic" id="id6">*</span></a>.stos</li>
 <li>Overlay_*.png</li>
 <li>Warped_*.png</li>
 <li>Automatic</li>
@@ -99,68 +139,48 @@ automatic registration and simply to copy the manual .stos file up to the group 
 <p>To fix our misregistration we will launch Pyre from the Python scripts directory:</p>
 <div class="highlight-python"><pre>python start_pyre.py</pre>
 </div>
-<p>We then drag and drop the stos file of interest from the stos group directory onto the Pyre UI.  (I have seen bizarre behavior from Drag and Drop in Wx Python.  If Drag Drop does not work please load using the <tt class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open</span> <span class="pre">Stos</span></tt> menu option)</p>
-<p>The result is a window containing our registration.  Use the <tt class="docutils literal"><span class="pre">Window</span></tt> menu to automatically arrange the Pyre windows.</p>
+<div class="section" id="loading-data-into-pyre">
+<h3>Loading data into pyre<a class="headerlink" href="#loading-data-into-pyre" title="Permalink to this headline">¶</a></h3>
+<p>Drag and drop the stos file of interest from the stos group directory onto the Pyre UI.  (I have seen bizarre behavior from Drag and Drop in Wx Python.  If Drag Drop does not work please load using the <tt class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open</span> <span class="pre">Stos</span></tt> menu option)</p>
+<p>If there is no .stos file available you may drag images into the moving or fixed image windows of Pyre directly.</p>
+<p>The result is a window containing images to register.  Use the <tt class="docutils literal"><span class="pre">Window</span></tt> menu to automatically arrange the Pyre windows.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../_images/6263_Pyre_start.png"><img alt="../_images/6263_Pyre_start.png" src="../_images/6263_Pyre_start.png" style="width: 1260.0px; height: 789.75px;" /></a>
+<a class="reference internal image-reference" href="../_images/6263_Pyre_start.png"><img alt="../_images/6263_Pyre_start.png" src="../_images/6263_Pyre_start.png" style="width: 840.0px; height: 526.5px;" /></a>
 </div>
+</div>
+<div class="section" id="clear-points">
+<h3>Clear points<a class="headerlink" href="#clear-points" title="Permalink to this headline">¶</a></h3>
 <p>The first step is to clear the points from using the <tt class="docutils literal"><span class="pre">Operations</span> <span class="pre">-&gt;</span> <span class="pre">Clear</span> <span class="pre">all</span> <span class="pre">points</span></tt> menu item</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../_images/6263_Pyre_ClearedPoints.png"><img alt="../_images/6263_Pyre_ClearedPoints.png" src="../_images/6263_Pyre_ClearedPoints.png" style="width: 1259.25px; height: 785.25px;" /></a>
+<a class="reference internal image-reference" href="../_images/6263_Pyre_ClearedPoints.png"><img alt="../_images/6263_Pyre_ClearedPoints.png" src="../_images/6263_Pyre_ClearedPoints.png" style="width: 839.5px; height: 523.5px;" /></a>
 </div>
 <p>This leaves four points about the edge.  I then place new points at the correct corners.  The fastest method is <tt class="docutils literal"><span class="pre">shift</span> <span class="pre">+</span> <span class="pre">left</span> <span class="pre">click</span></tt> on the first image.  Find the same spot on the second image and bring the most recently created point to that position by using <tt class="docutils literal"><span class="pre">alt</span> <span class="pre">+</span> <span class="pre">left</span> <span class="pre">click</span></tt>.</p>
 <p>Once at least three points are placed we can delete the original three points by selecting them with <tt class="docutils literal"><span class="pre">shift</span> <span class="pre">+</span> <span class="pre">&lt;right</span> <span class="pre">click&gt;</span></tt>.</p>
 <p>The result is a roughly aligned image.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="../_images/6263_Pyre_RoughAlignment.png"><img alt="../_images/6263_Pyre_RoughAlignment.png" src="../_images/6263_Pyre_RoughAlignment.png" style="width: 1258.5px; height: 786.0px;" /></a>
-</div>
-<p>If this is the first stage of slice-to-slice registration this registration is likely sufficient since it will be refined by later stages.  In our case I loaded the .stos file from the last refinement stage so whatever I save to the manual registration folder will be the final product.</p>
-<div class="figure">
-<a class="reference internal image-reference" href="../_images/6263_Pyre_final2.png"><img alt="../_images/6263_Pyre_final2.png" src="../_images/6263_Pyre_final2.png" style="width: 1260.75px; height: 787.5px;" /></a>
+<a class="reference internal image-reference" href="../_images/6263_Pyre_RoughAlignment.png"><img alt="../_images/6263_Pyre_RoughAlignment.png" src="../_images/6263_Pyre_RoughAlignment.png" style="width: 839.0px; height: 524.0px;" /></a>
 </div>
 </div>
-<div class="section" id="placment-help">
-<h2>Placment help<a class="headerlink" href="#placment-help" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="auto-placement">
+<h3>Auto placement<a class="headerlink" href="#auto-placement" title="Permalink to this headline">¶</a></h3>
 <p>Pyre helps you align the points if desired.  Hitting <tt class="docutils literal"><span class="pre">spacebar</span></tt> will attempt to automatically align the current blinking point.  <tt class="docutils literal"><span class="pre">CTRL+Z</span></tt> will undo the last change for the point.</p>
-<span class="target" id="module-pyre"></span><div class="section" id="pyre-commands">
-<h3>Pyre commands<a class="headerlink" href="#pyre-commands" title="Permalink to this headline">¶</a></h3>
-<p>The blinking point is the currently selected point</p>
-<div class="section" id="mouse">
-<h4>Mouse<a class="headerlink" href="#mouse" title="Permalink to this headline">¶</a></h4>
-<p>Left Button</p>
-<blockquote>
-<div><p><tt class="docutils literal"><span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to select an existing point</p>
-<p><tt class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to add a new point</p>
-<p><tt class="docutils literal"><span class="pre">Alt+Shift</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to add a new point and auto-align</p>
-<p><tt class="docutils literal"><span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span> <span class="pre">+</span> <span class="pre">drag</span></tt> to move point under the cursor</p>
-<p><tt class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span> <span class="pre">+</span> <span class="pre">drag</span></tt> to translate warped image</p>
-<p><tt class="docutils literal"><span class="pre">Alt</span> <span class="pre">+</span> <span class="pre">&lt;Left</span> <span class="pre">Click&gt;</span></tt> to move currently selected point to mouse position</p>
-</div></blockquote>
-<p>Right Button</p>
-<blockquote>
-<div><p><a href="#id3"><span class="problematic" id="id4">``</span></a>Shift + &lt;Right Click&gt; to delete point under the cursor</p>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a>&lt;Right Click&gt; + drag to move the view</p>
-</div></blockquote>
-<p>Scroll wheel</p>
-<blockquote>
-<div><p><tt class="docutils literal"><span class="pre">&lt;Scroll</span> <span class="pre">wheel&gt;</span></tt> zoom in or out</p>
-<p><tt class="docutils literal"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">&lt;Scroll</span> <span class="pre">wheel&gt;</span></tt> to rotate warped image</p>
-</div></blockquote>
+<p>If this is the first stage of slice-to-slice registration this registration is likely sufficient since it will be refined by later stages.  In our case I loaded the .stos file from the last refinement stage so whatever I save to the manual registration folder will be the final product.  Because of this I continued placing points until the registration was quite accurate.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/6263_Pyre_final2.png"><img alt="../_images/6263_Pyre_final2.png" src="../_images/6263_Pyre_final2.png" style="width: 840.5px; height: 525.0px;" /></a>
 </div>
-<div class="section" id="keys">
-<h4>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h4>
-<blockquote>
-<div><p><tt class="docutils literal"><span class="pre">A,W,S,D</span></tt> Move the view</p>
-<p><tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Up/Down</span></tt> Change the magnification</p>
-<p><tt class="docutils literal"><span class="pre">M</span></tt> Match the view on all windows to look at the same point as the current window (Not Functional for Warped Image)</p>
-<p><tt class="docutils literal"><span class="pre">L</span></tt> Show transform mesh lines</p>
-<p><tt class="docutils literal"><span class="pre">Space</span></tt> Auto-align the selected point</p>
-<p><tt class="docutils literal"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Space</span></tt> Auto-align all points</p>
-<p><tt class="docutils literal"><span class="pre">Ctrl+Z</span></tt> to undo a step</p>
-<p><tt class="docutils literal"><span class="pre">Ctrl+X</span></tt> to redo a step</p>
-<p><tt class="docutils literal"><span class="pre">Tab</span></tt> Change properties of the view.  A warped image may be displayed as it appears registered.  The composite view will switch to a different view.</p>
-</div></blockquote>
 </div>
+<div class="section" id="export">
+<h3>Export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h3>
+<p>When you are done select <tt class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Save</span> <span class="pre">Stos</span></tt> from the menu.  Save the .stos file in the manual directory of the stos group you loaded the original .stos file from.</p>
+<p><tt class="docutils literal"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Save</span> <span class="pre">Warped</span> <span class="pre">Image</span></tt> saves the registered image directly to disk.</p>
+</div>
+</div>
+<div class="section" id="final-result">
+<h2>Final Result<a class="headerlink" href="#final-result" title="Permalink to this headline">¶</a></h2>
+<p>Once all manual registrations are in place one can re-rerun the <tt class="docutils literal"><span class="pre">CMPAlign</span></tt> script.  This produces new output images incorporating the transform fixes generates new registered images.</p>
+<p>The image below shows the final product after using the manual corrections from this tutorial.  GABA, Glutamate, and Glycine were assigned to Red, Green, and Blue channels respectively.  Glutamate to Gl</p>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/6263YEG-RegistrationSample.png"><img alt="../_images/6263YEG-RegistrationSample.png" src="../_images/6263YEG-RegistrationSample.png" style="width: 1066.0px; height: 634.0px;" /></a>
 </div>
 </div>
 </div>
@@ -174,18 +194,22 @@ automatic registration and simply to copy the manual .stos file up to the group 
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Manual Registration and Pyre</a><ul>
-<li><a class="reference internal" href="#finding-registration-errors">Finding registration errors</a></li>
-<li><a class="reference internal" href="#fixing-errors">Fixing errors</a></li>
-<li><a class="reference internal" href="#stos-group-folders">Stos Group Folders</a></li>
-<li><a class="reference internal" href="#repairing-a-stos-file">Repairing a .stos file</a></li>
-<li><a class="reference internal" href="#placment-help">Placment help</a><ul>
 <li><a class="reference internal" href="#pyre-commands">Pyre commands</a><ul>
 <li><a class="reference internal" href="#mouse">Mouse</a></li>
 <li><a class="reference internal" href="#keys">Keys</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#finding-registration-errors">Finding registration errors</a></li>
+<li><a class="reference internal" href="#fixing-errors">Fixing errors</a></li>
+<li><a class="reference internal" href="#stos-group-folders">Stos Group Folders</a></li>
+<li><a class="reference internal" href="#repairing-a-stos-file">Repairing a .stos file</a><ul>
+<li><a class="reference internal" href="#loading-data-into-pyre">Loading data into pyre</a></li>
+<li><a class="reference internal" href="#clear-points">Clear points</a></li>
+<li><a class="reference internal" href="#auto-placement">Auto placement</a></li>
+<li><a class="reference internal" href="#export">Export</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#final-result">Final Result</a></li>
 </ul>
 </li>
 </ul>
@@ -233,13 +257,13 @@ automatic registration and simply to copy the manual .stos file up to the group 
         <li class="right" >
           <a href="buildmanager.html" title="Creating a Volume"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.1.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.1.1 documentation</a> &raquo;</li>
           <li><a href="toctree.html" >Use</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Feb 18, 2014.
+      Last updated on Feb 21, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>
