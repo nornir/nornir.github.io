@@ -4,12 +4,6 @@ Build Manager Installation
 
 Users should begin by following the [common installation instructions] (Common-Install-Requirements) before proceeding to the buildmanager specific instructions below.
 
-System requirements
--------------------
-
-* 64-bit operating system, only tested on Windows at this time
-* 2GB of RAM per CPU core.  
-
 Third-party tools
 -----------------
 

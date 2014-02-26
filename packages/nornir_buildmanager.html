@@ -449,8 +449,9 @@ usage: nornir_build -pipeline StosReport [-h] -StosGroup STOSGROUP
 <blockquote>
 <div><p>Create a vikingxml file for use in Viking</p>
 <pre class="literal-block">
-usage: nornir_build -pipeline CreateVikingXML [-h] -StosGroup STOSGROUP
-                                              -StosMap STOSMAP [-Host HOST]
+usage: nornir_build -pipeline CreateVikingXML [-h] [-StosGroup STOSGROUP]
+                                              [-StosMap STOSMAP] [-Host HOST]
+                                              -OutputFile OUTPUTFILE
 
 </pre>
 <dl class="docutils">
@@ -461,13 +462,16 @@ usage: nornir_build -pipeline CreateVikingXML [-h] -StosGroup STOSGROUP
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-StosGroup</span></kbd></td>
-<td>Stos group to pull images from</td></tr>
+<td>Stos group to pull images from.  If not specified only unregistered mosaics are included.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-StosMap</span></kbd></td>
-<td>Slice-to-slice mapping of transforms</td></tr>
+<td>Slice-to-slice mapping of transforms.  If not specified only unregistered mosaics are included.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Host</span></kbd></td>
 <td>Url of volume, overrides the about.xml settings</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-OutputFile</span></kbd></td>
+<td>Name of file to write .VikingXML is appended to name automatically</td></tr>
 </tbody>
 </table>
 </dd>
@@ -903,7 +907,7 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Feb 21, 2014.
+      Last updated on Feb 26, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>

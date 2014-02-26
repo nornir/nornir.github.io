@@ -23,8 +23,9 @@ Contents
    Installation <installation/toctree>
    Use <usage/toctree>
    Packages <packages/packages>
+   Version History <versionhistory>
    Known Issues and Future Work <futurework>
-   TroubleShooting <troubleshooting>
+   TroubleShooting <troubleshooting>   
    Glossary and Background <background/background>
    
 History

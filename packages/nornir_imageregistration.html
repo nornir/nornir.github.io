@@ -306,6 +306,12 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 </dd></dl>
 
 <dl class="function">
+<dt id="nornir_imageregistration.core.NormalizeImage">
+<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">NormalizeImage</tt><big>(</big><em>image</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.NormalizeImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjusts the image to have a range of 0 to 1.0</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="nornir_imageregistration.core.PadImageForPhaseCorrelation">
 <tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">PadImageForPhaseCorrelation</tt><big>(</big><em>image</em>, <em>MinOverlap=0.05</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>NewWidth=None</em>, <em>NewHeight=None</em>, <em>PowerOfTwo=True</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.PadImageForPhaseCorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepares an image for use with the phase correlation operation.  Padded areas are filled with noise matching the histogram of the 
@@ -556,7 +562,7 @@ Discreet = True causes points outside the defined transform region to be clipped
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Feb 21, 2014.
+      Last updated on Feb 26, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
     </div>
   </body>
