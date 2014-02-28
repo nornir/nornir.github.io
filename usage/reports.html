@@ -60,10 +60,10 @@
 <div class="figure">
 <img alt="../_images/SerialEMReportExample.png" src="../_images/SerialEMReportExample.png" />
 </div>
-<p>The current (2/27/14) report system provides the information overviewed below.  The reports can be customized with python.</p>
+<p>The current (2/27/14) report system provides the information overviewed below.  Reports can be customized with python.</p>
 <p>A full report for a subset of our mouse retinal connectom volume is visibile at <a class="reference external" href="http://connectomes.utah.edu/NornirExample/TEM/ImageReport.html/">http://connectomes.utah.edu/NornirExample/TEM/ImageReport.html/</a></p>
 <p><strong>Output image summary</strong>:  The image registered to the volume is to the left.  The unregistered mosaic built from tiles is to the right.</p>
-<p><strong>Notes</strong>: If a notes.txt file was saved in the same directory as the .idoc file the raw text is injected into the report and the notes file is accessible via the link.</p>
+<p><strong>Notes</strong>: If a notes.txt file was saved in the same directory as the .idoc file the raw text is injected at the bottom of the report.  The raw notes may be accessed via the link.</p>
 <div class="section" id="acquistion-settings-speed-and-stage-drift">
 <h2>Acquistion settings, speed and stage drift<a class="headerlink" href="#acquistion-settings-speed-and-stage-drift" title="Permalink to this headline">¶</a></h2>
 <div class="figure">
@@ -106,7 +106,7 @@
 <div class="section" id="removing-featureless-tiles">
 <h2>Removing featureless tiles<a class="headerlink" href="#removing-featureless-tiles" title="Permalink to this headline">¶</a></h2>
 <p>Nornir&#8217;s prune stage assigns a feature score to each tile based on the standard deviation of a small regions around the edge of each tile.  The prune histogram suggests where the prune cutoff should be set to eliminate blank tiles with low prune scores.</p>
-<p>The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  These are the tiles which have been removed in the final mosaic.</p>
+<p>The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  In this example I would first set a prune threshold of 5, rebuild and re-evaluate.</p>
 <div class="figure">
 <img alt="../_images/75_PruneScores.png" src="../_images/75_PruneScores.png" />
 </div>

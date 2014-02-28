@@ -6,13 +6,13 @@ When building very large scale volumes it is useful to understand how the captur
 
 .. figure:: SerialEM\SerialEMReportExample.png 
 
-The current (2/27/14) report system provides the information overviewed below.  The reports can be customized with python.
+The current (2/27/14) report system provides the information overviewed below.  Reports can be customized with python.
 
 A full report for a subset of our mouse retinal connectom volume is visibile at `http://connectomes.utah.edu/NornirExample/TEM/ImageReport.html/`_
 
 **Output image summary**:  The image registered to the volume is to the left.  The unregistered mosaic built from tiles is to the right.
 
-**Notes**: If a notes.txt file was saved in the same directory as the .idoc file the raw text is injected into the report and the notes file is accessible via the link. 
+**Notes**: If a notes.txt file was saved in the same directory as the .idoc file the raw text is injected at the bottom of the report.  The raw notes may be accessed via the link. 
 
 Acquistion settings, speed and stage drift
 ==========================================
@@ -59,7 +59,7 @@ Removing featureless tiles
 
 Nornir's prune stage assigns a feature score to each tile based on the standard deviation of a small regions around the edge of each tile.  The prune histogram suggests where the prune cutoff should be set to eliminate blank tiles with low prune scores.
 
-The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  These are the tiles which have been removed in the final mosaic.
+The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  In this example I would first set a prune threshold of 5, rebuild and re-evaluate.
 
 .. figure:: SerialEM\75_PruneScores.png
 
