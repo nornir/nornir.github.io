@@ -7,4 +7,5 @@ Use
    
    Creating a Volume <buildmanager>
    Manual Registration with Pyre <pyre>
+   Build reports <reports>
    

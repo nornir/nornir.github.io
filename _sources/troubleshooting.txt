@@ -31,3 +31,10 @@ Installation
   **A:** This began with PIP 1.5.  The current workaround is to install each package seperately as detailed on the installation page. 
 
 
+Pyre
+----
+
+* **Q:** .stos file will not load, file cannot be found
+ 
+  **A:** The .stos format stores the full path to the images as the first two lines of the file.  Open the .stos file in a text editor and ensure the paths to the files are correct.  Alternatively, find the images within the volume directory and drag-drop them into Pyre directly.
+  
