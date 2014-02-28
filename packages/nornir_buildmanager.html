@@ -165,6 +165,40 @@ usage: nornir_build -pipeline TEMPrepare [-h] [-Channels CHANNELSREGEX]
 </dl>
 </div></blockquote>
 </div>
+<div class="section" id="setprunecutoff">
+<h3>SetPruneCutoff<a class="headerlink" href="#setprunecutoff" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Set the prune threshold for a filter</p>
+<pre class="literal-block">
+usage: nornir_build -pipeline SetPruneCutoff [-h] -Value PRUNEVAL -Section
+                                             SECTION [-Channels CHANNELREGEX]
+                                             [-Filters FILTERREGEX]
+
+</pre>
+<dl class="docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-Value=0</span></kbd></td>
+<td>Prune threshold to set</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Section</span></kbd></td>
+<td>Section number to edit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be edited</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Filters=*</span></kbd></td>
+<td>Regular expression describing filters to be edited</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</div></blockquote>
+</div>
 <div class="section" id="shadecorrect">
 <h3>ShadeCorrect<a class="headerlink" href="#shadecorrect" title="Permalink to this headline">¶</a></h3>
 <blockquote>
@@ -247,6 +281,47 @@ usage: nornir_build -pipeline AdjustContrast [-h] [-Channels CHANNELSREGEX]
 <kbd><span class="option">-InputTransform=Prune</span></kbd></td>
 </tr>
 <tr><td>&nbsp;</td><td>Mosaic transform to prune.  The transform provides the list of tiles in the mosaic.</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="setcontrast">
+<h3>SetContrast<a class="headerlink" href="#setcontrast" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Set the contrast parameters for a filter</p>
+<pre class="literal-block">
+usage: nornir_build -pipeline SetContrast [-h] [-Min MINVALUE] [-Max MAXVALUE]
+                                          [-Gamma GAMMAVALUE] -Section SECTION
+                                          [-Channels CHANNELREGEX]
+                                          [-Filters FILTERREGEX]
+
+</pre>
+<dl class="docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-Min=nan</span></kbd></td>
+<td>Min intensity value, set to 0 in output</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Max=nan</span></kbd></td>
+<td>Max intensity value, set to 1 in output</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Gamma=nan</span></kbd></td>
+<td>Gamma adjustment</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Section</span></kbd></td>
+<td>Section number to edit</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be edited</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Filters=*</span></kbd></td>
+<td>Regular expression describing filters to be edited</td></tr>
 </tbody>
 </table>
 </dd>
@@ -836,8 +911,10 @@ usage: nornir_build -pipeline RenameFilter [-h] -InputFilter INPUTFILTER
 <li><a class="reference internal" href="#common-build-options">Common build options</a></li>
 <li><a class="reference internal" href="#pipelines">Pipelines</a><ul>
 <li><a class="reference internal" href="#prune">Prune</a></li>
+<li><a class="reference internal" href="#setprunecutoff">SetPruneCutoff</a></li>
 <li><a class="reference internal" href="#shadecorrect">ShadeCorrect</a></li>
 <li><a class="reference internal" href="#adjustcontrast">AdjustContrast</a></li>
+<li><a class="reference internal" href="#setcontrast">SetContrast</a></li>
 <li><a class="reference internal" href="#mosaic">Mosaic</a></li>
 <li><a class="reference internal" href="#assemble">Assemble</a></li>
 <li><a class="reference internal" href="#exportimages">ExportImages</a></li>

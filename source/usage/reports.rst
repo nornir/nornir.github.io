@@ -41,7 +41,7 @@ Acquistion settings, speed and stage drift
   
 **Log File**: The SerialEM log file contains the data required to quantize drift.  The raw data can be accessed via the log file link.
      
-
+ 
 Working with imperfect captures
 -------------------------------
 
@@ -52,7 +52,7 @@ For the remaining examples feature the report below from a torn section.  The re
 .. figure:: SerialEM\75_DamagedOverview.png
    
 Note in the drift map how the region around the tear experienced predictable increases in tissue movement during capture.
- 
+  
 
 Removing featureless tiles
 ==========================
@@ -62,6 +62,8 @@ Nornir's prune stage assigns a feature score to each tile based on the standard 
 The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  In this example I would first set a prune threshold of 5, rebuild and re-evaluate.
 
 .. figure:: SerialEM\75_PruneScores.png
+
+For this example I would suggest setting the max cutoff to 125 and not setting a low cutoff value.
 
 Prune cutoffs are set with the ``SetPruneCutoff`` pipeline.
 
