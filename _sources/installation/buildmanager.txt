@@ -13,7 +13,7 @@ The buildmanager has several dependencies on third party libraries which must be
   The 16 bits-per-pixel version of `Image Magick`_ should be installed and in the system path.  **Q16** should be in the Image Magick download filename which indicates it is a 16bpp build.  On Windows I use the shared library version (dll).
 
 * ir-tools
-  The original NCRToolset, a.k.a. "ir-tools" are located at `NCR Tools`_  For Windows a somewhat `optimized version`_ is available.
+  The original NCRToolset, a.k.a. "ir-tools" are located at `NCR Tools`_  For Windows a somewhat `optimized version`_ is available.  For Mac the version from `Brad Grimm`_ is required.
 
   The buildscripts were originally developed and used on Windows.  They should work on on other platforms but are not tested.  For Mac users I recommend using `Mac Ports`_ to install the numpy,scipy, and matplotlib libraries.
 
@@ -84,6 +84,7 @@ or Matplotlib.  This will cause the automated setup to fail.  In these cases the
 those packages, uninstall the old version, install the new version, and then attempt the installation again.
 
 .. _Image Magick: http://www.imagemagick.org/
+.. _Brad Grimm: http://sci.utah.edu/~bgrimm/nightly/
 .. _NCR Tools: http://www.ucnia.org/download/ncrtoolset/
 .. _optimized version: http://connectomes.utah.edu/Software/nornir/ir-tools_JA_Improved.zip
 .. _Mac Ports: http://www.macports.org/
