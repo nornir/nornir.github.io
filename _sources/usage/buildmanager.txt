@@ -6,19 +6,17 @@ This section reviews how to organize images for import into a volume and what op
 
 The build manager places data from various platforms into a single volume directory.  Users use the "nornir_build" command and provide a path to the volume's directory to run specific operations on the volume::
 
-  nornir-build -volume <volumepath> -pipeline ... 
-
-For various reasons volume operations are called pipelines.  The term pipeline is likely to be replaced with operation in the future.    
+  nornir-build <Command> -volume <volumepath> ...     
 
 Importing data
 --------------
 
 The first command for any Nornir volume::
 
-  nornir-build -volume <volumepath> -input <inputpath>
+  nornir-build import <inputpath> -volume <volumepath> 
 
-For example ``nornir-build -volume Y:/Volumes/RC2 -input Y:/Captures/RC2/`` will instruct Nornir to check the <i>Y:/Captures/RC2/</i> directory for sections and import any that it can find into the volume stored in <i>Y:/Volumes/RC2</i>
-
+For example ``nornir-build import Y:/Captures/RC2/ -volume Y:/Volumes/RC2`` will instruct Nornir to check the <i>Y:/Captures/RC2/</i> directory for sections and import any that it can find into the volume stored in <i>Y:/Volumes/RC2</i>
+ 
 The import command extends volumes non-destructively provided different sections are not assigned the same number. Import can be run repeatedly as now sections become available.
 
 Organizing data for import

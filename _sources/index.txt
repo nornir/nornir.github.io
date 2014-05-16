@@ -5,7 +5,7 @@
    
 .. figure::  Registered_YGE_ShadingCorrected_Thumb.png
    :scale: 100%
-  
+    
 Welcome to Nornir's documentation!
 ==================================
  
@@ -15,7 +15,7 @@ The github repository for Nornir lives at `http://github.com/nornir/`_
 
 Contents
 --------
-
+  
 .. toctree::
    :maxdepth: 2
    

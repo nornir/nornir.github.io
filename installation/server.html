@@ -61,7 +61,8 @@
 <h2>HTTP Server Config<a class="headerlink" href="#http-server-config" title="Permalink to this headline">¶</a></h2>
 <p>Place all volumes under a single directory.  Make that directory the root of a web server such as IIS or Apache.</p>
 <p>Create an about.xml file in the root of your web server.  This the example from the Marc lab</p>
-<div class="highlight-python"><pre>&lt;Volume host="http://internal.connectomes.utah.edu/"&gt;</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;Volume host=&quot;http://internal.connectomes.utah.edu/&quot;&gt;
+</pre></div>
 </div>
 <p>host should be set to the URL used to access the directory about.xml resides with.  Appending about.xml to your URL should pull up your about.xml file in your browser, for example <tt class="docutils literal"><span class="pre">http://internal.connectomes.utah.edu/about.xml</span></tt></p>
 </div>
@@ -94,11 +95,12 @@
 <div class="section" id="annotation-databases">
 <h2>Annotation Databases<a class="headerlink" href="#annotation-databases" title="Permalink to this headline">¶</a></h2>
 <p>Most users can ignore this section, but additional about.xml files can be added in subdirectories.  Elements and attributes are located and used as needed.  The about.xml file below injects instructions on which annotation database to use for a volume.</p>
-<div class="highlight-python"><pre>&lt;Volume&gt;
-  &lt;VolumeToEndpoint Authentication="https://connectomes.utah.edu/Services/Authentication/Authentication.svc" Endpoint="https://connectomes.utah.edu/Services/RC2Binary/Annotate.svc"/&gt;
+<div class="highlight-python"><div class="highlight"><pre>&lt;Volume&gt;
+  &lt;VolumeToEndpoint Authentication=&quot;https://connectomes.utah.edu/Services/Authentication/Authentication.svc&quot; Endpoint=&quot;https://connectomes.utah.edu/Services/RC2Binary/Annotate.svc&quot;/&gt;
 
-  &lt;DefaultWebAnnotationUserSettings Uri="http://internal.connectomes.utah.edu/RC2/WebAnnotationUserSettings.xml"/&gt;
-&lt;/Volume&gt;</pre>
+  &lt;DefaultWebAnnotationUserSettings Uri=&quot;http://internal.connectomes.utah.edu/RC2/WebAnnotationUserSettings.xml&quot;/&gt;
+&lt;/Volume&gt;
+</pre></div>
 </div>
 </div>
 </div>
@@ -168,8 +170,8 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Mar 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Last updated on May 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

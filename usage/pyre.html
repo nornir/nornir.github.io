@@ -103,7 +103,8 @@
 <p>Each group of stos transforms lives in a directory at the same level as volume sections.  Nornir creates overlay images for every transform in the group showing how well the slice aligned with the adjacent section.</p>
 <p>The fastest way to detect misregistration is to open the overlay images for a stos-group and look for problems.  For examples we will use a build of the 6263 PMG dataset found in test files and built with the CMPBuild and CMPAlign pipelines.</p>
 <p>Examing the output of the final slice-to-slice grid refinement pipeline with a downsample of 2 the Glutamate (&#8220;E&#8221;) section not aligning well with a Glycine (&#8220;G&#8221;) section.  The relative path of this image under the 6263 volume directory would be:</p>
-<div class="highlight-python"><pre>/TEM/Grid2/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png</pre>
+<div class="highlight-python"><div class="highlight"><pre>/TEM/Grid2/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png
+</pre></div>
 </div>
 <div class="figure">
 <a class="reference internal image-reference" href="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png"><img alt="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png" src="../_images/overlay_5-6_ctrl-E_LeveledShadingCorrected_map-G_LeveledShadingCorrected.png" style="width: 666.0px; height: 219.0px;" /></a>
@@ -137,7 +138,8 @@ automatic registration and simply to copy the manual .stos file up to the group 
 <h2>Repairing a .stos file<a class="headerlink" href="#repairing-a-stos-file" title="Permalink to this headline">¶</a></h2>
 <p>Pyre is a GUI provided with the Nornir for the manual generation of stos files.  Pyre can write both .stos files or registered images.  This enables one to bypass the entire nornir-buildmanager if desired.</p>
 <p>To fix our misregistration we will launch Pyre from the Python scripts directory:</p>
-<div class="highlight-python"><pre>python start_pyre.py</pre>
+<div class="highlight-python"><div class="highlight"><pre>python start_pyre.py
+</pre></div>
 </div>
 <div class="section" id="loading-data-into-pyre">
 <h3>Loading data into pyre<a class="headerlink" href="#loading-data-into-pyre" title="Permalink to this headline">¶</a></h3>
@@ -263,8 +265,8 @@ automatic registration and simply to copy the manual .stos file up to the group 
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Mar 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Last updated on May 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

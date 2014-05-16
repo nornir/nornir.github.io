@@ -80,13 +80,15 @@ The original NCRToolset, a.k.a. &#8220;ir-tools&#8221; are located at <a class="
 <li><p class="first">Best option, use pip
 The simplest install is to go to the scripts directory for your python installation.  C:Python27scripts is a common location.  Install the nornir-buildmanager package directly from github via pip by typing the following command</p>
 <p>Pip has recently changed its behavior after version 1.4 to not install dependencies.  Using PIP 1.4 this command should be sufficient to install nornir.:</p>
-<div class="highlight-python"><pre>pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade
+</pre></div>
 </div>
 <p>Later versions of Pip require each package to be installed seperately.:</p>
-<div class="highlight-python"><pre>pip install git+https://github.com/nornir/nornir-shared.git --upgrade
+<div class="highlight-python"><div class="highlight"><pre>pip install git+https://github.com/nornir/nornir-shared.git --upgrade
 pip install git+https://github.com/nornir/nornir-pools.git --upgrade
 pip install git+https://github.com/nornir/nornir-imageregistration.git --upgrade
-pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre>
+pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade
+</pre></div>
 </div>
 </li>
 </ol>
@@ -98,15 +100,18 @@ pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre
 <dt>Open a command prompt &#8220;cmd.exe&#8221; and create a directory to store github code in.  I use _C:srcgit_.</dt>
 <dd><ol class="first last arabic">
 <li><p class="first">Change to this directory:</p>
-<div class="highlight-python"><pre>cd \src\git</pre>
+<div class="highlight-python"><div class="highlight"><pre>cd \src\git
+</pre></div>
 </div>
 </li>
 <li><p class="first">Download the source:</p>
-<div class="highlight-python"><pre>git pull https://github.com/nornir/nornir-buildmanager.git</pre>
+<div class="highlight-python"><div class="highlight"><pre>git pull https://github.com/nornir/nornir-buildmanager.git
+</pre></div>
 </div>
 </li>
 <li><p class="first">Install the package:</p>
-<div class="highlight-python"><pre>python setup.py install</pre>
+<div class="highlight-python"><div class="highlight"><pre>python setup.py install
+</pre></div>
 </div>
 </li>
 </ol>
@@ -127,10 +132,11 @@ pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade</pre
 <div class="section" id="upgrade">
 <h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h2>
 <p>To be thorough I suggest uninstalling the previous nornir version using pip:</p>
-<div class="highlight-python"><pre>pip uninstall nornir-buildmanager
+<div class="highlight-python"><div class="highlight"><pre>pip uninstall nornir-buildmanager
 pip uninstall nornir-imageregistration
 pip uninstall nornir-pools
-pip uninstall nornir-shared</pre>
+pip uninstall nornir-shared
+</pre></div>
 </div>
 <p>After uninstalling the old version follow the installation instructions above.</p>
 <p>If installation fails scan the output for evidence of a missing package that could not be installed.  The biggest cause of problems
@@ -205,8 +211,8 @@ those packages, uninstall the old version, install the new version, and then att
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Mar 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Last updated on May 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

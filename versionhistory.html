@@ -58,14 +58,22 @@
 <h2>Build Manager<a class="headerlink" href="#build-manager" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="id1">
-<h2>1.1.5<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>1.2.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
+<li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
+<li>Bug fixes related to case-sensitive filter names</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>1.1.5<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>** Fixes **</p>
 <ul class="simple">
 <li>Duplicate histogram nodes could be created if changing the prune threshold did not change the tiles present in the mosaic.  Contrast settings could be applied incorrectly to the duplicate and ignored.</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2>1.1.2<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>1.1.2<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>SetPruneCutoff pipeline to save users from editting volumedata.xml files deep in volume</li>
@@ -79,15 +87,15 @@
 <li>Histogram image updates if contrast parameters editted</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>1.1.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>1.1.1<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed boundary of volume not refreshing when stos registrations changed</li>
 <li>Add .idoc data to SerialEM volume reports</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>1.1.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>1.1.0<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Initial release</li>
 </ul>
@@ -104,10 +112,11 @@
   <ul>
 <li><a class="reference internal" href="#">Version History</a><ul>
 <li><a class="reference internal" href="#build-manager">Build Manager</a></li>
-<li><a class="reference internal" href="#id1">1.1.5</a></li>
-<li><a class="reference internal" href="#id2">1.1.2</a></li>
-<li><a class="reference internal" href="#id3">1.1.1</a></li>
-<li><a class="reference internal" href="#id4">1.1.0</a></li>
+<li><a class="reference internal" href="#id1">1.2.0</a></li>
+<li><a class="reference internal" href="#id2">1.1.5</a></li>
+<li><a class="reference internal" href="#id3">1.1.2</a></li>
+<li><a class="reference internal" href="#id4">1.1.1</a></li>
+<li><a class="reference internal" href="#id5">1.1.0</a></li>
 </ul>
 </li>
 </ul>
@@ -160,8 +169,8 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Mar 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Last updated on May 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

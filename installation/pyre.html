@@ -64,7 +64,8 @@
 <li><p class="first"><a class="reference external" href="http://www.wxpython.org/download.php#stable">WxPython 2.8 unicode or later</a></p>
 </li>
 <li><p class="first"><a class="reference external" href="http://www.pyglet.org/download.html">Pyglet 1.2alpha1 or later</a> The best method of installing Pyglet is calling pip from Python install scripts directory, which is typically C:\Python27\scripts:</p>
-<div class="highlight-python"><pre>pip install --upgrade http://pyglet.googlecode.com/archive/tip.zip</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install --upgrade http://pyglet.googlecode.com/archive/tip.zip
+</pre></div>
 </div>
 </li>
 <li><p class="first"><a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyopengl">PyOpenGL 3.X</a> can be installed from Gohlke&#8217;s site.  <a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyopengl-accelerate">PyOpenGL Accelerate 3.X</a> is optional, but may increase performance.</p>
@@ -74,20 +75,24 @@
 <div class="section" id="installing-pyre-package">
 <h2>Installing Pyre package<a class="headerlink" href="#installing-pyre-package" title="Permalink to this headline">¶</a></h2>
 <p>From the Python scripts directory use pip to install pyre directly from github:</p>
-<div class="highlight-python"><pre>pip install git+https://github.com/nornir/nornir-pyre.git</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install git+https://github.com/nornir/nornir-pyre.git
+</pre></div>
 </div>
 <p>For reasons uninvestigated Pip can fail to install other nornir packages.  If this occurs one can create an empty directory, clone the repository into it, and use python setup:</p>
-<div class="highlight-python"><pre>git clone https://github.com/nornir/nornir-pyre.git
-python setup.py install</pre>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/nornir/nornir-pyre.git
+python setup.py install
+</pre></div>
 </div>
 </div>
 <div class="section" id="launching-pyre">
 <h2>Launching Pyre<a class="headerlink" href="#launching-pyre" title="Permalink to this headline">¶</a></h2>
 <p>Once installed pyre creates a python script for launching pyre and well as some executable shortcuts.  The current practice is to launch from the Python scripts directory:</p>
-<div class="highlight-python"><pre>python start_pyre.py</pre>
+<div class="highlight-python"><div class="highlight"><pre>python start_pyre.py
+</pre></div>
 </div>
 <p>If that fails download the source to a directory using <cite>git clone https://github.com/jamesra/nornir-pyre.git</cite> command, change to the directory that command creates, and then run start pyre:</p>
-<div class="highlight-python"><pre>python scripts/start_pyre.py</pre>
+<div class="highlight-python"><div class="highlight"><pre>python scripts/start_pyre.py
+</pre></div>
 </div>
 </div>
 </div>
@@ -157,8 +162,8 @@ python setup.py install</pre>
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Mar 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Last updated on May 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

@@ -38,3 +38,8 @@ Pyre
  
   **A:** The .stos format stores the full path to the images as the first two lines of the file.  Open the .stos file in a text editor and ensure the paths to the files are correct.  Alternatively, find the images within the volume directory and drag-drop them into Pyre directly.
   
+Eclipse
+-------
+
+* **Q:** The cluster pool tests fail with "Communication pipe read error"
+  **A:** Make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev "Run/Debug" preferences.  

@@ -65,10 +65,12 @@
 </li>
 <li><p class="first"><strong>Q:</strong> Upgrading with <cite>pip install git+https://github.com/jamesra/nornir-buildmanager.git &#8211;upgrade</cite> did not succeed.  It looks like it is trying to install a package?</p>
 <p><strong>A1:</strong> One known cause is earlier versions of packages seem to override later versions of packages according to pip.  On a system with Numpy 1.7.1 and 1.8 installed pip will only see 1.7.1 and attempt to download and compile numpy 1.8.  Verify the numpy version pip sees by looking at the known version for each installed package using:</p>
-<div class="highlight-python"><pre>pip list</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip list
+</pre></div>
 </div>
 <p>The solution is to delete any versions of packages older than the latest version.  Pip can do this by entering:</p>
-<div class="highlight-python"><pre>pip uninstall numpy</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip uninstall numpy
+</pre></div>
 </div>
 <p>Verify the correct version is detected by re-running &#8220;pip list&#8221;.  Repeat the uninstall command until the most recently installed version is listed, or until nothing is listed and a clean install can be performed.</p>
 </li>
@@ -85,6 +87,13 @@
 </li>
 </ul>
 </div>
+<div class="section" id="eclipse">
+<h2>Eclipse<a class="headerlink" href="#eclipse" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Q:</strong> The cluster pool tests fail with &#8220;Communication pipe read error&#8221;
+<strong>A:</strong> Make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev &#8220;Run/Debug&#8221; preferences.</li>
+</ul>
+</div>
 </div>
 
 
@@ -98,6 +107,7 @@
 <li><a class="reference internal" href="#">Troubleshooting</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#pyre">Pyre</a></li>
+<li><a class="reference internal" href="#eclipse">Eclipse</a></li>
 </ul>
 </li>
 </ul>
@@ -150,8 +160,8 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, James Anderson.
-      Last updated on Mar 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.
+      Last updated on May 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>
