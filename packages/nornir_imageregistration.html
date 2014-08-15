@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Image Registration (nornir_imageregistration) &mdash; Nornir 1.2.0 documentation</title>
+    <title>Image Registration (nornir_imageregistration) &mdash; Nornir 1.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2.0',
+        VERSION:     '1.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 1.2.0 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.2.1 documentation" href="../index.html" />
     <link rel="up" title="Packages" href="packages.html" />
     <link rel="next" title="Pools (nornir_pools)" href="nornir_pools.html" />
     <link rel="prev" title="pyre (nornir_pyre)" href="nornir_pyre.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.1 documentation</a> &raquo;</li>
           <li><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
       </ul>
     </div>  
@@ -415,7 +415,7 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <p>Created on Apr 22, 2013</p>
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.ExtractRegion">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">ExtractRegion</tt><big>(</big><em>image</em>, <em>botleft=None</em>, <em>area=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.ExtractRegion" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">ExtractRegion</tt><big>(</big><em>image</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.ExtractRegion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract a region from an image</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -446,7 +446,7 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.TransformROI">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">TransformROI</tt><big>(</big><em>transform</em>, <em>botleft</em>, <em>area</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.TransformROI" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">TransformROI</tt><big>(</big><em>transform</em>, <em>botleft</em>, <em>area</em>, <em>extrapolate=False</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.TransformROI" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a transform to a region of interest within an image. Center and area are in fixed space</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -456,6 +456,7 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <li><strong>transform</strong> (<em>transform</em>) &#8211; The transform used to map points between fixed and mapped space</li>
 <li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
 <li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
+<li><strong>exrapolate</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If true map points that fall outside the bounding box of the transform</li>
 </ul>
 </td>
 </tr>
@@ -478,14 +479,15 @@ Discreet = True causes points outside the defined transform region to be clipped
 
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.WarpedImageToFixedSpace">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">WarpedImageToFixedSpace</tt><big>(</big><em>transform</em>, <em>FixedImageArea</em>, <em>WarpedImage</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.WarpedImageToFixedSpace" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">WarpedImageToFixedSpace</tt><big>(</big><em>transform</em>, <em>FixedImageArea</em>, <em>WarpedImage</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=None</em>, <em>extrapolate=False</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.WarpedImageToFixedSpace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Warps every image in the WarpedImageList using the provided transform.
 :Param transform: transform to pass warped space coordinates through to obtain fixed space coordinates
 :Param FixedImageArea: Size of fixed space region to map pixels into
 :Param WarpedImage: Image to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.
 :Param botleft: Origin of region to map
 :Param area: Expected dimensions of output
-:Param cval: Value to place in unmappable regions, defaults to zero.</p>
+:Param cval: Value to place in unmappable regions, defaults to zero.
+:param bool exrapolate: If true map points that fall outside the bounding box of the transform</p>
 </dd></dl>
 
 </div>
@@ -556,13 +558,13 @@ Discreet = True causes points outside the defined transform region to be clipped
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.1 documentation</a> &raquo;</li>
           <li><a href="packages.html" >Packages</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, James Anderson.
-      Last updated on May 16, 2014.
+      Last updated on Aug 15, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

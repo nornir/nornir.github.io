@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Pools (nornir_pools) &mdash; Nornir 1.2.0 documentation</title>
+    <title>Pools (nornir_pools) &mdash; Nornir 1.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2.0',
+        VERSION:     '1.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 1.2.0 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.2.1 documentation" href="../index.html" />
     <link rel="up" title="Packages" href="packages.html" />
     <link rel="next" title="Shared (nornir_shared)" href="nornir_shared.html" />
     <link rel="prev" title="Image Registration (nornir_imageregistration)" href="nornir_imageregistration.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="nornir_imageregistration.html" title="Image Registration (nornir_imageregistration)"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.1 documentation</a> &raquo;</li>
           <li><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
       </ul>
     </div>  
@@ -148,6 +148,18 @@
 </div>
 <div class="section" id="module-nornir_pools.poolbase">
 <span id="pool-objects"></span><h2>Pool Objects<a class="headerlink" href="#module-nornir_pools.poolbase" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="nornir_pools.poolbase.LocalThreadPoolBase">
+<em class="property">class </em><tt class="descclassname">nornir_pools.poolbase.</tt><tt class="descname">LocalThreadPoolBase</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for pools that rely on local threads and a queue to dispatch jobs</p>
+<dl class="method">
+<dt id="nornir_pools.poolbase.LocalThreadPoolBase.wait_completion">
+<tt class="descname">wait_completion</tt><big>(</big><big>)</big><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.wait_completion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for completion of all the tasks in the queue</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="class">
 <dt id="nornir_pools.poolbase.PoolBase">
 <em class="property">class </em><tt class="descclassname">nornir_pools.poolbase.</tt><tt class="descname">PoolBase</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nornir_pools.poolbase.PoolBase" title="Permalink to this definition">¶</a></dt>
@@ -346,13 +358,13 @@ Task objects are created by adding tasks or processes to the pools.  They are no
         <li class="right" >
           <a href="nornir_imageregistration.html" title="Image Registration (nornir_imageregistration)"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.1 documentation</a> &raquo;</li>
           <li><a href="packages.html" >Packages</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, James Anderson.
-      Last updated on May 16, 2014.
+      Last updated on Aug 15, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
