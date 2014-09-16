@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Creating a Volume &mdash; Nornir 1.2.1 documentation</title>
+    <title>Creating a Volume &mdash; Nornir 1.2.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2.1',
+        VERSION:     '1.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 1.2.1 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.2.2 documentation" href="../index.html" />
     <link rel="up" title="Use" href="toctree.html" />
     <link rel="next" title="Manual Registration and Pyre" href="pyre.html" />
     <link rel="prev" title="Use" href="toctree.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="toctree.html" title="Use"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.2 documentation</a> &raquo;</li>
           <li><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
       </ul>
     </div>  
@@ -173,8 +173,7 @@
 <p>Options available to all build commands.  Specific pipelines may extend the argument list.</p>
 <pre class="literal-block">
 usage: nornir_build [-h] [-debug] [-normalpriority] [-verbose]
-                    
-                    {help,import,update,Prune,ShadeCorrect,MigrateMultipleImageSets,MigrateToZeroOrigin,RenameFilter,RemoveDuplicateFilters,Histogram,AdjustContrast,Mosaic,Assemble,AssembleTiles,MosaicReport,CreateVikingXML,SetPruneCutoff,SetContrast,SetFilterLock,CreateBlobFilter,AlignSections,RefineSectionAlignment,ScaleVolumeTransforms,SliceToVolume,VolumeImage,MosaicToVolume,ExportImages}
+                    {help,import,update,Prune,ShadeCorrect,MigrateMultipleImageSets,MigrateToZeroOrigin,RenameFilter,RemoveDuplicateFilters,Histogram,AdjustContrast,Mosaic,Assemble,AssembleTiles,MosaicReport,CreateVikingXML,Cleanup,SetPruneCutoff,SetContrast,SetFilterLock,CreateBlobFilter,AlignSections,AssembleStosOverlays,SelectBestRegistrationChain,RefineSectionAlignment,ScaleVolumeTransforms,SliceToVolume,VolumeImage,MosaicToVolume,ExportImages}
                     ...
 </pre>
 <dl class="docutils">
@@ -850,6 +849,32 @@ usage: nornir_build CreateVikingXML [-h] -volume VOLUMEPATH
 </dd>
 </dl>
 </dd>
+<dt><strong>Cleanup</strong></dt>
+<dd><p class="first">Clean common errors from the volume meta-data</p>
+<pre class="literal-block">
+usage: nornir_build Cleanup [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
+                            [-cc [CC [CC ...]]]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-volume</span></kbd></td>
+<td>The path to the volume</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
 <dt><strong>SetPruneCutoff</strong></dt>
 <dd><p class="first">Set the prune threshold for a filter</p>
 <pre class="literal-block">
@@ -1042,7 +1067,6 @@ usage: nornir_build AlignSections [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
                                   [-Filters FILTERSREGEX]
                                   [-StosUseMasks USEMASKS] -Downsample
                                   STOSBRUTEDOWNSAMPLE
-                                  [-GeneratedStosMap GENERATEDSTOSMAP]
                                   [-OutputStosMap OUTPUTSTOSMAP]
 </pre>
 <dl class="last docutils">
@@ -1082,7 +1106,89 @@ usage: nornir_build AlignSections [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <kbd><span class="option">-Downsample=1</span></kbd></td>
 <td>Amount to downsample input images before attempting alignment.  Images are padded to the next power of two for the FFT.  Large images, roughly greater than 2048x2048, can be very slow.</td></tr>
 <tr><td class="option-group" colspan="2">
-<kbd><span class="option">-GeneratedStosMap=PotentialRegistrationChain</span></kbd></td>
+<kbd><span class="option">-OutputStosMap=PotentialRegistrationChain</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Name assigned to generated stos map.</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>AssembleStosOverlays</strong></dt>
+<dd><p class="first">Performs slice to slice alignment from scratch to produce an initial 3D volume.  After alignment the best alignment results are selected to create a final stosmap.</p>
+<pre class="literal-block">
+usage: nornir_build AssembleStosOverlays [-h] -volume VOLUMEPATH
+                                         [-to [TO [TO ...]]]
+                                         [-cc [CC [CC ...]]] -StosGroup
+                                         STOSGROUP -Downsample INPUTDOWNSAMPLE
+                                         -StosMap STOSMAP
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-volume</span></kbd></td>
+<td>The path to the volume</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-StosGroup=StosBrute</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Stos group to assemble</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Downsample</span></kbd></td>
+<td>Downsample level to assemble</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-StosMap=FinalStosMap</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Name assigned to generated stos map.</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>SelectBestRegistrationChain</strong></dt>
+<dd><p class="first">Create a new registration chain by examining the stos overlays produced by AssembleStosOverlays.  If two registrations are possible for a section the overlay with the most overlap is chosen.</p>
+<pre class="literal-block">
+usage: nornir_build SelectBestRegistrationChain [-h] -volume VOLUMEPATH
+                                                [-to [TO [TO ...]]]
+                                                [-cc [CC [CC ...]]] -StosGroup
+                                                STOSGROUP -Downsample
+                                                INPUTDOWNSAMPLE -InputStosMap
+                                                INPUTSTOSMAP
+                                                [-OutputStosMap OUTPUTSTOSMAP]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-volume</span></kbd></td>
+<td>The path to the volume</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-StosGroup=StosBrute</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Stos group to assemble</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Downsample</span></kbd></td>
+<td>Downsample level to assemble</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-InputStosMap=PotentialRegistrationChain</span></kbd></td>
 </tr>
 <tr><td>&nbsp;</td><td>Name assigned to generated stos map.</td></tr>
 <tr><td class="option-group" colspan="2">
@@ -1455,13 +1561,13 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
         <li class="right" >
           <a href="toctree.html" title="Use"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.2 documentation</a> &raquo;</li>
           <li><a href="toctree.html" >Use</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Aug 15, 2014.
+      Last updated on Sep 16, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
