@@ -27,6 +27,13 @@ For reasons uninvestigated Pip can fail to install other nornir packages.  If th
  
     git clone https://github.com/nornir/nornir-pyre.git
     python setup.py install
+    
+Pyre on the Mac
+---------------
+
+X11 is required and is available from 'XQuartz'_
+
+Users have had trouble getting Pyre running on the Mac.  Some have no trouble and others spend a lot of time fighting the wxPython library.  The problem is not well investigated so if a solution is found please E-mail so we can document.
 
 Launching Pyre
 --------------
@@ -43,3 +50,4 @@ If that fails download the source to a directory using `git clone https://github
 .. _Pyglet 1.2alpha1 or later: http://www.pyglet.org/download.html
 .. _PyOpenGL 3.X: http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyopengl
 .. _PyOpenGL Accelerate 3.X: http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyopengl-accelerate
+.. _XQuartz: http://xquartz.macosforge.org/trac

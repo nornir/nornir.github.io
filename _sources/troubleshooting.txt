@@ -42,4 +42,8 @@ Eclipse
 -------
 
 * **Q:** The cluster pool tests fail with "Communication pipe read error"
-  **A:** Make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev "Run/Debug" preferences.  
+  **A:** Make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev "Run/Debug" preferences.
+  
+* **Q:** The unit tests take forever to run"
+  **A:** Twenty minutes is fairly typical for unit tests on a beefy machine.  Most should run in less than a minute.  The longest tests are IDoc and PMG tests.  Again, make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev "Run/Debug" preferences.
+   

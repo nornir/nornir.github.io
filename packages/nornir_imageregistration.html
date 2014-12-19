@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Image Registration (nornir_imageregistration) &mdash; Nornir 1.2.2 documentation</title>
+    <title>Image Registration (nornir_imageregistration) &mdash; Nornir 1.2.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2.2',
+        VERSION:     '1.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Nornir 1.2.2 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.2.3 documentation" href="../index.html" />
     <link rel="up" title="Packages" href="packages.html" />
     <link rel="next" title="Pools (nornir_pools)" href="nornir_pools.html" />
     <link rel="prev" title="pyre (nornir_pyre)" href="nornir_pyre.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.2 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
           <li><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
       </ul>
     </div>  
@@ -288,6 +288,13 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 </dd></dl>
 
 <dl class="function">
+<dt id="nornir_imageregistration.core.ImageToTilesGenerator">
+<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ImageToTilesGenerator</tt><big>(</big><em>source_image</em>, <em>tile_size</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ImageToTilesGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>An iterator generating all tiles for an image
+:return: (iCol,iRow, tile_image)</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="nornir_imageregistration.core.LoadImage">
 <tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">LoadImage</tt><big>(</big><em>ImageFullPath</em>, <em>ImageMaskFullPath=None</em>, <em>MaxDimension=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.LoadImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads an image converts to greyscale, masks it, and removes extrema pixels.</p>
@@ -406,7 +413,13 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.SaveImage">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">SaveImage</tt><big>(</big><em>ImageFullPath</em>, <em>image</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.SaveImage" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">SaveImage</tt><big>(</big><em>ImageFullPath</em>, <em>image</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.SaveImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the image as greyscale with no contrast-stretching</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.core.SaveImage_JPeg2000">
+<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">SaveImage_JPeg2000</tt><big>(</big><em>ImageFullPath</em>, <em>image</em>, <em>tile_dim=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.SaveImage_JPeg2000" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the image as greyscale with no contrast-stretching</p>
 </dd></dl>
 
@@ -594,13 +607,13 @@ Discreet = True causes points outside the defined transform region to be clipped
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.2 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
           <li><a href="packages.html" >Packages</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Sep 16, 2014.
+      Last updated on Dec 18, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
