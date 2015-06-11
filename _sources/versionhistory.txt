@@ -13,5 +13,5 @@ Image Registration
 ==================
 
 
-.. include:: ..\..\nornir-buildmanager\versionhistory.rst
+.. include:: ..\..\nornir-imageregistration\versionhistory.rst
     
