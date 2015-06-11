@@ -57,9 +57,8 @@
 <h1>Version History<a class="headerlink" href="#version-history" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="build-manager">
 <h2>Build Manager<a class="headerlink" href="#build-manager" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="id1">
-<h2>1.3.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h3>1.3.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><strong>1.3.0 is not compatible with volumes built with earlier versions.  If you have data you do not want to reimport contact me about migrating it to 1.3.0.  The migration has been done but requires some supervision.</strong></p>
 <p><strong>New</strong></p>
 <ul>
@@ -112,11 +111,11 @@
 </ul>
 </div>
 <div class="section" id="id2">
-<h2>1.2.4<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h3>1.2.4<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>Added compatability with 1.2.4 version of nornir_imageregistration package</p>
 </div>
 <div class="section" id="id3">
-<h2>1.2.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h3>1.2.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>A bugfix release</p>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
@@ -129,7 +128,7 @@
 </ul>
 </div>
 <div class="section" id="id4">
-<h2>1.2.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h3>1.2.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>A bugfix release</p>
 <p><strong>New</strong></p>
 <ul class="simple">
@@ -146,7 +145,7 @@
 </ul>
 </div>
 <div class="section" id="id5">
-<h2>1.2.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h3>1.2.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>Many optimizations</li>
@@ -170,7 +169,7 @@
 </ul>
 </div>
 <div class="section" id="id6">
-<h2>1.2.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<h3>1.2.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
 <li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
@@ -178,14 +177,14 @@
 </ul>
 </div>
 <div class="section" id="id7">
-<h2>1.1.5<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.5<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
 <li>Duplicate histogram nodes could be created if changing the prune threshold did not change the tiles present in the mosaic.  Contrast settings could be applied incorrectly to the duplicate and ignored.</li>
 </ul>
 </div>
 <div class="section" id="id8">
-<h2>1.1.2<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.2<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>SetPruneCutoff pipeline to save users from editting volumedata.xml files deep in volume</li>
@@ -200,17 +199,175 @@
 </ul>
 </div>
 <div class="section" id="id9">
-<h2>1.1.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed boundary of volume not refreshing when stos registrations changed</li>
 <li>Add .idoc data to SerialEM volume reports</li>
 </ul>
 </div>
 <div class="section" id="id10">
-<h2>1.1.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Initial release</li>
 </ul>
+</div>
+</div>
+<div class="section" id="image-registration">
+<h2>Image Registration<a class="headerlink" href="#image-registration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>1.3.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p><strong>1.3.0 is not compatible with volumes built with earlier versions.  If you have data you do not want to reimport contact me about migrating it to 1.3.0.  The migration has been done but requires some supervision.</strong></p>
+<p><strong>New</strong></p>
+<ul>
+<li><p class="first">ir-refine-translate has been replaced with a python implementation.  This appears to solve tiles that were misplaced in mosaics when stage position was very incorrect</p>
+</li>
+<li><p class="first">Contrast settings can be set manually when importing 16bpp images</p>
+</li>
+<li><p class="first">When performing import, save progress incrementally in case of crash</p>
+</li>
+<li><p class="first">Added -Sections flag to CreateBlobFilter</p>
+</li>
+<li><p class="first">Regenerate .stos files if the input images have changed</p>
+</li>
+<li><p class="first">Save meta-data when we generate a new level for an image on the fly</p>
+</li>
+<li><p class="first">Added <strong>SetMosaicLock</strong> pipeline to lock .mosaic transforms.  This prevents regeneration which could break existing annotations.</p>
+</li>
+<li><p class="first">Added <strong>ListFilterContrast</strong> pipeline to print the contrast settings used for filters.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Added pipelines for marking damaged sections.  Damaged sections are not used for slice-to-slice registration.</dt>
+<dd><ul class="first last simple">
+<li><strong>ListDamagedSections</strong></li>
+<li><strong>MarkSectionsDamaged</strong></li>
+<li><strong>MarkSectionsUnamaged</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Added -Shape parameter to AssembleTileset pipeline allowing different tile sizes.  256x256 is the default.</p>
+</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul class="simple">
+<li>Removed the -volume flag.  The volume path is now the first argument to the nornir-build command.</li>
+<li>Do not set build process to low priority unless specified on command line.  Low priority has a huge performance cost.</li>
+<li>Importers are now pipelines.  They have specific names for the type of data to import.</li>
+<li>Wait for pools to complete before executing next pipeline stage</li>
+<li>Added options to generate histograms asynchronously</li>
+<li>Refactored idoc import code</li>
+<li>Write errors that occur during ir-blob to the log window</li>
+<li>Test setup is now cached in the TESTOUTPUT directory.  The cache should be cleared before running tests after relevant changes.</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li>Remove generated Prune.mosaic file if it is older than the prune data it is generated from</li>
+<li>Masks were entirely missed in slice-to-slice registration.  Masks are now properly included and propogated.  Removed parameter from &#8216;-UseMasks&#8217; flag</li>
+<li>Do not crash if the same level is passed to CreatePyramid functions twice in a list</li>
+<li>Number imported tiles from IDOC&#8217;s starting with 0.  This matches SerialEM&#8217;s numbering</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>1.2.4<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>Added compatability with 1.2.4 version of nornir_imageregistration package</p>
+</div>
+<div class="section" id="id13">
+<h3>1.2.3<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>A bugfix release</p>
+<p><strong>Fixes</strong></p>
+<ul class="simple">
+<li>In manual .stos files, replace the image paths with pointers to the images from image nodes for the appropriate filter.  Useful in cases where sections are re-ordered or other images were used for manual registration.</li>
+</ul>
+<p><strong>Tweak</strong></p>
+<ul class="simple">
+<li>Don&#8217;t build an empty imageset for a filter if there is no data to populate the imageset and we ask for images</li>
+<li>Added cleanup function to Cleanup pipeline to remove empty imagesets</li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>1.2.2<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>A bugfix release</p>
+<p><strong>New</strong></p>
+<ul class="simple">
+<li>Added .cmd files to scripts directory for upgrading and uninstalling all nornir packages.</li>
+<li>Included build scripts now update title of console window with name of active pipeline</li>
+<li>Fixed several cases where slice-to-slice alignment pipeline was not updating correctly due to upstream changes</li>
+<li>Fixed several cases where slice-to-slice alignment pipeline was updating needlessly</li>
+<li>Added more thorough test cases to ensure manual slice-to-slice transformation patches correctly trigger downstream updates</li>
+</ul>
+<p><strong>Fixes</strong></p>
+<ul class="simple">
+<li>Image report generator no longer crashes if an image does not require downsampling</li>
+<li>Image reports code no longer fails when using .svg formats</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>1.2.1<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p><strong>New</strong></p>
+<ul class="simple">
+<li>Many optimizations</li>
+<li>Improved the histogram generation to show the actual cutoff values for a section and not percentages when a manual value is not specified.</li>
+<li>Profile data is saved for tests if the PROFILE environment variable is set</li>
+<li>Faster parsing of pipelines via use of cElementTree package</li>
+<li>Multithreading pool is used when adding stos transforms</li>
+<li>Added support for manual folder in stosbrute folders.  This allows users to bypass the expensive automatic initial alignment step if a manual registration is known.</li>
+<li>Report web pages now can be renamed to prevent overwriting the default ImageReport.html page</li>
+</ul>
+<p><strong>Fixes</strong></p>
+<ul class="simple">
+<li>Take image downsample into account before regenerating images warped into the volume.  Previously downsampled images were always regenerated even when current</li>
+<li>Logging level set correctly.  Normal runs only display warnings or higher level entries to the console</li>
+<li>Sections without a log file now have reports generated correctly</li>
+<li>Fixed exception thrown when image dimensions could not be read and compared because a file could not be read</li>
+<li>Filter locks for all filters in a channel are released when contrast or prune thresholds are manually adjusted.  Allowing the filters to regenerate with the updated values</li>
+<li>debug flag was always active during builds</li>
+<li>Check the timestamp on the first tile of every pyramid level to ensure they regenerate if they are outdated.</li>
+<li>Histograms are correctly refreshed when they are out of date.</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>1.2.0<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
+<li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
+<li>Bug fixes related to case-sensitive filter names</li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>1.1.5<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p><strong>Fixes</strong></p>
+<ul class="simple">
+<li>Duplicate histogram nodes could be created if changing the prune threshold did not change the tiles present in the mosaic.  Contrast settings could be applied incorrectly to the duplicate and ignored.</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>1.1.2<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p><strong>New</strong></p>
+<ul class="simple">
+<li>SetPruneCutoff pipeline to save users from editting volumedata.xml files deep in volume</li>
+<li>SetContrast pipeline to save users from editting volumedata.xml files deep in volume</li>
+<li>CreateVikingXML calls added to TEMBuild and TEMAlign scripts</li>
+<li>Histogram images now show manual contrast settings</li>
+</ul>
+<p><strong>Fixes</strong></p>
+<ul class="simple">
+<li>CreateVikingXML no longer requires volume related parameters.  Allows unregistered mosaic sets to be published to Viking.</li>
+<li>Histogram image updates if contrast parameters editted</li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>1.1.1<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed boundary of volume not refreshing when stos registrations changed</li>
+<li>Add .idoc data to SerialEM volume reports</li>
+</ul>
+</div>
+<div class="section" id="id20">
+<h3>1.1.0<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Initial release</li>
+</ul>
+</div>
 </div>
 </div>
 
@@ -223,7 +380,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Version History</a><ul>
-<li><a class="reference internal" href="#build-manager">Build Manager</a></li>
+<li><a class="reference internal" href="#build-manager">Build Manager</a><ul>
 <li><a class="reference internal" href="#id1">1.3.0</a></li>
 <li><a class="reference internal" href="#id2">1.2.4</a></li>
 <li><a class="reference internal" href="#id3">1.2.3</a></li>
@@ -234,6 +391,21 @@
 <li><a class="reference internal" href="#id8">1.1.2</a></li>
 <li><a class="reference internal" href="#id9">1.1.1</a></li>
 <li><a class="reference internal" href="#id10">1.1.0</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#image-registration">Image Registration</a><ul>
+<li><a class="reference internal" href="#id11">1.3.0</a></li>
+<li><a class="reference internal" href="#id12">1.2.4</a></li>
+<li><a class="reference internal" href="#id13">1.2.3</a></li>
+<li><a class="reference internal" href="#id14">1.2.2</a></li>
+<li><a class="reference internal" href="#id15">1.2.1</a></li>
+<li><a class="reference internal" href="#id16">1.2.0</a></li>
+<li><a class="reference internal" href="#id17">1.1.5</a></li>
+<li><a class="reference internal" href="#id18">1.1.2</a></li>
+<li><a class="reference internal" href="#id19">1.1.1</a></li>
+<li><a class="reference internal" href="#id20">1.1.0</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
