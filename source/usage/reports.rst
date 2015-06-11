@@ -52,10 +52,15 @@ For the remaining examples feature the report below from a torn section.  The re
 .. figure:: SerialEM\75_DamagedOverview.png
    
 Note in the drift map how the region around the tear experienced predictable increases in tissue movement during capture.
+
+Mark sections as damaged
+========================
+
+A damaged section, even after repair, is almost always unsuitable to contribute to the slice-to-volume transformation series.  These relevant section should be marked as damaged with the ''MarkSectionsDamaged'' pipeline.  The section will still participate in the volume, however any downstream sections will not use the damaged section to determine their volume position. 
   
 
-Removing featureless tiles
-==========================
+Remove featureless tiles
+========================
 
 Nornir's prune stage assigns a feature score to each tile based on the standard deviation of a small regions around the edge of each tile.  The prune histogram suggests where the prune cutoff should be set to eliminate blank tiles with low prune scores.
 
@@ -67,8 +72,8 @@ For this example I would suggest setting the max cutoff to 125 and not setting a
 
 Prune cutoffs are set with the ``SetPruneCutoff`` pipeline.
 
-Adjusting the contrast
-======================
+Adjust the contrast
+===================
 
 Because of the tear we still have empty areas of high intensity and low interest.  This produces the rightmost peak on the histogram.  Folds can also occur which result in darker regions causing peaks to the left.   
 

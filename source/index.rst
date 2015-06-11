@@ -17,16 +17,17 @@ Contents
 --------
   
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    Overview <overview/overview>
    Installation <installation/toctree>
-   Use <usage/toctree>
+   Usage <usage/toctree>
    Packages <packages/packages>
    Version History <versionhistory>
    Known Issues and Future Work <futurework>
    TroubleShooting <troubleshooting>   
    Glossary and Background <background/background>
+   About <about>
    
 History
 -------

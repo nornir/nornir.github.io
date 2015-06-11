@@ -6,16 +6,16 @@ This section reviews how to organize images for import into a volume and what op
 
 The build manager places data from various platforms into a single volume directory.  Users use the "nornir_build" command and provide a path to the volume's directory to run specific operations on the volume::
 
-  nornir-build <Command> -volume <volumepath> ...     
+  nornir-build <volumepath> <Command> ...     
 
 Importing data
 --------------
 
 The first command for any Nornir volume::
 
-  nornir-build import <inputpath> -volume <volumepath> 
+  nornir-build <volumepath> <import_command> <inputpath>  
 
-For example ``nornir-build import Y:/Captures/RC2/ -volume Y:/Volumes/RC2`` will instruct Nornir to check the <i>Y:/Captures/RC2/</i> directory for sections and import any that it can find into the volume stored in <i>Y:/Volumes/RC2</i>
+For example ``nornir-build Y:/Volumes/RC2 ImportIDOC Y:/Captures/RC2/`` will instruct Nornir to check the Y:/Captures/RC2 directory for sections and import any that it can find into the volume stored in Y:/Volumes/RC2
  
 The import command extends volumes non-destructively provided different sections are not assigned the same number. Import can be run repeatedly as now sections become available.
 
@@ -76,7 +76,7 @@ Transmission Electron Microscopy via SerialEM
 
   Import SerialEM .idoc files and remove tiles without enough features::
    
-    TEMPrepare  <volume path> <import path>
+    TEMPrepare <volume path> <import path>
   
   Build mosaics and produce a report for SerialEM TEM::  
  

@@ -8,7 +8,7 @@
     
     <title>Image Registration (nornir_imageregistration) &mdash; Nornir 1.2.3 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,14 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="Nornir 1.2.3 documentation" href="../index.html" />
     <link rel="up" title="Packages" href="packages.html" />
     <link rel="next" title="Pools (nornir_pools)" href="nornir_pools.html" />
     <link rel="prev" title="pyre (nornir_pyre)" href="nornir_pyre.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,15 +45,15 @@
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-nornir_imageregistration">
 <span id="image-registration-nornir-imageregistration"></span><h1>Image Registration (nornir_imageregistration)<a class="headerlink" href="#module-nornir_imageregistration" title="Permalink to this headline">¶</a></h1>
@@ -60,7 +61,7 @@
 <h2>alignment_record<a class="headerlink" href="#alignment-record" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="nornir_imageregistration.alignment_record.AlignmentRecord">
-<em class="property">class </em><tt class="descclassname">nornir_imageregistration.alignment_record.</tt><tt class="descname">AlignmentRecord</tt><big>(</big><em>peak</em>, <em>weight</em>, <em>angle=0.0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.alignment_record.AlignmentRecord" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nornir_imageregistration.alignment_record.</code><code class="descname">AlignmentRecord</code><span class="sig-paren">(</span><em>peak</em>, <em>weight</em>, <em>angle=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.alignment_record.AlignmentRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>Records basic registration information as an angle and offset between a fixed and moving image
 If the offset is zero the center of both images occupy the same point.  
 The offset determines the translation of the moving image over the fixed image.
@@ -86,19 +87,19 @@ There is no support for scale, and there should not be unless added as another v
 <p>scipy image arrays are indexed [y,x]</p>
 <dl class="function">
 <dt id="nornir_imageregistration.core.ConstrainedRange">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ConstrainedRange</tt><big>(</big><em>start</em>, <em>count</em>, <em>maxVal</em>, <em>minVal=0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ConstrainedRange" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ConstrainedRange</code><span class="sig-paren">(</span><em>start</em>, <em>count</em>, <em>maxVal</em>, <em>minVal=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ConstrainedRange" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a range that falls within min/max limits.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.CreateOverlapMask">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">CreateOverlapMask</tt><big>(</big><em>FixedImageSize</em>, <em>MovingImageSize</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.CreateOverlapMask" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">CreateOverlapMask</code><span class="sig-paren">(</span><em>FixedImageSize</em>, <em>MovingImageSize</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.CreateOverlapMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defines a mask that determines which peaks should be considered</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.CropImage">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">CropImage</tt><big>(</big><em>imageparam</em>, <em>Xo</em>, <em>Yo</em>, <em>Width</em>, <em>Height</em>, <em>background=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.CropImage" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">CropImage</code><span class="sig-paren">(</span><em>imageparam</em>, <em>Xo</em>, <em>Yo</em>, <em>Width</em>, <em>Height</em>, <em>cval=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.CropImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crop the image at the passed bounds and returns the cropped ndarray.
 If the requested area is outside the bounds of the array then the correct region is returned
 with a background color set</p>
@@ -112,7 +113,7 @@ with a background color set</p>
 <li><strong>Yo</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Y origin for crop</li>
 <li><strong>Width</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; New width of image</li>
 <li><strong>Height</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; New height of image</li>
-<li><strong>background</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; default value for regions outside the original image boundaries.  Defaults to 0.</li>
+<li><strong>cval</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; default value for regions outside the original image boundaries.  Defaults to 0.  Use &#8216;random&#8217; to fill with random noise matching images statistical profile</li>
 </ul>
 </td>
 </tr>
@@ -128,12 +129,12 @@ with a background color set</p>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.CropNonOverlapping">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">CropNonOverlapping</tt><big>(</big><em>FixedImageSize</em>, <em>MovingImageSize</em>, <em>CorrelationImage</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.CropNonOverlapping" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">CropNonOverlapping</code><span class="sig-paren">(</span><em>FixedImageSize</em>, <em>MovingImageSize</em>, <em>CorrelationImage</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.CropNonOverlapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.DimensionWithOverlap">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">DimensionWithOverlap</tt><big>(</big><em>val</em>, <em>overlap=1.0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.DimensionWithOverlap" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">DimensionWithOverlap</code><span class="sig-paren">(</span><em>val</em>, <em>overlap=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.DimensionWithOverlap" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -153,22 +154,47 @@ with a background color set</p>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ExtractROI">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ExtractROI</tt><big>(</big><em>image</em>, <em>center</em>, <em>area</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ExtractROI" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ExtractROI</code><span class="sig-paren">(</span><em>image</em>, <em>center</em>, <em>area</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ExtractROI" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an ROI around a center point with the area, if the area passes a boundary the ROI
 maintains the same area, but is shifted so the entire area remains in the image.
 USES NUMPY (Y,X) INDEXING</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="nornir_imageregistration.core.FFTPhaseCorrelation">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FFTPhaseCorrelation</code><span class="sig-paren">(</span><em>FFTFixed</em>, <em>FFTMoving</em>, <em>delete_input=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FFTPhaseCorrelation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the phase shift correlation of the FFT&#8217;s of two images.</p>
+<p>Dimensions of Fixed and Moving images must match</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>FixedImage</strong> (<em>ndarray</em>) &#8211; grayscale image</li>
+<li><strong>MovingImage</strong> (<em>ndarray</em>) &#8211; grayscale image</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Correlation image of the FFT&#8217;s.  Light pixels indicate the phase is well aligned at that offset.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndimage</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="nornir_imageregistration.core.FindOffset">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">FindOffset</tt><big>(</big><em>FixedImage</em>, <em>MovingImage</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.FindOffset" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FindOffset</code><span class="sig-paren">(</span><em>FixedImage</em>, <em>MovingImage</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em>, <em>FFT_Required=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FindOffset" title="Permalink to this definition">¶</a></dt>
 <dd><p>return an alignment record describing how the images overlap. The alignment record indicates how much the 
 moving image must be rotated and translated to align perfectly with the FixedImage</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.FindPeak">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">FindPeak</tt><big>(</big><em>image</em>, <em>Cutoff=0.995</em>, <em>MinOverlap=0</em>, <em>MaxOverlap=1</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.FindPeak" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FindPeak</code><span class="sig-paren">(</span><em>image</em>, <em>Cutoff=0.995</em>, <em>MinOverlap=0</em>, <em>MaxOverlap=1</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FindPeak" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the offset of the strongest response in a phase correlation image</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -194,7 +220,7 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ForceGrayscale">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ForceGrayscale</tt><big>(</big><em>image</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ForceGrayscale" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ForceGrayscale</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ForceGrayscale" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -211,20 +237,20 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.GenRandomData">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">GenRandomData</tt><big>(</big><em>height</em>, <em>width</em>, <em>mean</em>, <em>standardDev</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.GenRandomData" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">GenRandomData</code><span class="sig-paren">(</span><em>height</em>, <em>width</em>, <em>mean</em>, <em>standardDev</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.GenRandomData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate random data of shape with the specified mean and standard deviation</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.GetImageSize">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">GetImageSize</tt><big>(</big><em>ImageFullPath</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.GetImageSize" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">GetImageSize</code><span class="sig-paren">(</span><em>ImageFullPath</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.GetImageSize" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Image (height, width)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -232,13 +258,13 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ImageIntensityAtPercent">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ImageIntensityAtPercent</tt><big>(</big><em>image</em>, <em>Percent=0.995</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ImageIntensityAtPercent" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageIntensityAtPercent</code><span class="sig-paren">(</span><em>image</em>, <em>Percent=0.995</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImageIntensityAtPercent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the intensity of the Cutoff% most intense pixel in the image</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ImagePhaseCorrelation">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ImagePhaseCorrelation</tt><big>(</big><em>FixedImage</em>, <em>MovingImage</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ImagePhaseCorrelation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImagePhaseCorrelation</code><span class="sig-paren">(</span><em>FixedImage</em>, <em>MovingImage</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImagePhaseCorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the phase shift correlation of the FFT&#8217;s of two images.</p>
 <p>Dimensions of Fixed and Moving images must match</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -263,20 +289,22 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="class">
 <dt id="nornir_imageregistration.core.ImageStats">
-<em class="property">class </em><tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ImageStats</tt><a class="headerlink" href="#nornir_imageregistration.core.ImageStats" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageStats</code><a class="headerlink" href="#nornir_imageregistration.core.ImageStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>A container for image statistics</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ImageToTiles">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ImageToTiles</tt><big>(</big><em>source_image</em>, <em>tile_size</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ImageToTiles" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageToTiles</code><span class="sig-paren">(</span><em>source_image</em>, <em>tile_size</em>, <em>grid_shape=None</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImageToTiles" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>source_image</strong> (<em>ndarray</em>) &#8211; Image to cut into tiles</li>
-<li><strong>tile_shape</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; Shape of output tiles, source image will be padded if needed</li>
+<li><strong>tile_size</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; Shape of each tile</li>
+<li><strong>grid_shape</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; Dimensions of grid, if None the grid is large enough to reproduce the source_image with zero padding if needed</li>
+<li><strong>cval</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; Fill value for images that are padded.  Default is zero.  Use &#8216;random&#8217; to generate random noise</li>
 </ul>
 </td>
 </tr>
@@ -289,14 +317,17 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ImageToTilesGenerator">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ImageToTilesGenerator</tt><big>(</big><em>source_image</em>, <em>tile_size</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ImageToTilesGenerator" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageToTilesGenerator</code><span class="sig-paren">(</span><em>source_image</em>, <em>tile_size</em>, <em>grid_shape=None</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImageToTilesGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>An iterator generating all tiles for an image
+:param array tile_size: Shape of each tile
+:param array grid_shape: Dimensions of grid, if None the grid is large enough to reproduce the source_image with zero padding if needed
+:param object cval: Fill value for images that are padded.  Default is zero.  Use &#8216;random&#8217; to generate random noise
 :return: (iCol,iRow, tile_image)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.LoadImage">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">LoadImage</tt><big>(</big><em>ImageFullPath</em>, <em>ImageMaskFullPath=None</em>, <em>MaxDimension=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.LoadImage" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">LoadImage</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>ImageMaskFullPath=None</em>, <em>MaxDimension=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.LoadImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads an image converts to greyscale, masks it, and removes extrema pixels.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -321,7 +352,7 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.NearestPowerOfTwoWithOverlap">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">NearestPowerOfTwoWithOverlap</tt><big>(</big><em>val</em>, <em>overlap=1.0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.NearestPowerOfTwoWithOverlap" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">NearestPowerOfTwoWithOverlap</code><span class="sig-paren">(</span><em>val</em>, <em>overlap=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.NearestPowerOfTwoWithOverlap" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -334,13 +365,13 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.NormalizeImage">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">NormalizeImage</tt><big>(</big><em>image</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.NormalizeImage" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">NormalizeImage</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.NormalizeImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjusts the image to have a range of 0 to 1.0</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.PadImageForPhaseCorrelation">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">PadImageForPhaseCorrelation</tt><big>(</big><em>image</em>, <em>MinOverlap=0.05</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>NewWidth=None</em>, <em>NewHeight=None</em>, <em>PowerOfTwo=True</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.PadImageForPhaseCorrelation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">PadImageForPhaseCorrelation</code><span class="sig-paren">(</span><em>image</em>, <em>MinOverlap=0.05</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>NewWidth=None</em>, <em>NewHeight=None</em>, <em>PowerOfTwo=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.PadImageForPhaseCorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepares an image for use with the phase correlation operation.  Padded areas are filled with noise matching the histogram of the 
 original image.  Optionally the min/max pixels can also replaced be replaced with noise using FillExtremaWithNoise</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -370,13 +401,13 @@ original image.  Optionally the min/max pixels can also replaced be replaced wit
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ROIRange">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ROIRange</tt><big>(</big><em>start</em>, <em>count</em>, <em>maxVal</em>, <em>minVal=0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ROIRange" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ROIRange</code><span class="sig-paren">(</span><em>start</em>, <em>count</em>, <em>maxVal</em>, <em>minVal=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ROIRange" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a range that falls within the limits, but contains count entries.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.RandomNoiseMask">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">RandomNoiseMask</tt><big>(</big><em>image</em>, <em>Mask</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>Copy=False</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.RandomNoiseMask" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">RandomNoiseMask</code><span class="sig-paren">(</span><em>image</em>, <em>Mask</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>Copy=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.RandomNoiseMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fill the masked area with random noise with gaussian distribution about the image
 mean and with standard deviation matching the image&#8217;s standard deviation</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -401,37 +432,37 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ReplaceImageExtramaWithNoise">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ReplaceImageExtramaWithNoise</tt><big>(</big><em>image</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ReplaceImageExtramaWithNoise" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ReplaceImageExtramaWithNoise</code><span class="sig-paren">(</span><em>image</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ReplaceImageExtramaWithNoise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replaced the min/max values in the image with random noise.  This is useful when aligning images composed mostly of dark or bright regions</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ResizeImage">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ResizeImage</tt><big>(</big><em>image</em>, <em>scalar</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ResizeImage" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ResizeImage</code><span class="sig-paren">(</span><em>image</em>, <em>scalar</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ResizeImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change image size by scalar</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.SaveImage">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">SaveImage</tt><big>(</big><em>ImageFullPath</em>, <em>image</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.SaveImage" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">SaveImage</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>image</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.SaveImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the image as greyscale with no contrast-stretching</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.SaveImage_JPeg2000">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">SaveImage_JPeg2000</tt><big>(</big><em>ImageFullPath</em>, <em>image</em>, <em>tile_dim=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.SaveImage_JPeg2000" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">SaveImage_JPeg2000</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>image</em>, <em>tile_dim=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.SaveImage_JPeg2000" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the image as greyscale with no contrast-stretching</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ScalarForMaxDimension">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ScalarForMaxDimension</tt><big>(</big><em>max_dim</em>, <em>shapes</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ScalarForMaxDimension" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ScalarForMaxDimension</code><span class="sig-paren">(</span><em>max_dim</em>, <em>shapes</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ScalarForMaxDimension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the scalar value to use so the largest dimensions in a list of shapes has the maximum value</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ShowGrayscale">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">ShowGrayscale</tt><big>(</big><em>imageList</em>, <em>title=None</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.ShowGrayscale" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ShowGrayscale</code><span class="sig-paren">(</span><em>imageList</em>, <em>title=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ShowGrayscale" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -448,13 +479,25 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.TileGridShape">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">TileGridShape</tt><big>(</big><em>source_image</em>, <em>tile_size</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.TileGridShape" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">TileGridShape</code><span class="sig-paren">(</span><em>source_image_shape</em>, <em>tile_size</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.TileGridShape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given an image and tile size, return the dimensions of the grid</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="nornir_imageregistration.core.array_distance">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">array_distance</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.array_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an Mx2 array into a Mx1 array of euclidean distances</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nornir_imageregistration.core.memmap_metadata">
+<em class="property">class </em><code class="descclassname">nornir_imageregistration.core.</code><code class="descname">memmap_metadata</code><span class="sig-paren">(</span><em>path</em>, <em>shape</em>, <em>dtype</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.memmap_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>meta-data for a memmap array</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="nornir_imageregistration.core.npArrayToReadOnlySharedArray">
-<tt class="descclassname">nornir_imageregistration.core.</tt><tt class="descname">npArrayToReadOnlySharedArray</tt><big>(</big><em>npArray</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.core.npArrayToReadOnlySharedArray" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">npArrayToReadOnlySharedArray</code><span class="sig-paren">(</span><em>npArray</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.npArrayToReadOnlySharedArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a shared memory array for a numpy array.  Used to reduce memory footprint when passing parameters to multiprocess pools</p>
 </dd></dl>
 
@@ -463,39 +506,8 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <span id="assemble"></span><h2>assemble<a class="headerlink" href="#module-nornir_imageregistration.assemble" title="Permalink to this headline">¶</a></h2>
 <p>Created on Apr 22, 2013</p>
 <dl class="function">
-<dt id="nornir_imageregistration.assemble.ExtractRegion">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">ExtractRegion</tt><big>(</big><em>image</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=0</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.ExtractRegion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract a region from an image</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>image</strong> (<em>ndarray</em>) &#8211; Source image</li>
-<li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
-<li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Image of requested region</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="nornir_imageregistration.assemble.TransformImage">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">TransformImage</tt><big>(</big><em>transform</em>, <em>fixedImageShape</em>, <em>warpedImage</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.TransformImage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cut image into tiles, assemble small chunks</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="nornir_imageregistration.assemble.TransformROI">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">TransformROI</tt><big>(</big><em>transform</em>, <em>botleft</em>, <em>area</em>, <em>extrapolate=False</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.TransformROI" title="Permalink to this definition">¶</a></dt>
+<dt id="nornir_imageregistration.assemble.DestinationROI_to_SourceROI">
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">DestinationROI_to_SourceROI</code><span class="sig-paren">(</span><em>transform</em>, <em>botleft</em>, <em>area</em>, <em>extrapolate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.DestinationROI_to_SourceROI" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a transform to a region of interest within an image. Center and area are in fixed space</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -520,19 +532,109 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 </dd></dl>
 
 <dl class="function">
+<dt id="nornir_imageregistration.assemble.ExtractRegion">
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">ExtractRegion</code><span class="sig-paren">(</span><em>image</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.ExtractRegion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a region from an image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image</strong> (<em>ndarray</em>) &#8211; Source image</li>
+<li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
+<li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Image of requested region</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.assemble.FixedImageToWarpedSpace">
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">FixedImageToWarpedSpace</code><span class="sig-paren">(</span><em>transform</em>, <em>WarpedImageArea</em>, <em>DataToTransform</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=None</em>, <em>extrapolate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.FixedImageToWarpedSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warps every image in the DataToTransform list using the provided transform.
+:Param transform: transform to pass warped space coordinates through to obtain fixed space coordinates
+:Param FixedImageArea: Size of fixed space region to map pixels into
+:Param DataToTransform: Images to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.  A list may contain filename strings or numpy.ndarrays
+:Param botleft: Origin of region to map
+:Param area: Expected dimensions of output
+:Param cval: Value to place in unmappable regions, defaults to zero.
+:param bool exrapolate: If true map points that fall outside the bounding box of the transform</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.assemble.ParameterToStosTransform">
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">ParameterToStosTransform</code><span class="sig-paren">(</span><em>transformData</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.ParameterToStosTransform" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transformData</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; Either a full path to a .stos file, a stosfile, or a transform object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A transform</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.assemble.SourceROI_to_DestinationROI">
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">SourceROI_to_DestinationROI</code><span class="sig-paren">(</span><em>transform</em>, <em>botleft</em>, <em>area</em>, <em>extrapolate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.SourceROI_to_DestinationROI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply an inverse transform to a region of interest within an image. Center and area are in fixed space</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>transform</strong> (<em>transform</em>) &#8211; The transform used to map points between fixed and mapped space</li>
+<li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
+<li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
+<li><strong>exrapolate</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If true map points that fall outside the bounding box of the transform</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Tuple of arrays.  First array is fixed space coordinates.  Second array is warped space coordinates.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple(Nx2 array,Nx2 array)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.assemble.TransformImage">
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">TransformImage</code><span class="sig-paren">(</span><em>transform</em>, <em>fixedImageShape</em>, <em>warpedImage</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.TransformImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cut image into tiles, assemble small chunks</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="nornir_imageregistration.assemble.TransformStos">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">TransformStos</tt><big>(</big><em>transformData</em>, <em>OutputFilename=None</em>, <em>fixedImageFilename=None</em>, <em>warpedImageFilename=None</em>, <em>scalar=1.0</em>, <em>CropUndefined=False</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.TransformStos" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">TransformStos</code><span class="sig-paren">(</span><em>transformData</em>, <em>OutputFilename=None</em>, <em>fixedImageFilename=None</em>, <em>warpedImageFilename=None</em>, <em>scalar=1.0</em>, <em>CropUndefined=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.TransformStos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assembles an image based on the passed transform.
-Discreet = True causes points outside the defined transform region to be clipped instead of interpolated</p>
+:param bool fixedImageFilename: Image describing the size we want the warped image to fill
+:param bool warpedImageFilename: Image we will warp into fixed space
+:param float scalar: Amount to scale the transform before passing the image through
+:param bool CropUndefined: If true do exclude areas outside the convex hull of the transform, if it exists
+:param bool Dicreet: True causes points outside the defined transform region to be clipped instead of interpolated
+:return: transformed image</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.WarpedImageToFixedSpace">
-<tt class="descclassname">nornir_imageregistration.assemble.</tt><tt class="descname">WarpedImageToFixedSpace</tt><big>(</big><em>transform</em>, <em>FixedImageArea</em>, <em>WarpedImage</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=None</em>, <em>extrapolate=False</em><big>)</big><a class="headerlink" href="#nornir_imageregistration.assemble.WarpedImageToFixedSpace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Warps every image in the WarpedImageList using the provided transform.
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">WarpedImageToFixedSpace</code><span class="sig-paren">(</span><em>transform</em>, <em>FixedImageArea</em>, <em>DataToTransform</em>, <em>botleft=None</em>, <em>area=None</em>, <em>cval=None</em>, <em>extrapolate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.WarpedImageToFixedSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warps every image in the DataToTransform list using the provided transform.
 :Param transform: transform to pass warped space coordinates through to obtain fixed space coordinates
 :Param FixedImageArea: Size of fixed space region to map pixels into
-:Param WarpedImage: Image to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.
+:Param DataToTransform: Images to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.  A list may contain filename strings or numpy.ndarrays
 :Param botleft: Origin of region to map
 :Param area: Expected dimensions of output
 :Param cval: Value to place in unmappable regions, defaults to zero.
@@ -551,7 +653,7 @@ Discreet = True causes points outside the defined transform region to be clipped
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -570,12 +672,14 @@ Discreet = True causes points outside the defined transform region to be clipped
   <h4>Next topic</h4>
   <p class="topless"><a href="nornir_pools.html"
                         title="next chapter">Pools (nornir_pools)</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/packages/nornir_imageregistration.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/packages/nornir_imageregistration.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -592,7 +696,7 @@ Discreet = True causes points outside the defined transform region to be clipped
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -607,14 +711,14 @@ Discreet = True causes points outside the defined transform region to be clipped
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="packages.html" >Packages</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="packages.html" >Packages</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Dec 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Jun 11, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

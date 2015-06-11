@@ -8,7 +8,7 @@
     
     <title>Build Reports (SerialEM) &mdash; Nornir 1.2.3 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,14 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="Nornir 1.2.3 documentation" href="../index.html" />
     <link rel="up" title="Use" href="toctree.html" />
     <link rel="next" title="Packages" href="../packages/packages.html" />
     <link rel="prev" title="Manual Registration and Pyre" href="pyre.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,15 +45,15 @@
         <li class="right" >
           <a href="pyre.html" title="Manual Registration and Pyre"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="build-reports-serialem">
 <h1>Build Reports (SerialEM)<a class="headerlink" href="#build-reports-serialem" title="Permalink to this headline">¶</a></h1>
@@ -103,24 +104,28 @@
 <img alt="../_images/75_DamagedOverview.png" src="../_images/75_DamagedOverview.png" />
 </div>
 <p>Note in the drift map how the region around the tear experienced predictable increases in tissue movement during capture.</p>
-<div class="section" id="removing-featureless-tiles">
-<h2>Removing featureless tiles<a class="headerlink" href="#removing-featureless-tiles" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mark-sections-as-damaged">
+<h2>Mark sections as damaged<a class="headerlink" href="#mark-sections-as-damaged" title="Permalink to this headline">¶</a></h2>
+<p>A damaged section, even after repair, is almost always unsuitable to contribute to the slice-to-volume transformation series.  These relevant section should be marked as damaged with the &#8216;&#8217;MarkSectionsDamaged&#8217;&#8217; pipeline.  The section will still participate in the volume, however any downstream sections will not use the damaged section to determine their volume position.</p>
+</div>
+<div class="section" id="remove-featureless-tiles">
+<h2>Remove featureless tiles<a class="headerlink" href="#remove-featureless-tiles" title="Permalink to this headline">¶</a></h2>
 <p>Nornir&#8217;s prune stage assigns a feature score to each tile based on the standard deviation of a small regions around the edge of each tile.  The prune histogram suggests where the prune cutoff should be set to eliminate blank tiles with low prune scores.</p>
 <p>The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  In this example I would first set a prune threshold of 5, rebuild and re-evaluate.</p>
 <div class="figure">
 <img alt="../_images/75_PruneScores.png" src="../_images/75_PruneScores.png" />
 </div>
 <p>For this example I would suggest setting the max cutoff to 125 and not setting a low cutoff value.</p>
-<p>Prune cutoffs are set with the <tt class="docutils literal"><span class="pre">SetPruneCutoff</span></tt> pipeline.</p>
+<p>Prune cutoffs are set with the <code class="docutils literal"><span class="pre">SetPruneCutoff</span></code> pipeline.</p>
 </div>
-<div class="section" id="adjusting-the-contrast">
-<h2>Adjusting the contrast<a class="headerlink" href="#adjusting-the-contrast" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="adjust-the-contrast">
+<h2>Adjust the contrast<a class="headerlink" href="#adjust-the-contrast" title="Permalink to this headline">¶</a></h2>
 <p>Because of the tear we still have empty areas of high intensity and low interest.  This produces the rightmost peak on the histogram.  Folds can also occur which result in darker regions causing peaks to the left.</p>
 <div class="figure">
 <img alt="../_images/75_Histogram.png" src="../_images/75_Histogram.png" />
 </div>
 <p>The histogram is recalculated after the prune threshold is changed.  However it is often necessary to manually set a cutoff for autolevelling the histogram.  The default behavior for the TEM scripts is to adjust Gamma so that the median intensity sits at 50%.  This results in less contrast overall but preserves details in dense features such as synapses and gap junctions.</p>
-<p>Contrast cutoffs are set with the <tt class="docutils literal"><span class="pre">SetContrast</span></tt> pipeline.</p>
+<p>Contrast cutoffs are set with the <code class="docutils literal"><span class="pre">SetContrast</span></code> pipeline.</p>
 </div>
 <div class="section" id="optimizing-capture-serialem">
 <h2>Optimizing Capture (SerialEM)<a class="headerlink" href="#optimizing-capture-serialem" title="Permalink to this headline">¶</a></h2>
@@ -152,7 +157,7 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -161,8 +166,9 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#working-with-imperfect-captures">Working with imperfect captures</a><ul>
-<li><a class="reference internal" href="#removing-featureless-tiles">Removing featureless tiles</a></li>
-<li><a class="reference internal" href="#adjusting-the-contrast">Adjusting the contrast</a></li>
+<li><a class="reference internal" href="#mark-sections-as-damaged">Mark sections as damaged</a></li>
+<li><a class="reference internal" href="#remove-featureless-tiles">Remove featureless tiles</a></li>
+<li><a class="reference internal" href="#adjust-the-contrast">Adjust the contrast</a></li>
 <li><a class="reference internal" href="#optimizing-capture-serialem">Optimizing Capture (SerialEM)</a><ul>
 <li><a class="reference internal" href="#stage-drift">Stage Drift</a></li>
 <li><a class="reference internal" href="#image-quality">Image quality</a></li>
@@ -178,12 +184,14 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../packages/packages.html"
                         title="next chapter">Packages</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/usage/reports.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/usage/reports.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -200,7 +208,7 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -215,14 +223,14 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
         <li class="right" >
           <a href="pyre.html" title="Manual Registration and Pyre"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="toctree.html" >Use</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="toctree.html" >Use</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Dec 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Jun 11, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

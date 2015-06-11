@@ -8,7 +8,7 @@
     
     <title>Creating a Volume &mdash; Nornir 1.2.3 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,14 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="Nornir 1.2.3 documentation" href="../index.html" />
     <link rel="up" title="Use" href="toctree.html" />
     <link rel="next" title="Manual Registration and Pyre" href="pyre.html" />
     <link rel="prev" title="Use" href="toctree.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,36 +45,36 @@
         <li class="right" >
           <a href="toctree.html" title="Use"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="creating-a-volume">
 <h1>Creating a Volume<a class="headerlink" href="#creating-a-volume" title="Permalink to this headline">¶</a></h1>
 <p>This section reviews how to organize images for import into a volume and what operations can be performed on the volume.</p>
 <p>The build manager places data from various platforms into a single volume directory.  Users use the &#8220;nornir_build&#8221; command and provide a path to the volume&#8217;s directory to run specific operations on the volume:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="o">&lt;</span><span class="n">Command</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">volume</span> <span class="o">&lt;</span><span class="n">volumepath</span><span class="o">&gt;</span> <span class="o">...</span>
+<div class="highlight-python"><div class="highlight"><pre>nornir-build &lt;volumepath&gt; &lt;Command&gt; ...
 </pre></div>
 </div>
 <div class="section" id="importing-data">
 <h2>Importing data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
 <p>The first command for any Nornir volume:</p>
-<div class="highlight-python"><div class="highlight"><pre>nornir-build import &lt;inputpath&gt; -volume &lt;volumepath&gt;
+<div class="highlight-python"><div class="highlight"><pre>nornir-build &lt;volumepath&gt; &lt;import_command&gt; &lt;inputpath&gt;
 </pre></div>
 </div>
-<p>For example <tt class="docutils literal"><span class="pre">nornir-build</span> <span class="pre">import</span> <span class="pre">Y:/Captures/RC2/</span> <span class="pre">-volume</span> <span class="pre">Y:/Volumes/RC2</span></tt> will instruct Nornir to check the &lt;i&gt;Y:/Captures/RC2/&lt;/i&gt; directory for sections and import any that it can find into the volume stored in &lt;i&gt;Y:/Volumes/RC2&lt;/i&gt;</p>
+<p>For example <code class="docutils literal"><span class="pre">nornir-build</span> <span class="pre">Y:/Volumes/RC2</span> <span class="pre">ImportIDOC</span> <span class="pre">Y:/Captures/RC2/</span></code> will instruct Nornir to check the Y:/Captures/RC2 directory for sections and import any that it can find into the volume stored in Y:/Volumes/RC2</p>
 <p>The import command extends volumes non-destructively provided different sections are not assigned the same number. Import can be run repeatedly as now sections become available.</p>
 <div class="section" id="organizing-data-for-import">
 <h3>Organizing data for import<a class="headerlink" href="#organizing-data-for-import" title="Permalink to this headline">¶</a></h3>
 <p>Nornir needs the data to be laid out in a predictable fashion.  No spaces are allowed in nornir folder names!</p>
 <p>The convention nornir uses is for a directory to exist for the volume with a numbered subdirectory for each mosaic.  The directory name should contain the section number, and optionally an underscore followed by the name of the section.</p>
-<p><tt class="docutils literal"><span class="pre">&lt;experimentfolder&gt;/&lt;section#&gt;_[sectionname]</span></tt></p>
+<p><code class="docutils literal"><span class="pre">&lt;experimentfolder&gt;/&lt;section#&gt;_[sectionname]</span></code></p>
 <p>Sometimes it is just useful to organize multiple mosaics into a single volume even though they aren&#8217;t a 3D volume.  In this case just invent different section numbers for each capture. For example lets say I capture three mosaics in SerialEM (which produces an .idoc meta-data file) for Bob&#8217;s eggplant and he had some ID #&#8217;s he wants to make sure get carried along with the data.</p>
 <ul class="simple">
 <li>Bob<ul>
@@ -122,7 +123,7 @@
 <h3>Transmission Electron Microscopy via SerialEM<a class="headerlink" href="#transmission-electron-microscopy-via-serialem" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>Import SerialEM .idoc files and remove tiles without enough features:</p>
-<div class="highlight-python"><div class="highlight"><pre>TEMPrepare  &lt;volume path&gt; &lt;import path&gt;
+<div class="highlight-python"><div class="highlight"><pre>TEMPrepare &lt;volume path&gt; &lt;import path&gt;
 </pre></div>
 </div>
 <p>Build mosaics and produce a report for SerialEM TEM:</p>
@@ -167,16 +168,26 @@
 <li>ScaleVolumeTransform 16 -&gt; 1</li>
 </ol>
 <p>Sample batch files can be found in the scripts directory, which is copied to the python scripts directory at setup time.  TEMPrepare, TEMBuildMosaic, and TEMAlign show the commands used to build the RC2 TEM volume at the Marc lab.</p>
-<span class="target" id="module-nornir_buildmanager"></span><span class="target" id="module-nornir_buildmanager.build"></span><div class="section" id="command-line-usage">
-<h3>Command line usage<a class="headerlink" href="#command-line-usage" title="Permalink to this headline">¶</a></h3>
-<p>Note: Certain arguments support regular expressions.  See the python <a class="reference external" href="http://docs.python.org/2.7/library/re.html#module-re" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">re</span></tt></a> module for instructions on how to construct appropriate regular expressions.</p>
+<span class="target" id="module-nornir_buildmanager"></span><span class="target" id="module-nornir_buildmanager.build"></span><p><em>Note</em>: Certain arguments support regular expressions.  See the python <a class="reference external" href="http://docs.python.org/2.7/library/re.html#module-re" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">re</span></code></a> module for instructions on how to construct appropriate regular expressions.</p>
 <p>Options available to all build commands.  Specific pipelines may extend the argument list.</p>
 <pre class="literal-block">
-usage: nornir_build [-h] [-debug] [-normalpriority] [-verbose]
-                    {help,import,update,Prune,ShadeCorrect,MigrateMultipleImageSets,MigrateToZeroOrigin,RenameFilter,RemoveDuplicateFilters,Histogram,AdjustContrast,Mosaic,Assemble,AssembleTiles,MosaicReport,CreateVikingXML,Cleanup,SetPruneCutoff,SetContrast,SetFilterLock,CreateBlobFilter,AlignSections,AssembleStosOverlays,SelectBestRegistrationChain,RefineSectionAlignment,ScaleVolumeTransforms,SliceToVolume,VolumeImage,MosaicToVolume,ExportImages}
-                    ...
+usage: nornir_build volumepath [-h] [-debug] [-lowpriority] [-verbose]
+                               volumepath
+                               {ImportIDoc,ImportPMG,ImportSectionsImages,Prune,SetPruneCutoff,ShadeCorrect,RenameFilter,SetFilterMaskName,Histogram,AdjustContrast,ListFilterContrast,SetContrast,SetFilterLock,Mosaic,MosaicNoTranslate,SetMosaicLock,Assemble,AssembleTiles,MosaicReport,StosReport,ListDamagedSections,MarkSectionsDamaged,MarkSectionsUndamaged,CreateVikingXML,Cleanup,CreateBlobFilter,AlignSections,AssembleStosOverlays,SelectBestRegistrationChain,RefineSectionAlignment,ScaleVolumeTransforms,SliceToVolume,VolumeImage,MosaicToVolume,ExportImages}
+                               ...
 </pre>
 <dl class="docutils">
+<dt>Positional arguments:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd>volumepath</kbd></td>
+<td>Directory containing volume to execute command on</td></tr>
+</tbody>
+</table>
+</dd>
 <dt>Options:</dt>
 <dd><table class="first last docutils option-list" frame="void" rules="none">
 <col class="option" />
@@ -186,9 +197,9 @@ usage: nornir_build [-h] [-debug] [-normalpriority] [-verbose]
 <kbd><span class="option">-debug=False</span></kbd></td>
 <td>If true any exceptions raised by pipelines are not handled.</td></tr>
 <tr><td class="option-group" colspan="2">
-<kbd><span class="option">-normalpriority=False</span>, <span class="option">-np=False</span></kbd></td>
+<kbd><span class="option">-lowpriority=False</span>, <span class="option">-lp=False</span></kbd></td>
 </tr>
-<tr><td>&nbsp;</td><td>Run the build without trying to lower the priority.  Faster builds but the machine may be less responsive.</td></tr>
+<tr><td>&nbsp;</td><td>Run the build with lower priority.  The machine may be more responsive at the expense of much slower builds. 3x-5x slower in tests.</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-verbose=False</span></kbd></td>
 <td>Provide additional output</td></tr>
@@ -197,10 +208,12 @@ usage: nornir_build [-h] [-debug] [-normalpriority] [-verbose]
 </dd>
 <dt>Sub-commands:</dt>
 <dd><dl class="first last docutils">
-<dt><strong>help</strong></dt>
-<dd><p class="first">Print help information</p>
+<dt><strong>ImportIDoc</strong></dt>
+<dd><p class="first">Import SerialEM IDOC into a volume</p>
 <pre class="literal-block">
-usage: nornir_build help [-h] [pipelinename]
+usage: nornir_build volumepath ImportIDoc [-h] [-to [TO [TO ...]]]
+                                          [-cc [CC [CC ...]]] [-ext EXTENSION]
+                                          ImportDir
 </pre>
 <dl class="last docutils">
 <dt>Positional arguments:</dt>
@@ -209,27 +222,8 @@ usage: nornir_build help [-h] [pipelinename]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd>pipelinename</kbd></td>
-<td>Print help for a pipeline, or all pipelines if unspecified</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</dd>
-<dt><strong>import</strong></dt>
-<dd><p class="first">Import new data into a volume</p>
-<pre class="literal-block">
-usage: nornir_build import [-h] -volume VOLUMEPATH import
-</pre>
-<dl class="last docutils">
-<dt>Positional arguments:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd>inputpath</kbd></td>
-<td>The path of data to import, if any</td></tr>
+<kbd>ImportDir</kbd></td>
+<td>Directory to import from</td></tr>
 </tbody>
 </table>
 </dd>
@@ -239,27 +233,91 @@ usage: nornir_build import [-h] -volume VOLUMEPATH import
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-ext=idoc</span></kbd></td>
+<td>Extension of idoc files, default is idoc</td></tr>
 </tbody>
 </table>
 </dd>
 </dl>
 </dd>
-<dt><strong>update</strong></dt>
-<dd><p class="first">If directories have been copied directly into the volume this flag is required to detect them</p>
+<dt><strong>ImportPMG</strong></dt>
+<dd><p class="first">Import PMG file into a volume</p>
 <pre class="literal-block">
-usage: nornir_build update [-h] -volume VOLUMEPATH
+usage: nornir_build volumepath ImportPMG [-h] [-to [TO [TO ...]]]
+                                         [-cc [CC [CC ...]]] [-ext EXTENSION]
+                                         ImportDir
 </pre>
 <dl class="last docutils">
+<dt>Positional arguments:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd>ImportDir</kbd></td>
+<td>Directory to import from</td></tr>
+</tbody>
+</table>
+</dd>
 <dt>Options:</dt>
 <dd><table class="first last docutils option-list" frame="void" rules="none">
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-ext=pmg</span></kbd></td>
+<td>Extension of pmg files, default is pmg</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>ImportSectionsImages</strong></dt>
+<dd><p class="first">Import single images that represent an entire section in a volume</p>
+<pre class="literal-block">
+usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
+                                                    [-cc [CC [CC ...]]]
+                                                    [-ext EXTENSION]
+                                                    ImportDir
+</pre>
+<dl class="last docutils">
+<dt>Positional arguments:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd>ImportDir</kbd></td>
+<td>Directory to import from</td></tr>
+</tbody>
+</table>
+</dd>
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-ext=png</span></kbd></td>
+<td>Extension of image files, default is png</td></tr>
 </tbody>
 </table>
 </dd>
@@ -268,13 +326,14 @@ usage: nornir_build update [-h] -volume VOLUMEPATH
 <dt><strong>Prune</strong></dt>
 <dd><p class="first">Removes tiles without enough features for proper alignment.</p>
 <pre class="literal-block">
-usage: nornir_build Prune [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                          [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                          [-Channels CHANNELSREGEX] -Threshold PRUNETHRESHOLD
-                          [-InputFilter INPUTFILTER] [-Downsample DOWNSAMPLE]
-                          [-InputTransform INPUTTRANSFORM]
-                          [-OutputTransform OUTPUTTRANSFORM]
-                          [-overlap OVERLAP]
+usage: nornir_build volumepath Prune [-h] [-to [TO [TO ...]]]
+                                     [-cc [CC [CC ...]]] [-Sections SECTIONS]
+                                     [-Channels CHANNELSREGEX] -Threshold
+                                     PRUNETHRESHOLD [-InputFilter INPUTFILTER]
+                                     [-Downsample DOWNSAMPLE]
+                                     [-InputTransform INPUTTRANSFORM]
+                                     [-OutputTransform OUTPUTTRANSFORM]
+                                     [-overlap OVERLAP]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -283,9 +342,6 @@ usage: nornir_build Prune [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
@@ -293,7 +349,7 @@ usage: nornir_build Prune [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to include, * processes all channels</td></tr>
@@ -323,15 +379,14 @@ usage: nornir_build Prune [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>ShadeCorrect</strong></dt>
-<dd><p class="first">Brightfield microscopy shading correction.  Uses the max tile intensity across all tiles to determine the shading gradient.  Produces an inverted output filter with the shading subtracted.</p>
+<dt><strong>SetPruneCutoff</strong></dt>
+<dd><p class="first">Set the prune threshold for a filter</p>
 <pre class="literal-block">
-usage: nornir_build ShadeCorrect [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                 [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                                 [-Channels CHANNELSREGEX]
-                                 [-Filters FILTERSREGEX]
-                                 [-OutputFilter OUTPUTFILTER] -Correction
-                                 {brightfield,darkfield}
+usage: nornir_build volumepath SetPruneCutoff [-h] [-to [TO [TO ...]]]
+                                              [-cc [CC [CC ...]]] -Value
+                                              PRUNEVAL -Sections SECTIONS
+                                              [-Channels CHANNELREGEX]
+                                              [-Filters FILTERREGEX]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -340,8 +395,46 @@ usage: nornir_build ShadeCorrect [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Value=0</span></kbd></td>
+<td>Prune threshold to set</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to edit.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be edited</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Filters=*</span></kbd></td>
+<td>Regular expression describing filters to be edited</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>ShadeCorrect</strong></dt>
+<dd><p class="first">Brightfield microscopy shading correction.  Uses the max tile intensity across all tiles to determine the shading gradient.  Produces an inverted output filter with the shading subtracted.</p>
+<pre class="literal-block">
+usage: nornir_build volumepath ShadeCorrect [-h] [-to [TO [TO ...]]]
+                                            [-cc [CC [CC ...]]]
+                                            [-Sections SECTIONS]
+                                            [-Channels CHANNELSREGEX]
+                                            [-Filters FILTERSREGEX]
+                                            [-OutputFilter OUTPUTFILTER]
+                                            -Correction
+                                            {brightfield,darkfield}
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -350,7 +443,7 @@ usage: nornir_build ShadeCorrect [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to include, * processes all channels</td></tr>
@@ -373,66 +466,12 @@ usage: nornir_build ShadeCorrect [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>MigrateMultipleImageSets</strong></dt>
-<dd><p class="first">Migrate meta-data to latest version</p>
-<pre class="literal-block">
-usage: nornir_build MigrateMultipleImageSets [-h] -volume VOLUMEPATH
-                                             [-to [TO [TO ...]]]
-                                             [-cc [CC [CC ...]]]
-</pre>
-<dl class="last docutils">
-<dt>Options:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-to=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-cc=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</dd>
-<dt><strong>MigrateToZeroOrigin</strong></dt>
-<dd><p class="first">Migrate mosaic transforms to zero origins</p>
-<pre class="literal-block">
-usage: nornir_build MigrateToZeroOrigin [-h] -volume VOLUMEPATH
-                                        [-to [TO [TO ...]]]
-                                        [-cc [CC [CC ...]]]
-</pre>
-<dl class="last docutils">
-<dt>Options:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-to=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-cc=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</dd>
 <dt><strong>RenameFilter</strong></dt>
 <dd><p class="first">Renames a filter</p>
 <pre class="literal-block">
-usage: nornir_build RenameFilter [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                 [-cc [CC [CC ...]]] -InputFilter INPUTFILTER
-                                 -OutputFilter NEWNAME
+usage: nornir_build volumepath RenameFilter [-h] [-to [TO [TO ...]]]
+                                            [-cc [CC [CC ...]]] -InputFilter
+                                            INPUTFILTER -OutputFilter NEWNAME
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -440,9 +479,6 @@ usage: nornir_build RenameFilter [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -460,14 +496,13 @@ usage: nornir_build RenameFilter [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>RemoveDuplicateFilters</strong></dt>
-<dd><p class="first">For debugging.  Removes filters from meta-data that have duplicate names.</p>
+<dt><strong>SetFilterMaskName</strong></dt>
+<dd><p class="first">Specify another filter in the same channel to use as a mask when using this filter.</p>
 <pre class="literal-block">
-usage: nornir_build RemoveDuplicateFilters [-h] -volume VOLUMEPATH
-                                           [-to [TO [TO ...]]]
-                                           [-cc [CC [CC ...]]]
-                                           [-Attrib CHILDATTRIB]
-                                           [-ChildNode CHILDNODENAME]
+usage: nornir_build volumepath SetFilterMaskName [-h] [-to [TO [TO ...]]]
+                                                 [-cc [CC [CC ...]]]
+                                                 -InputFilter INPUTFILTER
+                                                 -MaskName NEWNAME
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -476,21 +511,17 @@ usage: nornir_build RemoveDuplicateFilters [-h] -volume VOLUMEPATH
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-cc=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">-Attrib=Name</span></kbd></td>
-<td>Attrib to check for duplicates</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-ChildNode=Filter_Link</span></kbd></td>
-</tr>
-<tr><td>&nbsp;</td><td>Child node to check for duplicates</td></tr>
+<kbd><span class="option">-InputFilter</span></kbd></td>
+<td>Old Filter name</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-MaskName</span></kbd></td>
+<td>New Mask Name for filter name</td></tr>
 </tbody>
 </table>
 </dd>
@@ -499,11 +530,13 @@ usage: nornir_build RemoveDuplicateFilters [-h] -volume VOLUMEPATH
 <dt><strong>Histogram</strong></dt>
 <dd><p class="first">Calculates the histogram from all tiles in a mosaic</p>
 <pre class="literal-block">
-usage: nornir_build Histogram [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                              [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                              [-Channels CHANNELSREGEX]
-                              [-Filters FILTERSREGEX] -InputTransform
-                              INPUTTRANSFORM [-Downsample DOWNSAMPLE]
+usage: nornir_build volumepath Histogram [-h] [-to [TO [TO ...]]]
+                                         [-cc [CC [CC ...]]]
+                                         [-Sections SECTIONS]
+                                         [-Channels CHANNELSREGEX]
+                                         [-Filters FILTERSREGEX]
+                                         -InputTransform INPUTTRANSFORM
+                                         [-Downsample DOWNSAMPLE]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -512,9 +545,6 @@ usage: nornir_build Histogram [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
@@ -522,7 +552,7 @@ usage: nornir_build Histogram [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to include, * processes all channels</td></tr>
@@ -545,13 +575,16 @@ usage: nornir_build Histogram [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>AdjustContrast</strong></dt>
 <dd><p class="first">Creates a new filter with adjusted contrast.  The cutoffs can be adjusted within the meta-data by altering the AutoLevelHint element of the input filters volume.xml meta-data file.</p>
 <pre class="literal-block">
-usage: nornir_build AdjustContrast [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                   [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                                   [-Channels CHANNELSREGEX] [-Gamma GAMMA]
-                                   [-MinCutoff MINCUTOFF]
-                                   [-MaxCutoff MAXCUTOFF] -InputFilter
-                                   INPUTFILTER [-OutputFilter OUTPUTFILTER]
-                                   -InputTransform INPUTTRANSFORM
+usage: nornir_build volumepath AdjustContrast [-h] [-to [TO [TO ...]]]
+                                              [-cc [CC [CC ...]]]
+                                              [-Sections SECTIONS]
+                                              [-Channels CHANNELSREGEX]
+                                              [-Gamma GAMMA]
+                                              [-MinCutoff MINCUTOFF]
+                                              [-MaxCutoff MAXCUTOFF]
+                                              -InputFilter INPUTFILTER
+                                              [-OutputFilter OUTPUTFILTER]
+                                              -InputTransform INPUTTRANSFORM
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -560,9 +593,6 @@ usage: nornir_build AdjustContrast [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
@@ -570,7 +600,7 @@ usage: nornir_build AdjustContrast [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to include, * processes all channels</td></tr>
@@ -600,16 +630,14 @@ usage: nornir_build AdjustContrast [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>Mosaic</strong></dt>
-<dd><p class="first">Aligns tiles of a filter into a single mosaic.  Produces an assembled mosaic image.</p>
+<dt><strong>ListFilterContrast</strong></dt>
+<dd><p class="first">Print a list of the contrast settings used for all sections.</p>
 <pre class="literal-block">
-usage: nornir_build Mosaic [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                           [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                           [-Channels CHANNELSREGEX]
-                           [-RegistrationDownsample DOWNSAMPLE]
-                           [-MaxOffset MAXOFFSET] -InputFilter INPUTFILTER
-                           [-InputTransform INPUTTRANSFORMNAME]
-                           [-OutputTransform OUTPUTTRANSFORMNAME]
+usage: nornir_build volumepath ListFilterContrast [-h] [-to [TO [TO ...]]]
+                                                  [-cc [CC [CC ...]]]
+                                                  [-Sections SECTIONS]
+                                                  [-Channels CHANNELSREGEX]
+                                                  [-Filters FILTERSREGEX]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -618,8 +646,130 @@ usage: nornir_build Mosaic [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to include, * processes all channels</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-Filters=(?![M|m]ask)</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Regular expression describing filters to include, * processes all filters</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>SetContrast</strong></dt>
+<dd><p class="first">Set the contrast parameters for a filter</p>
+<pre class="literal-block">
+usage: nornir_build volumepath SetContrast [-h] [-to [TO [TO ...]]]
+                                           [-cc [CC [CC ...]]] [-Min MINVALUE]
+                                           [-Max MAXVALUE] [-Gamma GAMMAVALUE]
+                                           -Sections SECTIONS
+                                           [-Channels CHANNELREGEX]
+                                           [-Filters FILTERREGEX]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Min=NaN</span></kbd></td>
+<td>Min intensity value, set to 0 in output</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Max=NaN</span></kbd></td>
+<td>Max intensity value, set to 1 in output</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Gamma=NaN</span></kbd></td>
+<td>Gamma adjustment</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to edit.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be edited</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Filters=*</span></kbd></td>
+<td>Regular expression describing filters to be edited</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>SetFilterLock</strong></dt>
+<dd><p class="first">Toggle the locked flag for a filter.  Locked filters will not have images recalculated.</p>
+<pre class="literal-block">
+usage: nornir_build volumepath SetFilterLock [-h] [-to [TO [TO ...]]]
+                                             [-cc [CC [CC ...]]] -Locked
+                                             LOCKED -Sections SECTIONS
+                                             [-Channels CHANNELREGEX]
+                                             [-Filters FILTERREGEX]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Locked</span></kbd></td>
+<td>Lock value, 0 = unlocked, 1 = locked</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to edit.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be edited</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Filters=*</span></kbd></td>
+<td>Regular expression describing filters to be edited</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>Mosaic</strong></dt>
+<dd><p class="first">Aligns tiles of a filter into a single mosaic.  Produces an assembled mosaic image.</p>
+<pre class="literal-block">
+usage: nornir_build volumepath Mosaic [-h] [-to [TO [TO ...]]]
+                                      [-cc [CC [CC ...]]] [-Sections SECTIONS]
+                                      [-Channels CHANNELSREGEX]
+                                      [-RegistrationDownsample DOWNSAMPLE]
+                                      [-MaxOffset MAXOFFSET] -InputFilter
+                                      INPUTFILTER
+                                      [-InputTransform INPUTTRANSFORMNAME]
+                                      [-OutputTransform OUTPUTTRANSFORMNAME]
+                                      [-Iterations ITERATIONS]
+                                      [-Threshold DISPLACEMENTTHRESHOLD]
+                                      [-CellArea CELLAREA]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -628,7 +778,7 @@ usage: nornir_build Mosaic [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to include, * processes all channels</td></tr>
@@ -638,7 +788,72 @@ usage: nornir_build Mosaic [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <tr><td>&nbsp;</td><td>Downsample level to use for ir-tools</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-MaxOffset=0.5</span></kbd></td>
-<td>Comma seperated list of downsample levels used for assembling output images</td></tr>
+<td>Comma separated list of downsample levels used for assembling output images</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-InputFilter=Raw8</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Filter to use for registration</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-InputTransform=Prune</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Name of the input transform</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-OutputTransform=Grid</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Name of output transform.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Iterations=10</span></kbd></td>
+<td>Maximum number of refinement passes to run</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-Threshold=0.25</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Displacement threshold for control point movement.  Refinement stops below this value</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-CellArea=128</span></kbd></td>
+<td>Size of region around each grid point to register, in pixels</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>MosaicNoTranslate</strong></dt>
+<dd><p class="first">Aligns tiles of a filter into a single mosaic.  Produces an assembled mosaic image.  Assumes stage coordinates are correct and refines distortions only without translating tiles.</p>
+<pre class="literal-block">
+usage: nornir_build volumepath MosaicNoTranslate [-h] [-to [TO [TO ...]]]
+                                                 [-cc [CC [CC ...]]]
+                                                 [-Sections SECTIONS]
+                                                 [-Channels CHANNELSREGEX]
+                                                 [-RegistrationDownsample DOWNSAMPLE]
+                                                 [-MaxOffset MAXOFFSET]
+                                                 -InputFilter INPUTFILTER
+                                                 [-InputTransform INPUTTRANSFORMNAME]
+                                                 [-OutputTransform OUTPUTTRANSFORMNAME]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to include, * processes all channels</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-RegistrationDownsample=4</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Downsample level to use for ir-tools</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-MaxOffset=0.5</span></kbd></td>
+<td>Comma separated list of downsample levels used for assembling output images</td></tr>
 <tr><td class="option-group" colspan="2">
 <kbd><span class="option">-InputFilter=Raw8</span></kbd></td>
 </tr>
@@ -656,15 +871,14 @@ usage: nornir_build Mosaic [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>Assemble</strong></dt>
-<dd><p class="first">Creates an assembled image from a transform and filter. Optionally creates a new channel for output.</p>
+<dt><strong>SetMosaicLock</strong></dt>
+<dd><p class="first">Toggle the locked flag for a .mosaic transform to prevent or enable regeneration.</p>
 <pre class="literal-block">
-usage: nornir_build Assemble [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                             [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                             [-Downsample LEVELS] [-NoInterlace]
-                             [-Channels CHANNELREGEX]
-                             [-ChannelPrefix OUTPUTCHANNELPREFIX]
-                             [-Filters FILTERREGEX] [-Transform TRANSFORMNAME]
+usage: nornir_build volumepath SetMosaicLock [-h] [-to [TO [TO ...]]]
+                                             [-cc [CC [CC ...]]] -Locked
+                                             LOCKED -Sections SECTIONS
+                                             [-Channels CHANNELREGEX]
+                                             -Transforms TRANSFORMREGEX
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -673,8 +887,46 @@ usage: nornir_build Assemble [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Locked</span></kbd></td>
+<td>Lock value, 0 = unlocked, 1 = locked</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to edit.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be edited</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Transforms</span></kbd></td>
+<td>Regular expression describing transform names to be edited</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>Assemble</strong></dt>
+<dd><p class="first">Creates an assembled image from a transform and filter. Optionally creates a new channel for output.</p>
+<pre class="literal-block">
+usage: nornir_build volumepath Assemble [-h] [-to [TO [TO ...]]]
+                                        [-cc [CC [CC ...]]]
+                                        [-Sections SECTIONS]
+                                        [-Downsample LEVELS] [-NoInterlace]
+                                        [-Channels CHANNELREGEX]
+                                        [-ChannelPrefix OUTPUTCHANNELPREFIX]
+                                        [-Filters FILTERREGEX]
+                                        [-Transform TRANSFORMNAME]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -683,10 +935,10 @@ usage: nornir_build Assemble [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Downsample=1</span></kbd></td>
-<td>Comma seperated list of downsample levels for assembling images.  If output is desired only one downsample level can be used.</td></tr>
+<td>Comma separated list of downsample levels for assembling images.  If output is desired only one downsample level can be used.</td></tr>
 <tr><td class="option-group" colspan="2">
 <kbd><span class="option">-NoInterlace=True</span></kbd></td>
 </tr>
@@ -714,12 +966,14 @@ usage: nornir_build Assemble [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>AssembleTiles</strong></dt>
 <dd><p class="first">Build small full-resolution tiles, usually 256x256, that allow regions of the mosaic to be rapidly loaded</p>
 <pre class="literal-block">
-usage: nornir_build AssembleTiles [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                  [-cc [CC [CC ...]]] [-Sections SECTIONS]
-                                  [-Channels CHANNELREGEX]
-                                  [-Filters FILTERREGEX]
-                                  [-Transform TRANSFORMNAME]
-                                  [-Downsample DOWNSAMPLE]
+usage: nornir_build volumepath AssembleTiles [-h] [-to [TO [TO ...]]]
+                                             [-cc [CC [CC ...]]]
+                                             [-Sections SECTIONS]
+                                             [-Channels CHANNELREGEX]
+                                             [-Filters FILTERREGEX]
+                                             [-Transform TRANSFORMNAME]
+                                             [-Downsample DOWNSAMPLE]
+                                             [-Shape SHAPE]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -728,9 +982,6 @@ usage: nornir_build AssembleTiles [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
@@ -738,7 +989,7 @@ usage: nornir_build AssembleTiles [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to process.  If omitted all sections are processed.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to be assembled</td></tr>
@@ -752,7 +1003,10 @@ usage: nornir_build AssembleTiles [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <tr><td>&nbsp;</td><td>Transform defining images into mosaic</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Downsample=1</span></kbd></td>
-<td>Comma seperated list of downsample levels for assembling output images</td></tr>
+<td>Comma separated list of downsample levels for assembling output images</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Shape=256,256</span></kbd></td>
+<td>The size the tiles passed as a comma-delimited pair of integers.  For example 256,512.  If a single number is passed it is used for both dimensions</td></tr>
 </tbody>
 </table>
 </dd>
@@ -761,13 +1015,13 @@ usage: nornir_build AssembleTiles [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>MosaicReport</strong></dt>
 <dd><p class="first">Generate a web page summarizing the output of 2D section mosaics.  Includes prune scores, contrast histograms, and assembled images if any.</p>
 <pre class="literal-block">
-usage: nornir_build MosaicReport [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                 [-cc [CC [CC ...]]]
-                                 [-PruneFilter PRUNEFILTER]
-                                 [-ContrastFilter CONTRASTFILTER]
-                                 [-AssembleFilter ASSEMBLEFILTER]
-                                 [-AssembleDownsample ASSEMBLEDOWNSAMPLE]
-                                 [-Output OUTPUTPATH]
+usage: nornir_build volumepath MosaicReport [-h] [-to [TO [TO ...]]]
+                                            [-cc [CC [CC ...]]]
+                                            [-PruneFilter PRUNEFILTER]
+                                            [-ContrastFilter CONTRASTFILTER]
+                                            [-AssembleFilter ASSEMBLEFILTER]
+                                            [-AssembleDownsample ASSEMBLEDOWNSAMPLE]
+                                            [-Output OUTPUTPATH]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -775,9 +1029,6 @@ usage: nornir_build MosaicReport [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -809,13 +1060,12 @@ usage: nornir_build MosaicReport [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>CreateVikingXML</strong></dt>
-<dd><p class="first">Create a vikingxml file for use in Viking</p>
+<dt><strong>StosReport</strong></dt>
+<dd><p class="first">Generate a web page containing a summary of the alignments between sections in a 3D volume</p>
 <pre class="literal-block">
-usage: nornir_build CreateVikingXML [-h] -volume VOLUMEPATH
-                                    [-to [TO [TO ...]]] [-cc [CC [CC ...]]]
-                                    [-StosGroup STOSGROUP] [-StosMap STOSMAP]
-                                    [-Host HOST] -OutputFile OUTPUTFILE
+usage: nornir_build volumepath StosReport [-h] [-to [TO [TO ...]]]
+                                          [-cc [CC [CC ...]]] -StosGroup
+                                          STOSGROUP
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -824,8 +1074,123 @@ usage: nornir_build CreateVikingXML [-h] -volume VOLUMEPATH
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-StosGroup</span></kbd></td>
+<td>Stos group to pull images from</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>ListDamagedSections</strong></dt>
+<dd><p class="first">Print a list of all damaged sections.  Damaged sections are never used as control sections when chaining slice-to-slice transforms together to build slice-to-volume transforms</p>
+<pre class="literal-block">
+usage: nornir_build volumepath ListDamagedSections [-h] [-to [TO [TO ...]]]
+                                                   [-cc [CC [CC ...]]]
+                                                   [-Block BLOCKREGEX]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Block=*</span></kbd></td>
+<td>Regular expression describing blocks to include, * processes all blocks</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>MarkSectionsDamaged</strong></dt>
+<dd><p class="first">Mark sections as damaged.  Damaged sections are never used as control sections when chaining slice-to-slice transforms together to build slice-to-volume transforms</p>
+<pre class="literal-block">
+usage: nornir_build volumepath MarkSectionsDamaged [-h] [-to [TO [TO ...]]]
+                                                   [-cc [CC [CC ...]]]
+                                                   [-Block BLOCKREGEX]
+                                                   [-Sections SECTIONS]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Block=*</span></kbd></td>
+<td>Regular expression describing blocks to include, * processes all blocks</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers that should not be used as control sections.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>MarkSectionsUndamaged</strong></dt>
+<dd><p class="first">Remove sections from the damaged list.  Damaged sections are never used as control sections when chaining slice-to-slice transforms together to build slice-to-volume transforms</p>
+<pre class="literal-block">
+usage: nornir_build volumepath MarkSectionsUndamaged [-h] [-to [TO [TO ...]]]
+                                                     [-cc [CC [CC ...]]]
+                                                     [-Block BLOCKREGEX]
+                                                     [-Sections SECTIONS]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Block=*</span></kbd></td>
+<td>Regular expression describing blocks to include, * processes all blocks</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to remove from the damaged list.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>CreateVikingXML</strong></dt>
+<dd><p class="first">Create a vikingxml file for use in Viking</p>
+<pre class="literal-block">
+usage: nornir_build volumepath CreateVikingXML [-h] [-to [TO [TO ...]]]
+                                               [-cc [CC [CC ...]]]
+                                               [-StosGroup STOSGROUP]
+                                               [-StosMap STOSMAP] [-Host HOST]
+                                               -OutputFile OUTPUTFILE
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -852,8 +1217,9 @@ usage: nornir_build CreateVikingXML [-h] -volume VOLUMEPATH
 <dt><strong>Cleanup</strong></dt>
 <dd><p class="first">Clean common errors from the volume meta-data</p>
 <pre class="literal-block">
-usage: nornir_build Cleanup [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                            [-cc [CC [CC ...]]]
+usage: nornir_build volumepath Cleanup [-h] [-to [TO [TO ...]]]
+                                       [-cc [CC [CC ...]]]
+                                       [-Sections SECTIONS]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -862,141 +1228,14 @@ usage: nornir_build Cleanup [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-cc=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</dd>
-<dt><strong>SetPruneCutoff</strong></dt>
-<dd><p class="first">Set the prune threshold for a filter</p>
-<pre class="literal-block">
-usage: nornir_build SetPruneCutoff [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                   [-cc [CC [CC ...]]] -Value PRUNEVAL
-                                   -Sections SECTIONS [-Channels CHANNELREGEX]
-                                   [-Filters FILTERREGEX]
-</pre>
-<dl class="last docutils">
-<dt>Options:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-to=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-cc=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Value=0</span></kbd></td>
-<td>Prune threshold to set</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to edit.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Channels=*</span></kbd></td>
-<td>Regular expression describing channels to be edited</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Filters=*</span></kbd></td>
-<td>Regular expression describing filters to be edited</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</dd>
-<dt><strong>SetContrast</strong></dt>
-<dd><p class="first">Set the contrast parameters for a filter</p>
-<pre class="literal-block">
-usage: nornir_build SetContrast [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                [-cc [CC [CC ...]]] [-Min MINVALUE]
-                                [-Max MAXVALUE] [-Gamma GAMMAVALUE] -Sections
-                                SECTIONS [-Channels CHANNELREGEX]
-                                [-Filters FILTERREGEX]
-</pre>
-<dl class="last docutils">
-<dt>Options:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-to=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-cc=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Min=NaN</span></kbd></td>
-<td>Min intensity value, set to 0 in output</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Max=NaN</span></kbd></td>
-<td>Max intensity value, set to 1 in output</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Gamma=NaN</span></kbd></td>
-<td>Gamma adjustment</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to edit.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Channels=*</span></kbd></td>
-<td>Regular expression describing channels to be edited</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Filters=*</span></kbd></td>
-<td>Regular expression describing filters to be edited</td></tr>
-</tbody>
-</table>
-</dd>
-</dl>
-</dd>
-<dt><strong>SetFilterLock</strong></dt>
-<dd><p class="first">Toggle the locked flag for a filter.  Locked filters will not have images recalculated.</p>
-<pre class="literal-block">
-usage: nornir_build SetFilterLock [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                  [-cc [CC [CC ...]]] -Locked LOCKED -Sections
-                                  SECTIONS [-Channels CHANNELREGEX]
-                                  [-Filters FILTERREGEX]
-</pre>
-<dl class="last docutils">
-<dt>Options:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-to=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-cc=</span></kbd></td>
-<td>E-Mail addresses for reports</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Locked</span></kbd></td>
-<td>Lock value, 0 = unlocked, 1 = locked</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Sections</span></kbd></td>
-<td>Section numbers to edit.  Values are seperated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Channels=*</span></kbd></td>
-<td>Regular expression describing channels to be edited</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-Filters=*</span></kbd></td>
-<td>Regular expression describing filters to be edited</td></tr>
+<td>Section numbers to edit.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 </tbody>
 </table>
 </dd>
@@ -1005,14 +1244,16 @@ usage: nornir_build SetFilterLock [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>CreateBlobFilter</strong></dt>
 <dd><p class="first">Create a blob filter from an input filter.  Blobbing can make brute slice-to-slice alignment more reliable for downsampled mosaics with fine textures.</p>
 <pre class="literal-block">
-usage: nornir_build CreateBlobFilter [-h] -volume VOLUMEPATH
-                                     [-to [TO [TO ...]]] [-cc [CC [CC ...]]]
-                                     [-Channels CHANNELREGEX] -InputFilter
-                                     INPUTFILTER
-                                     [-Levels BLOBDOWNSAMPLELEVELS]
-                                     [-Radius BLOBRADIUS] [-Median BLOBMEDIAN]
-                                     [-Max BLOBMAX]
-                                     [-OutputFilter OUTPUTFILTERNAME]
+usage: nornir_build volumepath CreateBlobFilter [-h] [-to [TO [TO ...]]]
+                                                [-cc [CC [CC ...]]]
+                                                [-Sections SECTIONS]
+                                                [-Channels CHANNELREGEX]
+                                                -InputFilter INPUTFILTER
+                                                [-Levels BLOBDOWNSAMPLELEVELS]
+                                                [-Radius BLOBRADIUS]
+                                                [-Median BLOBMEDIAN]
+                                                [-Max BLOBMAX]
+                                                [-OutputFilter OUTPUTFILTERNAME]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1021,14 +1262,14 @@ usage: nornir_build CreateBlobFilter [-h] -volume VOLUMEPATH
 <col class="description" />
 <tbody valign="top">
 <tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
-<tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-cc=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section to execute blob on.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-Channels=*</span></kbd></td>
 <td>Regular expression describing channels to be assembled</td></tr>
@@ -1060,14 +1301,15 @@ usage: nornir_build CreateBlobFilter [-h] -volume VOLUMEPATH
 <dt><strong>AlignSections</strong></dt>
 <dd><p class="first">Performs slice to slice alignment from scratch to produce an initial 3D volume.  After alignment the best alignment results are selected to create a final stosmap.</p>
 <pre class="literal-block">
-usage: nornir_build AlignSections [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                  [-cc [CC [CC ...]]] [-Center CENTER]
-                                  [-NumAdjacentSections NUMADJACENTSECTIONS]
-                                  [-Channels CHANNELSREGEX]
-                                  [-Filters FILTERSREGEX]
-                                  [-StosUseMasks USEMASKS] -Downsample
-                                  STOSBRUTEDOWNSAMPLE
-                                  [-OutputStosMap OUTPUTSTOSMAP]
+usage: nornir_build volumepath AlignSections [-h] [-to [TO [TO ...]]]
+                                             [-cc [CC [CC ...]]]
+                                             [-Center CENTER]
+                                             [-NumAdjacentSections NUMADJACENTSECTIONS]
+                                             [-Channels CHANNELSREGEX]
+                                             [-Filters FILTERSREGEX]
+                                             [-UseMasks] -Downsample
+                                             STOSBRUTEDOWNSAMPLE
+                                             [-OutputStosMap OUTPUTSTOSMAP]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1075,9 +1317,6 @@ usage: nornir_build AlignSections [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1099,7 +1338,7 @@ usage: nornir_build AlignSections [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </tr>
 <tr><td>&nbsp;</td><td>Regular expression describing filters to be aligned</td></tr>
 <tr><td class="option-group" colspan="2">
-<kbd><span class="option">-StosUseMasks=True</span></kbd></td>
+<kbd><span class="option">-UseMasks=False</span></kbd></td>
 </tr>
 <tr><td>&nbsp;</td><td>Use masks for images if they are available.  Masked areas are replaced with random noise for alignment purposes.</td></tr>
 <tr><td class="option-group">
@@ -1117,11 +1356,12 @@ usage: nornir_build AlignSections [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>AssembleStosOverlays</strong></dt>
 <dd><p class="first">Performs slice to slice alignment from scratch to produce an initial 3D volume.  After alignment the best alignment results are selected to create a final stosmap.</p>
 <pre class="literal-block">
-usage: nornir_build AssembleStosOverlays [-h] -volume VOLUMEPATH
-                                         [-to [TO [TO ...]]]
-                                         [-cc [CC [CC ...]]] -StosGroup
-                                         STOSGROUP -Downsample INPUTDOWNSAMPLE
-                                         -StosMap STOSMAP
+usage: nornir_build volumepath AssembleStosOverlays [-h] [-to [TO [TO ...]]]
+                                                    [-cc [CC [CC ...]]]
+                                                    -StosGroup STOSGROUP
+                                                    -Downsample
+                                                    INPUTDOWNSAMPLE -StosMap
+                                                    STOSMAP
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1129,9 +1369,6 @@ usage: nornir_build AssembleStosOverlays [-h] -volume VOLUMEPATH
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1157,13 +1394,16 @@ usage: nornir_build AssembleStosOverlays [-h] -volume VOLUMEPATH
 <dt><strong>SelectBestRegistrationChain</strong></dt>
 <dd><p class="first">Create a new registration chain by examining the stos overlays produced by AssembleStosOverlays.  If two registrations are possible for a section the overlay with the most overlap is chosen.</p>
 <pre class="literal-block">
-usage: nornir_build SelectBestRegistrationChain [-h] -volume VOLUMEPATH
-                                                [-to [TO [TO ...]]]
-                                                [-cc [CC [CC ...]]] -StosGroup
-                                                STOSGROUP -Downsample
-                                                INPUTDOWNSAMPLE -InputStosMap
-                                                INPUTSTOSMAP
-                                                [-OutputStosMap OUTPUTSTOSMAP]
+usage: nornir_build volumepath SelectBestRegistrationChain [-h]
+                                                           [-to [TO [TO ...]]]
+                                                           [-cc [CC [CC ...]]]
+                                                           -StosGroup
+                                                           STOSGROUP
+                                                           -Downsample
+                                                           INPUTDOWNSAMPLE
+                                                           -InputStosMap
+                                                           INPUTSTOSMAP
+                                                           [-OutputStosMap OUTPUTSTOSMAP]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1171,9 +1411,6 @@ usage: nornir_build SelectBestRegistrationChain [-h] -volume VOLUMEPATH
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1203,16 +1440,21 @@ usage: nornir_build SelectBestRegistrationChain [-h] -volume VOLUMEPATH
 <dt><strong>RefineSectionAlignment</strong></dt>
 <dd><p class="first">Refines slice-to-slice alignment at the given downsample level.  This pipeline is often used iteratively at higher and higher resolutions to improve registration quality.</p>
 <pre class="literal-block">
-usage: nornir_build RefineSectionAlignment [-h] -volume VOLUMEPATH
-                                           [-to [TO [TO ...]]]
-                                           [-cc [CC [CC ...]]]
-                                           [-SectionMap STOSMAP]
-                                           [-InputGroup INPUTGROUP]
-                                           -InputDownsample INPUTDOWNSAMPLE
-                                           [-OutputGroup OUTPUTGROUP]
-                                           -OutputDownsample OUTPUTDOWNSAMPLE
-                                           [-Filters FILTERSREGEX]
-                                           [-StosUseMasks USEMASKS]
+usage: nornir_build volumepath RefineSectionAlignment [-h] [-to [TO [TO ...]]]
+                                                      [-cc [CC [CC ...]]]
+                                                      [-SectionMap STOSMAP]
+                                                      [-InputGroup INPUTGROUP]
+                                                      -InputDownsample
+                                                      INPUTDOWNSAMPLE
+                                                      [-OutputGroup OUTPUTGROUP]
+                                                      -OutputDownsample
+                                                      OUTPUTDOWNSAMPLE
+                                                      [-Filters FILTERSREGEX]
+                                                      [-UseMasks]
+                                                      [-Threshold DISPLACEMENTTHRESHOLD]
+                                                      [-Spacing GRIDSPACING]
+                                                      [-CellArea CELLAREA]
+                                                      [-Iterations ITERATIONS]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1220,9 +1462,6 @@ usage: nornir_build RefineSectionAlignment [-h] -volume VOLUMEPATH
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1254,9 +1493,21 @@ usage: nornir_build RefineSectionAlignment [-h] -volume VOLUMEPATH
 </tr>
 <tr><td>&nbsp;</td><td>Regular expression describing filters to be aligned</td></tr>
 <tr><td class="option-group" colspan="2">
-<kbd><span class="option">-StosUseMasks=True</span></kbd></td>
+<kbd><span class="option">-UseMasks=False</span></kbd></td>
 </tr>
-<tr><td>&nbsp;</td><td>Image set to use as mask</td></tr>
+<tr><td>&nbsp;</td><td>Use masks for images if they are available.  Masked areas are replaced with random noise for alignment purposes.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Threshold=0.1</span></kbd></td>
+<td>Displacement threshold for control point movement.  Refinement stops below this value</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Spacing=128</span></kbd></td>
+<td>Grid spacing in pixels</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-CellArea=128</span></kbd></td>
+<td>Size of region around each grid point to register, in pixels</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Iterations=10</span></kbd></td>
+<td>Maximum number of refinement passes to run</td></tr>
 </tbody>
 </table>
 </dd>
@@ -1265,13 +1516,13 @@ usage: nornir_build RefineSectionAlignment [-h] -volume VOLUMEPATH
 <dt><strong>ScaleVolumeTransforms</strong></dt>
 <dd><p class="first">Scales a stos group to use a different downsample level.  Useful for producing full-resolution output after generating transforms using downsampled images.</p>
 <pre class="literal-block">
-usage: nornir_build ScaleVolumeTransforms [-h] -volume VOLUMEPATH
-                                          [-to [TO [TO ...]]]
-                                          [-cc [CC [CC ...]]]
-                                          [-InputGroup SCALEGROUPNAME]
-                                          -InputDownsample
-                                          SCALEINPUTDOWNSAMPLE
-                                          [-OutputDownsample SCALEOUTPUTDOWNSAMPLE]
+usage: nornir_build volumepath ScaleVolumeTransforms [-h] [-to [TO [TO ...]]]
+                                                     [-cc [CC [CC ...]]]
+                                                     [-InputGroup SCALEGROUPNAME]
+                                                     -InputDownsample
+                                                     SCALEINPUTDOWNSAMPLE
+                                                     [-OutputDownsample SCALEOUTPUTDOWNSAMPLE]
+                                                     [-UseMasks]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1279,9 +1530,6 @@ usage: nornir_build ScaleVolumeTransforms [-h] -volume VOLUMEPATH
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1300,6 +1548,10 @@ usage: nornir_build ScaleVolumeTransforms [-h] -volume VOLUMEPATH
 <kbd><span class="option">-OutputDownsample=1</span></kbd></td>
 </tr>
 <tr><td>&nbsp;</td><td>Downsample level of output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-UseMasks=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Use masks for images if they are available.  Masked areas are replaced with random noise for alignment purposes.</td></tr>
 </tbody>
 </table>
 </dd>
@@ -1308,12 +1560,12 @@ usage: nornir_build ScaleVolumeTransforms [-h] -volume VOLUMEPATH
 <dt><strong>SliceToVolume</strong></dt>
 <dd><p class="first">Created a group of slice-to-volume transforms from a group of slice-to-slice transforms</p>
 <pre class="literal-block">
-usage: nornir_build SliceToVolume [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                  [-cc [CC [CC ...]]]
-                                  [-InputDownsample STOVDOWNSAMPLE]
-                                  -InputGroup STOVINPUTGROUP
-                                  [-OutputGroup STOVOUTPUTGROUPNAME]
-                                  [-InputMap INPUTMAP]
+usage: nornir_build volumepath SliceToVolume [-h] [-to [TO [TO ...]]]
+                                             [-cc [CC [CC ...]]]
+                                             [-InputDownsample STOVDOWNSAMPLE]
+                                             -InputGroup STOVINPUTGROUP
+                                             [-OutputGroup STOVOUTPUTGROUPNAME]
+                                             [-InputMap INPUTMAP]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1321,9 +1573,6 @@ usage: nornir_build SliceToVolume [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1354,10 +1603,10 @@ usage: nornir_build SliceToVolume [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>VolumeImage</strong></dt>
 <dd><p class="first">Produces an assembled image for transforms in a stos group.  If the transforms are slice-to-volume transforms the output should be registered into a volume.  Note that using this function requires assembled images to exist at full resolution.  If these do not exist see the MosaicToVolume pipeline.</p>
 <pre class="literal-block">
-usage: nornir_build VolumeImage [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                [-cc [CC [CC ...]]]
-                                [-InputGroup VOLUMEIMAGEGROUPNAME]
-                                [-InputDownsample VOLUMEIMAGEDOWNSAMPLE]
+usage: nornir_build volumepath VolumeImage [-h] [-to [TO [TO ...]]]
+                                           [-cc [CC [CC ...]]]
+                                           [-InputGroup VOLUMEIMAGEGROUPNAME]
+                                           [-InputDownsample VOLUMEIMAGEDOWNSAMPLE]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1365,9 +1614,6 @@ usage: nornir_build VolumeImage [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1390,14 +1636,14 @@ usage: nornir_build VolumeImage [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>MosaicToVolume</strong></dt>
 <dd><p class="first">Used after slice to volume.  Creates new mosaic transforms that map tiles directly into the volume space.  This is done by passing the mosaic transform through a slice-to-volume transformation.  Assemble can then be used to produce volume registered images.</p>
 <pre class="literal-block">
-usage: nornir_build MosaicToVolume [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                   [-cc [CC [CC ...]]]
-                                   [-Channels CHANNELSREGEX]
-                                   [-InputDownsample STOSDOWNSAMPLE]
-                                   [-InputMap INPUTMAPNAME]
-                                   [-InputGroup INPUTSTOSGROUP]
-                                   [-InputTransform INPUTTRANSFORMNAME]
-                                   [-OutputTransform OUTPUTTRANSFORM]
+usage: nornir_build volumepath MosaicToVolume [-h] [-to [TO [TO ...]]]
+                                              [-cc [CC [CC ...]]]
+                                              [-Channels CHANNELSREGEX]
+                                              [-InputDownsample STOSDOWNSAMPLE]
+                                              [-InputMap INPUTMAPNAME]
+                                              [-InputGroup INPUTSTOSGROUP]
+                                              [-InputTransform INPUTTRANSFORMNAME]
+                                              [-OutputTransform OUTPUTTRANSFORM]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1405,9 +1651,6 @@ usage: nornir_build MosaicToVolume [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1445,10 +1688,12 @@ usage: nornir_build MosaicToVolume [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <dt><strong>ExportImages</strong></dt>
 <dd><p class="first">Copies images of sections to an output directory</p>
 <pre class="literal-block">
-usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
-                                 [-cc [CC [CC ...]]] [-Channels CHANNELREGEX]
-                                 [-Filters FILTERREGEX]
-                                 [-Downsample DOWNSAMPLE] [-Output OUTPUTPATH]
+usage: nornir_build volumepath ExportImages [-h] [-to [TO [TO ...]]]
+                                            [-cc [CC [CC ...]]]
+                                            [-Channels CHANNELREGEX]
+                                            [-Filters FILTERREGEX]
+                                            [-Downsample DOWNSAMPLE]
+                                            [-Output OUTPUTPATH]
 </pre>
 <dl class="last docutils">
 <dt>Options:</dt>
@@ -1456,9 +1701,6 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <col class="option" />
 <col class="description" />
 <tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-volume</span></kbd></td>
-<td>The path to the volume</td></tr>
 <tr><td class="option-group">
 <kbd><span class="option">-to=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
@@ -1486,7 +1728,6 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 </dl>
 </dd>
 </dl>
-</div>
 <span class="target" id="module-nornir_buildmanager.operations"></span></div>
 </div>
 
@@ -1494,7 +1735,7 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -1510,10 +1751,7 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
 <li><a class="reference internal" href="#brightfield-microscopy-via-surveyor">Brightfield Microscopy via Surveyor</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#pipelines">Pipelines</a><ul>
-<li><a class="reference internal" href="#command-line-usage">Command line usage</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#pipelines">Pipelines</a></li>
 </ul>
 </li>
 </ul>
@@ -1524,12 +1762,14 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
   <h4>Next topic</h4>
   <p class="topless"><a href="pyre.html"
                         title="next chapter">Manual Registration and Pyre</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/usage/buildmanager.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/usage/buildmanager.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -1546,7 +1786,7 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1561,14 +1801,14 @@ usage: nornir_build ExportImages [-h] -volume VOLUMEPATH [-to [TO [TO ...]]]
         <li class="right" >
           <a href="toctree.html" title="Use"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="toctree.html" >Use</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="toctree.html" >Use</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Dec 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Jun 11, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

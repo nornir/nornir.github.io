@@ -8,7 +8,7 @@
     
     <title>Shared (nornir_shared) &mdash; Nornir 1.2.3 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,14 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="top" title="Nornir 1.2.3 documentation" href="../index.html" />
     <link rel="up" title="Packages" href="packages.html" />
     <link rel="next" title="Version History" href="../versionhistory.html" />
     <link rel="prev" title="Pools (nornir_pools)" href="nornir_pools.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,15 +45,15 @@
         <li class="right" >
           <a href="nornir_pools.html" title="Pools (nornir_pools)"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-nornir_shared">
 <span id="shared-nornir-shared"></span><h1>Shared (nornir_shared)<a class="headerlink" href="#module-nornir_shared" title="Permalink to this headline">¶</a></h1>
@@ -63,7 +64,7 @@
 <span id="checksum"></span><h3>checksum<a class="headerlink" href="#module-nornir_shared.checksum" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="nornir_shared.checksum.DataChecksum">
-<tt class="descclassname">nornir_shared.checksum.</tt><tt class="descname">DataChecksum</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#nornir_shared.checksum.DataChecksum" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_shared.checksum.</code><code class="descname">DataChecksum</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.DataChecksum" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div>Removes whitespace from strings before calculating md5 checksum</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -82,7 +83,7 @@
 
 <dl class="function">
 <dt id="nornir_shared.checksum.FileChecksum">
-<tt class="descclassname">nornir_shared.checksum.</tt><tt class="descname">FileChecksum</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#nornir_shared.checksum.FileChecksum" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_shared.checksum.</code><code class="descname">FileChecksum</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.FileChecksum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the md5 hash of a file read in txt mode</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -100,7 +101,7 @@
 
 <dl class="function">
 <dt id="nornir_shared.checksum.FilesizeChecksum">
-<tt class="descclassname">nornir_shared.checksum.</tt><tt class="descname">FilesizeChecksum</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#nornir_shared.checksum.FilesizeChecksum" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_shared.checksum.</code><code class="descname">FilesizeChecksum</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.FilesizeChecksum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the size of a file in bytes for use as a simple checksum</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -110,7 +111,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Size of file as a string</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -121,7 +122,7 @@
 <span id="emaillib"></span><h3>emaillib<a class="headerlink" href="#module-nornir_shared.emaillib" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="nornir_shared.emaillib.SendMail">
-<tt class="descclassname">nornir_shared.emaillib.</tt><tt class="descname">SendMail</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nornir_shared.emaillib.SendMail" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_shared.emaillib.</code><code class="descname">SendMail</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.emaillib.SendMail" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends an email</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -154,7 +155,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -174,12 +175,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="../versionhistory.html"
                         title="next chapter">Version History</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/packages/nornir_shared.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/packages/nornir_shared.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -196,7 +199,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -211,14 +214,14 @@
         <li class="right" >
           <a href="nornir_pools.html" title="Pools (nornir_pools)"
              >previous</a> |</li>
-        <li><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
-          <li><a href="packages.html" >Packages</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="packages.html" >Packages</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Dec 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Jun 11, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

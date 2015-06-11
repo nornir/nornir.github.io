@@ -8,7 +8,7 @@
     
     <title>Version History &mdash; Nornir 1.2.3 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,12 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
     <link rel="top" title="Nornir 1.2.3 documentation" href="index.html" />
     <link rel="next" title="Missing features" href="futurework.html" />
     <link rel="prev" title="Shared (nornir_shared)" href="packages/nornir_shared.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -43,14 +44,14 @@
         <li class="right" >
           <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Nornir 1.2.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.2.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="version-history">
 <h1>Version History<a class="headerlink" href="#version-history" title="Permalink to this headline">¶</a></h1>
@@ -58,7 +59,63 @@
 <h2>Build Manager<a class="headerlink" href="#build-manager" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="id1">
-<h2>1.2.3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>1.3.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>New</strong></p>
+<ul>
+<li><p class="first">ir-refine-translate has been replaced with a python implementation.  This appears to solve tiles that were misplaced in mosaics when stage position was very incorrect</p>
+</li>
+<li><p class="first">Contrast settings can be set manually when importing 16bpp images</p>
+</li>
+<li><p class="first">When performing import, save progress incrementally in case of crash</p>
+</li>
+<li><p class="first">Added -Sections flag to CreateBlobFilter</p>
+</li>
+<li><p class="first">Regenerate .stos files if the input images have changed</p>
+</li>
+<li><p class="first">Save meta-data when we generate a new level for an image on the fly</p>
+</li>
+<li><p class="first">Added <strong>SetMosaicLock</strong> pipeline to lock .mosaic transforms.  This prevents regeneration which could break existing annotations.</p>
+</li>
+<li><p class="first">Added <strong>ListFilterContrast</strong> pipeline to print the contrast settings used for filters.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Added pipelines for marking damaged sections.  Damaged sections are not used for slice-to-slice registration.</dt>
+<dd><ul class="first last simple">
+<li><strong>ListDamagedSections</strong></li>
+<li><strong>MarkSectionsDamaged</strong></li>
+<li><strong>MarkSectionsUnamaged</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Added -Shape parameter to AssembleTileset pipeline allowing different tile sizes.  256x256 is the default.</p>
+</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul class="simple">
+<li>Removed the -volume flag.  The volume path is now the first argument to the nornir-build command.</li>
+<li>Do not set build process to low priority unless specified on command line.  Low priority has a huge performance cost.</li>
+<li>Importers are now pipelines.  They have specific names for the type of data to import.</li>
+<li>Wait for pools to complete before executing next pipeline stage</li>
+<li>Added options to generate histograms asynchronously</li>
+<li>Refactored idoc import code</li>
+<li>Write errors that occur during ir-blob to the log window</li>
+<li>Test setup is now cached in the TESTOUTPUT directory.  The cache should be cleared before running tests after relevant changes.</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li>Remove generated Prune.mosaic file if it is older than the prune data it is generated from</li>
+<li>Masks were entirely missed in slice-to-slice registration.  Masks are now properly included and propogated.  Removed parameter from &#8216;-UseMasks&#8217; flag</li>
+<li>Do not crash if the same level is passed to CreatePyramid functions twice in a list</li>
+<li>Number imported tiles from IDOC&#8217;s starting with 0.  This matches SerialEM&#8217;s numbering</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>1.2.4<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Added compatability with 1.2.4 version of nornir_imageregistration package</p>
+</div>
+<div class="section" id="id3">
+<h2>1.2.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>A bugfix release</p>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
@@ -70,8 +127,8 @@
 <li>Added cleanup function to Cleanup pipeline to remove empty imagesets</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2>1.2.2<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>1.2.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>A bugfix release</p>
 <p><strong>New</strong></p>
 <ul class="simple">
@@ -85,38 +142,6 @@
 <ul class="simple">
 <li>Image report generator no longer crashes if an image does not require downsampling</li>
 <li>Image reports code no longer fails when using .svg formats</li>
-</ul>
-</div>
-<div class="section" id="id3">
-<h2>1.2.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p><strong>New</strong></p>
-<ul class="simple">
-<li>Many optimizations</li>
-<li>Improved the histogram generation to show the actual cutoff values for a section and not percentages when a manual value is not specified.</li>
-<li>Profile data is saved for tests if the PROFILE environment variable is set</li>
-<li>Faster parsing of pipelines via use of cElementTree package</li>
-<li>Multithreading pool is used when adding stos transforms</li>
-<li>Added support for manual folder in stosbrute folders.  This allows users to bypass the expensive automatic initial alignment step if a manual registration is known.</li>
-<li>Report web pages now can be renamed to prevent overwriting the default ImageReport.html page</li>
-</ul>
-<p><strong>Fixes</strong></p>
-<ul class="simple">
-<li>Take image downsample into account before regenerating images warped into the volume.  Previously downsampled images were always regenerated even when current</li>
-<li>Logging level set correctly.  Normal runs only display warnings or higher level entries to the console</li>
-<li>Sections without a log file now have reports generated correctly</li>
-<li>Fixed exception thrown when image dimensions could not be read and compared because a file could not be read</li>
-<li>Filter locks for all filters in a channel are released when contrast or prune thresholds are manually adjusted.  Allowing the filters to regenerate with the updated values</li>
-<li>debug flag was always active during builds</li>
-<li>Check the timestamp on the first tile of every pyramid level to ensure they regenerate if they are outdated.</li>
-<li>Histograms are correctly refreshed when they are out of date.</li>
-</ul>
-</div>
-<div class="section" id="id4">
-<h2>1.2.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
-<li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
-<li>Bug fixes related to case-sensitive filter names</li>
 </ul>
 </div>
 <div class="section" id="id5">
@@ -192,16 +217,16 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Version History</a><ul>
 <li><a class="reference internal" href="#build-manager">Build Manager</a></li>
-<li><a class="reference internal" href="#id1">1.2.3</a></li>
-<li><a class="reference internal" href="#id2">1.2.2</a></li>
-<li><a class="reference internal" href="#id3">1.2.1</a></li>
-<li><a class="reference internal" href="#id4">1.2.0</a></li>
+<li><a class="reference internal" href="#id1">1.3.0</a></li>
+<li><a class="reference internal" href="#id2">1.2.4</a></li>
+<li><a class="reference internal" href="#id3">1.2.3</a></li>
+<li><a class="reference internal" href="#id4">1.2.2</a></li>
 <li><a class="reference internal" href="#id5">1.2.1</a></li>
 <li><a class="reference internal" href="#id6">1.2.0</a></li>
 <li><a class="reference internal" href="#id7">1.1.5</a></li>
@@ -218,12 +243,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="futurework.html"
                         title="next chapter">Missing features</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/versionhistory.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/versionhistory.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -240,7 +267,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -255,13 +282,13 @@
         <li class="right" >
           <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
              >previous</a> |</li>
-        <li><a href="index.html">Nornir 1.2.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.2.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Dec 18, 2014.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on Jun 11, 2015.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>
