@@ -102,8 +102,7 @@ usage: nornir_build volumepath [-h] [-debug] [-lowpriority] [-verbose]
 <dt>Sub-commands:</dt>
 <dd><dl class="first last docutils">
 <dt><strong>ImportIDoc</strong></dt>
-<dd><p class="first">Import SerialEM IDOC into a volume</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ImportIDoc [-h] [-to [TO [TO ...]]]
                                           [-cc [CC [CC ...]]] [-ext EXTENSION]
                                           ImportDir
@@ -140,8 +139,7 @@ usage: nornir_build volumepath ImportIDoc [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ImportPMG</strong></dt>
-<dd><p class="first">Import PMG file into a volume</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ImportPMG [-h] [-to [TO [TO ...]]]
                                          [-cc [CC [CC ...]]] [-ext EXTENSION]
                                          ImportDir
@@ -178,8 +176,7 @@ usage: nornir_build volumepath ImportPMG [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ImportSectionsImages</strong></dt>
-<dd><p class="first">Import single images that represent an entire section in a volume</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
                                                     [-cc [CC [CC ...]]]
                                                     [-ext EXTENSION]
@@ -217,8 +214,7 @@ usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>Prune</strong></dt>
-<dd><p class="first">Removes tiles without enough features for proper alignment.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath Prune [-h] [-to [TO [TO ...]]]
                                      [-cc [CC [CC ...]]] [-Sections SECTIONS]
                                      [-Channels CHANNELSREGEX] -Threshold
@@ -273,8 +269,7 @@ usage: nornir_build volumepath Prune [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SetPruneCutoff</strong></dt>
-<dd><p class="first">Set the prune threshold for a filter</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SetPruneCutoff [-h] [-to [TO [TO ...]]]
                                               [-cc [CC [CC ...]]] -Value
                                               PRUNEVAL -Sections SECTIONS
@@ -311,8 +306,7 @@ usage: nornir_build volumepath SetPruneCutoff [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ShadeCorrect</strong></dt>
-<dd><p class="first">Brightfield microscopy shading correction.  Uses the max tile intensity across all tiles to determine the shading gradient.  Produces an inverted output filter with the shading subtracted.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ShadeCorrect [-h] [-to [TO [TO ...]]]
                                             [-cc [CC [CC ...]]]
                                             [-Sections SECTIONS]
@@ -360,8 +354,7 @@ usage: nornir_build volumepath ShadeCorrect [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>RenameFilter</strong></dt>
-<dd><p class="first">Renames a filter</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath RenameFilter [-h] [-to [TO [TO ...]]]
                                             [-cc [CC [CC ...]]] -InputFilter
                                             INPUTFILTER -OutputFilter NEWNAME
@@ -390,8 +383,7 @@ usage: nornir_build volumepath RenameFilter [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SetFilterMaskName</strong></dt>
-<dd><p class="first">Specify another filter in the same channel to use as a mask when using this filter.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SetFilterMaskName [-h] [-to [TO [TO ...]]]
                                                  [-cc [CC [CC ...]]]
                                                  -InputFilter INPUTFILTER
@@ -421,8 +413,7 @@ usage: nornir_build volumepath SetFilterMaskName [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>Histogram</strong></dt>
-<dd><p class="first">Calculates the histogram from all tiles in a mosaic</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath Histogram [-h] [-to [TO [TO ...]]]
                                          [-cc [CC [CC ...]]]
                                          [-Sections SECTIONS]
@@ -466,8 +457,7 @@ usage: nornir_build volumepath Histogram [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>AdjustContrast</strong></dt>
-<dd><p class="first">Creates a new filter with adjusted contrast.  The cutoffs can be adjusted within the meta-data by altering the AutoLevelHint element of the input filters volume.xml meta-data file.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath AdjustContrast [-h] [-to [TO [TO ...]]]
                                               [-cc [CC [CC ...]]]
                                               [-Sections SECTIONS]
@@ -524,8 +514,7 @@ usage: nornir_build volumepath AdjustContrast [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ListFilterContrast</strong></dt>
-<dd><p class="first">Print a list of the contrast settings used for all sections.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ListFilterContrast [-h] [-to [TO [TO ...]]]
                                                   [-cc [CC [CC ...]]]
                                                   [-Sections SECTIONS]
@@ -560,8 +549,7 @@ usage: nornir_build volumepath ListFilterContrast [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SetContrast</strong></dt>
-<dd><p class="first">Set the contrast parameters for a filter</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SetContrast [-h] [-to [TO [TO ...]]]
                                            [-cc [CC [CC ...]]] [-Min MINVALUE]
                                            [-Max MAXVALUE] [-Gamma GAMMAVALUE]
@@ -605,8 +593,7 @@ usage: nornir_build volumepath SetContrast [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SetFilterLock</strong></dt>
-<dd><p class="first">Toggle the locked flag for a filter.  Locked filters will not have images recalculated.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SetFilterLock [-h] [-to [TO [TO ...]]]
                                              [-cc [CC [CC ...]]] -Locked
                                              LOCKED -Sections SECTIONS
@@ -643,8 +630,7 @@ usage: nornir_build volumepath SetFilterLock [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>Mosaic</strong></dt>
-<dd><p class="first">Aligns tiles of a filter into a single mosaic.  Produces an assembled mosaic image.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath Mosaic [-h] [-to [TO [TO ...]]]
                                       [-cc [CC [CC ...]]] [-Sections SECTIONS]
                                       [-Channels CHANNELSREGEX]
@@ -710,8 +696,7 @@ usage: nornir_build volumepath Mosaic [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>MosaicNoTranslate</strong></dt>
-<dd><p class="first">Aligns tiles of a filter into a single mosaic.  Produces an assembled mosaic image.  Assumes stage coordinates are correct and refines distortions only without translating tiles.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath MosaicNoTranslate [-h] [-to [TO [TO ...]]]
                                                  [-cc [CC [CC ...]]]
                                                  [-Sections SECTIONS]
@@ -765,8 +750,7 @@ usage: nornir_build volumepath MosaicNoTranslate [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SetMosaicLock</strong></dt>
-<dd><p class="first">Toggle the locked flag for a .mosaic transform to prevent or enable regeneration.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SetMosaicLock [-h] [-to [TO [TO ...]]]
                                              [-cc [CC [CC ...]]] -Locked
                                              LOCKED -Sections SECTIONS
@@ -803,8 +787,7 @@ usage: nornir_build volumepath SetMosaicLock [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>Assemble</strong></dt>
-<dd><p class="first">Creates an assembled image from a transform and filter. Optionally creates a new channel for output.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath Assemble [-h] [-to [TO [TO ...]]]
                                         [-cc [CC [CC ...]]]
                                         [-Sections SECTIONS]
@@ -857,8 +840,7 @@ usage: nornir_build volumepath Assemble [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>AssembleTiles</strong></dt>
-<dd><p class="first">Build small full-resolution tiles, usually 256x256, that allow regions of the mosaic to be rapidly loaded</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath AssembleTiles [-h] [-to [TO [TO ...]]]
                                              [-cc [CC [CC ...]]]
                                              [-Sections SECTIONS]
@@ -906,8 +888,7 @@ usage: nornir_build volumepath AssembleTiles [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>MosaicReport</strong></dt>
-<dd><p class="first">Generate a web page summarizing the output of 2D section mosaics.  Includes prune scores, contrast histograms, and assembled images if any.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath MosaicReport [-h] [-to [TO [TO ...]]]
                                             [-cc [CC [CC ...]]]
                                             [-PruneFilter PRUNEFILTER]
@@ -954,8 +935,7 @@ usage: nornir_build volumepath MosaicReport [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>StosReport</strong></dt>
-<dd><p class="first">Generate a web page containing a summary of the alignments between sections in a 3D volume</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath StosReport [-h] [-to [TO [TO ...]]]
                                           [-cc [CC [CC ...]]] -StosGroup
                                           STOSGROUP
@@ -981,8 +961,7 @@ usage: nornir_build volumepath StosReport [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ListDamagedSections</strong></dt>
-<dd><p class="first">Print a list of all damaged sections.  Damaged sections are never used as control sections when chaining slice-to-slice transforms together to build slice-to-volume transforms</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ListDamagedSections [-h] [-to [TO [TO ...]]]
                                                    [-cc [CC [CC ...]]]
                                                    [-Block BLOCKREGEX]
@@ -1008,8 +987,7 @@ usage: nornir_build volumepath ListDamagedSections [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>MarkSectionsDamaged</strong></dt>
-<dd><p class="first">Mark sections as damaged.  Damaged sections are never used as control sections when chaining slice-to-slice transforms together to build slice-to-volume transforms</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath MarkSectionsDamaged [-h] [-to [TO [TO ...]]]
                                                    [-cc [CC [CC ...]]]
                                                    [-Block BLOCKREGEX]
@@ -1039,8 +1017,7 @@ usage: nornir_build volumepath MarkSectionsDamaged [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>MarkSectionsUndamaged</strong></dt>
-<dd><p class="first">Remove sections from the damaged list.  Damaged sections are never used as control sections when chaining slice-to-slice transforms together to build slice-to-volume transforms</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath MarkSectionsUndamaged [-h] [-to [TO [TO ...]]]
                                                      [-cc [CC [CC ...]]]
                                                      [-Block BLOCKREGEX]
@@ -1070,8 +1047,7 @@ usage: nornir_build volumepath MarkSectionsUndamaged [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>CreateVikingXML</strong></dt>
-<dd><p class="first">Create a vikingxml file for use in Viking</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath CreateVikingXML [-h] [-to [TO [TO ...]]]
                                                [-cc [CC [CC ...]]]
                                                [-StosGroup STOSGROUP]
@@ -1108,8 +1084,7 @@ usage: nornir_build volumepath CreateVikingXML [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>Cleanup</strong></dt>
-<dd><p class="first">Clean common errors from the volume meta-data</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath Cleanup [-h] [-to [TO [TO ...]]]
                                        [-cc [CC [CC ...]]]
                                        [-Sections SECTIONS]
@@ -1135,8 +1110,7 @@ usage: nornir_build volumepath Cleanup [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>CreateBlobFilter</strong></dt>
-<dd><p class="first">Create a blob filter from an input filter.  Blobbing can make brute slice-to-slice alignment more reliable for downsampled mosaics with fine textures.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath CreateBlobFilter [-h] [-to [TO [TO ...]]]
                                                 [-cc [CC [CC ...]]]
                                                 [-Sections SECTIONS]
@@ -1192,8 +1166,7 @@ usage: nornir_build volumepath CreateBlobFilter [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>AlignSections</strong></dt>
-<dd><p class="first">Performs slice to slice alignment from scratch to produce an initial 3D volume.  After alignment the best alignment results are selected to create a final stosmap.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath AlignSections [-h] [-to [TO [TO ...]]]
                                              [-cc [CC [CC ...]]]
                                              [-Center CENTER]
@@ -1247,8 +1220,7 @@ usage: nornir_build volumepath AlignSections [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>AssembleStosOverlays</strong></dt>
-<dd><p class="first">Performs slice to slice alignment from scratch to produce an initial 3D volume.  After alignment the best alignment results are selected to create a final stosmap.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath AssembleStosOverlays [-h] [-to [TO [TO ...]]]
                                                     [-cc [CC [CC ...]]]
                                                     -StosGroup STOSGROUP
@@ -1285,8 +1257,7 @@ usage: nornir_build volumepath AssembleStosOverlays [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SelectBestRegistrationChain</strong></dt>
-<dd><p class="first">Create a new registration chain by examining the stos overlays produced by AssembleStosOverlays.  If two registrations are possible for a section the overlay with the most overlap is chosen.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SelectBestRegistrationChain [-h]
                                                            [-to [TO [TO ...]]]
                                                            [-cc [CC [CC ...]]]
@@ -1331,8 +1302,7 @@ usage: nornir_build volumepath SelectBestRegistrationChain [-h]
 </dl>
 </dd>
 <dt><strong>RefineSectionAlignment</strong></dt>
-<dd><p class="first">Refines slice-to-slice alignment at the given downsample level.  This pipeline is often used iteratively at higher and higher resolutions to improve registration quality.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath RefineSectionAlignment [-h] [-to [TO [TO ...]]]
                                                       [-cc [CC [CC ...]]]
                                                       [-SectionMap STOSMAP]
@@ -1407,8 +1377,7 @@ usage: nornir_build volumepath RefineSectionAlignment [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ScaleVolumeTransforms</strong></dt>
-<dd><p class="first">Scales a stos group to use a different downsample level.  Useful for producing full-resolution output after generating transforms using downsampled images.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ScaleVolumeTransforms [-h] [-to [TO [TO ...]]]
                                                      [-cc [CC [CC ...]]]
                                                      [-InputGroup SCALEGROUPNAME]
@@ -1451,8 +1420,7 @@ usage: nornir_build volumepath ScaleVolumeTransforms [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>SliceToVolume</strong></dt>
-<dd><p class="first">Created a group of slice-to-volume transforms from a group of slice-to-slice transforms</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath SliceToVolume [-h] [-to [TO [TO ...]]]
                                              [-cc [CC [CC ...]]]
                                              [-InputDownsample STOVDOWNSAMPLE]
@@ -1494,8 +1462,7 @@ usage: nornir_build volumepath SliceToVolume [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>VolumeImage</strong></dt>
-<dd><p class="first">Produces an assembled image for transforms in a stos group.  If the transforms are slice-to-volume transforms the output should be registered into a volume.  Note that using this function requires assembled images to exist at full resolution.  If these do not exist see the MosaicToVolume pipeline.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath VolumeImage [-h] [-to [TO [TO ...]]]
                                            [-cc [CC [CC ...]]]
                                            [-InputGroup VOLUMEIMAGEGROUPNAME]
@@ -1527,8 +1494,7 @@ usage: nornir_build volumepath VolumeImage [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>MosaicToVolume</strong></dt>
-<dd><p class="first">Used after slice to volume.  Creates new mosaic transforms that map tiles directly into the volume space.  This is done by passing the mosaic transform through a slice-to-volume transformation.  Assemble can then be used to produce volume registered images.</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath MosaicToVolume [-h] [-to [TO [TO ...]]]
                                               [-cc [CC [CC ...]]]
                                               [-Channels CHANNELSREGEX]
@@ -1579,8 +1545,7 @@ usage: nornir_build volumepath MosaicToVolume [-h] [-to [TO [TO ...]]]
 </dl>
 </dd>
 <dt><strong>ExportImages</strong></dt>
-<dd><p class="first">Copies images of sections to an output directory</p>
-<pre class="literal-block">
+<dd><pre class="first literal-block">
 usage: nornir_build volumepath ExportImages [-h] [-to [TO [TO ...]]]
                                             [-cc [CC [CC ...]]]
                                             [-Channels CHANNELREGEX]
