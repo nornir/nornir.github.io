@@ -1,7 +1,7 @@
 .. Nornir documentation master file, created by
    sphinx-quickstart on Wed Dec 18 12:02:16 2013.
    You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.  
+   contain the root `toctree` directive.
    
 .. figure::  Registered_YGE_ShadingCorrected_Thumb.png
    :scale: 100%

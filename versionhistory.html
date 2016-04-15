@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Version History &mdash; Nornir 1.2.3 documentation</title>
+    <title>Version History &mdash; Nornir 1.3.1 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.2.3',
+        VERSION:     '1.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="Nornir 1.2.3 documentation" href="index.html" />
+    <link rel="top" title="Nornir 1.3.1 documentation" href="index.html" />
     <link rel="next" title="Missing features" href="futurework.html" />
     <link rel="prev" title="Shared (nornir_shared)" href="packages/nornir_shared.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.2.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,7 +58,28 @@
 <div class="section" id="build-manager">
 <h2>Build Manager<a class="headerlink" href="#build-manager" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>1.3.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>1.3.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><strong>4/15/2016</strong></div></blockquote>
+<p><strong>Added</strong></p>
+<ul class="simple">
+<li>Support for Digital Micrograph 4 file format (DM4).  Allows importing from many SEM microscopes.</li>
+<li>Add locked/unlocked and optimized/unoptimized indicators to mosaic reports</li>
+<li>Color code rows in mosaic report if an optimized tileset exists</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li>Imported images from Syncroscan had colorspace problems</li>
+<li>Notes are copied into the VikingXML again</li>
+<li>Do not exclude input directories that have a power of 2 in the name</li>
+<li>Rounding errors when comparing old/new gamma values that forced unnecessary rebuilds</li>
+<li>Crash on import when non-numeric attributes appeared in idoc files</li>
+<li>Infinite loop when searching for imageset levels that did not exist</li>
+<li>Do not add duplicate autolevelhint node to 16-bit raw data.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>1.3.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p><strong>1.3.0 is not compatible with volumes built with earlier versions.  If you have data you do not want to reimport contact me about migrating it to 1.3.0.  The migration has been done but requires some supervision.</strong></p>
 <p><strong>New</strong></p>
 <ul>
@@ -110,12 +131,12 @@
 <li>Number imported tiles from IDOC&#8217;s starting with 0.  This matches SerialEM&#8217;s numbering</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h3>1.2.4<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>1.2.4<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Added compatability with 1.2.4 version of nornir_imageregistration package</p>
 </div>
-<div class="section" id="id3">
-<h3>1.2.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>1.2.3<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>A bugfix release</p>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
@@ -127,8 +148,8 @@
 <li>Added cleanup function to Cleanup pipeline to remove empty imagesets</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>1.2.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>1.2.2<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>A bugfix release</p>
 <p><strong>New</strong></p>
 <ul class="simple">
@@ -144,8 +165,8 @@
 <li>Image reports code no longer fails when using .svg formats</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>1.2.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>1.2.1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>Many optimizations</li>
@@ -168,23 +189,23 @@
 <li>Histograms are correctly refreshed when they are out of date.</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>1.2.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>1.2.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
 <li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
 <li>Bug fixes related to case-sensitive filter names</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>1.1.5<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>1.1.5<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
 <li>Duplicate histogram nodes could be created if changing the prune threshold did not change the tiles present in the mosaic.  Contrast settings could be applied incorrectly to the duplicate and ignored.</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>1.1.2<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>1.1.2<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>SetPruneCutoff pipeline to save users from editting volumedata.xml files deep in volume</li>
@@ -198,15 +219,15 @@
 <li>Histogram image updates if contrast parameters editted</li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>1.1.1<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>1.1.1<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed boundary of volume not refreshing when stos registrations changed</li>
 <li>Add .idoc data to SerialEM volume reports</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>1.1.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>1.1.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Initial release</li>
 </ul>
@@ -214,8 +235,20 @@
 </div>
 <div class="section" id="image-registration">
 <h2>Image Registration<a class="headerlink" href="#image-registration" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>1.3.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>1.3.1<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li>Fixed issue where image scale factor in translation alignment was being used as minimum image overlap instead</li>
+<li>Removed crash from FileNotFoundError exception.  It does not exist in Python 2.7.</li>
+<li>Support for histogram numpy images</li>
+<li>Fixed very rare error where a subregion in translation alignment was a single pixel which broke statistics.  These regions are now ignored</li>
+<li>Force rectangle to use float64 numpy arrays.  Fixed issue where integer arrays were passed and then used without conversion.</li>
+<li>Fixed a bug where a non-existent center section was requested to be the center in the registration tree.</li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>1.3.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>The original ir-refine-translate code from SCI has been replaced with a Python implementation.  This appears to solve problems where tiles in mosaics were occasionally out of position</li>
@@ -250,16 +283,16 @@
 <li>Numpy floating point issues not raise an exception instead of a warning message.  Now using: numpy.seterr(all=&#8217;raise&#8217;)</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>1.2.4<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>1.2.4<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li>Support for translating tiles in a mosaic based on stage position</li>
 <li>Bug fixes</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>1.2.3<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>1.2.3<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>Support JPEG2000 and memory mapped numpy arrays as image output formats</li>
@@ -271,8 +304,8 @@
 <li>Do not throw an exception when asking a .stos file for the full path to a mask that it doesn not have.  Return None instead.</li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>1.2.2<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>1.2.2<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>Minor optimization and function used in the new tile web server</p>
 <p><strong>New</strong></p>
 <ul class="simple">
@@ -281,16 +314,16 @@
 <li>Reduced memory footprint of assemble somewhat.</li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>1.2.1<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>1.2.1<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>Many optimizations to assembling images</li>
 <li>Tests will be profiled if the PROFILE environment variable is set</li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>1.2.0<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>1.2.0<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>Added bounding box to spatial</li>
@@ -303,15 +336,15 @@
 <li>The output buffer in assemble is now the correct size.  Previously a larger buffer was allocated and cropped.</li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>1.1.7<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>1.1.7<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>RegistrationTree supports missing centers by finding the nearest section to the requested center</li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>1.1.3<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>1.1.3<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
 <li>Add flag to StosBrute to allow execution on cluster</li>
@@ -330,8 +363,8 @@
 <li>Image padding was making images larger than they had to be.  This fix should increase registration speed</li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>1.1.0<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>1.1.0<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Initial release</li>
 </ul>
@@ -349,28 +382,30 @@
   <ul>
 <li><a class="reference internal" href="#">Version History</a><ul>
 <li><a class="reference internal" href="#build-manager">Build Manager</a><ul>
-<li><a class="reference internal" href="#id1">1.3.0</a></li>
-<li><a class="reference internal" href="#id2">1.2.4</a></li>
-<li><a class="reference internal" href="#id3">1.2.3</a></li>
-<li><a class="reference internal" href="#id4">1.2.2</a></li>
-<li><a class="reference internal" href="#id5">1.2.1</a></li>
-<li><a class="reference internal" href="#id6">1.2.0</a></li>
-<li><a class="reference internal" href="#id7">1.1.5</a></li>
-<li><a class="reference internal" href="#id8">1.1.2</a></li>
-<li><a class="reference internal" href="#id9">1.1.1</a></li>
-<li><a class="reference internal" href="#id10">1.1.0</a></li>
+<li><a class="reference internal" href="#id1">1.3.1</a></li>
+<li><a class="reference internal" href="#id2">1.3.0</a></li>
+<li><a class="reference internal" href="#id3">1.2.4</a></li>
+<li><a class="reference internal" href="#id4">1.2.3</a></li>
+<li><a class="reference internal" href="#id5">1.2.2</a></li>
+<li><a class="reference internal" href="#id6">1.2.1</a></li>
+<li><a class="reference internal" href="#id7">1.2.0</a></li>
+<li><a class="reference internal" href="#id8">1.1.5</a></li>
+<li><a class="reference internal" href="#id9">1.1.2</a></li>
+<li><a class="reference internal" href="#id10">1.1.1</a></li>
+<li><a class="reference internal" href="#id11">1.1.0</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#image-registration">Image Registration</a><ul>
-<li><a class="reference internal" href="#id11">1.3.0</a></li>
-<li><a class="reference internal" href="#id12">1.2.4</a></li>
-<li><a class="reference internal" href="#id13">1.2.3</a></li>
-<li><a class="reference internal" href="#id14">1.2.2</a></li>
-<li><a class="reference internal" href="#id15">1.2.1</a></li>
-<li><a class="reference internal" href="#id16">1.2.0</a></li>
-<li><a class="reference internal" href="#id17">1.1.7</a></li>
-<li><a class="reference internal" href="#id18">1.1.3</a></li>
-<li><a class="reference internal" href="#id19">1.1.0</a></li>
+<li><a class="reference internal" href="#id12">1.3.1</a></li>
+<li><a class="reference internal" href="#id13">1.3.0</a></li>
+<li><a class="reference internal" href="#id14">1.2.4</a></li>
+<li><a class="reference internal" href="#id15">1.2.3</a></li>
+<li><a class="reference internal" href="#id16">1.2.2</a></li>
+<li><a class="reference internal" href="#id17">1.2.1</a></li>
+<li><a class="reference internal" href="#id18">1.2.0</a></li>
+<li><a class="reference internal" href="#id19">1.1.7</a></li>
+<li><a class="reference internal" href="#id20">1.1.3</a></li>
+<li><a class="reference internal" href="#id21">1.1.0</a></li>
 </ul>
 </li>
 </ul>
@@ -422,12 +457,12 @@
         <li class="right" >
           <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.2.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Jun 11, 2015.
+      Last updated on Apr 15, 2016.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Buildmanager (nornir_buildmanager) &mdash; Nornir 1.2.3 documentation</title>
+    <title>Buildmanager (nornir_buildmanager) &mdash; Nornir 1.3.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.2.3',
+        VERSION:     '1.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="Nornir 1.2.3 documentation" href="../index.html" />
+    <link rel="top" title="Nornir 1.3.1 documentation" href="../index.html" />
     <link rel="up" title="Packages" href="packages.html" />
     <link rel="next" title="pyre (nornir_pyre)" href="nornir_pyre.html" />
     <link rel="prev" title="Packages" href="packages.html" /> 
@@ -45,7 +45,7 @@
         <li class="right" >
           <a href="packages.html" title="Packages"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,7 +66,7 @@
 <pre class="literal-block">
 usage: nornir_build volumepath [-h] [-debug] [-lowpriority] [-verbose]
                                volumepath
-                               {ImportIDoc,ImportPMG,ImportSectionsImages,Prune,SetPruneCutoff,ShadeCorrect,RenameFilter,SetFilterMaskName,Histogram,AdjustContrast,ListFilterContrast,SetContrast,SetFilterLock,Mosaic,MosaicNoTranslate,SetMosaicLock,Assemble,AssembleTiles,MosaicReport,StosReport,ListDamagedSections,MarkSectionsDamaged,MarkSectionsUndamaged,CreateVikingXML,Cleanup,CreateBlobFilter,AlignSections,AssembleStosOverlays,SelectBestRegistrationChain,RefineSectionAlignment,ScaleVolumeTransforms,SliceToVolume,VolumeImage,MosaicToVolume,ExportImages}
+                               {ImportIDoc,ImportPMG,ImportSectionsImages,ImportDM4,Prune,SetPruneCutoff,ShadeCorrect,RenameFilter,SetFilterMaskName,Histogram,AdjustContrast,ListFilterContrast,SetContrast,SetFilterLock,Mosaic,MosaicNoTranslate,SetMosaicLock,Assemble,AssembleTiles,MosaicReport,StosReport,ListDamagedSections,MarkSectionsDamaged,MarkSectionsUndamaged,CreateVikingXML,Cleanup,CreateBlobFilter,AlignSections,AssembleStosOverlays,SelectBestRegistrationChain,RefineSectionAlignment,ScaleVolumeTransforms,SliceToVolume,VolumeImage,MosaicToVolume,ExportImages}
                                ...
 </pre>
 <dl class="docutils">
@@ -208,6 +208,43 @@ usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
 <tr><td class="option-group">
 <kbd><span class="option">-ext=png</span></kbd></td>
 <td>Extension of image files, default is png</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>ImportDM4</strong></dt>
+<dd><pre class="first literal-block">
+usage: nornir_build volumepath ImportDM4 [-h] [-to [TO [TO ...]]]
+                                         [-cc [CC [CC ...]]] [-ext EXTENSION]
+                                         ImportDir
+</pre>
+<dl class="last docutils">
+<dt>Positional arguments:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd>ImportDir</kbd></td>
+<td>Directory to import from</td></tr>
+</tbody>
+</table>
+</dd>
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-ext=dm4</span></kbd></td>
+<td>Extension of digital micrograph version 4 files, default is dm4</td></tr>
 </tbody>
 </table>
 </dd>
@@ -1639,13 +1676,13 @@ usage: nornir_build volumepath ExportImages [-h] [-to [TO [TO ...]]]
         <li class="right" >
           <a href="packages.html" title="Packages"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.2.3 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="packages.html" >Packages</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Jun 11, 2015.
+      Last updated on Apr 15, 2016.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
