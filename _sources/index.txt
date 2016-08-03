@@ -9,7 +9,7 @@
 Welcome to Nornir's documentation!
 ==================================
  
-Nornir's takes large sets of overlapping images in 2D and produce registered (a.k.a. aligned) 2D and 3D volumes of any size and scale.  
+Nornir's takes large sets of overlapping images in 2D and produces registered (a.k.a. aligned) 2D and 3D volumes of any size and scale.  
 
 The github repository for Nornir lives at `http://github.com/nornir/`_
 
