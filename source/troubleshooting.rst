@@ -28,7 +28,7 @@ Installation
   
 * **Q:** PIP says something about dependency_links requiring extra flags?
   
-  **A:** This began with PIP 1.5.  The current workaround is to install each package seperately as detailed on the installation page. 
+  **A:** This began with PIP 1.5.  The current workaround is to install each package separately as detailed on the installation page. 
 
 
 Pyre

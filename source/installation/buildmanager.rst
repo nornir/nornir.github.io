@@ -33,7 +33,7 @@ There are many roads to installing the packages.  One of these options should wo
    
     pip install git+https://github.com/nornir/nornir-buildmanager.git --upgrade
     
-   Later versions of Pip require each package to be installed seperately.::
+   Later versions of Pip require each package to be installed separately.::
     
     pip install git+https://github.com/nornir/nornir-shared.git --upgrade
     pip install git+https://github.com/nornir/nornir-pools.git --upgrade
