@@ -10,7 +10,7 @@ The build manager places data from various platforms into a single volume direct
 
 Importing data
 --------------
-
+ 
 The first command for any Nornir volume::
 
   nornir-build <volumepath> <import_command> <inputpath>  

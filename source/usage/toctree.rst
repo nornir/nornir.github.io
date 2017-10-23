@@ -7,5 +7,6 @@ Use
    
    Creating a Volume <buildmanager>
    Manual Registration with Pyre <pyre>
+   Overlaying images from different sources <cmp>
    Build reports <reports>
    

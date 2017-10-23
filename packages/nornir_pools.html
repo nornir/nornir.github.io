@@ -296,6 +296,10 @@ Task objects are created by adding tasks or processes to the pools.  They are no
 </dd></dl>
 
 </div>
+<div class="section" id="optimization">
+<h2>Optimization<a class="headerlink" href="#optimization" title="Permalink to this headline">¶</a></h2>
+<p>On windows there is significant overhead to passing parameters to multiprocessing jobs.  To address this I added pickle overrides to objects being marshalled.  I also removed as many global initializations as I could from modules loaded by the tasks.</p>
+</div>
 </div>
 
 
@@ -312,6 +316,7 @@ Task objects are created by adding tasks or processes to the pools.  They are no
 <li><a class="reference internal" href="#module-nornir_pools.poolbase">Pool Objects</a></li>
 <li><a class="reference internal" href="#task-objects">Task Objects</a></li>
 <li><a class="reference internal" href="#pool-destruction">Pool Destruction</a></li>
+<li><a class="reference internal" href="#optimization">Optimization</a></li>
 </ul>
 </li>
 </ul>
@@ -367,7 +372,7 @@ Task objects are created by adding tasks or processes to the pools.  They are no
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Apr 15, 2016.
+      Last updated on Oct 23, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>

@@ -58,7 +58,7 @@
 <div class="section" id="glossary-of-terms-in-context">
 <h2>Glossary of terms in context<a class="headerlink" href="#glossary-of-terms-in-context" title="Permalink to this headline">¶</a></h2>
 <p>To build a 3D volume using our transmission electron microscopes we begin by taking a sample and embedding it in a <strong>block</strong> of plastic resin.  This block is then cut into thin, about 70-90nm, <strong>sections</strong>.  Each section is placed on a grid or a slide.  At 5000X our transmission electron microscope can produce an image representing an 8um square.  To collect a larger area we collect a <strong>mosaic</strong> of images with a 10%-12% overlap.  We refer to an image in a mosaic as a <strong>tile</strong> even though proper tiles wouldn&#8217;t overlap.  Nornir figures out how to layout the tiles so we can <strong>assemble</strong> a single image of the entire mosaic.</p>
-<p>We assemble a mosaic image for each section cut from the block.  Sometimes we call a section a <strong>slice</strong>.  Each section is then registered to the adjacent sections to produce <strong>slice-to-slice</strong> (stos) transformations.  We decide which mosaic is the <strong>center</strong> of the volume.  Transforms can then be added such that any point on a mosaic can be mapped through stos transforms until the center is reached.  This produces a mapping for each section to the volume. The <strong>slice-to-volume</strong> transforms can be used with <a class="reference external" href="http://connectomes.utah.edu/">Viking</a> or if the mosaic images are small enough volume aligned section images can be produced.</p>
+<p>We assemble a mosaic image for each section cut from the block.  Sometimes we call a section a <strong>slice</strong>.  Each section is then registered to the adjacent sections to produce <strong>slice-to-slice</strong> (stos) transformations.  We decide which mosaic is the <strong>center</strong> of the volume.  Transforms can then be added such that any point on a mosaic can be mapped through stos transforms until the center is reached.  This produces a mapping for each section to the volume. The <strong>slice-to-volume</strong> transforms can be used with <a class="reference external" href="http://connectomes.utah.edu/http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=61063">Viking</a> or if the mosaic images are small enough volume aligned section images can be produced.</p>
 </div>
 </div>
 
@@ -126,7 +126,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Apr 15, 2016.
+      Last updated on Oct 23, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
