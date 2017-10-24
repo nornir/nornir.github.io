@@ -69,6 +69,7 @@
 <div class="section" id="importing-light-microscopy-into-a-tem-volume">
 <h3>Importing Light Microscopy into a TEM volume<a class="headerlink" href="#importing-light-microscopy-into-a-tem-volume" title="Permalink to this headline">¶</a></h3>
 <p>Volumes can contain images from different sources.  Each section cut should be assigned a distinct number in order regardless of the eventual capture platform.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.</p>
+<p>Importing Light Microscopy data is identical to importing TEM data.  Find the Nornir import operation for the data format you have captured in and import the data into the volume.  Ensure the channel specified in the filename is distinct from the channel used for TEM data.</p>
 <p>We create volume-specific scripts for importing LM data into an existing TEM volume.  The key change is the use of the channels parameter to prevent operation on the wrong image channels.  For example to prevent our LM operations from affecting our darkfield or TEM data we apply the channel and regular expression:</p>
 <div class="highlight-none"><div class="highlight"><pre>-Channels &quot;(?!(DAPI$)|(TEM$))&quot;
 </pre></div>
@@ -105,7 +106,7 @@ title CreateVikingXML
 nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 </pre></div>
 </div>
-<p>A breakdown of the above script:</p>
+<p>A breakdown of the script:</p>
 <div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
 </pre></div>
 </div>
@@ -113,21 +114,20 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 <div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 AddStos -File Y:\Volumes\RC2\CMPManualStos\1405-1404_TomLec.stos -Block TEM -StosGroup CMP -ControlSection 1404 -ControlChannel TEM -ControlFilter Leveled -ControlDownsample 16 -MappedSection 1405 -MappedChannel TomLec -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 </pre></div>
 </div>
-<p>AddStos adds a stos file to a stos group.  To be successful we must specify enough information to identify which images are being registered.  This command places the .stos file in the CMP16 group and indicates which channel and filter should be used as control/mapped images.  Nornir changes the internal parameters of the .stos transform to make spatial units consistent.  The CMP16 stos group will not be used in builds.  It is used as a safe holding area to inject the transforms into the build process as needed.</p>
+<p>AddStos adds a stos file to a stos group.  To be successful we must specify enough information to identify which section filters were used for registration.  This command places the .stos file in the CMP16 group and indicates which channel and filter should be used as control/mapped images.  Nornir changes the internal parameters of the .stos transform to make spatial units consistent.  The CMP16 stos group will not be used in builds.  It is used as a safe holding area to inject the transforms into the build process as needed.</p>
 <div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 AddToStosMap -Block TEM -Name FinalStosMap -ControlSection 1404 -MappedSection 1405
 </pre></div>
 </div>
 <p>This command updates the map used to define the relationships between all sections in the volume.  It indicates that there is a slice-to-slice transform that should be included in the volume.</p>
-<p>The AddStos and AddToStosMap commands are repeated for each manual transform in the volume.  They can be run repeatedly on the same volume without harm.  The Marc Lab creates a single script which imports all LM to TEM stos files and appends it as needed.</p>
+<p>The AddStos and AddToStosMap commands are repeated for each manual transform in the volume.  They can be executed repeatedly without harm.  The Marc Lab creates a single script which imports all LM to TEM stos files and appends it as needed.</p>
 <div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 CopyStosGroup -Input CMP -Output Grid -Downsample 16
 </pre></div>
 </div>
 <p>This command copies all of the .stos files we have imported to the CMP16 group to the Grid16 group.  The Grid16 group is used by our primary build script to generate all slice-to-volume transforms.</p>
-<div class="highlight-none"><div class="highlight"><pre>title SliceToVolume
-nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
-title ScaleVolumeTransforms
+<div class="highlight-none"><div class="highlight"><pre>nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
+
 nornir-build %1 ScaleVolumeTransforms -InputGroup SliceToVolume -InputDownsample 16 -OutputDownsample 1
-title CreateVikingXML
+
 nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 </pre></div>
 </div>

@@ -22,8 +22,9 @@ ____________________________________________
 
 Volumes can contain images from different sources.  Each section cut should be assigned a distinct number in order regardless of the eventual capture platform.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.
 
-We create volume-specific scripts for importing LM data into an existing TEM volume.  The key change is the use of the channels parameter to prevent operation on the wrong image channels.  For example to prevent our LM operations from affecting our darkfield or TEM data we apply the channel and regular expression:
+Importing Light Microscopy data is identical to importing TEM data.  Find the Nornir import operation for the data format you have captured in and import the data into the volume.  Ensure the channel specified in the filename is distinct from the channel used for TEM data.
 
+We create volume-specific scripts for importing LM data into an existing TEM volume.  The key change is the use of the channels parameter to prevent operation on the wrong image channels.  For example to prevent our LM operations from affecting our darkfield or TEM data we apply the channel and regular expression:
 
 .. code-block:: none
 
@@ -98,13 +99,10 @@ This command copies all of the .stos files we have imported to the CMP16 group t
 
 .. code-block:: none
   
-	title SliceToVolume
 	nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
 	
-	title ScaleVolumeTransforms
 	nornir-build %1 ScaleVolumeTransforms -InputGroup SliceToVolume -InputDownsample 16 -OutputDownsample 1
 	
-	title CreateVikingXML
 	nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 
 These commands are replicated from our primary TEMAlign.cmd script.  The SliceToVolume line creates a transform that registers each section in the volume to a single center section to create a slice-to-volume transform.  The ScaleVolumeTransforms command scales the transforms to full-resolution.  The CreateVikingXML generates the meta-data required for Viking to view the volume.
