@@ -24,7 +24,10 @@ Volumes can contain images from different sources.  Each section cut should be a
 
 We create volume-specific scripts for importing LM data into an existing TEM volume.  The key change is the use of the channels parameter to prevent operation on the wrong image channels.  For example to prevent our LM operations from affecting our darkfield or TEM data we apply the channel and regular expression:
 
-.. -Channels "(?!(DAPI$)|(TEM$))"
+
+.. code-block:: none
+
+	-Channels "(?!(DAPI$)|(TEM$))"
 
 The exclamation point tells Nornir not to process any channels named DAPI or TEM.  In the Marc Lab those names include all of the non-LM data.  We could also specifically name each LM channel name, but in our case we have far more LM channels than TEM or darkfield channels.
 
