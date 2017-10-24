@@ -82,11 +82,12 @@
 <p>The Marc Lab&#8217;s procedure is to register full-resolution LM images to TEM images downsampled by a factor of 16.  We chose the highest resolution TEM image used for slice-to-slice TEM to TEM registration.</p>
 <p>The manual .stos files should be saved somewhere in the volume directory.  We then manually create a Stos group for these transforms and import them into the volume.  Here is a snippet of our script:</p>
 <div class="highlight-none"><div class="highlight"><pre>REM Be sure to adjust the downsample level to match the level used to align the CMP and TEM images.
+
 title Create CMP Slice-to-slice alignment Group
 nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
+
 title TODO: Add .stos transforms to the Slice-to-slice alignment group
 REM Below is a template for .stos files.  Add one for each CMP section:
-REM nornir-build %1 D:\Volumes\RPC1 AddStos -File &lt;path&gt; -Block TEM -StosGroup CMP -ControlSection #### -ControlChannel #### -ControlFilter Leveled -ControlDownsample 8 -MappedSection 565 -MappedChannel ## -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 
 nornir-build Y:\Volumes\RC2 AddStos -File Y:\Volumes\RC2\CMPManualStos\1405-1404_TomLec.stos -Block TEM -StosGroup CMP -ControlSection 1404 -ControlChannel TEM -ControlFilter Leveled -ControlDownsample 16 -MappedSection 1405 -MappedChannel TomLec -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 nornir-build Y:\Volumes\RC2 AddToStosMap -Block TEM -Name FinalStosMap -ControlSection 1404 -MappedSection 1405
@@ -96,8 +97,10 @@ nornir-build Y:\Volumes\RC2 CopyStosGroup -Input CMP -Output Grid -Downsample 16
 
 title SliceToVolume
 nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
+
 title ScaleVolumeTransforms
 nornir-build %1 ScaleVolumeTransforms -InputGroup SliceToVolume -InputDownsample 16 -OutputDownsample 1
+
 title CreateVikingXML
 nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 </pre></div>

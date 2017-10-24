@@ -45,12 +45,13 @@ The manual .stos files should be saved somewhere in the volume directory.  We th
 
 .. code-block:: none
 
-	REM Be sure to adjust the downsample level to match the level used to align the CMP and TEM images. 
+	REM Be sure to adjust the downsample level to match the level used to align the CMP and TEM images.
+	 
 	title Create CMP Slice-to-slice alignment Group
 	nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
+	
 	title TODO: Add .stos transforms to the Slice-to-slice alignment group
 	REM Below is a template for .stos files.  Add one for each CMP section:
-	REM nornir-build %1 D:\Volumes\RPC1 AddStos -File <path> -Block TEM -StosGroup CMP -ControlSection #### -ControlChannel #### -ControlFilter Leveled -ControlDownsample 8 -MappedSection 565 -MappedChannel ## -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 	
 	nornir-build Y:\Volumes\RC2 AddStos -File Y:\Volumes\RC2\CMPManualStos\1405-1404_TomLec.stos -Block TEM -StosGroup CMP -ControlSection 1404 -ControlChannel TEM -ControlFilter Leveled -ControlDownsample 16 -MappedSection 1405 -MappedChannel TomLec -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 	nornir-build Y:\Volumes\RC2 AddToStosMap -Block TEM -Name FinalStosMap -ControlSection 1404 -MappedSection 1405
@@ -60,12 +61,14 @@ The manual .stos files should be saved somewhere in the volume directory.  We th
 	
 	title SliceToVolume
 	nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
+	
 	title ScaleVolumeTransforms
 	nornir-build %1 ScaleVolumeTransforms -InputGroup SliceToVolume -InputDownsample 16 -OutputDownsample 1
+	
 	title CreateVikingXML
 	nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 	
-A breakdown of the above script:
+A breakdown of the script:
 
 .. code-block:: none
 	
@@ -77,7 +80,7 @@ CreateStosGroup is used to create a distinct slice-to-slice registration group t
 	
 	nornir-build Y:\Volumes\RC2 AddStos -File Y:\Volumes\RC2\CMPManualStos\1405-1404_TomLec.stos -Block TEM -StosGroup CMP -ControlSection 1404 -ControlChannel TEM -ControlFilter Leveled -ControlDownsample 16 -MappedSection 1405 -MappedChannel TomLec -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 	
-AddStos adds a stos file to a stos group.  To be successful we must specify enough information to identify which images are being registered.  This command places the .stos file in the CMP16 group and indicates which channel and filter should be used as control/mapped images.  Nornir changes the internal parameters of the .stos transform to make spatial units consistent.  The CMP16 stos group will not be used in builds.  It is used as a safe holding area to inject the transforms into the build process as needed.
+AddStos adds a stos file to a stos group.  To be successful we must specify enough information to identify which section filters were used for registration.  This command places the .stos file in the CMP16 group and indicates which channel and filter should be used as control/mapped images.  Nornir changes the internal parameters of the .stos transform to make spatial units consistent.  The CMP16 stos group will not be used in builds.  It is used as a safe holding area to inject the transforms into the build process as needed.
 
 .. code-block:: none 
 
@@ -85,7 +88,7 @@ AddStos adds a stos file to a stos group.  To be successful we must specify enou
 	
 This command updates the map used to define the relationships between all sections in the volume.  It indicates that there is a slice-to-slice transform that should be included in the volume.
 
-The AddStos and AddToStosMap commands are repeated for each manual transform in the volume.  They can be run repeatedly on the same volume without harm.  The Marc Lab creates a single script which imports all LM to TEM stos files and appends it as needed.
+The AddStos and AddToStosMap commands are repeated for each manual transform in the volume.  They can be executed repeatedly without harm.  The Marc Lab creates a single script which imports all LM to TEM stos files and appends it as needed.
 
 .. code-block:: none 
 
@@ -97,8 +100,10 @@ This command copies all of the .stos files we have imported to the CMP16 group t
   
 	title SliceToVolume
 	nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
+	
 	title ScaleVolumeTransforms
 	nornir-build %1 ScaleVolumeTransforms -InputGroup SliceToVolume -InputDownsample 16 -OutputDownsample 1
+	
 	title CreateVikingXML
 	nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 
