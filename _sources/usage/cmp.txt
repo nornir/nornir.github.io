@@ -5,17 +5,8 @@ Overlaying TEM with Light Microscopy
 One of the most powerful features of the Transmission Electron Microscopy (TEM) connectomics platform is the ability to interleave Light Microscopy (LM) sections into the TEM volume.
 
 
-Collecting Data
----------------
-
-Light microscopy sections require different build parameters than TEM data.  The main causes are significant differences in raw data size, brightfield vs. darkfield differences, and differences in texture.  
-
-Size
-____
-
-An example: The original Marc Lab TEM generated 4080x4080 pixel tiles.  The LM scopes produced images roughly 1280x1024.  LM scripts for our lab change image downsampling by a factor of 8 compared to the TEM image build parameters.
-
-It is important to include the correct pixel unit scale in the import command.  Without this information Viking may perform poorly or not at all.  The Marc lab's 100x oil resolution is 73 nm/pixel.
+Collecting and Processing Data
+------------------------------
 
 Shading
 _______
@@ -71,7 +62,7 @@ The manual .stos files should be saved somewhere in the volume directory.  We th
 	title CreateVikingXML
 	nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 	
-Breaking down this script:
+A breakdown of the above script:
 
 .. code-block:: none
 	
@@ -125,6 +116,11 @@ Once the LM sections are in the volume it is desirable to overlay the LM data ov
 	</Section>
 	
 The above snippet places section #123 into #124's blue channel.
+
+Once CreateVikingXML is run on the volume the about.xml entries will be copied into the .VikingXML file and the channel will appear in Viking.
+
+If one does not want to run CreateVikingXML the identical snippet can be appended to the matching <Section> element in the .VikingXML file.
+
 
   
 

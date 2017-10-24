@@ -58,14 +58,8 @@
   <div class="section" id="overlaying-tem-with-light-microscopy">
 <h1>Overlaying TEM with Light Microscopy<a class="headerlink" href="#overlaying-tem-with-light-microscopy" title="Permalink to this headline">¶</a></h1>
 <p>One of the most powerful features of the Transmission Electron Microscopy (TEM) connectomics platform is the ability to interleave Light Microscopy (LM) sections into the TEM volume.</p>
-<div class="section" id="collecting-data">
-<h2>Collecting Data<a class="headerlink" href="#collecting-data" title="Permalink to this headline">¶</a></h2>
-<p>Light microscopy sections require different build parameters than TEM data.  The main causes are significant differences in raw data size, brightfield vs. darkfield differences, and differences in texture.</p>
-<div class="section" id="size">
-<h3>Size<a class="headerlink" href="#size" title="Permalink to this headline">¶</a></h3>
-<p>An example: The original Marc Lab TEM generated 4080x4080 pixel tiles.  The LM scopes produced images roughly 1280x1024.  LM scripts for our lab change image downsampling by a factor of 8 compared to the TEM image build parameters.</p>
-<p>It is important to include the correct pixel unit scale in the import command.  Without this information Viking may perform poorly or not at all.  The Marc lab&#8217;s 100x oil resolution is 73 nm/pixel.</p>
-</div>
+<div class="section" id="collecting-and-processing-data">
+<h2>Collecting and Processing Data<a class="headerlink" href="#collecting-and-processing-data" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="shading">
 <h3>Shading<a class="headerlink" href="#shading" title="Permalink to this headline">¶</a></h3>
 <p>Light microscopy images can suffer from shading issues.  This results in a checkerboard pattern across the final mosaic.</p>
@@ -105,7 +99,7 @@ title CreateVikingXML
 nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolume1 -StosMap SliceToVolume
 </pre></div>
 </div>
-<p>Breaking down this script:</p>
+<p>A breakdown of the above script:</p>
 <div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
 </pre></div>
 </div>
@@ -146,6 +140,8 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 </pre></div>
 </div>
 <p>The above snippet places section #123 into #124&#8217;s blue channel.</p>
+<p>Once CreateVikingXML is run on the volume the about.xml entries will be copied into the .VikingXML file and the channel will appear in Viking.</p>
+<p>If one does not want to run CreateVikingXML the identical snippet can be appended to the matching &lt;Section&gt; element in the .VikingXML file.</p>
 </div>
 </div>
 
@@ -158,8 +154,7 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Overlaying TEM with Light Microscopy</a><ul>
-<li><a class="reference internal" href="#collecting-data">Collecting Data</a><ul>
-<li><a class="reference internal" href="#size">Size</a></li>
+<li><a class="reference internal" href="#collecting-and-processing-data">Collecting and Processing Data</a><ul>
 <li><a class="reference internal" href="#shading">Shading</a></li>
 <li><a class="reference internal" href="#importing-light-microscopy-into-a-tem-volume">Importing Light Microscopy into a TEM volume</a></li>
 <li><a class="reference internal" href="#aligning-light-microscopy-and-tem-images">Aligning Light Microscopy and TEM images</a></li>
@@ -221,7 +216,7 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Oct 23, 2017.
+      Last updated on Oct 24, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
