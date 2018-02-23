@@ -10,6 +10,7 @@ Third-party tools
 The buildmanager has several dependencies on third party libraries which must be installed and available in the system path
 
 * Image Magick
+  Starting with Nornir version 1.3.1 Image Magick version 7 or later is required.  Previous versions of Nornir used Image Magick 6.
   The 16 bits-per-pixel version of `Image Magick`_ should be installed and in the system path.  **Q16** should be in the Image Magick download filename which indicates it is a 16bpp build.  On Windows I use the shared library version (dll).
 
 * ir-tools

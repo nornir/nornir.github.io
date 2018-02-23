@@ -64,11 +64,32 @@
 <h3>Shading<a class="headerlink" href="#shading" title="Permalink to this headline">¶</a></h3>
 <p>Light microscopy images can suffer from shading issues.  This results in a checkerboard pattern across the final mosaic.</p>
 <p>It is best to configure the scope to eliminate shading.  If that is not possible there is a ShadeCorrect operation in Nornir.  ShadeCorrect builds a corrective image by measuring min/max values, depending on a brightfield or darkfield input, for each pixel position in the input images.  The corrective image can found in the filter directory containing the input images.  The corrective image is then added/subtracted from each image tile and a new filter is written for the channel.</p>
-<p>The corrective image can introduce noise when every tile contains features or there are few tiles to sample from.  The problem is most easily corrected at capture time.  Collect 3-4 images from different background regions with no information to correctly determine the min/max values for the corrective image.  The tiles do not need to be contiguous with the main mosaic.  Using Nornir&#8217;s prune operation should easily detect and discard these blank tiles once the shading correction has occurred.  It is advisable to remove these tiles with Prune even if they contiguous because blank tiles are very prone to registration errors.</p>
+<p>The corrective image can introduce noise when every tile contains features or there are few tiles to sample from.  The problem is most easily corrected at capture time.  Collect 3-4 images from different background regions with no information to correctly determine the min/max values for the corrective image.  The tiles do not need to be contiguous with the main mosaic.  Using Nornir&#8217;s prune operation should easily detect and discard these blank tiles once the shading correction has occurred.  It is advisable to remove these tiles with Prune even if they contiguous because blank tiles are very prone to registration</p>
 </div>
-<div class="section" id="importing-light-microscopy-into-a-tem-volume">
-<h3>Importing Light Microscopy into a TEM volume<a class="headerlink" href="#importing-light-microscopy-into-a-tem-volume" title="Permalink to this headline">¶</a></h3>
-<p>Volumes can contain images from different sources.  Each section cut should be assigned a distinct number in order regardless of the eventual capture platform.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.</p>
+<div class="section" id="importing-image-tiles">
+<h3>Importing image tiles<a class="headerlink" href="#importing-image-tiles" title="Permalink to this headline">¶</a></h3>
+<p>The Marc lab captures using Surveyor which stores tiles in a .pmg file format.  There is an &#8220;ImportPMG&#8221; operation which expects .pmg files to follow this naming convention:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;Slide#&gt;_&lt;Block#&gt;_&lt;Section#&gt;_&lt;Capture operator Initials&gt;_&lt;Magnification&gt;_&lt;Spot#&gt;_&lt;ChannelName&gt;.pmg
+
+Slide#,Block#,Initials,Magnification,Spot# are used to preserve meta-data that may be specific to the Marc lab.  Dummy values can be inserted.
+
+The CMPBuild.cmd is a script in the standard installation which provides an example for building .pmg data.  The data should be aligned and assembled to a single image to be used as input to Pyre in the steps below.
+</pre></div>
+</div>
+</div>
+<div class="section" id="importing-full-images">
+<h3>Importing full images<a class="headerlink" href="#importing-full-images" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to process images outside of Nornir and then reimport them.  This is for cases where Nornir is missing functionality or is too cumbersome.</p>
+<p>The ImportImages command expects images to follow this naming convention:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;Section#&gt;_&lt;Channel&gt;_[Filter]_&lt;Downsample&gt;
+</pre></div>
+</div>
+<p>For example, a file named 264_G_Enhanced_1.png would be added as the full-resolution image for the &#8220;Enhanced&#8221; filter of channel &#8220;G&#8221; in section 264.</p>
+<p>The standard AssembleTiles command cannot be used for imported images.  Instead the &#8220;AssembleTilesFromImage&#8221; command should be used to generate optimized tiles directly from the imported image.</p>
+</div>
+<div class="section" id="selectively-building-light-microscopy-in-a-tem-volume">
+<h3>Selectively building Light Microscopy in a TEM volume<a class="headerlink" href="#selectively-building-light-microscopy-in-a-tem-volume" title="Permalink to this headline">¶</a></h3>
+<p>Regardless of the source or imaging method each section cut should be assigned a distinct number assigned sequentially.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.</p>
 <p>Importing Light Microscopy data is identical to importing TEM data.  Find the Nornir import operation for the data format you have captured in and import the data into the volume.  Ensure the channel specified in the filename is distinct from the channel used for TEM data.</p>
 <p>We create volume-specific scripts for importing LM data into an existing TEM volume.  The key change is the use of the channels parameter to prevent operation on the wrong image channels.  For example to prevent our LM operations from affecting our darkfield or TEM data we apply the channel and regular expression:</p>
 <div class="highlight-none"><div class="highlight"><pre>-Channels &quot;(?!(DAPI$)|(TEM$))&quot;
@@ -77,8 +98,9 @@
 <p>The exclamation point tells Nornir not to process any channels named DAPI or TEM.  In the Marc Lab those names include all of the non-LM data.  We could also specifically name each LM channel name, but in our case we have far more LM channels than TEM or darkfield channels.</p>
 <p>A reference scripts installed with Nornir is CMPIntoTEMBuild.cmd</p>
 </div>
+</div>
 <div class="section" id="aligning-light-microscopy-and-tem-images">
-<h3>Aligning Light Microscopy and TEM images<a class="headerlink" href="#aligning-light-microscopy-and-tem-images" title="Permalink to this headline">¶</a></h3>
+<h2>Aligning Light Microscopy and TEM images<a class="headerlink" href="#aligning-light-microscopy-and-tem-images" title="Permalink to this headline">¶</a></h2>
 <p>Automatic slice-to-slice registration will rarely succeed across channels.  The images can also be at vastly different scales. In this case manual registration is done with the Pyre tool.</p>
 <p>The Marc Lab&#8217;s procedure is to register full-resolution LM images to TEM images downsampled by a factor of 16.  We chose the highest resolution TEM image used for slice-to-slice TEM to TEM registration.</p>
 <p>The manual .stos files should be saved somewhere in the volume directory.  We then manually create a Stos group for these transforms and import them into the volume.  Here is a snippet of our script:</p>
@@ -133,7 +155,6 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 </div>
 <p>These commands are replicated from our primary TEMAlign.cmd script.  The SliceToVolume line creates a transform that registers each section in the volume to a single center section to create a slice-to-volume transform.  The ScaleVolumeTransforms command scales the transforms to full-resolution.  The CreateVikingXML generates the meta-data required for Viking to view the volume.</p>
 </div>
-</div>
 <div class="section" id="about-xml">
 <h2>About.xml<a class="headerlink" href="#about-xml" title="Permalink to this headline">¶</a></h2>
 <p>Once the LM sections are in the volume it is desirable to overlay the LM data over TEM data.  This can be done automatically in Viking by updating the volume&#8217;s about.xml with a channel mapping.</p>
@@ -162,10 +183,12 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 <li><a class="reference internal" href="#">Overlaying TEM with Light Microscopy</a><ul>
 <li><a class="reference internal" href="#collecting-and-processing-data">Collecting and Processing Data</a><ul>
 <li><a class="reference internal" href="#shading">Shading</a></li>
-<li><a class="reference internal" href="#importing-light-microscopy-into-a-tem-volume">Importing Light Microscopy into a TEM volume</a></li>
-<li><a class="reference internal" href="#aligning-light-microscopy-and-tem-images">Aligning Light Microscopy and TEM images</a></li>
+<li><a class="reference internal" href="#importing-image-tiles">Importing image tiles</a></li>
+<li><a class="reference internal" href="#importing-full-images">Importing full images</a></li>
+<li><a class="reference internal" href="#selectively-building-light-microscopy-in-a-tem-volume">Selectively building Light Microscopy in a TEM volume</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#aligning-light-microscopy-and-tem-images">Aligning Light Microscopy and TEM images</a></li>
 <li><a class="reference internal" href="#about-xml">About.xml</a></li>
 </ul>
 </li>
@@ -222,7 +245,7 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Oct 24, 2017.
+      Last updated on Feb 23, 2018.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>

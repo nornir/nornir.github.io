@@ -173,7 +173,7 @@
 <pre class="literal-block">
 usage: nornir_build volumepath [-h] [-debug] [-lowpriority] [-verbose]
                                volumepath
-                               {AddStos,AddToStosMap,AdjustContrast,AlignSections,Assemble,AssembleStosOverlays,AssembleTiles,Cleanup,CleanupStos,CopyStosGroup,CreateBlobFilter,CreateStosGroup,CreateVikingXML,ExportImages,ExportMetadata,Histogram,ImportDM4,ImportIDoc,ImportPMG,ImportSectionsImages,InvertFilter,ListBlockStosMaps,ListDamagedSections,ListFilterContrast,ListGroupSectionMappings,ListStosGroups,ListStosMap,MarkSectionsDamaged,MarkSectionsUndamaged,Mosaic,MosaicNoTranslate,MosaicReport,MosaicToVolume,PrintContrast,Prune,RefineSectionAlignment,RemoveFromStosMap,RemoveStosGroup,RenameFilter,ReportVolumeBounds,ScaleVolumeTransforms,SelectBestRegistrationChain,SetContrast,SetFilterLock,SetFilterMaskName,SetMosaicLock,SetPruneCutoff,ShadeCorrect,SliceToVolume,StosReport,VolumeImage}
+                               {AddStos,AddToStosMap,AdjustContrast,AlignSections,Assemble,AssembleStosOverlays,AssembleTiles,AssembleTilesFromImage,Cleanup,CleanupStos,CopyStosGroup,CreateBlobFilter,CreateStosGroup,CreateVikingXML,ExportImages,ExportMetadata,Histogram,ImportDM4,ImportIDoc,ImportImages,ImportPMG,InvertFilter,ListBlockStosMaps,ListDamagedSections,ListFilterContrast,ListGroupSectionMappings,ListStosGroups,ListStosMap,MarkSectionsDamaged,MarkSectionsUndamaged,Mosaic,MosaicNoTranslate,MosaicReport,MosaicToVolume,PrintContrast,Prune,RefineSectionAlignment,RemoveFromStosMap,RemoveStosGroup,RenameFilter,ReportVolumeBounds,ScaleVolumeTransforms,SelectBestRegistrationChain,SetContrast,SetFilterLock,SetFilterMaskName,SetMosaicLock,SetPruneCutoff,ShadeCorrect,SliceToVolume,StosReport,VolumeImage}
                                ...
 </pre>
 <dl class="docutils">
@@ -577,6 +577,50 @@ usage: nornir_build volumepath AssembleTiles [-h] [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
+<dt><strong>AssembleTilesFromImage</strong></dt>
+<dd><pre class="first literal-block">
+usage: nornir_build volumepath AssembleTilesFromImage [-h] [-to [TO [TO ...]]]
+                                                      [-cc [CC [CC ...]]]
+                                                      [-Sections SECTIONS]
+                                                      [-Channels CHANNELREGEX]
+                                                      [-Filters FILTERREGEX]
+                                                      [-HighestDownsample HIGHESTDOWNSAMPLE]
+                                                      [-Shape SHAPE]
+</pre>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-to=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-cc=</span></kbd></td>
+<td>E-Mail addresses for reports</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Sections</span></kbd></td>
+<td>Section numbers to process.  If omitted all sections are processed.  Values are separated with commas and ranges are indicated by hyphens. Ex: &#8216;1,3,5-7&#8217; == [1,3,5,6,7]</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Channels=*</span></kbd></td>
+<td>Regular expression describing channels to be assembled</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-Filters=(?![M|m]ask)</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Regular expression describing filters to be assembled</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">-HighestDownsample</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Highest level downsample to generate.  Defaults to the level required to show entire section on one tile.</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-Shape=512,512</span></kbd></td>
+<td>The size the tiles passed as a comma-delimited pair of integers.  For example 256,512.  If a single number is passed it is used for both dimensions</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
 <dt><strong>Cleanup</strong></dt>
 <dd><pre class="first literal-block">
 usage: nornir_build volumepath Cleanup [-h] [-to [TO [TO ...]]]
@@ -949,7 +993,7 @@ usage: nornir_build volumepath ImportIDoc [-h] [-to [TO [TO ...]]]
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd>ImportDir</kbd></td>
-<td>Directory to import from</td></tr>
+<td>Directory to import from.  The .idoc files in subdirectories should be named with the desired section number after import. i.e. 0005.idoc to import the file as section #5.</td></tr>
 </tbody>
 </table>
 </dd>
@@ -972,12 +1016,12 @@ usage: nornir_build volumepath ImportIDoc [-h] [-to [TO [TO ...]]]
 </dd>
 </dl>
 </dd>
-<dt><strong>ImportPMG</strong></dt>
+<dt><strong>ImportImages</strong></dt>
 <dd><pre class="first literal-block">
-usage: nornir_build volumepath ImportPMG [-h] [-to [TO [TO ...]]]
-                                         [-cc [CC [CC ...]]] -Scale
-                                         SCALEVALUEINNM [-ext EXTENSION]
-                                         ImportDir
+usage: nornir_build volumepath ImportImages [-h] [-to [TO [TO ...]]]
+                                            [-cc [CC [CC ...]]] -Scale
+                                            SCALEVALUEINNM [-ext EXTENSION]
+                                            ImportDir
 </pre>
 <dl class="last docutils">
 <dt>Positional arguments:</dt>
@@ -1006,19 +1050,19 @@ usage: nornir_build volumepath ImportPMG [-h] [-to [TO [TO ...]]]
 <kbd><span class="option">-Scale</span></kbd></td>
 <td>Pixel size in nanometers</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">-ext=pmg</span></kbd></td>
-<td>Extension of pmg files, default is pmg</td></tr>
+<kbd><span class="option">-ext=png</span></kbd></td>
+<td>Extension of image files, default is png</td></tr>
 </tbody>
 </table>
 </dd>
 </dl>
 </dd>
-<dt><strong>ImportSectionsImages</strong></dt>
+<dt><strong>ImportPMG</strong></dt>
 <dd><pre class="first literal-block">
-usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
-                                                    [-cc [CC [CC ...]]]
-                                                    [-ext EXTENSION]
-                                                    ImportDir
+usage: nornir_build volumepath ImportPMG [-h] [-to [TO [TO ...]]]
+                                         [-cc [CC [CC ...]]] -Scale
+                                         SCALEVALUEINNM [-ext EXTENSION]
+                                         ImportDir
 </pre>
 <dl class="last docutils">
 <dt>Positional arguments:</dt>
@@ -1028,7 +1072,7 @@ usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
 <tbody valign="top">
 <tr><td class="option-group">
 <kbd>ImportDir</kbd></td>
-<td>Directory to import from</td></tr>
+<td>Directory to import from.  The PMG file should follow this format: Slide#_Block#_Section#_Initials_Mag_Spot_Probe.  However only Section and Probe are used as the section number and channel name respectively.  The rest is stored as meta-data.</td></tr>
 </tbody>
 </table>
 </dd>
@@ -1044,8 +1088,11 @@ usage: nornir_build volumepath ImportSectionsImages [-h] [-to [TO [TO ...]]]
 <kbd><span class="option">-cc=</span></kbd></td>
 <td>E-Mail addresses for reports</td></tr>
 <tr><td class="option-group">
-<kbd><span class="option">-ext=png</span></kbd></td>
-<td>Extension of image files, default is png</td></tr>
+<kbd><span class="option">-Scale</span></kbd></td>
+<td>Pixel size in nanometers</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">-ext=pmg</span></kbd></td>
+<td>Extension of pmg files, default is pmg</td></tr>
 </tbody>
 </table>
 </dd>
@@ -2359,7 +2406,7 @@ usage: nornir_build volumepath VolumeImage [-h] [-to [TO [TO ...]]]
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2014, James Anderson.
-      Last updated on Oct 23, 2017.
+      Last updated on Feb 23, 2018.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>

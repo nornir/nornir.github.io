@@ -15,12 +15,41 @@ Light microscopy images can suffer from shading issues.  This results in a check
 
 It is best to configure the scope to eliminate shading.  If that is not possible there is a ShadeCorrect operation in Nornir.  ShadeCorrect builds a corrective image by measuring min/max values, depending on a brightfield or darkfield input, for each pixel position in the input images.  The corrective image can found in the filter directory containing the input images.  The corrective image is then added/subtracted from each image tile and a new filter is written for the channel.
 
-The corrective image can introduce noise when every tile contains features or there are few tiles to sample from.  The problem is most easily corrected at capture time.  Collect 3-4 images from different background regions with no information to correctly determine the min/max values for the corrective image.  The tiles do not need to be contiguous with the main mosaic.  Using Nornir's prune operation should easily detect and discard these blank tiles once the shading correction has occurred.  It is advisable to remove these tiles with Prune even if they contiguous because blank tiles are very prone to registration errors.
+The corrective image can introduce noise when every tile contains features or there are few tiles to sample from.  The problem is most easily corrected at capture time.  Collect 3-4 images from different background regions with no information to correctly determine the min/max values for the corrective image.  The tiles do not need to be contiguous with the main mosaic.  Using Nornir's prune operation should easily detect and discard these blank tiles once the shading correction has occurred.  It is advisable to remove these tiles with Prune even if they contiguous because blank tiles are very prone to registration  
 
-Importing Light Microscopy into a TEM volume
-____________________________________________
+Importing image tiles
+_____________________
 
-Volumes can contain images from different sources.  Each section cut should be assigned a distinct number in order regardless of the eventual capture platform.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.
+The Marc lab captures using Surveyor which stores tiles in a .pmg file format.  There is an "ImportPMG" operation which expects .pmg files to follow this naming convention:
+
+.. code-block:: none
+	
+	<Slide#>_<Block#>_<Section#>_<Capture operator Initials>_<Magnification>_<Spot#>_<ChannelName>.pmg
+	
+	Slide#,Block#,Initials,Magnification,Spot# are used to preserve meta-data that may be specific to the Marc lab.  Dummy values can be inserted.
+	
+	The CMPBuild.cmd is a script in the standard installation which provides an example for building .pmg data.  The data should be aligned and assembled to a single image to be used as input to Pyre in the steps below.
+
+Importing full images
+_____________________
+
+It is possible to process images outside of Nornir and then reimport them.  This is for cases where Nornir is missing functionality or is too cumbersome.
+  
+The ImportImages command expects images to follow this naming convention:
+
+.. code-block:: none
+	
+	<Section#>_<Channel>_[Filter]_<Downsample>
+
+For example, a file named 264_G_Enhanced_1.png would be added as the full-resolution image for the "Enhanced" filter of channel "G" in section 264.
+
+The standard AssembleTiles command cannot be used for imported images.  Instead the "AssembleTilesFromImage" command should be used to generate optimized tiles directly from the imported image.
+
+
+Selectively building Light Microscopy in a TEM volume
+_____________________________________________________
+
+Regardless of the source or imaging method each section cut should be assigned a distinct number assigned sequentially.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.
 
 Importing Light Microscopy data is identical to importing TEM data.  Find the Nornir import operation for the data format you have captured in and import the data into the volume.  Ensure the channel specified in the filename is distinct from the channel used for TEM data.
 
@@ -36,7 +65,7 @@ A reference scripts installed with Nornir is CMPIntoTEMBuild.cmd
 
 
 Aligning Light Microscopy and TEM images
-________________________________________
+----------------------------------------
 
 Automatic slice-to-slice registration will rarely succeed across channels.  The images can also be at vastly different scales. In this case manual registration is done with the Pyre tool.
 
@@ -126,9 +155,6 @@ The above snippet places section #123 into #124's blue channel.
 Once CreateVikingXML is run on the volume the about.xml entries will be copied into the .VikingXML file and the channel will appear in Viking.
 
 If one does not want to run CreateVikingXML the identical snippet can be appended to the matching <Section> element in the .VikingXML file.
-
-
-  
 
 
 
