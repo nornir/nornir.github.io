@@ -46,4 +46,41 @@ Eclipse
   
 * **Q:** The unit tests take forever to run"
   **A:** Twenty minutes is fairly typical for unit tests on a beefy machine.  Most should run in less than a minute.  The longest tests are IDoc and PMG tests.  Again, make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev "Run/Debug" preferences.
-   
+  
+Nornir-Build
+------------
+  
+* **Q:** My changed prune threshold is not being respected on a second build of a volume.
+  **A:** Once a section is built with a specific prune value it must be specifically changed.  This behavior prevents a later build using a different value replacing and rebuilding the pruned transforms and dependents for previously built sections in a volume.  To view the current prune values in your volume use _ListPruneThresholds_.  To change the value for a specific section use _SetPruneThreshold_. Below is an example that changed the threshold for section  13231 from 10.0 to 4000.
+
+...
+    C:\Python37\Scripts>nornir-build X:\Volumes\Krizaj\Sept19 ListPruneCutoff
+    Adding pipeline arguments
+    Volume Root: X:\Volumes\Krizaj\Sept19
+    WARNING - root - Creating ReplaceLinks pool of type <class 'nornir_pools.threadpool.Thread_Pool'>
+    WARNING - root - Creating ReplaceLinks pool of type <class 'nornir_pools.threadpool.Thread_Pool'>
+    Sept19      TEM         12955       TEM         Raw8         4000.0
+    Sept19      TEM         12956       TEM         Raw8         4000.0
+    Sept19      TEM         12958       TEM         Raw8         4000.0
+    Sept19      TEM         13231       TEM         Raw8         10.0
+    Sept19      TEM         12957       TEM         Raw8         4000.0
+    Waiting on pool: ReplaceLinks
+    ListPruneCutoff :  0 days 00:00:00.796
+    ListPruneCutoff :  0 days 00:00:00.796
+    
+    Waiting on pool: ReplaceLinks
+    
+    C:\Python37\Scripts>nornir-build X:\Volumes\Krizaj\Sept19 SetPruneCutoff -Sections 13231 -Value 4000
+    Adding pipeline arguments
+    Volume Root: X:\Volumes\Krizaj\Sept19
+    WARNING - root - Creating ReplaceLinks pool of type <class 'nornir_pools.threadpool.Thread_Pool'>
+    WARNING - root - Creating ReplaceLinks pool of type <class 'nornir_pools.threadpool.Thread_Pool'>
+            Saving X:\Volumes\Krizaj\Sept19\TEM\13231\TEM\Raw8\VolumeData.xml
+            Saving X:\Volumes\Krizaj\Sept19\TEM\13231\TEM\Mask\VolumeData.xml
+            Saving X:\Volumes\Krizaj\Sept19\TEM\13231\TEM\VolumeData.xml
+    Sept19      TEM         13231       TEM         Raw8         4000.0
+    Waiting on pool: ReplaceLinks
+    SetPruneCutoff :  0 days 00:00:00.484
+    SetPruneCutoff :  0 days 00:00:00.484
+    
+    Waiting on pool: ReplaceLinks

@@ -8,5 +8,6 @@ Use
    Creating a Volume <buildmanager>
    Manual Registration with Pyre <pyre>
    Overlaying images from different sources <cmp>
+   Re-ordering sections in a volume <reorder>
    Build reports <reports>
    

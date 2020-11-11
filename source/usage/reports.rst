@@ -4,7 +4,7 @@ Build Reports (SerialEM)
 
 When building very large scale volumes it is useful to understand how the capture system is working.  To facilitate this in SerialEM Nornir has the ability to produce reports for a volume or set of mosaics.
 
-.. figure:: SerialEM\SerialEMReportExample.png 
+.. figure:: SerialEM/SerialEMReportExample.png 
 
 The current (2/27/14) report system provides the information overviewed below.  Reports can be customized with python.
 
@@ -17,7 +17,7 @@ A full report for a subset of our mouse retinal connectom volume is visibile at 
 Acquistion settings, speed and stage drift
 ==========================================
 
-.. figure:: SerialEM\SerialEMReportExampleDrift.png
+.. figure:: SerialEM/SerialEMReportExampleDrift.png
 
 **Settings**: These are visible on the left and document the SerialEM and microscope settings used to capture the image.  They are pulled from the .idoc file available by clicking the "Capture Settings Summary" link.  Pixel spacing is in angstroms.
 
@@ -49,7 +49,7 @@ Both electron and optical microscopy acquisitions can feature large empty region
 
 For the remaining examples feature the report below from a torn section.  The report was generated with an older version but contains the relevant information.
 
-.. figure:: SerialEM\75_DamagedOverview.png
+.. figure:: SerialEM/75_DamagedOverview.png
    
 Note in the drift map how the region around the tear experienced predictable increases in tissue movement during capture.
 
@@ -66,7 +66,7 @@ Nornir's prune stage assigns a feature score to each tile based on the standard 
 
 The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  In this example I would first set a prune threshold of 5, rebuild and re-evaluate.
 
-.. figure:: SerialEM\75_PruneScores.png
+.. figure:: SerialEM/75_PruneScores.png
 
 For this example I would suggest setting the max cutoff to 125 and not setting a low cutoff value.
 
