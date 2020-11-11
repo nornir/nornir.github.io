@@ -13,10 +13,8 @@ Python
 
 **Use the latest 64-bit versions for Python and all other dependencies unless specified otherwise.**
 
-The latest version of 64-bit `Python 2.7`_.X (http://python.org/) should be installed first followed by these packages:
+The latest version of 64-bit `Python 3.7`_.X or later should be installed first followed by these packages.  If you see permissions errors during installation you may require an `elevated command prompt`_ depending on your computing environment:
 
-* `PIP`_ On windows it may require an `elevated command prompt`_ 
-* setuptools (Should be installed by pip)
 * numpy
 * scipy
 * matplotlib
@@ -31,7 +29,7 @@ Git client
 
 Any git client that lives in your system path will do.  git is required by Nornir Python setup scripts.
 
-A good option is to install git from `git-scm_`.  During installation of the client one _must_ select the option to add git to the windows path
+A good option is to install git from `git-scm`_.  During installation of the client one _must_ select the option to add git to the windows path
 
 .. image:: gitsetup_path.png
 
@@ -62,7 +60,7 @@ From the nornir-buildmanager directory one can now test the installation by typi
 
 This should run all of the nornir tests and report if they were successful.  Test output is visible in the directory specified by TESTOUTPUTPATH.
 
-.. _Python 2.7: http://python.org/
+.. _Python 3.7: http://python.org/
 .. _PIP: http://www.pip-installer.org/
 .. _elevated command prompt: http://windows.microsoft.com/en-us/windows-vista/command-prompt-frequently-asked-questions/
 .. _Christoph Gohlke: http://www.lfd.uci.edu/~gohlke/pythonlibs/
