@@ -1,34 +1,27 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Packages &mdash; Nornir 1.3.1 documentation</title>
-    
+    <title>Packages &#8212; Nornir 1.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.3.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="Nornir 1.3.1 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Buildmanager (nornir_buildmanager)" href="nornir_buildmanager.html" />
     <link rel="prev" title="Build Reports (SerialEM)" href="../usage/reports.html" /> 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,7 +37,7 @@
         <li class="right" >
           <a href="../usage/reports.html" title="Build Reports (SerialEM)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -57,7 +50,69 @@
 <h1>Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="nornir_buildmanager.html">Build manager (nornir_buildmanager)</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="nornir_buildmanager.html">Build manager (nornir_buildmanager)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html#Positional Arguments">Positional Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html#Sub-commands:">Sub-commands:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#RecoverLinks">RecoverLinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AddStos">AddStos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AddToStosMap">AddToStosMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AdjustContrast">AdjustContrast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AlignSections">AlignSections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#Assemble">Assemble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AssembleStosOverlays">AssembleStosOverlays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AssembleTiles">AssembleTiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#AssembleTilesFromImage">AssembleTilesFromImage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#CalculateStosGroupWarpMetrics">CalculateStosGroupWarpMetrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#Cleanup">Cleanup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#CleanupStos">CleanupStos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#CopyStosGroup">CopyStosGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#CreateBlobFilter">CreateBlobFilter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#CreateStosGroup">CreateStosGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#CreateVikingXML">CreateVikingXML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ExportImages">ExportImages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ExportMetadata">ExportMetadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#Histogram">Histogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ImportDM4">ImportDM4</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ImportIDoc">ImportIDoc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ImportImages">ImportImages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ImportMRC">ImportMRC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ImportPMG">ImportPMG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#InvertFilter">InvertFilter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListBlockStosMaps">ListBlockStosMaps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListDamagedSections">ListDamagedSections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListFilterContrast">ListFilterContrast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListGroupSectionMappings">ListGroupSectionMappings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListMissingTilesets">ListMissingTilesets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListPruneCutoff">ListPruneCutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListStosGroups">ListStosGroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ListStosMap">ListStosMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#MarkSectionsDamaged">MarkSectionsDamaged</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#MarkSectionsUndamaged">MarkSectionsUndamaged</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#Mosaic">Mosaic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#MosaicNoTranslate">MosaicNoTranslate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#MosaicReport">MosaicReport</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#MosaicToVolume">MosaicToVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#PrintContrast">PrintContrast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#Prune">Prune</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#RefineSectionAlignment">RefineSectionAlignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#RemoveFromStosMap">RemoveFromStosMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#RemoveStosGroup">RemoveStosGroup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#RenameFilter">RenameFilter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ReportVolumeBounds">ReportVolumeBounds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ScaleVolumeTransforms">ScaleVolumeTransforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SelectBestRegistrationChain">SelectBestRegistrationChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SetContrast">SetContrast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SetFilterLock">SetFilterLock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SetFilterMaskName">SetFilterMaskName</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SetMosaicLock">SetMosaicLock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SetPruneCutoff">SetPruneCutoff</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#ShadeCorrect">ShadeCorrect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#SliceToVolume">SliceToVolume</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#StosReport">StosReport</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nornir_buildmanager.html#VolumeImage">VolumeImage</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nornir_pyre.html">Pyre (pyre)</a><ul>
@@ -111,21 +166,20 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/packages/packages.txt"
+      <li><a href="../_sources/packages/packages.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -147,13 +201,13 @@
         <li class="right" >
           <a href="../usage/reports.html" title="Build Reports (SerialEM)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2014, James Anderson.
-      Last updated on Feb 23, 2018.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2014, James Anderson.
+      Last updated on Nov 10, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

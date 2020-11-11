@@ -1,35 +1,27 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Overlaying TEM with Light Microscopy &mdash; Nornir 1.3.1 documentation</title>
-    
+    <title>Overlaying TEM with Light Microscopy &#8212; Nornir 1.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.3.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="Nornir 1.3.1 documentation" href="../index.html" />
-    <link rel="up" title="Use" href="toctree.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Build Reports (SerialEM)" href="reports.html" />
     <link rel="prev" title="Manual Registration and Pyre" href="pyre.html" /> 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -45,8 +37,8 @@
         <li class="right" >
           <a href="pyre.html" title="Manual Registration and Pyre"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Use</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Use</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -64,12 +56,12 @@
 <h3>Shading<a class="headerlink" href="#shading" title="Permalink to this headline">¶</a></h3>
 <p>Light microscopy images can suffer from shading issues.  This results in a checkerboard pattern across the final mosaic.</p>
 <p>It is best to configure the scope to eliminate shading.  If that is not possible there is a ShadeCorrect operation in Nornir.  ShadeCorrect builds a corrective image by measuring min/max values, depending on a brightfield or darkfield input, for each pixel position in the input images.  The corrective image can found in the filter directory containing the input images.  The corrective image is then added/subtracted from each image tile and a new filter is written for the channel.</p>
-<p>The corrective image can introduce noise when every tile contains features or there are few tiles to sample from.  The problem is most easily corrected at capture time.  Collect 3-4 images from different background regions with no information to correctly determine the min/max values for the corrective image.  The tiles do not need to be contiguous with the main mosaic.  Using Nornir&#8217;s prune operation should easily detect and discard these blank tiles once the shading correction has occurred.  It is advisable to remove these tiles with Prune even if they contiguous because blank tiles are very prone to registration</p>
+<p>The corrective image can introduce noise when every tile contains features or there are few tiles to sample from.  The problem is most easily corrected at capture time.  Collect 3-4 images from different background regions with no information to correctly determine the min/max values for the corrective image.  The tiles do not need to be contiguous with the main mosaic.  Using Nornir’s prune operation should easily detect and discard these blank tiles once the shading correction has occurred.  It is advisable to remove these tiles with Prune even if they contiguous because blank tiles are very prone to registration</p>
 </div>
 <div class="section" id="importing-image-tiles">
 <h3>Importing image tiles<a class="headerlink" href="#importing-image-tiles" title="Permalink to this headline">¶</a></h3>
-<p>The Marc lab captures using Surveyor which stores tiles in a .pmg file format.  There is an &#8220;ImportPMG&#8221; operation which expects .pmg files to follow this naming convention:</p>
-<div class="highlight-none"><div class="highlight"><pre>&lt;Slide#&gt;_&lt;Block#&gt;_&lt;Section#&gt;_&lt;Capture operator Initials&gt;_&lt;Magnification&gt;_&lt;Spot#&gt;_&lt;ChannelName&gt;.pmg
+<p>The Marc lab captures using Surveyor which stores tiles in a .pmg file format.  There is an “ImportPMG” operation which expects .pmg files to follow this naming convention:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Slide#&gt;_&lt;Block#&gt;_&lt;Section#&gt;_&lt;Capture operator Initials&gt;_&lt;Magnification&gt;_&lt;Spot#&gt;_&lt;ChannelName&gt;.pmg
 
 Slide#,Block#,Initials,Magnification,Spot# are used to preserve meta-data that may be specific to the Marc lab.  Dummy values can be inserted.
 
@@ -81,18 +73,18 @@ The CMPBuild.cmd is a script in the standard installation which provides an exam
 <h3>Importing full images<a class="headerlink" href="#importing-full-images" title="Permalink to this headline">¶</a></h3>
 <p>It is possible to process images outside of Nornir and then reimport them.  This is for cases where Nornir is missing functionality or is too cumbersome.</p>
 <p>The ImportImages command expects images to follow this naming convention:</p>
-<div class="highlight-none"><div class="highlight"><pre>&lt;Section#&gt;_&lt;Channel&gt;_[Filter]_&lt;Downsample&gt;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;Section#&gt;_&lt;Channel&gt;_[Filter]_&lt;Downsample&gt;
 </pre></div>
 </div>
-<p>For example, a file named 264_G_Enhanced_1.png would be added as the full-resolution image for the &#8220;Enhanced&#8221; filter of channel &#8220;G&#8221; in section 264.</p>
-<p>The standard AssembleTiles command cannot be used for imported images.  Instead the &#8220;AssembleTilesFromImage&#8221; command should be used to generate optimized tiles directly from the imported image.</p>
+<p>For example, a file named 264_G_Enhanced_1.png would be added as the full-resolution image for the “Enhanced” filter of channel “G” in section 264.</p>
+<p>The standard AssembleTiles command cannot be used for imported images.  Instead the “AssembleTilesFromImage” command should be used to generate optimized tiles directly from the imported image.</p>
 </div>
 <div class="section" id="selectively-building-light-microscopy-in-a-tem-volume">
 <h3>Selectively building Light Microscopy in a TEM volume<a class="headerlink" href="#selectively-building-light-microscopy-in-a-tem-volume" title="Permalink to this headline">¶</a></h3>
 <p>Regardless of the source or imaging method each section cut should be assigned a distinct number assigned sequentially.  Among other benefits this practice allows Z depth calculations to be correct as the volume is constructed.</p>
 <p>Importing Light Microscopy data is identical to importing TEM data.  Find the Nornir import operation for the data format you have captured in and import the data into the volume.  Ensure the channel specified in the filename is distinct from the channel used for TEM data.</p>
 <p>We create volume-specific scripts for importing LM data into an existing TEM volume.  The key change is the use of the channels parameter to prevent operation on the wrong image channels.  For example to prevent our LM operations from affecting our darkfield or TEM data we apply the channel and regular expression:</p>
-<div class="highlight-none"><div class="highlight"><pre>-Channels &quot;(?!(DAPI$)|(TEM$))&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-Channels &quot;(?!(DAPI$)|(TEM$))&quot;
 </pre></div>
 </div>
 <p>The exclamation point tells Nornir not to process any channels named DAPI or TEM.  In the Marc Lab those names include all of the non-LM data.  We could also specifically name each LM channel name, but in our case we have far more LM channels than TEM or darkfield channels.</p>
@@ -102,9 +94,9 @@ The CMPBuild.cmd is a script in the standard installation which provides an exam
 <div class="section" id="aligning-light-microscopy-and-tem-images">
 <h2>Aligning Light Microscopy and TEM images<a class="headerlink" href="#aligning-light-microscopy-and-tem-images" title="Permalink to this headline">¶</a></h2>
 <p>Automatic slice-to-slice registration will rarely succeed across channels.  The images can also be at vastly different scales. In this case manual registration is done with the Pyre tool.</p>
-<p>The Marc Lab&#8217;s procedure is to register full-resolution LM images to TEM images downsampled by a factor of 16.  We chose the highest resolution TEM image used for slice-to-slice TEM to TEM registration.</p>
+<p>The Marc Lab’s procedure is to register full-resolution LM images to TEM images downsampled by a factor of 16.  We chose the highest resolution TEM image used for slice-to-slice TEM to TEM registration.</p>
 <p>The manual .stos files should be saved somewhere in the volume directory.  We then manually create a Stos group for these transforms and import them into the volume.  Here is a snippet of our script:</p>
-<div class="highlight-none"><div class="highlight"><pre>REM Be sure to adjust the downsample level to match the level used to align the CMP and TEM images.
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>REM Be sure to adjust the downsample level to match the level used to align the CMP and TEM images.
 
 title Create CMP Slice-to-slice alignment Group
 nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
@@ -129,24 +121,24 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 </pre></div>
 </div>
 <p>A breakdown of the script:</p>
-<div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nornir-build Y:\Volumes\RC2 CreateStosGroup -StosGroup CMP -Downsample 16
 </pre></div>
 </div>
 <p>CreateStosGroup is used to create a distinct slice-to-slice registration group that contains our LM to TEM registrations.  This is because they require seperate treatment than the automatically generated transforms.  The downsample parameter refers to the downsample level of the fixed images in the registration.</p>
-<div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 AddStos -File Y:\Volumes\RC2\CMPManualStos\1405-1404_TomLec.stos -Block TEM -StosGroup CMP -ControlSection 1404 -ControlChannel TEM -ControlFilter Leveled -ControlDownsample 16 -MappedSection 1405 -MappedChannel TomLec -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nornir-build Y:\Volumes\RC2 AddStos -File Y:\Volumes\RC2\CMPManualStos\1405-1404_TomLec.stos -Block TEM -StosGroup CMP -ControlSection 1404 -ControlChannel TEM -ControlFilter Leveled -ControlDownsample 16 -MappedSection 1405 -MappedChannel TomLec -MappedFilter ShadingCorrected -MappedDownsample 1 -Type Grid
 </pre></div>
 </div>
 <p>AddStos adds a stos file to a stos group.  To be successful we must specify enough information to identify which section filters were used for registration.  This command places the .stos file in the CMP16 group and indicates which channel and filter should be used as control/mapped images.  Nornir changes the internal parameters of the .stos transform to make spatial units consistent.  The CMP16 stos group will not be used in builds.  It is used as a safe holding area to inject the transforms into the build process as needed.</p>
-<div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 AddToStosMap -Block TEM -Name FinalStosMap -ControlSection 1404 -MappedSection 1405
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nornir-build Y:\Volumes\RC2 AddToStosMap -Block TEM -Name FinalStosMap -ControlSection 1404 -MappedSection 1405
 </pre></div>
 </div>
 <p>This command updates the map used to define the relationships between all sections in the volume.  It indicates that there is a slice-to-slice transform that should be included in the volume.</p>
 <p>The AddStos and AddToStosMap commands are repeated for each manual transform in the volume.  They can be executed repeatedly without harm.  The Marc Lab creates a single script which imports all LM to TEM stos files and appends it as needed.</p>
-<div class="highlight-none"><div class="highlight"><pre>nornir-build Y:\Volumes\RC2 CopyStosGroup -Input CMP -Output Grid -Downsample 16
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nornir-build Y:\Volumes\RC2 CopyStosGroup -Input CMP -Output Grid -Downsample 16
 </pre></div>
 </div>
 <p>This command copies all of the .stos files we have imported to the CMP16 group to the Grid16 group.  The Grid16 group is used by our primary build script to generate all slice-to-volume transforms.</p>
-<div class="highlight-none"><div class="highlight"><pre>nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>nornir-build %1 SliceToVolume -Downsample 16 -InputGroup Grid -OutputGroup SliceToVolume
 
 nornir-build %1 ScaleVolumeTransforms -InputGroup SliceToVolume -InputDownsample 16 -OutputDownsample 1
 
@@ -157,8 +149,8 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 </div>
 <div class="section" id="about-xml">
 <h2>About.xml<a class="headerlink" href="#about-xml" title="Permalink to this headline">¶</a></h2>
-<p>Once the LM sections are in the volume it is desirable to overlay the LM data over TEM data.  This can be done automatically in Viking by updating the volume&#8217;s about.xml with a channel mapping.</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;Section</span> <span class="na">Number=</span><span class="s">&quot;124&quot;</span><span class="nt">&gt;</span>
+<p>Once the LM sections are in the volume it is desirable to overlay the LM data over TEM data.  This can be done automatically in Viking by updating the volume’s about.xml with a channel mapping.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;Section</span> <span class="na">Number=</span><span class="s">&quot;124&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;ChannelInfo&gt;</span>
                 <span class="nt">&lt;Channel</span> <span class="na">Channel=</span><span class="s">&quot;Selected&quot;</span> <span class="na">Color=</span><span class="s">&quot;0xFFFFFF&quot;</span> <span class="na">Section=</span><span class="s">&quot;Selected&quot;</span><span class="nt">/&gt;</span>
                 <span class="nt">&lt;Channel</span> <span class="na">Channel=</span><span class="s">&quot;InvertedLeveledShadingCorrected&quot;</span> <span class="na">Color=</span><span class="s">&quot;0x0000FF&quot;</span> <span class="na">Section=</span><span class="s">&quot;123&quot;</span><span class="nt">/&gt;</span>
@@ -166,7 +158,7 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
 <span class="nt">&lt;/Section&gt;</span>
 </pre></div>
 </div>
-<p>The above snippet places section #123 into #124&#8217;s blue channel.</p>
+<p>The above snippet places section #123 into #124’s blue channel.</p>
 <p>Once CreateVikingXML is run on the volume the about.xml entries will be copied into the .VikingXML file and the channel will appear in Viking.</p>
 <p>If one does not want to run CreateVikingXML the identical snippet can be appended to the matching &lt;Section&gt; element in the .VikingXML file.</p>
 </div>
@@ -178,7 +170,7 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Overlaying TEM with Light Microscopy</a><ul>
 <li><a class="reference internal" href="#collecting-and-processing-data">Collecting and Processing Data</a><ul>
@@ -203,21 +195,20 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/usage/cmp.txt"
+      <li><a href="../_sources/usage/cmp.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -239,14 +230,14 @@ nornir-build %1 CreateVikingXML -OutputFile SliceToVolume -StosGroup SliceToVolu
         <li class="right" >
           <a href="pyre.html" title="Manual Registration and Pyre"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="toctree.html" >Use</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="toctree.html" >Use</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2014, James Anderson.
-      Last updated on Feb 23, 2018.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2014, James Anderson.
+      Last updated on Nov 10, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

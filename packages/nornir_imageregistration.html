@@ -1,35 +1,27 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Image Registration (nornir_imageregistration) &mdash; Nornir 1.3.1 documentation</title>
-    
+    <title>Image Registration (nornir_imageregistration) &#8212; Nornir 1.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.3.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
     <link rel="author" title="About these documents" href="../about.html" />
-    <link rel="top" title="Nornir 1.3.1 documentation" href="../index.html" />
-    <link rel="up" title="Packages" href="packages.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Pools (nornir_pools)" href="nornir_pools.html" />
     <link rel="prev" title="pyre (nornir_pyre)" href="nornir_pyre.html" /> 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -45,8 +37,8 @@
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="packages.html" accesskey="U">Packages</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="packages.html" accesskey="U">Packages</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -61,7 +53,7 @@
 <h2>alignment_record<a class="headerlink" href="#alignment-record" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="nornir_imageregistration.alignment_record.AlignmentRecord">
-<em class="property">class </em><code class="descclassname">nornir_imageregistration.alignment_record.</code><code class="descname">AlignmentRecord</code><span class="sig-paren">(</span><em>peak</em>, <em>weight</em>, <em>angle=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.alignment_record.AlignmentRecord" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">nornir_imageregistration.alignment_record.</code><code class="descname">AlignmentRecord</code><span class="sig-paren">(</span><em>peak</em>, <em>weight</em>, <em>angle=0.0</em>, <em>flipped_ud=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.alignment_record.AlignmentRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>Records basic registration information as an angle and offset between a fixed and moving image
 If the offset is zero the center of both images occupy the same point.  
 The offset determines the translation of the moving image over the fixed image.
@@ -71,9 +63,9 @@ There is no support for scale, and there should not be unless added as another v
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>peak</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; Translation vector for moving image</li>
-<li><strong>weight</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; The strength of the alignment</li>
-<li><strong>angle</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Angle to rotate moving image in degrees</li>
+<li><strong>peak</strong> (<em>array</em>) – Translation vector for moving image</li>
+<li><strong>weight</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The strength of the alignment</li>
+<li><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Angle to rotate moving image in degrees</li>
 </ul>
 </td>
 </tr>
@@ -92,9 +84,23 @@ There is no support for scale, and there should not be unless added as another v
 </dd></dl>
 
 <dl class="function">
-<dt id="nornir_imageregistration.core.CreateOverlapMask">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">CreateOverlapMask</code><span class="sig-paren">(</span><em>FixedImageSize</em>, <em>MovingImageSize</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.CreateOverlapMask" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines a mask that determines which peaks should be considered</p>
+<dt id="nornir_imageregistration.core.ConvertImagesInDict">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ConvertImagesInDict</code><span class="sig-paren">(</span><em>ImagesToConvertDict</em>, <em>Flip=False</em>, <em>Flop=False</em>, <em>InputBpp=None</em>, <em>OutputBpp=None</em>, <em>Invert=False</em>, <em>bDeleteOriginal=False</em>, <em>RightLeftShift=None</em>, <em>AndValue=None</em>, <em>MinMax=None</em>, <em>Gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ConvertImagesInDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The key and value in the dictionary have the full path of an image to convert.
+MinMax is a tuple [Min,Max] passed to the -level parameter if it is not None
+RightLeftShift is a tuple containing a right then left then return to center shift which should be done to remove useless bits from the data
+I do not use an and because I do not calculate ImageMagick’s quantum size yet.
+Every image must share the same colorspace</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if images were converted</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -108,12 +114,12 @@ with a background color set</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>imageparam</strong> (<em>ndarray</em>) &#8211; An ndarray image to crop.  A string containing a path to an image is also acceptable.e</li>
-<li><strong>Xo</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; X origin for crop</li>
-<li><strong>Yo</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Y origin for crop</li>
-<li><strong>Width</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; New width of image</li>
-<li><strong>Height</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; New height of image</li>
-<li><strong>cval</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; default value for regions outside the original image boundaries.  Defaults to 0.  Use &#8216;random&#8217; to fill with random noise matching images statistical profile</li>
+<li><strong>imageparam</strong> (<em>ndarray</em>) – An ndarray image to crop.  A string containing a path to an image is also acceptable.e</li>
+<li><strong>Xo</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – X origin for crop</li>
+<li><strong>Yo</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Y origin for crop</li>
+<li><strong>Width</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – New width of image</li>
+<li><strong>Height</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – New height of image</li>
+<li><strong>cval</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – default value for regions outside the original image boundaries.  Defaults to 0.  Use ‘random’ to fill with random noise matching images statistical profile</li>
 </ul>
 </td>
 </tr>
@@ -140,8 +146,8 @@ with a background color set</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>val</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Original dimension</li>
-<li><strong>overlap</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Amount of overlap possible between images, from 0 to 1</li>
+<li><strong>val</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Original dimension</li>
+<li><strong>overlap</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Amount of overlap possible between images, from 0 to 1</li>
 </ul>
 </td>
 </tr>
@@ -163,19 +169,19 @@ USES NUMPY (Y,X) INDEXING</p>
 <dl class="function">
 <dt id="nornir_imageregistration.core.FFTPhaseCorrelation">
 <code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FFTPhaseCorrelation</code><span class="sig-paren">(</span><em>FFTFixed</em>, <em>FFTMoving</em>, <em>delete_input=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FFTPhaseCorrelation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the phase shift correlation of the FFT&#8217;s of two images.</p>
+<dd><p>Returns the phase shift correlation of the FFT’s of two images.</p>
 <p>Dimensions of Fixed and Moving images must match</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>FixedImage</strong> (<em>ndarray</em>) &#8211; grayscale image</li>
-<li><strong>MovingImage</strong> (<em>ndarray</em>) &#8211; grayscale image</li>
+<li><strong>FixedImage</strong> (<em>ndarray</em>) – grayscale image</li>
+<li><strong>MovingImage</strong> (<em>ndarray</em>) – grayscale image</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Correlation image of the FFT&#8217;s.  Light pixels indicate the phase is well aligned at that offset.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Correlation image of the FFT’s.  Light pixels indicate the phase is well aligned at that offset.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndimage</p>
@@ -187,31 +193,49 @@ USES NUMPY (Y,X) INDEXING</p>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.FindOffset">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FindOffset</code><span class="sig-paren">(</span><em>FixedImage</em>, <em>MovingImage</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em>, <em>FFT_Required=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FindOffset" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FindOffset</code><span class="sig-paren">(</span><em>FixedImage</em>, <em>MovingImage</em>, <em>MinOverlap=0.0</em>, <em>MaxOverlap=1.0</em>, <em>FFT_Required=True</em>, <em>FixedImageShape=None</em>, <em>MovingImageShape=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FindOffset" title="Permalink to this definition">¶</a></dt>
 <dd><p>return an alignment record describing how the images overlap. The alignment record indicates how much the 
-moving image must be rotated and translated to align perfectly with the FixedImage</p>
+moving image must be rotated and translated to align perfectly with the FixedImage.</p>
+<p>If adjusting control points the peak can be added to the fixed image’s control point, or subtracted from the 
+warped image’s control point (accounting for any transform used to create the warped image) to align the images.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>FixedImage</strong> (<em>ndarray</em>) – Target space we are registering into</li>
+<li><strong>MovingImage</strong> (<em>ndarray</em>) – Source space we are coming from</li>
+<li><strong>MinOverlap</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The minimum amount of overlap by area the registration must have</li>
+<li><strong>MaxOverlap</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – The maximum amount of overlap by area the registration must have</li>
+<li><strong>FFT_Required</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – True by default, if False the input images are in FFT space already</li>
+<li><strong>FixedImageShape</strong> (<em>tuple</em>) – Defaults to None, if specified it contains the size of the fixed image before padding.  Used to calculate mask for valid overlap values.</li>
+<li><strong>MovingImageShape</strong> (<em>tuple</em>) – Defaults to None, if specified it contains the size of the moving image before padding.  Used to calculate mask for valid overlap values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.FindPeak">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FindPeak</code><span class="sig-paren">(</span><em>image</em>, <em>Cutoff=0.995</em>, <em>MinOverlap=0</em>, <em>MaxOverlap=1</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FindPeak" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">FindPeak</code><span class="sig-paren">(</span><em>image</em>, <em>OverlapMask=None</em>, <em>Cutoff=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.FindPeak" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the offset of the strongest response in a phase correlation image</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>image</strong> (<em>ndimage</em>) &#8211; grayscale image</li>
-<li><strong>Cutoff</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Percentile used to threshold image.  Values below the percentile are ignored</li>
-<li><strong>MinOverlap</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Minimum overlap allowed</li>
-<li><strong>MaxOverlap</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Maximum overlap allowed</li>
+<li><strong>image</strong> (<em>ndimage</em>) – grayscale image</li>
+<li><strong>Cutoff</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Percentile used to threshold image.  Values below the percentile are ignored</li>
+<li><strong>OverlapMask</strong> (<em>ndimage</em>) – Mask describing which pixels are eligible</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Offset of peak from image center and sum of pixels values at peak</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">scaled_offset of peak from image center and sum of pixels values at peak</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(tuple, float)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(tuple, <a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)">float</a>)</p>
 </td>
 </tr>
 </tbody>
@@ -237,20 +261,22 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.GenRandomData">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">GenRandomData</code><span class="sig-paren">(</span><em>height</em>, <em>width</em>, <em>mean</em>, <em>standardDev</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.GenRandomData" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">GenRandomData</code><span class="sig-paren">(</span><em>height</em>, <em>width</em>, <em>mean</em>, <em>standardDev</em>, <em>min_val</em>, <em>max_val</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.GenRandomData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate random data of shape with the specified mean and standard deviation</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.GetImageSize">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">GetImageSize</code><span class="sig-paren">(</span><em>ImageFullPath</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.GetImageSize" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">GetImageSize</code><span class="sig-paren">(</span><em>image_param</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.GetImageSize" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Image (height, width)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>str</strong> (<em>image_param</em>) – Either a path to an image file or an ndarray</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/2.7/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Image (height, width)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
 </tr>
 </tbody>
 </table>
@@ -265,19 +291,19 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 <dl class="function">
 <dt id="nornir_imageregistration.core.ImagePhaseCorrelation">
 <code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImagePhaseCorrelation</code><span class="sig-paren">(</span><em>FixedImage</em>, <em>MovingImage</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImagePhaseCorrelation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the phase shift correlation of the FFT&#8217;s of two images.</p>
+<dd><p>Returns the phase shift correlation of the FFT’s of two images.</p>
 <p>Dimensions of Fixed and Moving images must match</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>FixedImage</strong> (<em>ndarray</em>) &#8211; grayscale image</li>
-<li><strong>MovingImage</strong> (<em>ndarray</em>) &#8211; grayscale image</li>
+<li><strong>FixedImage</strong> (<em>ndarray</em>) – grayscale image</li>
+<li><strong>MovingImage</strong> (<em>ndarray</em>) – grayscale image</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Correlation image of the FFT&#8217;s.  Light pixels indicate the phase is well aligned at that offset.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Correlation image of the FFT’s.  Light pixels indicate the phase is well aligned at that offset.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndimage</p>
@@ -285,12 +311,6 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="class">
-<dt id="nornir_imageregistration.core.ImageStats">
-<em class="property">class </em><code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageStats</code><a class="headerlink" href="#nornir_imageregistration.core.ImageStats" title="Permalink to this definition">¶</a></dt>
-<dd><p>A container for image statistics</p>
 </dd></dl>
 
 <dl class="function">
@@ -301,10 +321,10 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>source_image</strong> (<em>ndarray</em>) &#8211; Image to cut into tiles</li>
-<li><strong>tile_size</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; Shape of each tile</li>
-<li><strong>grid_shape</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; Dimensions of grid, if None the grid is large enough to reproduce the source_image with zero padding if needed</li>
-<li><strong>cval</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; Fill value for images that are padded.  Default is zero.  Use &#8216;random&#8217; to generate random noise</li>
+<li><strong>source_image</strong> (<em>ndarray</em>) – Image to cut into tiles</li>
+<li><strong>tile_size</strong> (<em>array</em>) – Shape of each tile</li>
+<li><strong>grid_shape</strong> (<em>array</em>) – Dimensions of grid, if None the grid is large enough to reproduce the source_image with zero padding if needed</li>
+<li><strong>cval</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) – Fill value for images that are padded.  Default is zero.  Use ‘random’ to generate random noise</li>
 </ul>
 </td>
 </tr>
@@ -317,26 +337,27 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.ImageToTilesGenerator">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageToTilesGenerator</code><span class="sig-paren">(</span><em>source_image</em>, <em>tile_size</em>, <em>grid_shape=None</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImageToTilesGenerator" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ImageToTilesGenerator</code><span class="sig-paren">(</span><em>source_image</em>, <em>tile_size</em>, <em>grid_shape=None</em>, <em>coord_offset=None</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ImageToTilesGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>An iterator generating all tiles for an image
 :param array tile_size: Shape of each tile
 :param array grid_shape: Dimensions of grid, if None the grid is large enough to reproduce the source_image with zero padding if needed
-:param object cval: Fill value for images that are padded.  Default is zero.  Use &#8216;random&#8217; to generate random noise
+:param tuple coord_offset: Add this amount to coordinates returned by this function, used if the image passed is part of a larger image
+:param object cval: Fill value for images that are padded.  Default is zero.  Use ‘random’ to generate random noise
 :return: (iCol,iRow, tile_image)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.LoadImage">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">LoadImage</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>ImageMaskFullPath=None</em>, <em>MaxDimension=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.LoadImage" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">LoadImage</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>ImageMaskFullPath=None</em>, <em>MaxDimension=None</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.LoadImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads an image converts to greyscale, masks it, and removes extrema pixels.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ImageFullPath</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Path to image</li>
-<li><strong>ImageMaskFullPath</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Path to mask, dimension should match input image</li>
-<li><strong>MaxDimension</strong> &#8211; Limit the largest dimension of the returned image to this size.  Downsample if necessary.</li>
+<li><strong>ImageFullPath</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Path to image</li>
+<li><strong>ImageMaskFullPath</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Path to mask, dimension should match input image</li>
+<li><strong>MaxDimension</strong> – Limit the largest dimension of the returned image to this size.  Downsample if necessary.</li>
 </ul>
 </td>
 </tr>
@@ -370,6 +391,13 @@ moving image must be rotated and translated to align perfectly with the FixedIma
 </dd></dl>
 
 <dl class="function">
+<dt id="nornir_imageregistration.core.OneBit_img_from_bool_array">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">OneBit_img_from_bool_array</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.OneBit_img_from_bool_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covers for pillow bug with bit images
+<a class="reference external" href="https://stackoverflow.com/questions/50134468/convert-boolean-numpy-array-to-pillow-image">https://stackoverflow.com/questions/50134468/convert-boolean-numpy-array-to-pillow-image</a></p>
+</dd></dl>
+
+<dl class="function">
 <dt id="nornir_imageregistration.core.PadImageForPhaseCorrelation">
 <code class="descclassname">nornir_imageregistration.core.</code><code class="descname">PadImageForPhaseCorrelation</code><span class="sig-paren">(</span><em>image</em>, <em>MinOverlap=0.05</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>NewWidth=None</em>, <em>NewHeight=None</em>, <em>PowerOfTwo=True</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.PadImageForPhaseCorrelation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepares an image for use with the phase correlation operation.  Padded areas are filled with noise matching the histogram of the 
@@ -379,13 +407,13 @@ original image.  Optionally the min/max pixels can also replaced be replaced wit
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>image</strong> (<em>ndarray</em>) &#8211; Input image</li>
-<li><strong>MinOverlap</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Minimum overlap allowed between the input image and images it will be registered to</li>
-<li><strong>ImageMean</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Median value of noise, calculated or pulled from cache if none</li>
-<li><strong>ImageStdDev</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Standard deviation of noise, calculated or pulled from cache if none</li>
-<li><strong>NewWidth</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Pad input image to this dimension if not none</li>
-<li><strong>NewHeight</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Pad input image to this dimension if not none</li>
-<li><strong>PowerOfTwo</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Pad the image to a power of two if true</li>
+<li><strong>image</strong> (<em>ndarray</em>) – Input image</li>
+<li><strong>MinOverlap</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Minimum overlap allowed between the input image and images it will be registered to</li>
+<li><strong>ImageMean</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Median value of noise, calculated or pulled from cache if none</li>
+<li><strong>ImageStdDev</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Standard deviation of noise, calculated or pulled from cache if none</li>
+<li><strong>NewWidth</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Pad input image to this dimension if not none</li>
+<li><strong>NewHeight</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Pad input image to this dimension if not none</li>
+<li><strong>PowerOfTwo</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Pad the image to a power of two if true</li>
 </ul>
 </td>
 </tr>
@@ -409,17 +437,17 @@ original image.  Optionally the min/max pixels can also replaced be replaced wit
 <dt id="nornir_imageregistration.core.RandomNoiseMask">
 <code class="descclassname">nornir_imageregistration.core.</code><code class="descname">RandomNoiseMask</code><span class="sig-paren">(</span><em>image</em>, <em>Mask</em>, <em>ImageMedian=None</em>, <em>ImageStdDev=None</em>, <em>Copy=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.RandomNoiseMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fill the masked area with random noise with gaussian distribution about the image
-mean and with standard deviation matching the image&#8217;s standard deviation</p>
+mean and with standard deviation matching the image’s standard deviation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>image</strong> (<em>ndimage</em>) &#8211; Input image</li>
-<li><strong>mask</strong> (<em>ndimage</em>) &#8211; Mask, zeros are replaced with noise.  Ones pull values from input image</li>
-<li><strong>ImageMedian</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Mean of noise distribution, calculated from image if none</li>
-<li><strong>ImageStdDev</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Standard deviation of noise distribution, calculated from image if none</li>
-<li><strong>Copy</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Returns a copy of input image if true, otherwise write noise to the input image</li>
+<li><strong>image</strong> (<em>ndimage</em>) – Input image</li>
+<li><strong>mask</strong> (<em>ndimage</em>) – Mask, zeros are replaced with noise.  Ones pull values from input image</li>
+<li><strong>ImageMedian</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Mean of noise distribution, calculated from image if none</li>
+<li><strong>ImageStdDev</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – Standard deviation of noise distribution, calculated from image if none</li>
+<li><strong>Copy</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Returns a copy of input image if true, otherwise write noise to the input image</li>
 </ul>
 </td>
 </tr>
@@ -444,8 +472,11 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 
 <dl class="function">
 <dt id="nornir_imageregistration.core.SaveImage">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">SaveImage</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>image</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.SaveImage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves the image as greyscale with no contrast-stretching</p>
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">SaveImage</code><span class="sig-paren">(</span><em>ImageFullPath</em>, <em>image</em>, <em>bpp=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.SaveImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the image as greyscale with no contrast-stretching
+:param str ImageFullPath: The filename to save
+:param ndarray image: The image data to save
+:param int bpp: The bit depth to save, if the image data bpp is higher than this value it will be reduced.  Otherwise only the bpp required to preserve the image data will be used. (8-bit data will not be upsampled to 16-bit)</p>
 </dd></dl>
 
 <dl class="function">
@@ -461,20 +492,13 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 </dd></dl>
 
 <dl class="function">
-<dt id="nornir_imageregistration.core.ShowGrayscale">
-<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ShowGrayscale</code><span class="sig-paren">(</span><em>imageList</em>, <em>title=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ShowGrayscale" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>imageList</strong> (<em>list</em>) &#8211; A list or single ndimage to be displayed with imshow</li>
-<li><strong>title</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Informative title for the figure, for example expected test results</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dt id="nornir_imageregistration.core.Shrink">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">Shrink</code><span class="sig-paren">(</span><em>InFile</em>, <em>OutFile</em>, <em>Scalar</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.Shrink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shrinks the passed image file.  If Pool is not None the 
+task is returned. kwargs are passed on to Pillow’s image save function
+:param str InFile: Path to input file
+:param str OutFile: Path to output file
+:param float ShrinkFactor: Multiplier for image dimensions</p>
 </dd></dl>
 
 <dl class="function">
@@ -489,6 +513,14 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <dd><p>Convert an Mx2 array into a Mx1 array of euclidean distances</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="nornir_imageregistration.core.index_with_array">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">index_with_array</code><span class="sig-paren">(</span><em>image</em>, <em>indicies</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.index_with_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns values from image at the coordinates
+:param ndarray image: Image to index into
+:param ndarray indicies: nx2 array of pixel coordinates</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="nornir_imageregistration.core.memmap_metadata">
 <em class="property">class </em><code class="descclassname">nornir_imageregistration.core.</code><code class="descname">memmap_metadata</code><span class="sig-paren">(</span><em>path</em>, <em>shape</em>, <em>dtype</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.memmap_metadata" title="Permalink to this definition">¶</a></dt>
@@ -499,6 +531,31 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <dt id="nornir_imageregistration.core.npArrayToReadOnlySharedArray">
 <code class="descclassname">nornir_imageregistration.core.</code><code class="descname">npArrayToReadOnlySharedArray</code><span class="sig-paren">(</span><em>npArray</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.npArrayToReadOnlySharedArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a shared memory array for a numpy array.  Used to reduce memory footprint when passing parameters to multiprocess pools</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.core.ravel_index">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">ravel_index</code><span class="sig-paren">(</span><em>idx</em>, <em>shp</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ravel_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a nx2 numpy array of coordinates into array indicies</p>
+<dl class="docutils">
+<dt>The arrays we expect are in this shape [[X1,Y1],</dt>
+<dd>[X2,Y2],
+[XN,YN]]</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.core.uint16_img_from_float_array">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">uint16_img_from_float_array</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.uint16_img_from_float_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covers for pillow bug with bit images
+<a class="reference external" href="https://github.com/python-pillow/Pillow/issues/2970">https://github.com/python-pillow/Pillow/issues/2970</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nornir_imageregistration.core.uint16_img_from_uint16_array">
+<code class="descclassname">nornir_imageregistration.core.</code><code class="descname">uint16_img_from_uint16_array</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.uint16_img_from_uint16_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Covers for pillow bug with bit images
+<a class="reference external" href="https://github.com/python-pillow/Pillow/issues/2970">https://github.com/python-pillow/Pillow/issues/2970</a></p>
 </dd></dl>
 
 </div>
@@ -514,10 +571,10 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>transform</strong> (<em>transform</em>) &#8211; The transform used to map points between fixed and mapped space</li>
-<li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
-<li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
-<li><strong>exrapolate</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If true map points that fall outside the bounding box of the transform</li>
+<li><strong>transform</strong> (<em>transform</em>) – The transform used to map points between fixed and mapped space</li>
+<li><strong>botleft</strong> (<em>1x2_array</em>) – The (Y,X) coordinates of the bottom left corner</li>
+<li><strong>area</strong> (<em>1x2_array</em>) – The (Height, Width) of the region of interest</li>
+<li><strong>exrapolate</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – If true map points that fall outside the bounding box of the transform</li>
 </ul>
 </td>
 </tr>
@@ -540,9 +597,9 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>image</strong> (<em>ndarray</em>) &#8211; Source image</li>
-<li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
-<li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
+<li><strong>image</strong> (<em>ndarray</em>) – Source image</li>
+<li><strong>botleft</strong> (<em>1x2_array</em>) – The (Y,X) coordinates of the bottom left corner</li>
+<li><strong>area</strong> (<em>1x2_array</em>) – The (Height, Width) of the region of interest</li>
 </ul>
 </td>
 </tr>
@@ -576,7 +633,7 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transformData</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; Either a full path to a .stos file, a stosfile, or a transform object</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transformData</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) – Either a full path to a .stos file, a stosfile, or a transform object</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A transform</td>
 </tr>
@@ -593,10 +650,10 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>transform</strong> (<em>transform</em>) &#8211; The transform used to map points between fixed and mapped space</li>
-<li><strong>botleft</strong> (<em>1x2_array</em>) &#8211; The (Y,X) coordinates of the bottom left corner</li>
-<li><strong>area</strong> (<em>1x2_array</em>) &#8211; The (Height, Width) of the region of interest</li>
-<li><strong>exrapolate</strong> (<a class="reference external" href="http://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If true map points that fall outside the bounding box of the transform</li>
+<li><strong>transform</strong> (<em>transform</em>) – The transform used to map points between fixed and mapped space</li>
+<li><strong>botleft</strong> (<em>1x2_array</em>) – The (Y,X) coordinates of the bottom left corner</li>
+<li><strong>area</strong> (<em>1x2_array</em>) – The (Height, Width) of the region of interest</li>
+<li><strong>exrapolate</strong> (<a class="reference external" href="https://docs.python.org/2.7/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – If true map points that fall outside the bounding box of the transform</li>
 </ul>
 </td>
 </tr>
@@ -612,18 +669,23 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.TransformImage">
-<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">TransformImage</code><span class="sig-paren">(</span><em>transform</em>, <em>fixedImageShape</em>, <em>warpedImage</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.TransformImage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cut image into tiles, assemble small chunks</p>
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">TransformImage</code><span class="sig-paren">(</span><em>transform</em>, <em>fixedImageShape</em>, <em>warpedImage</em>, <em>CropUndefined</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.TransformImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cut image into tiles, assemble small chunks
+:param transform transform: Transform to apply to point to map from warped image to fixed space
+:param ndarray fixedImageShape: Width and Height of the image to create
+:param ndarray warpedImage: Image to transform to fixed space
+:param bool CropUndefined: If true exclude areas outside the convex hull of the transform, if it exists
+:return: An ndimage array of the transformed image</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="nornir_imageregistration.assemble.TransformStos">
-<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">TransformStos</code><span class="sig-paren">(</span><em>transformData</em>, <em>OutputFilename=None</em>, <em>fixedImageFilename=None</em>, <em>warpedImageFilename=None</em>, <em>scalar=1.0</em>, <em>CropUndefined=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.TransformStos" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">nornir_imageregistration.assemble.</code><code class="descname">TransformStos</code><span class="sig-paren">(</span><em>transformData</em>, <em>OutputFilename=None</em>, <em>fixedImage=None</em>, <em>warpedImage=None</em>, <em>scalar=1.0</em>, <em>CropUndefined=False</em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.assemble.TransformStos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assembles an image based on the passed transform.
-:param bool fixedImageFilename: Image describing the size we want the warped image to fill
-:param bool warpedImageFilename: Image we will warp into fixed space
+:param str fixedImage: Image describing the size we want the warped image to fill, either a string or ndarray
+:param str warpedImage: Image we will warp into fixed space, either a string or ndarray
 :param float scalar: Amount to scale the transform before passing the image through
-:param bool CropUndefined: If true do exclude areas outside the convex hull of the transform, if it exists
+:param bool CropUndefined: If true exclude areas outside the convex hull of the transform, if it exists
 :param bool Dicreet: True causes points outside the defined transform region to be clipped instead of interpolated
 :return: transformed image</p>
 </dd></dl>
@@ -638,7 +700,7 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
 :Param botleft: Origin of region to map
 :Param area: Expected dimensions of output
 :Param cval: Value to place in unmappable regions, defaults to zero.
-:param bool exrapolate: If true map points that fall outside the bounding box of the transform</p>
+:param bool extrapolate: If true map points that fall outside the bounding box of the transform</p>
 </dd></dl>
 
 </div>
@@ -655,7 +717,7 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Image Registration (nornir_imageregistration)</a><ul>
 <li><a class="reference internal" href="#alignment-record">alignment_record</a></li>
@@ -675,21 +737,20 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/packages/nornir_imageregistration.txt"
+      <li><a href="../_sources/packages/nornir_imageregistration.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -711,14 +772,14 @@ mean and with standard deviation matching the image&#8217;s standard deviation</
         <li class="right" >
           <a href="nornir_pyre.html" title="pyre (nornir_pyre)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="packages.html" >Packages</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="packages.html" >Packages</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2014, James Anderson.
-      Last updated on Feb 23, 2018.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+        &#169; Copyright 2014, James Anderson.
+      Last updated on Nov 10, 2020.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>
