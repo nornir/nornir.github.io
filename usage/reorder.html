@@ -108,19 +108,29 @@
 <h1>Reordering Example<a class="headerlink" href="#reordering-example" title="Permalink to this headline">¶</a></h1>
 <blockquote>
 <div><p>This is a step-by-step reordering of two adjacent sections of a TEM volume captured via SerialEM.  The volume name is RPC2 and the sections whose positions we want to swap are 291 &amp; 292.  The volume lives in the W:VolumesRPC2 directory</p>
-<p>For utility, I created two cmd scripts:</p>
-<p>swap_names.cmd - Swaps the names of two folders:</p>
+<p>For utility, I created two .cmd scripts:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">swap_names.cmd - Swaps the names of two folders:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">move</span> <span class="o">%</span><span class="mi">1</span> <span class="o">%</span><span class="mi">1</span><span class="n">_original</span>
 <span class="n">move</span> <span class="o">%</span><span class="mi">2</span> <span class="o">%</span><span class="mi">1</span>
 <span class="n">move</span> <span class="o">%</span><span class="mi">1</span><span class="n">_original</span> <span class="o">%</span><span class="mi">2</span>
 </pre></div>
 </div>
-<p>CleanReorderedSection.cmd - Deletes folders that refer to the old section number:</p>
+</li>
+<li><p class="first">CleanReorderedSection.cmd - Deletes folders that refer to the old section number:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rmdir</span> <span class="o">/</span><span class="n">s</span> <span class="o">/</span><span class="n">q</span> <span class="o">%</span><span class="mi">1</span>\<span class="n">TEM</span>\<span class="o">%</span><span class="mi">2</span>\<span class="n">TEM</span>\<span class="n">Leveled</span>\<span class="n">Images</span>
 <span class="n">rmdir</span> <span class="o">/</span><span class="n">s</span> <span class="o">/</span><span class="n">q</span> <span class="o">%</span><span class="mi">1</span>\<span class="n">TEM</span>\<span class="o">%</span><span class="mi">2</span>\<span class="n">TEM</span>\<span class="n">Mask</span>
 <span class="n">rmdir</span> <span class="o">/</span><span class="n">s</span> <span class="o">/</span><span class="n">q</span> <span class="o">%</span><span class="mi">1</span>\<span class="n">TEM</span>\<span class="o">%</span><span class="mi">2</span>\<span class="n">TEM</span>\<span class="n">Blob</span>
 </pre></div>
 </div>
+</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<div class="section" id="step-by-step">
+<h2>Step-by-Step<a class="headerlink" href="#step-by-step" title="Permalink to this headline">¶</a></h2>
+<p>Rename the raw data folders on the backup storage server in case someone needs to reimport this volume from scratch later.</p>
 <p>Using the command line:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">W</span><span class="p">:</span>
 <span class="o">&gt;</span> <span class="n">cd</span> \<span class="n">Volumes</span>\<span class="n">RPC2</span>\<span class="n">TEM</span>            <span class="c1">#Change directory to the folder containing the volume&#39;s sections</span>
@@ -209,7 +219,7 @@
 </ol>
 </div></blockquote>
 <p>After the nornir build is done we can optionally refresh the VolumeShape column.  That column value is cached and needs to be refreshed using the updated slice-to-slice transform.  That can be done with the VikingAU tool.  Documentation for that tool will live in Viking’s documentation when it is completed.</p>
-</div></blockquote>
+</div>
 </div>
 
 
@@ -221,7 +231,10 @@
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Reordering Sections in a Volume</a></li>
-<li><a class="reference internal" href="#reordering-example">Reordering Example</a></li>
+<li><a class="reference internal" href="#reordering-example">Reordering Example</a><ul>
+<li><a class="reference internal" href="#step-by-step">Step-by-Step</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>Previous topic</h4>

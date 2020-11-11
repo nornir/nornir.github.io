@@ -42,21 +42,26 @@ Reordering Example
 
     This is a step-by-step reordering of two adjacent sections of a TEM volume captured via SerialEM.  The volume name is RPC2 and the sections whose positions we want to swap are 291 & 292.  The volume lives in the W:\Volumes\RPC2 directory
     
-    For utility, I created two cmd scripts:
+    For utility, I created two .cmd scripts:
     
-    swap_names.cmd - Swaps the names of two folders::
+        * swap_names.cmd - Swaps the names of two folders::
     
-        move %1 %1_original
-        move %2 %1
-        move %1_original %2
+            move %1 %1_original
+            move %2 %1
+            move %1_original %2
     
-    CleanReorderedSection.cmd - Deletes folders that refer to the old section number::
+        * CleanReorderedSection.cmd - Deletes folders that refer to the old section number::
     
-        rmdir /s /q %1\TEM\%2\TEM\Leveled\Images
-        rmdir /s /q %1\TEM\%2\TEM\Mask
-        rmdir /s /q %1\TEM\%2\TEM\Blob
+            rmdir /s /q %1\TEM\%2\TEM\Leveled\Images
+            rmdir /s /q %1\TEM\%2\TEM\Mask
+            rmdir /s /q %1\TEM\%2\TEM\Blob
+
+Step-by-Step
+============
     
-    Using the command line::
+Rename the raw data folders on the backup storage server in case someone needs to reimport this volume from scratch later.
+    
+Using the command line::
         
         > W:
         > cd \Volumes\RPC2\TEM            #Change directory to the folder containing the volume's sections
@@ -87,7 +92,7 @@ Reordering Example
             W:\Volumes\RPC2\TEM>rmdir /s /q W:\Volumes\RPC2\TEM\0292\TEM\Blob
             The system cannot find the file specified.                          #This error is fine.  This volume doesn't use blob images or they weren't assembled yet.
     
-    Update the meta-data
+Update the meta-data
     
         1. Open W:\Volumes\RPC2\TEM\0291\VolumeData.xml I typically use Notepad++. If the XML Tools plugin is installed in Notepad++ one can format the VolumeData.xml using the CTRL+ALT+SHIFT+B shortcut.
         2. This is the existing meta-data::
@@ -108,12 +113,12 @@ Reordering Example
         
         5. (Alternatively to the steps above one could update the swap_names.cmd to also swap the meta-data files.  However both sections must have perfectly matching child elements for that to work.)
         
-    With the meta-data updated the build can be run::
+With the meta-data updated the build can be run::
         
         RPC2_Build.cmd W:\Volumes\RPC2   #The volume specific command to assemble a mosaic and assemble images
         RPC2_Align.cmd W:\Volumes\RPC2   #The volume specific command to update slice-to-slice registration and reports
         
-    Since RPC2 has annotations the SQL server must be updated.  Since these sections are adjacent we can rescue the annotations.  SQL server can be updated while the nornir build is running as they are not connected:  
+Since RPC2 has annotations the SQL server must be updated.  Since these sections are adjacent we can rescue the annotations.  SQL server can be updated while the nornir build is running as they are not connected:  
         
         1. From the Viking source on github open Viking\Servers\SQL\UtilityScripts\SwapLocationsOnSections_V2.sql in SQL Server Management Studio.
         2. Ensure the connection the query is using is set to the correct volume, in the case of this example RPC2.
@@ -129,7 +134,7 @@ Reordering Example
         4. Optionally, backup the database if you are familiar with how to do this.  If not backups are automatically performed nightly.
         5. Run the query, wait until it completes successfully.
         
-    After the nornir build is done we can optionally refresh the VolumeShape column.  That column value is cached and needs to be refreshed using the updated slice-to-slice transform.  That can be done with the VikingAU tool.  Documentation for that tool will live in Viking's documentation when it is completed.        
+After the nornir build is done we can optionally refresh the VolumeShape column.  That column value is cached and needs to be refreshed using the updated slice-to-slice transform.  That can be done with the VikingAU tool.  Documentation for that tool will live in Viking's documentation when it is completed.        
     
     
     
