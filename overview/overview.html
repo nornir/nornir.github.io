@@ -1,20 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Overview of volume building &#8212; Nornir 1.3.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
     
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,7 +36,8 @@
         <li class="right" >
           <a href="../index.html" title="Welcome to Nornir’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview of volume building</a></li> 
       </ul>
     </div>  
 
@@ -46,107 +46,122 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="overview-of-volume-building">
+  <section id="overview-of-volume-building">
 <h1>Overview of volume building<a class="headerlink" href="#overview-of-volume-building" title="Permalink to this headline">¶</a></h1>
 <p>To build a 3D volume using our transmission electron microscopes we begin by taking a sample and embedding it in a <strong>block</strong> of plastic resin.  This block is then cut into thin, about 70-90nm, <strong>sections</strong>.  Each section is placed on a grid or a slide.  At 5000X our transmission electron microscope can produce an image representing an 8um square.  To collect a larger area we collect a <strong>mosaic</strong> of images with a 10%-12% overlap.  We refer to an image in a mosaic as a <strong>tile</strong> even though proper tiles wouldn’t overlap.  Nornir figures out how to layout the tiles so we can <strong>assemble</strong> a single image of the entire mosaic.</p>
 <p>We assemble a mosaic image for each section cut from the block.  Sometimes we call a section a <strong>slice</strong>.  Each section is then registered to the adjacent sections to produce <strong>slice-to-slice</strong> (stos) transformations.  We decide which mosaic is the <strong>center</strong> of the volume.  Transforms can then be added such that any point on a mosaic can be mapped through stos transforms until the center is reached.  This produces a mapping for each section to the volume. The <strong>slice-to-volume</strong> transforms can be used with <a class="reference external" href="http://connectomes.utah.edu/">Viking</a> or if the mosaic images are small enough volume aligned section images can be produced.</p>
-<div class="section" id="mosaic-registration">
+<section id="mosaic-registration">
 <h2>Mosaic Registration<a class="headerlink" href="#mosaic-registration" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="mosaic-capture">
+<section id="mosaic-capture">
 <h3>Mosaic Capture<a class="headerlink" href="#mosaic-capture" title="Permalink to this headline">¶</a></h3>
 <p>Our lab uses SerialEM to capture a mosaic on a JEOL JEM 1400.</p>
-<div class="figure" id="id2">
+<figure class="align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/JamesRA.019.png"><img alt="../_images/JamesRA.019.png" src="../_images/JamesRA.019.png" style="width: 512.0px; height: 384.0px;" /></a>
-<p class="caption"><span class="caption-text">Tiles are captured at 5000X, equivalent to 2.18 nm/pixel.  Our 4K Gatan camera captures an 8um square area.  We use a 12% tile overlap.  A typical section is 250um in diameter requiring 813 images to cover.</span></p>
-</div>
-</div>
-<div class="section" id="stage-meta-data">
+<figcaption>
+<p><span class="caption-text">Tiles are captured at 5000X, equivalent to 2.18 nm/pixel.  Our 4K Gatan camera captures an 8um square area.  We use a 12% tile overlap.  A typical section is 250um in diameter requiring 813 images to cover.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="stage-meta-data">
 <h3>Stage meta-data<a class="headerlink" href="#stage-meta-data" title="Permalink to this headline">¶</a></h3>
 <p>Having stage meta-data saves Nornir from needing to calculate the offsets between all tiles and estimating a layout.</p>
 <p>Stages are not perfect.  Below are four overlapping tiles positioned using the stage coordinates reported by the JEOL scope.</p>
-<div class="figure" id="id3">
+<figure class="align-default" id="id3">
 <a class="reference internal image-reference" href="../_images/JamesRA.020.png"><img alt="../_images/JamesRA.020.png" src="../_images/JamesRA.020.png" style="width: 512.0px; height: 384.0px;" /></a>
-<p class="caption"><span class="caption-text">Yellow lines mark the borders between tiles</span></p>
-</div>
-</div>
-<div class="section" id="tile-translation">
+<figcaption>
+<p><span class="caption-text">Yellow lines mark the borders between tiles</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="tile-translation">
 <h3>Tile translation<a class="headerlink" href="#tile-translation" title="Permalink to this headline">¶</a></h3>
 <p>The Nornir tools first step in registration is to translate the tiles to an optimal initial layout.  This removes errors in the reported stage position.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="../_images/JamesRA.024.png"><img alt="../_images/JamesRA.024.png" src="../_images/JamesRA.024.png" style="width: 512.0px; height: 384.0px;" /></a>
-</div>
+</figure>
 <p>Nornir uses the phase correlation algorithm for this and all other registrations.</p>
 <blockquote>
-<div>The translation of tiles results in a much better alignment, but minor distortions in the tiles result in imperfections</div></blockquote>
-</div>
-<div class="section" id="grid-based-refinement">
+<div><p>The translation of tiles results in a much better alignment, but minor distortions in the tiles result in imperfections</p>
+</div></blockquote>
+</section>
+<section id="grid-based-refinement">
 <h3>Grid based refinement<a class="headerlink" href="#grid-based-refinement" title="Permalink to this headline">¶</a></h3>
 <p>The remaining registration errors are not fixable via simple translation.  To repair these a grid of cells is laid over each tile, and an offset vector is calculated to determine the optimal position for that cell.</p>
-<div class="figure" id="id4">
+<figure class="align-default" id="id4">
 <a class="reference internal image-reference" href="../_images/JamesRA.025.png"><img alt="../_images/JamesRA.025.png" src="../_images/JamesRA.025.png" style="width: 512.0px; height: 384.0px;" /></a>
-<p class="caption"><span class="caption-text">The translation of tiles results in a much better alignment, but minor distortions in the tiles result in imperfections</span></p>
-</div>
-</div>
-<div class="section" id="output">
+<figcaption>
+<p><span class="caption-text">The translation of tiles results in a much better alignment, but minor distortions in the tiles result in imperfections</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="output">
 <h3>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h3>
 <p>A mesh, essentially a texture mapping, is defined for each tile.  The final result is an image largely free of seems.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="../_images/JamesRA.027.png"><img alt="../_images/JamesRA.027.png" src="../_images/JamesRA.027.png" style="width: 512.0px; height: 384.0px;" /></a>
-</div>
+</figure>
 <p>Taken as a whole, we can see the overall movement of the tiles to produce the finished mosaic.</p>
-<div class="figure" id="id5">
+<figure class="align-default" id="id5">
 <a class="reference internal image-reference" href="../_images/JamesRA.028.png"><img alt="../_images/JamesRA.028.png" src="../_images/JamesRA.028.png" style="width: 512.0px; height: 384.0px;" /></a>
-<p class="caption"><span class="caption-text">Note the distance from the circle bounds between the mosaic laid out with the stage position and the mosaic post proceessing.</span></p>
-</div>
-</div>
-</div>
-<div class="section" id="slice-to-slice-registration">
+<figcaption>
+<p><span class="caption-text">Note the distance from the circle bounds between the mosaic laid out with the stage position and the mosaic post proceessing.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="slice-to-slice-registration">
 <h2>Slice-To-Slice Registration<a class="headerlink" href="#slice-to-slice-registration" title="Permalink to this headline">¶</a></h2>
 <p>Once we have the mosaics built for each section we begin aligning sections into a volume.  The initial registration is done via brute force.  The image is rotated by a small angle and a strength score is calculated for the resulting registration.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="../_images/JamesRA.029.png"><img alt="../_images/JamesRA.029.png" src="../_images/JamesRA.029.png" style="width: 512.0px; height: 384.0px;" /></a>
-</div>
-<div class="section" id="feature-enhancement">
+</figure>
+<section id="feature-enhancement">
 <h3>Feature Enhancement<a class="headerlink" href="#feature-enhancement" title="Permalink to this headline">¶</a></h3>
 <p>Measuring the registration quality is time consuming for large images, so downsampled versions are often used.  Unfortunately downsampling can erase features useful to registration.  For this reason a “blob” filter is available and used by our TEM images.</p>
 <p>“blob” remaps pixel intensity based the surrounding pixels variance relative to the entire image.  The median variance is calculated for the entire image.  A neighborhood is defined for each pixel.  If the variance is above or below the median it is assigned to black or white.  The result is regions of similar texture are assigned to the same color.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="../_images/JamesRA.030.png"><img alt="../_images/JamesRA.030.png" src="../_images/JamesRA.030.png" style="width: 512.0px; height: 384.0px;" /></a>
-</div>
-</div>
-<div class="section" id="rotation-and-translation">
+</figure>
+</section>
+<section id="rotation-and-translation">
 <h3>Rotation and Translation<a class="headerlink" href="#rotation-and-translation" title="Permalink to this headline">¶</a></h3>
 <p>Sections rarely survive processing without significant distortion.  This can be seen by overlaying the sections after brute force alignment.</p>
 <p>This is the most error prone step of volume construction.  Nornir includes a tool, pyre, which allows users to interactively fix the alignment.</p>
-<div class="figure" id="id6">
+<figure class="align-default" id="id6">
 <a class="reference internal image-reference" href="../_images/JamesRA.032.png"><img alt="../_images/JamesRA.032.png" src="../_images/JamesRA.032.png" style="width: 512.0px; height: 384.0px;" /></a>
-<p class="caption"><span class="caption-text">The clear area is relatively well aligned, but the blurry regions are distorted relative to each other.</span></p>
-</div>
-</div>
-<div class="section" id="id1">
+<figcaption>
+<p><span class="caption-text">The clear area is relatively well aligned, but the blurry regions are distorted relative to each other.</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id1">
 <h3>Grid based refinement<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>As in the mosaics, the solution is to lay a grid of cells over the images and determine a local offset for the center of each grid.</p>
-<div class="figure" id="id7">
+<figure class="align-default" id="id7">
 <a class="reference internal image-reference" href="../_images/JamesRA.034.png"><img alt="../_images/JamesRA.034.png" src="../_images/JamesRA.034.png" style="width: 512.0px; height: 384.0px;" /></a>
-<p class="caption"><span class="caption-text">Stright purple lines have been overlaid onto the yellow mesh to highlight the subtle deformation required.</span></p>
-</div>
-</div>
-<div class="section" id="volume-registration">
+<figcaption>
+<p><span class="caption-text">Stright purple lines have been overlaid onto the yellow mesh to highlight the subtle deformation required.</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="volume-registration">
 <h3>Volume registration<a class="headerlink" href="#volume-registration" title="Permalink to this headline">¶</a></h3>
 <p>The final step is to map all sections to a single coordinate system.  Nornir designates a section as the “center”.  It passes the control points for each slice-to-slice registration through any intermediate transformations between the section and the center.  The result is a mapping that warps a section directly to the volume in a single step.</p>
 <p>Figure 2 of the <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3017751/">Viking Viewer for Connectomics</a> paper demonstrates the concept.  The modern implementation of Nornir uses radial basis functions to estimate the positions of control points that fall outside the boundaries of a mesh.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Overview of volume building</a><ul>
 <li><a class="reference internal" href="#mosaic-registration">Mosaic Registration</a><ul>
 <li><a class="reference internal" href="#mosaic-capture">Mosaic Capture</a></li>
@@ -167,12 +182,17 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../index.html"
-                        title="previous chapter">Welcome to Nornir’s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../installation/toctree.html"
-                        title="next chapter">Installation</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../index.html"
+                          title="previous chapter">Welcome to Nornir’s documentation!</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../installation/toctree.html"
+                          title="next chapter">Installation</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -181,17 +201,15 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -211,13 +229,14 @@
         <li class="right" >
           <a href="../index.html" title="Welcome to Nornir’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview of volume building</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, James Anderson.
-      Last updated on Nov 10, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Last updated on Apr 01, 2022.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

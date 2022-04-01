@@ -1,0 +1,26 @@
+name: Nornir_Pyre_37
+channels:
+  - defaults
+dependencies:
+  - libpng
+  - libtiff
+  - matplotlib
+  - numpy
+  - pillow
+  - pip
+  - pyopengl 
+  - pyparsing=2.4.7=pyhd3eb1b0_0
+  - python=3.7.*
+  - scipy
+  - setuptools
+  - six
+  - wheel
+  - wxpython=4.0.4
+  - zlib
+  - pip:
+    - pyglet
+    - git+https://github.com/jamesra/nornir-shared.git@dev
+    - git+https://github.com/jamesra/nornir-pools.git@dev
+    - git+https://github.com/jamesra/nornir-imageregistration.git@dev
+    - git+https://github.com/jamesra/nornir-buildmanager.git@dev
+    - git+https://github.com/jamesra/nornir-pyre.git@dev

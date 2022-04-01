@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Running on a Cluster &#8212; Nornir 1.3.1 documentation</title>
+    <title>Conda Installation &#8212; Nornir 1.3.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     
@@ -18,8 +18,8 @@
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Use" href="../usage/toctree.html" />
-    <link rel="prev" title="Data Server Setup" href="server.html" /> 
+    <link rel="next" title="Common Install Requirements" href="common.html" />
+    <link rel="prev" title="Installation" href="toctree.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -31,14 +31,14 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../usage/toctree.html" title="Use"
+          <a href="common.html" title="Common Install Requirements"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="server.html" title="Data Server Setup"
+          <a href="toctree.html" title="Installation"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Installation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Running on a Cluster</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Conda Installation</a></li> 
       </ul>
     </div>  
 
@@ -47,27 +47,17 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="running-on-a-cluster">
-<h1>Running on a Cluster<a class="headerlink" href="#running-on-a-cluster" title="Permalink to this headline">¶</a></h1>
-<p>Nornir uses parallel python to delegate work to other computers when possible.  This can dramatically speed up the build process.</p>
-<section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li><p>Each machine should be running the same version of Nornir and external tools. In particular match versions of Image Magick since bugs/changes have effected color handling in the past.</p></li>
-<li><p>The build should be targeting a network drive accessible to all machines on the cluster</p></li>
-<li><p>The firewall must be configured to allow Parallel Python traffic.</p></li>
-</ol>
-</section>
-<section id="joining-the-cluster">
-<h2>Joining the cluster<a class="headerlink" href="#joining-the-cluster" title="Permalink to this headline">¶</a></h2>
-<p>To make a machine eligible to receive nornir cluster job one simply runs the <cite>startserver.cmd</cite> file located in the python scripts directory after install.</p>
-</section>
-<section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
-<p>At this time error handling is not robust for jobs delegated to the cluster.  If a cluster job fails an exception is sent back to the caller which is visible to the user.  The best approach is to remove machines from the cluster by closing the console running the startserver command.  Run the job without the cluster.  If it works then add one machine at a time until the faulting machine is isolated.</p>
-<p>A common cause of errors is for a cluster machine to drop a drive mapping.  All jobs sent to that machine complete instantly.  So the majority of jobs complete on the machine but are not actually completed.</p>
-<p>Another issue we’ve seen is for a machine to use a different version of Image Magick which handle colors differently.  This results in different shading across tiles in a mosaic depending on which machine in the cluster took the job.</p>
-</section>
+  <section id="conda-installation">
+<span id="conda"></span><h1>Conda Installation<a class="headerlink" href="#conda-installation" title="Permalink to this headline">¶</a></h1>
+<p>The simplest way to deploy Nornir is with Anaconda.</p>
+<p>Import a .yaml file below to create a new conda environment.  Once the environment is created the <cite>nornir-build</cite> command should be available.  Use <cite>python -m pyre</cite> to launch pyre.</p>
+<p><em>Note:</em> you will still need to have the <a class="reference internal" href="buildmanager.html#irtools"><span class="std std-ref">ir-tools</span></a> installed in your path to use some features of nornir-build.</p>
+<p>Conda YAML Files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/9c6dd8da0110ce1ad54e9e3ecc3ed27a/nornir_pyre_python37.yaml"><code class="xref download docutils literal notranslate"><span class="pre">Python</span> <span class="pre">3.7</span> <span class="pre">Nornir</span> <span class="pre">&amp;</span> <span class="pre">Pyre</span></code></a></p></li>
+</ul>
+</div></blockquote>
 </section>
 
 
@@ -78,31 +68,19 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Running on a Cluster</a><ul>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
-<li><a class="reference internal" href="#joining-the-cluster">Joining the cluster</a></li>
-<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-  <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="server.html"
-                          title="previous chapter">Data Server Setup</a></p>
+    <p class="topless"><a href="toctree.html"
+                          title="previous chapter">Installation</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="../usage/toctree.html"
-                          title="next chapter">Use</a></p>
+    <p class="topless"><a href="common.html"
+                          title="next chapter">Common Install Requirements</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/installation/cluster.rst.txt"
+      <li><a href="../_sources/installation/conda.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -130,14 +108,14 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../usage/toctree.html" title="Use"
+          <a href="common.html" title="Common Install Requirements"
              >next</a> |</li>
         <li class="right" >
-          <a href="server.html" title="Data Server Setup"
+          <a href="toctree.html" title="Installation"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="toctree.html" >Installation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Running on a Cluster</a></li> 
+        <li class="nav-item nav-item-this"><a href="">Conda Installation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

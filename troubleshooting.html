@@ -1,20 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Troubleshooting &#8212; Nornir 1.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -37,7 +36,8 @@
         <li class="right" >
           <a href="futurework.html" title="Missing features"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Troubleshooting</a></li> 
       </ul>
     </div>  
 
@@ -46,18 +46,18 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="troubleshooting">
+  <section id="troubleshooting">
 <h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="installation">
+<section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p class="first"><strong>Q:</strong> “python setup.py install” results in <strong>unknown url type: git+http</strong> being displayed and the setup script exits</p>
+<li><p><strong>Q:</strong> “python setup.py install” results in <strong>unknown url type: git+http</strong> being displayed and the setup script exits</p>
 <p><strong>A:</strong> This indicates that [PIP](<a class="reference external" href="http://www.pip-installer.org/en/latest/installing.html">http://www.pip-installer.org/en/latest/installing.html</a>) is not installed.</p>
 </li>
-<li><p class="first"><strong>Q:</strong> I get “Access denied” trying to follow the installation instructions</p>
+<li><p><strong>Q:</strong> I get “Access denied” trying to follow the installation instructions</p>
 <p><strong>A:</strong> Make sure you are running the command prompt as an administrator.  Right clicking the command prompt icon in windows and select “Run as admistrator”.  One can also adjust an advanced property to always run the prompt as administrator.</p>
 </li>
-<li><p class="first"><strong>Q:</strong> Upgrading with <cite>pip install git+https://github.com/jamesra/nornir-buildmanager.git –upgrade</cite> did not succeed.  It looks like it is trying to install a package?</p>
+<li><p><strong>Q:</strong> Upgrading with <cite>pip install git+https://github.com/jamesra/nornir-buildmanager.git –upgrade</cite> did not succeed.  It looks like it is trying to install a package?</p>
 <p><strong>A1:</strong> One known cause is earlier versions of packages seem to override later versions of packages according to pip.  On a system with Numpy 1.7.1 and 1.8 installed pip will only see 1.7.1 and attempt to download and compile numpy 1.8.  Verify the numpy version pip sees by looking at the known version for each installed package using:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="nb">list</span>
 </pre></div>
@@ -68,37 +68,36 @@
 </div>
 <p>Verify the correct version is detected by re-running “pip list”.  Repeat the uninstall command until the most recently installed version is listed, or until nothing is listed and a clean install can be performed.</p>
 </li>
-<li><p class="first"><strong>Q:</strong> PIP says something about dependency_links requiring extra flags?</p>
+<li><p><strong>Q:</strong> PIP says something about dependency_links requiring extra flags?</p>
 <p><strong>A:</strong> This began with PIP 1.5.  The current workaround is to install each package separately as detailed on the installation page.</p>
 </li>
 </ul>
-</div>
-<div class="section" id="pyre">
+</section>
+<section id="pyre">
 <h2>Pyre<a class="headerlink" href="#pyre" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p class="first"><strong>Q:</strong> .stos file will not load, file cannot be found</p>
+<li><p><strong>Q:</strong> .stos file will not load, file cannot be found</p>
 <p><strong>A:</strong> The .stos format stores the full path to the images as the first two lines of the file.  Open the .stos file in a text editor and ensure the paths to the files are correct.  Alternatively, find the images within the volume directory and drag-drop them into Pyre directly.</p>
 </li>
 </ul>
-</div>
-<div class="section" id="eclipse">
+</section>
+<section id="eclipse">
 <h2>Eclipse<a class="headerlink" href="#eclipse" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>Q:</strong> The cluster pool tests fail with “Communication pipe read error”
-<strong>A:</strong> Make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev “Run/Debug” preferences.</li>
-<li><strong>Q:</strong> The unit tests take forever to run”
-<strong>A:</strong> Twenty minutes is fairly typical for unit tests on a beefy machine.  Most should run in less than a minute.  The longest tests are IDoc and PMG tests.  Again, make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev “Run/Debug” preferences.</li>
+<li><p><strong>Q:</strong> The cluster pool tests fail with “Communication pipe read error”
+<strong>A:</strong> Make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev “Run/Debug” preferences.</p></li>
+<li><p><strong>Q:</strong> The unit tests take forever to run”
+<strong>A:</strong> Twenty minutes is fairly typical for unit tests on a beefy machine.  Most should run in less than a minute.  The longest tests are IDoc and PMG tests.  Again, make sure Eclipse is not connecting to subprocesses.  This option is toggled in the Pydev “Run/Debug” preferences.</p></li>
 </ul>
-</div>
-<div class="section" id="nornir-build">
+</section>
+<section id="nornir-build">
 <h2>Nornir-Build<a class="headerlink" href="#nornir-build" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><strong>Q:</strong> My changed prune threshold is not being respected on a second build of a volume.
-<strong>A:</strong> Once a section is built with a specific prune value it must be specifically changed.  This behavior prevents a later build using a different value replacing and rebuilding the pruned transforms and dependents for previously built sections in a volume.  To view the current prune values in your volume use _ListPruneThresholds_.  To change the value for a specific section use _SetPruneThreshold_. Below is an example that changed the threshold for section  13231 from 10.0 to 4000.</li>
+<li><p><strong>Q:</strong> My changed prune threshold is not being respected on a second build of a volume.
+<strong>A:</strong> Once a section is built with a specific prune value it must be specifically changed.  This behavior prevents a later build using a different value replacing and rebuilding the pruned transforms and dependents for previously built sections in a volume.  To view the current prune values in your volume use _ListPruneThresholds_.  To change the value for a specific section use _SetPruneThreshold_. Below is an example that changed the threshold for section  13231 from 10.0 to 4000.</p></li>
 </ul>
-<dl class="docutils">
-<dt>…</dt>
-<dd><p class="first">C:Python37Scripts&gt;nornir-build X:VolumesKrizajSept19 ListPruneCutoff
+<dl>
+<dt>…</dt><dd><p>C:Python37Scripts&gt;nornir-build X:VolumesKrizajSept19 ListPruneCutoff
 Adding pipeline arguments
 Volume Root: X:VolumesKrizajSept19
 WARNING - root - Creating ReplaceLinks pool of type &lt;class ‘nornir_pools.threadpool.Thread_Pool’&gt;
@@ -118,27 +117,30 @@ Volume Root: X:VolumesKrizajSept19
 WARNING - root - Creating ReplaceLinks pool of type &lt;class ‘nornir_pools.threadpool.Thread_Pool’&gt;
 WARNING - root - Creating ReplaceLinks pool of type &lt;class ‘nornir_pools.threadpool.Thread_Pool’&gt;</p>
 <blockquote>
-<div>Saving X:VolumesKrizajSept19TEM13231TEMRaw8VolumeData.xml
+<div><p>Saving X:VolumesKrizajSept19TEM13231TEMRaw8VolumeData.xml
 Saving X:VolumesKrizajSept19TEM13231TEMMaskVolumeData.xml
-Saving X:VolumesKrizajSept19TEM13231TEMVolumeData.xml</div></blockquote>
+Saving X:VolumesKrizajSept19TEM13231TEMVolumeData.xml</p>
+</div></blockquote>
 <p>Sept19      TEM         13231       TEM         Raw8         4000.0
 Waiting on pool: ReplaceLinks
 SetPruneCutoff :  0 days 00:00:00.484
 SetPruneCutoff :  0 days 00:00:00.484</p>
-<p class="last">Waiting on pool: ReplaceLinks</p>
+<p>Waiting on pool: ReplaceLinks</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Troubleshooting</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#pyre">Pyre</a></li>
@@ -148,12 +150,17 @@ SetPruneCutoff :  0 days 00:00:00.484</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="futurework.html"
-                        title="previous chapter">Missing features</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="background/background.html"
-                        title="next chapter">Background</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="futurework.html"
+                          title="previous chapter">Missing features</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="background/background.html"
+                          title="next chapter">Background</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -162,17 +169,15 @@ SetPruneCutoff :  0 days 00:00:00.484</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -192,13 +197,14 @@ SetPruneCutoff :  0 days 00:00:00.484</p>
         <li class="right" >
           <a href="futurework.html" title="Missing features"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Troubleshooting</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, James Anderson.
-      Last updated on Nov 10, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Last updated on Apr 01, 2022.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

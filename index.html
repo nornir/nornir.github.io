@@ -1,20 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Welcome to Nornir’s documentation! &#8212; Nornir 1.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -33,7 +32,8 @@
         <li class="right" >
           <a href="overview/overview.html" title="Overview of volume building"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to Nornir’s documentation!</a></li> 
       </ul>
     </div>  
 
@@ -42,14 +42,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="figure">
+  <figure class="align-default">
 <a class="reference internal image-reference" href="_images/Registered_YGE_ShadingCorrected_Thumb.png"><img alt="_images/Registered_YGE_ShadingCorrected_Thumb.png" src="_images/Registered_YGE_ShadingCorrected_Thumb.png" style="width: 998.0px; height: 301.0px;" /></a>
-</div>
-<div class="section" id="welcome-to-nornir-s-documentation">
+</figure>
+<section id="welcome-to-nornir-s-documentation">
 <h1>Welcome to Nornir’s documentation!<a class="headerlink" href="#welcome-to-nornir-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Nornir’s takes large sets of overlapping images in 2D and produces registered (a.k.a. aligned) 2D and 3D volumes of any size and scale.</p>
 <p>The github repository for Nornir lives at <a class="reference external" href="http://github.com/nornir/">http://github.com/nornir/</a></p>
-<div class="section" id="contents">
+<section id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
@@ -65,42 +65,44 @@
 <li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
 </ul>
 </div>
-</div>
-<div class="section" id="history">
+</section>
+<section id="history">
 <h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
 <p>Nornir evolved from a collaboration between the <a class="reference external" href="http://prometheus.med.utah.edu/~marclab/marclab_09_science-papers.html/">Marc Lab</a> and the <a class="reference external" href="http://www.ucnia.org/">Scientific Computing Institute’s</a> Tasdizen and Whitaker groups at the University of Utah.  The original tools, known as the <a class="reference external" href="http://www.ucnia.org/download/ncrtoolset/">NCR Toolset</a> were used to construct <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pubmed/21311605/">RC1</a>, a 250um diameter, 33um tall cylinder of rabbit retina at a resoultion of 2.18 nm/pixel.</p>
 <p>Nornir is a work in progress.  It currently supports importing images from transmission electron microscopes running SerialEM (.idoc files), light microscopes running Surveyor (.pmg files), and other volumes represented with a single image per section (.png files).</p>
-</div>
-<div class="section" id="system-requirements">
+</section>
+<section id="system-requirements">
 <h2>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>64-bit operating system, only tested on Windows at this time</li>
-<li>2GB of RAM per CPU core.</li>
+<li><p>64-bit operating system, only tested on Windows at this time</p></li>
+<li><p>2GB of RAM per CPU core.</p></li>
 </ul>
-</div>
-<div class="section" id="related-tools">
+</section>
+<section id="related-tools">
 <h2>Related Tools<a class="headerlink" href="#related-tools" title="Permalink to this headline">¶</a></h2>
 <p>Volume images frequently exceed the reasonable sizes for single images.  <a class="reference external" href="http://connectomes.utah.edu/">Viking</a> is another Marc lab tool for viewing and annotating huge datasets.  Nornir produces volumes that can be viewed using Viking if placed on a web server.</p>
 <p>Analysis of the annotations created by Viking for our existing rabbit connectome and future connectomes is performed by the <a class="reference external" href="https://github.com/jamesra/py-connectome-analysis/wiki">py-connectome-analysis</a> package</p>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
+</section>
+</section>
+<section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Welcome to Nornir’s documentation!</a><ul>
 <li><a class="reference internal" href="#contents">Contents</a></li>
 <li><a class="reference internal" href="#history">History</a></li>
@@ -111,9 +113,12 @@
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
-  <h4>Next topic</h4>
-  <p class="topless"><a href="overview/overview.html"
-                        title="next chapter">Overview of volume building</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="overview/overview.html"
+                          title="next chapter">Overview of volume building</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -122,17 +127,15 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -149,13 +152,14 @@
         <li class="right" >
           <a href="overview/overview.html" title="Overview of volume building"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to Nornir’s documentation!</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, James Anderson.
-      Last updated on Nov 10, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Last updated on Apr 01, 2022.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

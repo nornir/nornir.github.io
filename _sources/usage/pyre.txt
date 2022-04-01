@@ -37,11 +37,11 @@ Each stos group folder has the following content
  
 * <GroupName>
 
-  * *.stos
-  * Overlay_*.png
-  * Warped_*.png
-  * Automatic
-  * Manual 
+  *  *.stos
+  *  Overlay_*.png
+  *  Warped_*.png
+  *  Automatic
+  *  Manual 
 
 The manual folder provides a replacement for the stosgroup's normal output.  By placing a file here with the same name as an output .stos file we are telling the buildscripts to skip
 automatic registration and simply to copy the manual .stos file up to the group folders .stos files.  

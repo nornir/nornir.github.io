@@ -1,26 +1,25 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Version History &#8212; Nornir 1.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Missing features" href="futurework.html" />
-    <link rel="prev" title="Shared (nornir_shared)" href="packages/nornir_shared.html" /> 
+    <link rel="prev" title="Buildmanager (nornir_buildmanager)" href="packages/nornir_buildmanager.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -35,9 +34,10 @@
           <a href="futurework.html" title="Missing features"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
+          <a href="packages/nornir_buildmanager.html" title="Buildmanager (nornir_buildmanager)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Version History</a></li> 
       </ul>
     </div>  
 
@@ -46,356 +46,358 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="version-history">
+  <section id="version-history">
 <h1>Version History<a class="headerlink" href="#version-history" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="build-manager">
+<section id="build-manager">
 <h2>Build Manager<a class="headerlink" href="#build-manager" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
+<section id="id1">
 <h3>1.3.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <blockquote>
-<div><strong>4/15/2016</strong></div></blockquote>
+<div><p><strong>4/15/2016</strong></p>
+</div></blockquote>
 <p><strong>Added</strong></p>
 <ul class="simple">
-<li>Support for Digital Micrograph 4 file format (DM4).  Allows importing from many SEM microscopes.</li>
-<li>Add locked/unlocked and optimized/unoptimized indicators to mosaic reports</li>
-<li>Color code rows in mosaic report if an optimized tileset exists</li>
+<li><p>Support for Digital Micrograph 4 file format (DM4).  Allows importing from many SEM microscopes.</p></li>
+<li><p>Add locked/unlocked and optimized/unoptimized indicators to mosaic reports</p></li>
+<li><p>Color code rows in mosaic report if an optimized tileset exists</p></li>
 </ul>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Imported images from Syncroscan had colorspace problems</li>
-<li>Notes are copied into the VikingXML again</li>
-<li>Do not exclude input directories that have a power of 2 in the name</li>
-<li>Rounding errors when comparing old/new gamma values that forced unnecessary rebuilds</li>
-<li>Crash on import when non-numeric attributes appeared in idoc files</li>
-<li>Infinite loop when searching for imageset levels that did not exist</li>
-<li>Do not add duplicate autolevelhint node to 16-bit raw data.</li>
+<li><p>Imported images from Syncroscan had colorspace problems</p></li>
+<li><p>Notes are copied into the VikingXML again</p></li>
+<li><p>Do not exclude input directories that have a power of 2 in the name</p></li>
+<li><p>Rounding errors when comparing old/new gamma values that forced unnecessary rebuilds</p></li>
+<li><p>Crash on import when non-numeric attributes appeared in idoc files</p></li>
+<li><p>Infinite loop when searching for imageset levels that did not exist</p></li>
+<li><p>Do not add duplicate autolevelhint node to 16-bit raw data.</p></li>
 </ul>
-</div>
-<div class="section" id="id2">
+</section>
+<section id="id2">
 <h3>1.3.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p><strong>1.3.0 is not compatible with volumes built with earlier versions.  If you have data you do not want to reimport contact me about migrating it to 1.3.0.  The migration has been done but requires some supervision.</strong></p>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>ir-refine-translate has been replaced with a python implementation.  This appears to solve tiles that were misplaced in mosaics when stage position was very incorrect</li>
-<li>Contrast settings can be set manually when importing 16bpp images</li>
-<li>When performing import, save progress incrementally in case of crash</li>
-<li>Added -Sections flag to CreateBlobFilter</li>
-<li>Regenerate .stos files if the input images have changed</li>
-<li>Save meta-data when we generate a new level for an image on the fly</li>
-<li>Added <strong>SetMosaicLock</strong> pipeline to lock .mosaic transforms.  This prevents regeneration which could break existing annotations.</li>
-<li>Added <strong>ListFilterContrast</strong> pipeline to print the contrast settings used for filters.</li>
-<li><dl class="first docutils">
-<dt>Added pipelines for marking damaged sections.  Damaged sections are not used for slice-to-slice registration.</dt>
-<dd><ul class="first last">
-<li><strong>ListDamagedSections</strong></li>
-<li><strong>MarkSectionsDamaged</strong></li>
-<li><strong>MarkSectionsUnamaged</strong></li>
+<li><p>ir-refine-translate has been replaced with a python implementation.  This appears to solve tiles that were misplaced in mosaics when stage position was very incorrect</p></li>
+<li><p>Contrast settings can be set manually when importing 16bpp images</p></li>
+<li><p>When performing import, save progress incrementally in case of crash</p></li>
+<li><p>Added -Sections flag to CreateBlobFilter</p></li>
+<li><p>Regenerate .stos files if the input images have changed</p></li>
+<li><p>Save meta-data when we generate a new level for an image on the fly</p></li>
+<li><p>Added <strong>SetMosaicLock</strong> pipeline to lock .mosaic transforms.  This prevents regeneration which could break existing annotations.</p></li>
+<li><p>Added <strong>ListFilterContrast</strong> pipeline to print the contrast settings used for filters.</p></li>
+<li><dl class="simple">
+<dt>Added pipelines for marking damaged sections.  Damaged sections are not used for slice-to-slice registration.</dt><dd><ul>
+<li><p><strong>ListDamagedSections</strong></p></li>
+<li><p><strong>MarkSectionsDamaged</strong></p></li>
+<li><p><strong>MarkSectionsUnamaged</strong></p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li>Added -Shape parameter to AssembleTileset pipeline allowing different tile sizes.  256x256 is the default.</li>
+<li><p>Added -Shape parameter to AssembleTileset pipeline allowing different tile sizes.  256x256 is the default.</p></li>
 </ul>
 <p><strong>Changed</strong></p>
 <ul class="simple">
-<li>Removed the -volume flag.  The volume path is now the first argument to the nornir-build command.</li>
-<li>Do not set build process to low priority unless specified on command line.  Low priority has a huge performance cost.</li>
-<li>Importers are now pipelines.  They have specific names for the type of data to import.</li>
-<li>Wait for pools to complete before executing next pipeline stage</li>
-<li>Added options to generate histograms asynchronously</li>
-<li>Refactored idoc import code</li>
-<li>Write errors that occur during ir-blob to the log window</li>
-<li>Test setup is now cached in the TESTOUTPUT directory.  The cache should be cleared before running tests after relevant changes.</li>
+<li><p>Removed the -volume flag.  The volume path is now the first argument to the nornir-build command.</p></li>
+<li><p>Do not set build process to low priority unless specified on command line.  Low priority has a huge performance cost.</p></li>
+<li><p>Importers are now pipelines.  They have specific names for the type of data to import.</p></li>
+<li><p>Wait for pools to complete before executing next pipeline stage</p></li>
+<li><p>Added options to generate histograms asynchronously</p></li>
+<li><p>Refactored idoc import code</p></li>
+<li><p>Write errors that occur during ir-blob to the log window</p></li>
+<li><p>Test setup is now cached in the TESTOUTPUT directory.  The cache should be cleared before running tests after relevant changes.</p></li>
 </ul>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Remove generated Prune.mosaic file if it is older than the prune data it is generated from</li>
-<li>Masks were entirely missed in slice-to-slice registration.  Masks are now properly included and propogated.  Removed parameter from ‘-UseMasks’ flag</li>
-<li>Do not crash if the same level is passed to CreatePyramid functions twice in a list</li>
-<li>Number imported tiles from IDOC’s starting with 0.  This matches SerialEM’s numbering</li>
+<li><p>Remove generated Prune.mosaic file if it is older than the prune data it is generated from</p></li>
+<li><p>Masks were entirely missed in slice-to-slice registration.  Masks are now properly included and propogated.  Removed parameter from ‘-UseMasks’ flag</p></li>
+<li><p>Do not crash if the same level is passed to CreatePyramid functions twice in a list</p></li>
+<li><p>Number imported tiles from IDOC’s starting with 0.  This matches SerialEM’s numbering</p></li>
 </ul>
-</div>
-<div class="section" id="id3">
+</section>
+<section id="id3">
 <h3>1.2.4<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Added compatability with 1.2.4 version of nornir_imageregistration package</p>
-</div>
-<div class="section" id="id4">
+</section>
+<section id="id4">
 <h3>1.2.3<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>A bugfix release</p>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
-<li>In manual .stos files, replace the image paths with pointers to the images from image nodes for the appropriate filter.  Useful in cases where sections are re-ordered or other images were used for manual registration.</li>
+<li><p>In manual .stos files, replace the image paths with pointers to the images from image nodes for the appropriate filter.  Useful in cases where sections are re-ordered or other images were used for manual registration.</p></li>
 </ul>
 <p><strong>Tweak</strong></p>
 <ul class="simple">
-<li>Don’t build an empty imageset for a filter if there is no data to populate the imageset and we ask for images</li>
-<li>Added cleanup function to Cleanup pipeline to remove empty imagesets</li>
+<li><p>Don’t build an empty imageset for a filter if there is no data to populate the imageset and we ask for images</p></li>
+<li><p>Added cleanup function to Cleanup pipeline to remove empty imagesets</p></li>
 </ul>
-</div>
-<div class="section" id="id5">
+</section>
+<section id="id5">
 <h3>1.2.2<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>A bugfix release</p>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Added .cmd files to scripts directory for upgrading and uninstalling all nornir packages.</li>
-<li>Included build scripts now update title of console window with name of active pipeline</li>
-<li>Fixed several cases where slice-to-slice alignment pipeline was not updating correctly due to upstream changes</li>
-<li>Fixed several cases where slice-to-slice alignment pipeline was updating needlessly</li>
-<li>Added more thorough test cases to ensure manual slice-to-slice transformation patches correctly trigger downstream updates</li>
+<li><p>Added .cmd files to scripts directory for upgrading and uninstalling all nornir packages.</p></li>
+<li><p>Included build scripts now update title of console window with name of active pipeline</p></li>
+<li><p>Fixed several cases where slice-to-slice alignment pipeline was not updating correctly due to upstream changes</p></li>
+<li><p>Fixed several cases where slice-to-slice alignment pipeline was updating needlessly</p></li>
+<li><p>Added more thorough test cases to ensure manual slice-to-slice transformation patches correctly trigger downstream updates</p></li>
 </ul>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
-<li>Image report generator no longer crashes if an image does not require downsampling</li>
-<li>Image reports code no longer fails when using .svg formats</li>
+<li><p>Image report generator no longer crashes if an image does not require downsampling</p></li>
+<li><p>Image reports code no longer fails when using .svg formats</p></li>
 </ul>
-</div>
-<div class="section" id="id6">
+</section>
+<section id="id6">
 <h3>1.2.1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Many optimizations</li>
-<li>Improved the histogram generation to show the actual cutoff values for a section and not percentages when a manual value is not specified.</li>
-<li>Profile data is saved for tests if the PROFILE environment variable is set</li>
-<li>Faster parsing of pipelines via use of cElementTree package</li>
-<li>Multithreading pool is used when adding stos transforms</li>
-<li>Added support for manual folder in stosbrute folders.  This allows users to bypass the expensive automatic initial alignment step if a manual registration is known.</li>
-<li>Report web pages now can be renamed to prevent overwriting the default ImageReport.html page</li>
+<li><p>Many optimizations</p></li>
+<li><p>Improved the histogram generation to show the actual cutoff values for a section and not percentages when a manual value is not specified.</p></li>
+<li><p>Profile data is saved for tests if the PROFILE environment variable is set</p></li>
+<li><p>Faster parsing of pipelines via use of cElementTree package</p></li>
+<li><p>Multithreading pool is used when adding stos transforms</p></li>
+<li><p>Added support for manual folder in stosbrute folders.  This allows users to bypass the expensive automatic initial alignment step if a manual registration is known.</p></li>
+<li><p>Report web pages now can be renamed to prevent overwriting the default ImageReport.html page</p></li>
 </ul>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
-<li>Take image downsample into account before regenerating images warped into the volume.  Previously downsampled images were always regenerated even when current</li>
-<li>Logging level set correctly.  Normal runs only display warnings or higher level entries to the console</li>
-<li>Sections without a log file now have reports generated correctly</li>
-<li>Fixed exception thrown when image dimensions could not be read and compared because a file could not be read</li>
-<li>Filter locks for all filters in a channel are released when contrast or prune thresholds are manually adjusted.  Allowing the filters to regenerate with the updated values</li>
-<li>debug flag was always active during builds</li>
-<li>Check the timestamp on the first tile of every pyramid level to ensure they regenerate if they are outdated.</li>
-<li>Histograms are correctly refreshed when they are out of date.</li>
+<li><p>Take image downsample into account before regenerating images warped into the volume.  Previously downsampled images were always regenerated even when current</p></li>
+<li><p>Logging level set correctly.  Normal runs only display warnings or higher level entries to the console</p></li>
+<li><p>Sections without a log file now have reports generated correctly</p></li>
+<li><p>Fixed exception thrown when image dimensions could not be read and compared because a file could not be read</p></li>
+<li><p>Filter locks for all filters in a channel are released when contrast or prune thresholds are manually adjusted.  Allowing the filters to regenerate with the updated values</p></li>
+<li><p>debug flag was always active during builds</p></li>
+<li><p>Check the timestamp on the first tile of every pyramid level to ensure they regenerate if they are outdated.</p></li>
+<li><p>Histograms are correctly refreshed when they are out of date.</p></li>
 </ul>
-</div>
-<div class="section" id="id7">
+</section>
+<section id="id7">
 <h3>1.2.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
-<li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
-<li>Bug fixes related to case-sensitive filter names</li>
+<li><p>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</p></li>
+<li><p>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</p></li>
+<li><p>Bug fixes related to case-sensitive filter names</p></li>
 </ul>
-</div>
-<div class="section" id="id8">
+</section>
+<section id="id8">
 <h3>1.2.1<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Many optimizations</li>
-<li>Improved the histogram generation to show the actual cutoff values for a section and not percentages when a manual value is not specified.</li>
-<li>Profile data is saved for tests if the PROFILE environment variable is set</li>
-<li>Faster parsing of pipelines via use of cElementTree package</li>
-<li>Multithreading pool is used when adding stos transforms</li>
-<li>Added support for manual folder in stosbrute folders.  This allows users to bypass the expensive automatic initial alignment step if a manual registration is known.</li>
-<li>Report web pages now can be renamed to prevent overwriting the default ImageReport.html page</li>
+<li><p>Many optimizations</p></li>
+<li><p>Improved the histogram generation to show the actual cutoff values for a section and not percentages when a manual value is not specified.</p></li>
+<li><p>Profile data is saved for tests if the PROFILE environment variable is set</p></li>
+<li><p>Faster parsing of pipelines via use of cElementTree package</p></li>
+<li><p>Multithreading pool is used when adding stos transforms</p></li>
+<li><p>Added support for manual folder in stosbrute folders.  This allows users to bypass the expensive automatic initial alignment step if a manual registration is known.</p></li>
+<li><p>Report web pages now can be renamed to prevent overwriting the default ImageReport.html page</p></li>
 </ul>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
-<li>Take image downsample into account before regenerating images warped into the volume.  Previously downsampled images were always regenerated even when current</li>
-<li>Logging level set correctly.  Normal runs only display warnings or higher level entries to the console</li>
-<li>Sections without a log file now have reports generated correctly</li>
-<li>Fixed exception thrown when image dimensions could not be read and compared because a file could not be read</li>
-<li>Filter locks for all filters in a channel are released when contrast or prune thresholds are manually adjusted.  Allowing the filters to regenerate with the updated values</li>
-<li>debug flag was always active during builds</li>
-<li>Check the timestamp on the first tile of every pyramid level to ensure they regenerate if they are outdated.</li>
-<li>Histograms are correctly refreshed when they are out of date.</li>
+<li><p>Take image downsample into account before regenerating images warped into the volume.  Previously downsampled images were always regenerated even when current</p></li>
+<li><p>Logging level set correctly.  Normal runs only display warnings or higher level entries to the console</p></li>
+<li><p>Sections without a log file now have reports generated correctly</p></li>
+<li><p>Fixed exception thrown when image dimensions could not be read and compared because a file could not be read</p></li>
+<li><p>Filter locks for all filters in a channel are released when contrast or prune thresholds are manually adjusted.  Allowing the filters to regenerate with the updated values</p></li>
+<li><p>debug flag was always active during builds</p></li>
+<li><p>Check the timestamp on the first tile of every pyramid level to ensure they regenerate if they are outdated.</p></li>
+<li><p>Histograms are correctly refreshed when they are out of date.</p></li>
 </ul>
-</div>
-<div class="section" id="id9">
+</section>
+<section id="id9">
 <h3>1.2.0<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</li>
-<li>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</li>
-<li>Bug fixes related to case-sensitive filter names</li>
+<li><p>The command line has been rewritten to use subcommands.  The -pipeline and -import arguments are no longer used.  In the near future the -volume command may be removed.  Users should now specify the pipeline name after nornir-build:</p></li>
+<li><p>Revamped the generation of slice-to-slice registration maps.  New sections are detected and holes are skipped</p></li>
+<li><p>Bug fixes related to case-sensitive filter names</p></li>
 </ul>
-</div>
-<div class="section" id="id10">
+</section>
+<section id="id10">
 <h3>1.1.5<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
-<li>Duplicate histogram nodes could be created if changing the prune threshold did not change the tiles present in the mosaic.  Contrast settings could be applied incorrectly to the duplicate and ignored.</li>
+<li><p>Duplicate histogram nodes could be created if changing the prune threshold did not change the tiles present in the mosaic.  Contrast settings could be applied incorrectly to the duplicate and ignored.</p></li>
 </ul>
-</div>
-<div class="section" id="id11">
+</section>
+<section id="id11">
 <h3>1.1.2<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>SetPruneCutoff pipeline to save users from editting volumedata.xml files deep in volume</li>
-<li>SetContrast pipeline to save users from editting volumedata.xml files deep in volume</li>
-<li>CreateVikingXML calls added to TEMBuild and TEMAlign scripts</li>
-<li>Histogram images now show manual contrast settings</li>
+<li><p>SetPruneCutoff pipeline to save users from editting volumedata.xml files deep in volume</p></li>
+<li><p>SetContrast pipeline to save users from editting volumedata.xml files deep in volume</p></li>
+<li><p>CreateVikingXML calls added to TEMBuild and TEMAlign scripts</p></li>
+<li><p>Histogram images now show manual contrast settings</p></li>
 </ul>
 <p><strong>Fixes</strong></p>
 <ul class="simple">
-<li>CreateVikingXML no longer requires volume related parameters.  Allows unregistered mosaic sets to be published to Viking.</li>
-<li>Histogram image updates if contrast parameters editted</li>
+<li><p>CreateVikingXML no longer requires volume related parameters.  Allows unregistered mosaic sets to be published to Viking.</p></li>
+<li><p>Histogram image updates if contrast parameters editted</p></li>
 </ul>
-</div>
-<div class="section" id="id12">
+</section>
+<section id="id12">
 <h3>1.1.1<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Fixed boundary of volume not refreshing when stos registrations changed</li>
-<li>Add .idoc data to SerialEM volume reports</li>
+<li><p>Fixed boundary of volume not refreshing when stos registrations changed</p></li>
+<li><p>Add .idoc data to SerialEM volume reports</p></li>
 </ul>
-</div>
-<div class="section" id="id13">
+</section>
+<section id="id13">
 <h3>1.1.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Initial release</li>
+<li><p>Initial release</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="image-registration">
+</section>
+</section>
+<section id="image-registration">
 <h2>Image Registration<a class="headerlink" href="#image-registration" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id14">
+<section id="id14">
 <h3>1.3.1<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Fixed issue where image scale factor in translation alignment was being used as minimum image overlap instead</li>
-<li>Removed crash from FileNotFoundError exception.  It does not exist in Python 2.7.</li>
-<li>Support for histogram numpy images</li>
-<li>Fixed very rare error where a subregion in translation alignment was a single pixel which broke statistics.  These regions are now ignored</li>
-<li>Force rectangle to use float64 numpy arrays.  Fixed issue where integer arrays were passed and then used without conversion.</li>
-<li>Fixed a bug where a non-existent center section was requested to be the center in the registration tree.</li>
+<li><p>Fixed issue where image scale factor in translation alignment was being used as minimum image overlap instead</p></li>
+<li><p>Removed crash from FileNotFoundError exception.  It does not exist in Python 2.7.</p></li>
+<li><p>Support for histogram numpy images</p></li>
+<li><p>Fixed very rare error where a subregion in translation alignment was a single pixel which broke statistics.  These regions are now ignored</p></li>
+<li><p>Force rectangle to use float64 numpy arrays.  Fixed issue where integer arrays were passed and then used without conversion.</p></li>
+<li><p>Fixed a bug where a non-existent center section was requested to be the center in the registration tree.</p></li>
 </ul>
-</div>
-<div class="section" id="id15">
+</section>
+<section id="id15">
 <h3>1.3.0<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>The original ir-refine-translate code from SCI has been replaced with a Python implementation.  This appears to solve problems where tiles in mosaics were occasionally out of position</li>
-<li>Richer API for Rectangles.  Added functions to change the area but keep the same center, safe rounding to an integer that does not decrease the overall area,</li>
-<li>Added a crude measure (Difference of overlapping regions) of mosaic quality</li>
-<li>One can include titles in the ShowGrayscale function now</li>
+<li><p>The original ir-refine-translate code from SCI has been replaced with a Python implementation.  This appears to solve problems where tiles in mosaics were occasionally out of position</p></li>
+<li><p>Richer API for Rectangles.  Added functions to change the area but keep the same center, safe rounding to an integer that does not decrease the overall area,</p></li>
+<li><p>Added a crude measure (Difference of overlapping regions) of mosaic quality</p></li>
+<li><p>One can include titles in the ShowGrayscale function now</p></li>
 </ul>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Close pools more agressively.  The extra threads multiprocessing pools spawn have a measurable performance cost, at least when running in low priority mode</li>
-<li>Do not crash when a file is missing if we are checking a list of tiles and transforms for the most common scalar.</li>
-<li>Adding stos transforms no longer removes masks from the .stos file.</li>
-<li>.stos file object’s mask FullPath functions no longer crash if passed None.  Instead masks are properly cleared now.</li>
-<li>.stos file can read mask paths correctly from .stos files, was reading the header line as a mask name before.</li>
-<li>If all pixels are masked then do not try to calculate statistics for unmasked pixels.</li>
-<li>Fixed mask generation in RandomNoiseMask</li>
-<li>Fixed crash when MostCommonScalar function encounters a missing image file</li>
-<li>AddStosTransforms was not passing masks along to the new .stos transform</li>
-<li>We now raise a value error when a random noise mask does contain any unmasked pixels to generate statistics from.</li>
-<li>Fixed output of unmapped pixels when warped image call is mapping a single image and not a list of images.</li>
-<li>Fixed script generation on install.  Scripts for individual operations such as assemble should appear now.  More testing required here.</li>
-<li>Fixes for the use of memory mapped files.  These are still disabled in production.</li>
-<li>Fix for crop image when the cropped image is entirely outside the boundaries of the input array.</li>
+<li><p>Close pools more agressively.  The extra threads multiprocessing pools spawn have a measurable performance cost, at least when running in low priority mode</p></li>
+<li><p>Do not crash when a file is missing if we are checking a list of tiles and transforms for the most common scalar.</p></li>
+<li><p>Adding stos transforms no longer removes masks from the .stos file.</p></li>
+<li><p>.stos file object’s mask FullPath functions no longer crash if passed None.  Instead masks are properly cleared now.</p></li>
+<li><p>.stos file can read mask paths correctly from .stos files, was reading the header line as a mask name before.</p></li>
+<li><p>If all pixels are masked then do not try to calculate statistics for unmasked pixels.</p></li>
+<li><p>Fixed mask generation in RandomNoiseMask</p></li>
+<li><p>Fixed crash when MostCommonScalar function encounters a missing image file</p></li>
+<li><p>AddStosTransforms was not passing masks along to the new .stos transform</p></li>
+<li><p>We now raise a value error when a random noise mask does contain any unmasked pixels to generate statistics from.</p></li>
+<li><p>Fixed output of unmapped pixels when warped image call is mapping a single image and not a list of images.</p></li>
+<li><p>Fixed script generation on install.  Scripts for individual operations such as assemble should appear now.  More testing required here.</p></li>
+<li><p>Fixes for the use of memory mapped files.  These are still disabled in production.</p></li>
+<li><p>Fix for crop image when the cropped image is entirely outside the boundaries of the input array.</p></li>
 </ul>
 <p><strong>Changed</strong></p>
 <ul class="simple">
-<li>Show grayscale layout and title improvements</li>
-<li>ExtractRegion removed and replaced with faster, simpler CropImage function.  Now raises DeprecationWarning.</li>
-<li>Deleted unused functions</li>
-<li>Rectangle object now always stores bounds internally as a numpy array</li>
-<li>OnTransformChanged does not fire on a thread unless there are multiple listeners.  Performance improvement</li>
-<li>Numpy floating point issues not raise an exception instead of a warning message.  Now using: numpy.seterr(all=’raise’)</li>
+<li><p>Show grayscale layout and title improvements</p></li>
+<li><p>ExtractRegion removed and replaced with faster, simpler CropImage function.  Now raises DeprecationWarning.</p></li>
+<li><p>Deleted unused functions</p></li>
+<li><p>Rectangle object now always stores bounds internally as a numpy array</p></li>
+<li><p>OnTransformChanged does not fire on a thread unless there are multiple listeners.  Performance improvement</p></li>
+<li><p>Numpy floating point issues not raise an exception instead of a warning message.  Now using: numpy.seterr(all=’raise’)</p></li>
 </ul>
-</div>
-<div class="section" id="id16">
+</section>
+<section id="id16">
 <h3>1.2.4<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Support for translating tiles in a mosaic based on stage position</li>
-<li>Bug fixes</li>
+<li><p>Support for translating tiles in a mosaic based on stage position</p></li>
+<li><p>Bug fixes</p></li>
 </ul>
-</div>
-<div class="section" id="id17">
+</section>
+<section id="id17">
 <h3>1.2.3<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Support JPEG2000 and memory mapped numpy arrays as image output formats</li>
-<li>Use a generator to iterate through tiles pulled from a larger image.</li>
-<li>Some significant memory footprint reductions for assemble and transformation functions</li>
+<li><p>Support JPEG2000 and memory mapped numpy arrays as image output formats</p></li>
+<li><p>Use a generator to iterate through tiles pulled from a larger image.</p></li>
+<li><p>Some significant memory footprint reductions for assemble and transformation functions</p></li>
 </ul>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Do not throw an exception when asking a .stos file for the full path to a mask that it doesn not have.  Return None instead.</li>
+<li><p>Do not throw an exception when asking a .stos file for the full path to a mask that it doesn not have.  Return None instead.</p></li>
 </ul>
-</div>
-<div class="section" id="id18">
+</section>
+<section id="id18">
 <h3>1.2.2<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>Minor optimization and function used in the new tile web server</p>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Added a function to cut image into tiles</li>
-<li>Added a resize image function</li>
-<li>Reduced memory footprint of assemble somewhat.</li>
+<li><p>Added a function to cut image into tiles</p></li>
+<li><p>Added a resize image function</p></li>
+<li><p>Reduced memory footprint of assemble somewhat.</p></li>
 </ul>
-</div>
-<div class="section" id="id19">
+</section>
+<section id="id19">
 <h3>1.2.1<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Many optimizations to assembling images</li>
-<li>Tests will be profiled if the PROFILE environment variable is set</li>
+<li><p>Many optimizations to assembling images</p></li>
+<li><p>Tests will be profiled if the PROFILE environment variable is set</p></li>
 </ul>
-</div>
-<div class="section" id="id20">
+</section>
+<section id="id20">
 <h3>1.2.0<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Added bounding box to spatial</li>
-<li>Python 3 support</li>
-<li>Better documentation for assemble parameters.</li>
-<li>Added bounding box structure to spatial module</li>
+<li><p>Added bounding box to spatial</p></li>
+<li><p>Python 3 support</p></li>
+<li><p>Better documentation for assemble parameters.</p></li>
+<li><p>Added bounding box structure to spatial module</p></li>
 </ul>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>The output buffer in assemble is now the correct size.  Previously a larger buffer was allocated and cropped.</li>
+<li><p>The output buffer in assemble is now the correct size.  Previously a larger buffer was allocated and cropped.</p></li>
 </ul>
-</div>
-<div class="section" id="id21">
+</section>
+<section id="id21">
 <h3>1.1.7<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>RegistrationTree supports missing centers by finding the nearest section to the requested center</li>
+<li><p>RegistrationTree supports missing centers by finding the nearest section to the requested center</p></li>
 </ul>
-</div>
-<div class="section" id="id22">
+</section>
+<section id="id22">
 <h3>1.1.3<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p><strong>New</strong></p>
 <ul class="simple">
-<li>Add flag to StosBrute to allow execution on cluster</li>
-<li>AssembleTiles method allows specifying a subregion to assemble</li>
-<li>ShowGrayscale function displays multiple images on a 2D grid for a more optimal use of screen real estate</li>
-<li>Added Spatial package which includes enums for standard indexing of nornir spatial arrays.  For example iArea.width is the index to use to obtain the width from a size tuple</li>
+<li><p>Add flag to StosBrute to allow execution on cluster</p></li>
+<li><p>AssembleTiles method allows specifying a subregion to assemble</p></li>
+<li><p>ShowGrayscale function displays multiple images on a 2D grid for a more optimal use of screen real estate</p></li>
+<li><p>Added Spatial package which includes enums for standard indexing of nornir spatial arrays.  For example iArea.width is the index to use to obtain the width from a size tuple</p></li>
 </ul>
 <p><strong>Changed</strong></p>
 <ul class="simple">
-<li>Bounds functions now follow the (MinY MinX MaxY MaxX) convention consistent with numpy image array indexing</li>
-<li>Alignment record now uses the standard (Y,X) indexing of the other image_registration packages.</li>
-<li>Removed many uses of ImageMagick identify to obtain image size and replaced with Pillow calls</li>
+<li><p>Bounds functions now follow the (MinY MinX MaxY MaxX) convention consistent with numpy image array indexing</p></li>
+<li><p>Alignment record now uses the standard (Y,X) indexing of the other image_registration packages.</p></li>
+<li><p>Removed many uses of ImageMagick identify to obtain image size and replaced with Pillow calls</p></li>
 </ul>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li>Image padding was making images larger than they had to be.  This fix should increase registration speed</li>
+<li><p>Image padding was making images larger than they had to be.  This fix should increase registration speed</p></li>
 </ul>
-</div>
-<div class="section" id="id23">
+</section>
+<section id="id23">
 <h3>1.1.0<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Initial release</li>
+<li><p>Initial release</p></li>
 </ul>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Version History</a><ul>
 <li><a class="reference internal" href="#build-manager">Build Manager</a><ul>
 <li><a class="reference internal" href="#id1">1.3.1</a></li>
@@ -430,12 +432,17 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="packages/nornir_shared.html"
-                        title="previous chapter">Shared (nornir_shared)</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="futurework.html"
-                        title="next chapter">Missing features</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="packages/nornir_buildmanager.html"
+                          title="previous chapter">Buildmanager (nornir_buildmanager)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="futurework.html"
+                          title="next chapter">Missing features</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -444,17 +451,15 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -472,15 +477,16 @@
           <a href="futurework.html" title="Missing features"
              >next</a> |</li>
         <li class="right" >
-          <a href="packages/nornir_shared.html" title="Shared (nornir_shared)"
+          <a href="packages/nornir_buildmanager.html" title="Buildmanager (nornir_buildmanager)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Nornir 1.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Version History</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, James Anderson.
-      Last updated on Nov 10, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Last updated on Apr 01, 2022.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

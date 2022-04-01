@@ -1,20 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Build Reports (SerialEM) &#8212; Nornir 1.3.1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
     
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -38,7 +37,8 @@
           <a href="reorder.html" title="Reordering Sections in a Volume"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Use</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="toctree.html" accesskey="U">Use</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Build Reports (SerialEM)</a></li> 
       </ul>
     </div>  
 
@@ -47,32 +47,32 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="build-reports-serialem">
+  <section id="build-reports-serialem">
 <h1>Build Reports (SerialEM)<a class="headerlink" href="#build-reports-serialem" title="Permalink to this headline">¶</a></h1>
 <p>When building very large scale volumes it is useful to understand how the capture system is working.  To facilitate this in SerialEM Nornir has the ability to produce reports for a volume or set of mosaics.</p>
-<div class="figure">
+<figure class="align-default">
 <img alt="../_images/SerialEMReportExample.png" src="../_images/SerialEMReportExample.png" />
-</div>
+</figure>
 <p>The current (2/27/14) report system provides the information overviewed below.  Reports can be customized with python.</p>
 <p>A full report for a subset of our mouse retinal connectom volume is visibile at <a class="reference external" href="http://connectomes.utah.edu/NornirExample/TEM/ImageReport.html/">http://connectomes.utah.edu/NornirExample/TEM/ImageReport.html/</a></p>
 <p><strong>Output image summary</strong>:  The image registered to the volume is to the left.  The unregistered mosaic built from tiles is to the right.</p>
 <p><strong>Notes</strong>: If a notes.txt file was saved in the same directory as the .idoc file the raw text is injected at the bottom of the report.  The raw notes may be accessed via the link.</p>
-<div class="section" id="acquistion-settings-speed-and-stage-drift">
+<section id="acquistion-settings-speed-and-stage-drift">
 <h2>Acquistion settings, speed and stage drift<a class="headerlink" href="#acquistion-settings-speed-and-stage-drift" title="Permalink to this headline">¶</a></h2>
-<div class="figure">
+<figure class="align-default">
 <img alt="../_images/SerialEMReportExampleDrift.png" src="../_images/SerialEMReportExampleDrift.png" />
-</div>
+</figure>
 <p><strong>Settings</strong>: These are visible on the left and document the SerialEM and microscope settings used to capture the image.  They are pulled from the .idoc file available by clicking the “Capture Settings Summary” link.  Pixel spacing is in angstroms.</p>
 <p><strong>Drift</strong>:  These figures show how long each individual tile had to sit before the tissue and stage drift rate slowed enough for SerialEM to capture an image.  Drift rate is assessed during autofocus.</p>
 <blockquote>
 <div><p>Points are color coded according to the number of focus attempts.  SerialEM captures the image regardless after five attempts.</p>
 <blockquote>
 <div><ul class="simple">
-<li><em>Blue</em>   1st autofocus attempt.</li>
-<li><em>Green</em>  2nd autofocus attempt.</li>
-<li><em>Yellow</em> 3rd autofocus attempt.</li>
-<li><em>Red</em>    4th autofocus attempt.</li>
-<li><em>Purple</em> 5th autofocus attempt.</li>
+<li><p><em>Blue</em>   1st autofocus attempt.</p></li>
+<li><p><em>Green</em>  2nd autofocus attempt.</p></li>
+<li><p><em>Yellow</em> 3rd autofocus attempt.</p></li>
+<li><p><em>Red</em>    4th autofocus attempt.</p></li>
+<li><p><em>Purple</em> 5th autofocus attempt.</p></li>
 </ul>
 </div></blockquote>
 <p>This feedback is helpful in determining the effectiveness of stage settling mitigation strategies.</p>
@@ -80,53 +80,53 @@
 <p><strong>Statistics</strong>:  Most of these fields are self explanatory.  The following are the most useful for optimization:</p>
 <blockquote>
 <div><ul class="simple">
-<li>Fastest tile time indicates the best possible performance your scope is able to achieve during captures.</li>
-<li>Avg tile time indicates how far your scope falls from the fastest tile time.  Subtract the average from the fastest time and multiple by the number of tiles to determine how much time could be gained with perfect optimization.</li>
-<li>Avg/Max drift can be multiplied by the exposure time and divided by the resoultion/pixel to measure what fraction of a pixels intensity is contributed by neighboring pixels.  If the tile drifts a significant fraction of a pixel spacing during the exposure time the pixel will be blurry and one may be better off using a lower resolution and saving storage space and time.</li>
+<li><p>Fastest tile time indicates the best possible performance your scope is able to achieve during captures.</p></li>
+<li><p>Avg tile time indicates how far your scope falls from the fastest tile time.  Subtract the average from the fastest time and multiple by the number of tiles to determine how much time could be gained with perfect optimization.</p></li>
+<li><p>Avg/Max drift can be multiplied by the exposure time and divided by the resoultion/pixel to measure what fraction of a pixels intensity is contributed by neighboring pixels.  If the tile drifts a significant fraction of a pixel spacing during the exposure time the pixel will be blurry and one may be better off using a lower resolution and saving storage space and time.</p></li>
 </ul>
 </div></blockquote>
 <p><strong>Log File</strong>: The SerialEM log file contains the data required to quantize drift.  The raw data can be accessed via the log file link.</p>
-</div>
-</div>
-<div class="section" id="working-with-imperfect-captures">
+</section>
+</section>
+<section id="working-with-imperfect-captures">
 <h1>Working with imperfect captures<a class="headerlink" href="#working-with-imperfect-captures" title="Permalink to this headline">¶</a></h1>
 <p>Both electron and optical microscopy acquisitions can feature large empty regions.  Featureless tiles are easily misregistered and discarding them saves storage and processing time. Empty tiles also throw off the default autocontrast settings for Nornir.</p>
 <p>For the remaining examples feature the report below from a torn section.  The report was generated with an older version but contains the relevant information.</p>
-<div class="figure">
+<figure class="align-default">
 <img alt="../_images/75_DamagedOverview.png" src="../_images/75_DamagedOverview.png" />
-</div>
+</figure>
 <p>Note in the drift map how the region around the tear experienced predictable increases in tissue movement during capture.</p>
-<div class="section" id="mark-sections-as-damaged">
+<section id="mark-sections-as-damaged">
 <h2>Mark sections as damaged<a class="headerlink" href="#mark-sections-as-damaged" title="Permalink to this headline">¶</a></h2>
 <p>A damaged section, even after repair, is almost always unsuitable to contribute to the slice-to-volume transformation series.  These relevant section should be marked as damaged with the ‘’MarkSectionsDamaged’’ pipeline.  The section will still participate in the volume, however any downstream sections will not use the damaged section to determine their volume position.</p>
-</div>
-<div class="section" id="remove-featureless-tiles">
+</section>
+<section id="remove-featureless-tiles">
 <h2>Remove featureless tiles<a class="headerlink" href="#remove-featureless-tiles" title="Permalink to this headline">¶</a></h2>
 <p>Nornir’s prune stage assigns a feature score to each tile based on the standard deviation of a small regions around the edge of each tile.  The prune histogram suggests where the prune cutoff should be set to eliminate blank tiles with low prune scores.</p>
 <p>The prune histogram indicates how each tile scored.  The blank tiles can be seen clustered to the left with low scores.  In this example I would first set a prune threshold of 5, rebuild and re-evaluate.</p>
-<div class="figure">
+<figure class="align-default">
 <img alt="../_images/75_PruneScores.png" src="../_images/75_PruneScores.png" />
-</div>
+</figure>
 <p>For this example I would suggest setting the max cutoff to 125 and not setting a low cutoff value.</p>
 <p>Prune cutoffs are set with the <code class="docutils literal notranslate"><span class="pre">SetPruneCutoff</span></code> pipeline.</p>
-</div>
-<div class="section" id="adjust-the-contrast">
+</section>
+<section id="adjust-the-contrast">
 <h2>Adjust the contrast<a class="headerlink" href="#adjust-the-contrast" title="Permalink to this headline">¶</a></h2>
 <p>Because of the tear we still have empty areas of high intensity and low interest.  This produces the rightmost peak on the histogram.  Folds can also occur which result in darker regions causing peaks to the left.</p>
-<div class="figure">
+<figure class="align-default">
 <img alt="../_images/75_Histogram.png" src="../_images/75_Histogram.png" />
-</div>
+</figure>
 <p>The histogram is recalculated after the prune threshold is changed.  However it is often necessary to manually set a cutoff for autolevelling the histogram.  The default behavior for the TEM scripts is to adjust Gamma so that the median intensity sits at 50%.  This results in less contrast overall but preserves details in dense features such as synapses and gap junctions.</p>
 <p>Contrast cutoffs are set with the <code class="docutils literal notranslate"><span class="pre">SetContrast</span></code> pipeline.</p>
-</div>
-<div class="section" id="optimizing-capture-serialem">
+</section>
+<section id="optimizing-capture-serialem">
 <h2>Optimizing Capture (SerialEM)<a class="headerlink" href="#optimizing-capture-serialem" title="Permalink to this headline">¶</a></h2>
 <p>Comparing the two reports above it can be seen that the average tile time decreased from 36.6 to 17.2 seconds.  While much of this is due to work
 Dave Mastronarde did to improve performance the operators have considerable control over capture speed.</p>
 <p>A good image requires a long enough exposure to free the image from random noise and little tissue movement during exposure to preserve contrast.
 In capturing large volumes we must stabilize the image as fast as possible to capture as fast as possible while keeping the quality above a
 consistent standard.  The first retinal connectome required about 341,000 captures.  Saving a few seconds with optimization can save a project months of time.</p>
-<div class="section" id="stage-drift">
+<section id="stage-drift">
 <h3>Stage Drift<a class="headerlink" href="#stage-drift" title="Permalink to this headline">¶</a></h3>
 <p>Stages require time to settle after a movement.  SerialEM allows the operator to adjust the maximum amount of measured drift before an image is captured.
 Waiting for settling requires time and different mitigation strategies are available.  Cooking at low or high magnifications can reduce the time
@@ -134,25 +134,27 @@ for the tissue to cease movement when exposed to the electron beam.  The diamete
 under strain.  The range in capture time can be extreme.  At 5000X the Marc lab can adjust spot size, beam diameter, and cooking stragies to observe a
 16.5 sec/tile to 25 sec/tile range in performance.</p>
 <p>We’ve found that a narrow beam diameter combined with a high-magnification cook does the best job of minimizing drift.</p>
-</div>
-<div class="section" id="image-quality">
+</section>
+<section id="image-quality">
 <h3>Image quality<a class="headerlink" href="#image-quality" title="Permalink to this headline">¶</a></h3>
 <p>The motivation to reduce drift is to preserving image contrast.  One needs to ensure that the maximum drift is not moving a significant
 fraction of a pixel during the exposure time.  The Marc lab uses a resolution of 2.176 nm/pixel.  Our drift limit is 2.5 nm / sec.  While we generally
 avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
 <p>Reducing the drift limit increases capture time.  The effects of high drift can also be hard to observe unless one uses the logs to ensure a high-drift tile is being examined.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Build Reports (SerialEM)</a><ul>
 <li><a class="reference internal" href="#acquistion-settings-speed-and-stage-drift">Acquistion settings, speed and stage drift</a></li>
 </ul>
@@ -170,12 +172,17 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="reorder.html"
-                        title="previous chapter">Reordering Sections in a Volume</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../packages/packages.html"
-                        title="next chapter">Packages</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="reorder.html"
+                          title="previous chapter">Reordering Sections in a Volume</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../packages/packages.html"
+                          title="next chapter">Packages</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -184,17 +191,15 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -215,13 +220,14 @@ avoid the worst case some tiles may be blurred 50% with a neighboring pixel.</p>
           <a href="reorder.html" title="Reordering Sections in a Volume"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="toctree.html" >Use</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="toctree.html" >Use</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Build Reports (SerialEM)</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, James Anderson.
-      Last updated on Nov 10, 2020.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Last updated on Apr 01, 2022.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>
