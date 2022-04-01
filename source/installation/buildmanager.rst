@@ -1,34 +1,35 @@
+.. _buildmanager:
+
 ==========================
 Build Manager Installation
 ==========================
 
-Users should begin by following the [common installation instructions] (Common-Install-Requirements) before proceeding to the buildmanager specific instructions below.
+Users should begin by following the :ref:`common` before proceeding to the buildmanager specific instructions below.
 
 Third-party tools
 -----------------
 
 The buildmanager has several dependencies on third party libraries which must be installed and available in the system path
 
-* Image Magick
-  Starting with Nornir version 1.3.1 Image Magick version 7 or later is required.  Previous versions of Nornir used Image Magick 6.
-  The 16 bits-per-pixel version of `Image Magick`_ should be installed and in the system path.  **Q16** should be in the Image Magick download filename which indicates it is a 16bpp build.  On Windows I use the shared library version (dll).
+.. _irtools:
 
-* ir-tools
+* **ir-tools**
+
   The original NCRToolset, a.k.a. "ir-tools" are located at `NCR Tools`_  For Windows a somewhat `optimized version`_ is available.  For Mac the version from `Brad Grimm`_ is required.
 
   The buildscripts were originally developed and used on Windows.  They should work on on other platforms but are not tested.  For Mac users I recommend using `Mac Ports`_ to install the numpy,scipy, and matplotlib libraries.
 
-* Optional: win32api
+*  Optional: win32api
 
-  As of version 1.0.1 the build manager will attempt to lower its priority below that of a normal process on the machine.  This allows a machine to remain more interactive to users while doing builds.  This requires the pywin32 package. Obtainable from `Gohlke's site`_.
+   The build manager may attempt to lower its priority below that of a normal process on the machine.  This allows a machine to remain more interactive to users while doing builds.  This requires the pywin32 package. Obtainable from `Gohlke's site`_.
 
 Installation
 ------------
 
 There are many roads to installing the packages.  One of these options should work.  The alternatives are provided for troubleshooting 
 
-1. Best option, use pip
-   The simplest install is to go to the scripts directory for your python installation.  C:\Python27\scripts is a common location.  Install the nornir-buildmanager package directly from github via pip by typing the following command
+1. Best option, use pip.
+   The simplest install is to go to the scripts directory for your python installation.  C:\\Python27\\scripts is a common location.  Install the nornir-buildmanager package directly from github via pip by typing the following command
    
    Pip has recently changed its behavior after version 1.4 to not install dependencies.  Using PIP 1.4 this command should be sufficient to install nornir.:: 
    
