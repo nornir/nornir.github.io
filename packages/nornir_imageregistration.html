@@ -376,12 +376,6 @@ original image.  Optionally the min/max pixels can also replaced be replaced wit
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="nornir_imageregistration.core.ROIRange">
-<span class="sig-prename descclassname"><span class="pre">nornir_imageregistration.core.</span></span><span class="sig-name descname"><span class="pre">ROIRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxVal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minVal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ROIRange" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a range that falls within the limits, but contains count entries.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="nornir_imageregistration.core.RandomNoiseMask">
 <span class="sig-prename descclassname"><span class="pre">nornir_imageregistration.core.</span></span><span class="sig-name descname"><span class="pre">RandomNoiseMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ImageMedian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ImageStdDev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.RandomNoiseMask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fill the masked area with random noise with gaussian distribution about the image
@@ -412,6 +406,18 @@ mean and with standard deviation matching the image’s standard deviation</p>
 <dt class="sig sig-object py" id="nornir_imageregistration.core.ResizeImage">
 <span class="sig-prename descclassname"><span class="pre">nornir_imageregistration.core.</span></span><span class="sig-name descname"><span class="pre">ResizeImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.ResizeImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change image size by scalar</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_imageregistration.core.SafeROIRange">
+<span class="sig-prename descclassname"><span class="pre">nornir_imageregistration.core.</span></span><span class="sig-name descname"><span class="pre">SafeROIRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxVal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minVal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_imageregistration.core.SafeROIRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a range cropped within min and max values, but always attempts to have count entries in the ROI.
+If minVal or maxVal would crop the list then start is shifted to ensure the resulting value has the correct number of entries.
+:param int start: Starting value
+:param int count: Number of items in the list, incremented by 1, to return.
+:param int maxVal: Maximum value allowed to be returned.  Output list will be cropped if it equals or exceeds this value.
+:param int minVal: Minimum value allowed to be returned.  Output list will be cropped below this value.
+:return:  [start start+1, start+2, …, start+count]</p>
 </dd></dl>
 
 <dl class="py function">

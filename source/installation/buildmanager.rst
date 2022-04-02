@@ -6,18 +6,24 @@ Build Manager Installation
 
 Users should begin by following the :ref:`common` before proceeding to the buildmanager specific instructions below.
 
+
+.. _third-party-tools:
+
 Third-party tools
 -----------------
 
 The buildmanager has several dependencies on third party libraries which must be installed and available in the system path
-
-.. _irtools:
 
 * **ir-tools**
 
   The original NCRToolset, a.k.a. "ir-tools" are located at `NCR Tools`_  For Windows a somewhat `optimized version`_ is available.  For Mac the version from `Brad Grimm`_ is required.
 
   The buildscripts were originally developed and used on Windows.  They should work on on other platforms but are not tested.  For Mac users I recommend using `Mac Ports`_ to install the numpy,scipy, and matplotlib libraries.
+  
+* **Image Magick**
+
+  Starting with Nornir version 1.3.1 Image Magick version 7 or later is required.  Previous versions of Nornir used Image Magick 6.
+  The 16 bits-per-pixel version of `Image Magick`_ should be installed and in the system path.  **Q16** should be in the Image Magick download filename which indicates it is a 16bpp build.  On Windows I use the shared library version (dll).
 
 *  Optional: win32api
 
