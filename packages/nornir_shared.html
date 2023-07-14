@@ -56,7 +56,7 @@
 <span id="checksum"></span><h3>checksum<a class="headerlink" href="#module-nornir_shared.checksum" title="Permalink to this headline">¶</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_shared.checksum.DataChecksum">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">DataChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.DataChecksum" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">DataChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><span class="pre">list</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#bytes" title="(in Python v3.7)"><span class="pre">bytes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#nornir_shared.checksum.DataChecksum" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
 <div><p>Removes whitespace from strings before calculating md5 checksum</p>
 </div></blockquote>
@@ -74,7 +74,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_shared.checksum.FileChecksum">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">FileChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.FileChecksum" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">FileChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#nornir_shared.checksum.FileChecksum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the md5 hash of a file read in txt mode</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -90,7 +90,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_shared.checksum.FilesizeChecksum">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">FilesizeChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.FilesizeChecksum" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">FilesizeChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#nornir_shared.checksum.FilesizeChecksum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the size of a file in bytes for use as a simple checksum</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -112,23 +112,6 @@
 <dt class="sig sig-object py" id="nornir_shared.emaillib.SendMail">
 <span class="sig-prename descclassname"><span class="pre">nornir_shared.emaillib.</span></span><span class="sig-name descname"><span class="pre">SendMail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.emaillib.SendMail" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends an email</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Address of smpt server</p></li>
-<li><p><strong>username</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – username for smtp account if required</p></li>
-<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – password for smtp account if required</p></li>
-<li><p><strong>subject</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – subject for E-mail</p></li>
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – text content of message</p></li>
-<li><p><strong>to</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Recipient addresses as string or list of strings</p></li>
-<li><p><strong>cc</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Recipient addresses as string or list of strings</p></li>
-<li><p><strong>from</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Sender’s E-mail address</p></li>
-<li><p><strong>fromFriendlyAddress</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Nice looking Sender’s E-mail address</p></li>
-<li><p><strong>files</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – comma delimited list of files to attach</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – port to use on server, default is 25</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </section>
@@ -209,7 +192,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2014, James Anderson.
-      Last updated on Apr 01, 2022.
+      Last updated on Jul 14, 2023.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
