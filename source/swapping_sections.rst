@@ -18,13 +18,15 @@ From Windows explorer
 	a. Rename the section folders to the correct numbers
 	b. Open VolumeData.xml in Notepad++ (CTRL+ALT+SHIFT+B to format XML)
 	c. Renumber the name, number, and path attributes to reflect the correct section number for both sections.
+	d. From explorer, delete the assembled images.  This includes the <Volume/<Section#>/TEM/Leveled/Images and <Volume/TEM/<Section#>/TEM/Mask/Images.
 	
 From command prompt:
 	a. To be extra safe, create a copy of the meta-data:
 		nornir-build <VolumeDir> ExportMetadata
 	   That helps with a recovery if a disaster happens
 	b. Create backup copies of RPC2/TEM/Grid8 and RPC2/TEM/Volume1 or whatever the top level transform.
-	c. Run the align command for the volume you have changed.
+	c. Run the build command to regenerate assembled images (or use a more targeted build command for the purpose of swapping sections to save time.)
+	d. Run the align command for the volume you have changed.
 	
 Check results in Viking when align commmand is completed.
 
