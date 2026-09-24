@@ -1,23 +1,18 @@
 # Pyre Windows installer (docs static asset)
 
-Keep the latest ``Pyre-<version>-Setup.exe`` here for local Sphinx builds
+Keep the latest ``Pyre-<version>-Setup.exe`` here for **local** Sphinx builds
 (Git LFS; see repo-root ``.gitattributes``).
 
-**GitHub Pages cannot host this file** (over the 100 MiB git limit; LFS is not
-served). End-user download links in the monodoc point at the GitHub Release
-asset created with the same version, for example::
+**GitHub Pages cannot host this file** (over the 100 MiB git limit). End-user
+downloads use the GitHub Releases **latest** asset:
 
-    https://github.com/jamesra/nornir/releases/download/pyre-1.7.7/Pyre-1.7.7-Setup.exe
+https://github.com/jamesra/nornir/releases/latest/download/Pyre-Setup.exe
 
-Refresh after building the installer::
+Versioned history: ``pyre-<version>`` releases with ``Pyre-<version>-Setup.exe``.
 
-    Copy-Item nornir-pyre\packaging\windows\dist\installer\Pyre-*-Setup.exe `
-      docs\_static\downloads\ -Force
+Publish / refresh (after building the installer)::
 
-    gh release create pyre-<version> docs\_static\downloads\Pyre-<version>-Setup.exe `
-      --repo jamesra/nornir `
-      --title "Pyre <version> Windows installer" `
-      --notes "Windows installer linked from nornir.github.io"
+    python release/sync_pyre_user_changelog.py --write-docs
+    .\release\publish_pyre_windows_release.ps1
 
-Sphinx also writes ``_static/downloads/index.html`` in the HTML output with a
-redirect to that release asset.
+Or push tag ``pyre-<version>`` / run workflow **Pyre Windows Release**.

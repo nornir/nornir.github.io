@@ -7,15 +7,17 @@ For lab users who do not use Python or Git, install the **Windows installer**.
 Download and install
 --------------------
 
-1. Download the latest installer:
+1. Download the **latest** installer (always current):
 
-   * |pyre-windows-installer| (version |pyre-windows-installer-version|)
-   * Same build: |pyre-windows-installer-latest|
+   * |pyre-windows-installer-latest|
 
-   The installer is published as a GitHub Release asset (linked above). A copy
-   is kept in the monorepo under ``docs/_static/downloads/`` for documentation
-   builds; GitHub Pages cannot host the ``.exe`` itself because it exceeds the
-   100 MiB file limit.
+   Or this exact build (|pyre-windows-installer-version|):
+
+   * |pyre-windows-installer|
+
+   Older builds stay on the repository
+   `Releases page <https://github.com/jamesra/nornir/releases>`_
+   (tags ``pyre-*``). See :doc:`pyre_changelog` for user-facing notes.
 2. Run the installer and accept the default options (install location:
    ``C:\Program Files\Nornir\Pyre``).
 3. Launch **Pyre** from the Start Menu (optional desktop shortcut during install).
@@ -80,5 +82,6 @@ for editable monorepo installs, debugging, and building the Windows installer lo
 See also
 --------
 
+* User changelog: :doc:`pyre_changelog`
 * Package overview: :doc:`other_packages`
 * Full manual: https://nornir.github.io/

@@ -205,16 +205,23 @@ published documentation banner automatically reflects the new version.</p>
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="publishing_documentation.html"><span class="doc">Publishing the documentation</span></a> — how the docs CI workflow builds and deploys to <code class="docutils literal notranslate"><span class="pre">nornir.github.io</span></code>.
 <a class="reference internal" href="../docker/images.html"><span class="doc">Image catalogue</span></a> — Docker image catalogue and build options.
-<a class="reference internal" href="pyre_development.html"><span class="doc">Pyre development</span></a> — Pyre Windows installer build (PyInstaller + Inno Setup); CI workflow <code class="docutils literal notranslate"><span class="pre">pyre-windows-release.yml</span></code> runs on <code class="docutils literal notranslate"><span class="pre">v*</span></code> tags.</p>
+<a class="reference internal" href="pyre_development.html"><span class="doc">Pyre development</span></a> — Pyre Windows installer build (PyInstaller + Inno Setup); CI workflow <code class="docutils literal notranslate"><span class="pre">pyre-windows-release.yml</span></code> runs on <code class="docutils literal notranslate"><span class="pre">pyre-*</span></code> / <code class="docutils literal notranslate"><span class="pre">v*</span></code> tags and <code class="docutils literal notranslate"><span class="pre">workflow_dispatch</span></code>.</p>
 </div>
 </section>
 <section id="pyre-windows-installer">
 <h2>Pyre Windows installer<a class="headerlink" href="#pyre-windows-installer" title="Link to this heading"></a></h2>
 <p>Pyre ships a native Windows installer (<code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code>), not a Docker image.
-The latest build is also hosted on the docs site as <a class="reference external" href="https://github.com/jamesra/nornir/releases/download/pyre-1.7.7/Pyre-1.7.7-Setup.exe">Pyre-1.7.7-Setup.exe</a>
-(<a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>). On <code class="docutils literal notranslate"><span class="pre">v*</span></code> tags,
-<code class="docutils literal notranslate"><span class="pre">.github/workflows/pyre-windows-release.yml</span></code> builds the frozen bundle and attaches the
-installer to the GitHub Release.</p>
+Docs always link the <strong>latest</strong> build as <a class="reference external" href="https://github.com/jamesra/nornir/releases/latest/download/Pyre-Setup.exe">Pyre-Setup.exe</a>
+(<a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>). Version history stays on <code class="docutils literal notranslate"><span class="pre">pyre-*</span></code> GitHub Releases.</p>
+<p>Release automation (<code class="docutils literal notranslate"><span class="pre">.github/workflows/pyre-windows-release.yml</span></code> or
+<code class="docutils literal notranslate"><span class="pre">release/publish_pyre_windows_release.ps1</span></code>):</p>
+<ol class="arabic simple">
+<li><p>Builds the frozen bundle and Inno Setup installer from <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyproject.toml</span></code>.</p></li>
+<li><p>Publishes GitHub Release <code class="docutils literal notranslate"><span class="pre">pyre-&lt;version&gt;</span></code> with both <code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Pyre-Setup.exe</span></code>, marks it <strong>latest</strong>, and fills the release body from
+<code class="docutils literal notranslate"><span class="pre">nornir-pyre/CHANGELOG.user.md</span></code>.</p></li>
+<li><p>Regenerates <a class="reference internal" href="../packages/pyre_changelog.html"><span class="doc">Pyre user changelog</span></a> and triggers the Documentation workflow.</p></li>
+</ol>
 <p>The installer filename and <code class="docutils literal notranslate"><span class="pre">AppVersion</span></code> come from <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyproject.toml</span></code>
 (via <code class="docutils literal notranslate"><span class="pre">packaging/windows/build-installer.ps1</span></code>), not from the monorepo root <code class="docutils literal notranslate"><span class="pre">VERSION</span></code>
 file. Keep <code class="docutils literal notranslate"><span class="pre">release/package-versions.yaml</span></code>’s <code class="docutils literal notranslate"><span class="pre">pyre</span></code> entry in sync with that

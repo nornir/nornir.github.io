@@ -190,7 +190,7 @@ conventions).</p>
 <section id="windows-packaging-and-release">
 <h2>Windows packaging and release<a class="headerlink" href="#windows-packaging-and-release" title="Link to this heading"></a></h2>
 <p>End users download the Windows installer from this documentation site
-(<a class="reference external" href="https://github.com/jamesra/nornir/releases/download/pyre-1.7.7/Pyre-1.7.7-Setup.exe">Pyre-1.7.7-Setup.exe</a>; <a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>) or from GitHub
+(<a class="reference external" href="https://github.com/jamesra/nornir/releases/latest/download/Pyre-Setup.exe">Pyre-Setup.exe</a>; <a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>) or from GitHub
 Releases. Maintainers build it from <code class="docutils literal notranslate"><span class="pre">nornir-pyre/packaging/windows/</span></code>.</p>
 <section id="id1">
 <h3>Prerequisites<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
@@ -250,13 +250,24 @@ monorepo packages, and runs PyInstaller via <code class="docutils literal notran
 </section>
 <section id="ci-and-releases">
 <h3>CI and releases<a class="headerlink" href="#ci-and-releases" title="Link to this heading"></a></h3>
-<p>On push of a <code class="docutils literal notranslate"><span class="pre">v*</span></code> tag, <code class="docutils literal notranslate"><span class="pre">.github/workflows/pyre-windows-release.yml</span></code>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">.github/workflows/pyre-windows-release.yml</span></code> runs on <code class="docutils literal notranslate"><span class="pre">pyre-*</span></code> tags, <code class="docutils literal notranslate"><span class="pre">v*</span></code> tags, and
+manual <strong>workflow_dispatch</strong>:</p>
 <ol class="arabic simple">
 <li><p>Verifies <code class="docutils literal notranslate"><span class="pre">release/package-versions.yaml</span></code></p></li>
 <li><p>Runs <code class="docutils literal notranslate"><span class="pre">build-freeze.ps1</span></code> and <code class="docutils literal notranslate"><span class="pre">validate-frozen.ps1</span></code></p></li>
 <li><p>Compiles Inno Setup</p></li>
-<li><p>Uploads <code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code> to the GitHub Release</p></li>
+<li><p>Publishes GitHub Release <code class="docutils literal notranslate"><span class="pre">pyre-&lt;version&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code> <strong>and</strong>
+<code class="docutils literal notranslate"><span class="pre">Pyre-Setup.exe</span></code> (stable latest name), release notes from
+<code class="docutils literal notranslate"><span class="pre">nornir-pyre/CHANGELOG.user.md</span></code>, and <code class="docutils literal notranslate"><span class="pre">make_latest:</span> <span class="pre">true</span></code></p></li>
+<li><p>Triggers the Documentation workflow so nornir.github.io picks up version text</p></li>
 </ol>
+<p>Local publish after a full installer build (VS Code task <strong>pyre: publish Windows release</strong>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">release</span>\<span class="n">publish_pyre_windows_release</span><span class="o">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+<p>Before tagging, add a <code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">&lt;version&gt;</span></code> section to <code class="docutils literal notranslate"><span class="pre">nornir-pyre/CHANGELOG.user.md</span></code> and run
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">release/sync_pyre_user_changelog.py</span> <span class="pre">--write-docs</span></code> so <a class="reference internal" href="../packages/pyre_changelog.html"><span class="doc">Pyre user changelog</span></a>
+is current in git.</p>
 <p>See <a class="reference internal" href="release.html"><span class="doc">Release process</span></a> for the full monorepo release checklist.</p>
 <p>Optional: Authenticode-sign the installer to reduce SmartScreen warnings.</p>
 </section>
