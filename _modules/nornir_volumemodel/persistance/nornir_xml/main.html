@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_volumemodel.persistance.nornir_xml.main &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_volumemodel.persistance.nornir_xml.main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_volumemodel.persistance.nornir_xml.main</h1><div class="highlight"><pre>
+<span></span><span class="sd">'''</span>
+<span class="sd">Created on Apr 11, 2014</span>
+
+<span class="sd">@author: u0490822</span>
+<span class="sd">'''</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xml.etree.cElementTree</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ElementTree</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.prettyoutput</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prettyoutput</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel.persistance.nornir_xml.model_xml_adapters</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel.model.section</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__AddVolumeDataFilenameIfNeeded</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+    <span class="p">[</span><span class="n">base</span><span class="p">,</span> <span class="n">ext</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="s2">"VolumeData.xml"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fullpath</span>
+
+
+<div class="viewcode-block" id="LoadModelObjectFromXmlPath">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.LoadModelObjectFromXmlPath">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">LoadModelObjectFromXmlPath</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+
+    <span class="n">Filename</span> <span class="o">=</span> <span class="n">__AddVolumeDataFilenameIfNeeded</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">Filename</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Provided volume description file does not exist: "</span> <span class="o">+</span> <span class="n">Filename</span><span class="p">)</span>
+
+    <span class="n">root_elem</span> <span class="o">=</span> <span class="n">LoadXmlElementFromPath</span><span class="p">(</span><span class="n">Filename</span><span class="p">)</span>
+    <span class="n">rootObj</span> <span class="o">=</span> <span class="n">ModelFromXMLElement</span><span class="p">(</span><span class="n">root_elem</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">Filename</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">rootObj</span></div>
+
+
+
+<div class="viewcode-block" id="LoadXmlElementFromPath">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.LoadXmlElementFromPath">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">LoadXmlElementFromPath</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Returns root xml element from xml file at fullpath'''</span>
+    <span class="n">Filename</span> <span class="o">=</span> <span class="n">__AddVolumeDataFilenameIfNeeded</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">Filename</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Provided volume description file does not exist: "</span> <span class="o">+</span> <span class="n">Filename</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">Filename</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Load">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.Load">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Load</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">,</span> <span class="n">Create</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">UseCache</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Load the volume information for the specified directory or create one if it doesn't exist'''</span>
+    <span class="n">rootObj</span> <span class="o">=</span> <span class="n">LoadModelObjectFromXmlPath</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">)</span>
+    <span class="n">rootObj</span><span class="o">.</span><span class="n">Path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rootObj</span></div>
+
+
+
+<div class="viewcode-block" id="Save">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.Save">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Save</span><span class="p">(</span><span class="n">XMLPath</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="GetModelLoadFuncFromTag">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.GetModelLoadFuncFromTag">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">GetModelLoadFuncFromTag</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+
+    <span class="n">ExpectedFunction</span> <span class="o">=</span> <span class="n">tag</span> <span class="o">+</span> <span class="s2">"Load"</span>
+    <span class="k">if</span> <span class="n">ExpectedFunction</span> <span class="ow">in</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">persistance</span><span class="o">.</span><span class="n">nornir_xml</span><span class="o">.</span><span class="n">model_xml_adapters</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">persistance</span><span class="o">.</span><span class="n">nornir_xml</span><span class="o">.</span><span class="n">model_xml_adapters</span><span class="p">,</span> <span class="n">ExpectedFunction</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">persistance</span><span class="o">.</span><span class="n">nornir_xml</span><span class="o">.</span><span class="n">model_xml_adapters</span><span class="o">.</span><span class="n">DefaultElementLoader</span></div>
+
+
+
+<div class="viewcode-block" id="ModelFromXMLElement">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.ModelFromXMLElement">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ModelFromXMLElement</span><span class="p">(</span><span class="n">Element</span><span class="p">,</span> <span class="n">ElementPath</span><span class="p">):</span>
+
+    <span class="n">load_function</span> <span class="o">=</span> <span class="n">GetModelLoadFuncFromTag</span><span class="p">(</span><span class="n">Element</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">load_function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">linked_child_obj_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ChildElementObjects</span><span class="p">(</span><span class="n">Element</span><span class="p">,</span> <span class="n">ElementPath</span><span class="p">))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">load_function</span><span class="p">(</span><span class="n">Element</span><span class="p">,</span> <span class="n">linked_child_obj_list</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">persistance</span><span class="o">.</span><span class="n">nornir_xml</span><span class="o">.</span><span class="n">model_xml_adapters</span><span class="o">.</span><span class="n">UnknownModelException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># print(str(e))</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">load_function</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" returned None, it should return an object or an exception."</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">linked_child</span> <span class="ow">in</span> <span class="n">linked_child_obj_list</span><span class="p">:</span>
+        <span class="n">linked_child</span><span class="o">.</span><span class="n">Parent</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="k">return</span> <span class="n">obj</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_IsLinkedElement</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">elem</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_LoadLinkedElement</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">parent_full_path</span><span class="p">):</span>
+    <span class="n">SubContainerPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parent_full_path</span><span class="p">,</span> <span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">"Path"</span><span class="p">])</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">childelem</span> <span class="o">=</span> <span class="n">LoadXmlElementFromPath</span><span class="p">(</span><span class="n">SubContainerPath</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"XML meta data was missing, skipped: "</span> <span class="o">+</span> <span class="n">SubContainerPath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">ModelFromXMLElement</span><span class="p">(</span><span class="n">childelem</span><span class="p">,</span> <span class="n">SubContainerPath</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ChildElementObjects">
+<a class="viewcode-back" href="../../../../api/nornir_volumemodel.html#nornir_volumemodel.ChildElementObjects">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ChildElementObjects</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">parent_full_path</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+        <span class="n">childObj</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">_IsLinkedElement</span><span class="p">(</span><span class="n">child</span><span class="p">):</span>
+            <span class="n">childObj</span> <span class="o">=</span> <span class="n">_LoadLinkedElement</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">parent_full_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">childObj</span> <span class="o">=</span> <span class="n">ModelFromXMLElement</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">parent_full_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">childObj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># print("Unable to load object for: " + str(ElementTree.tostring(elem)))</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">childObj</span><span class="p">,</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">section</span><span class="o">.</span><span class="n">Section</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Loaded section </span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="n">childObj</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
+
+        <span class="k">yield</span> <span class="n">childObj</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

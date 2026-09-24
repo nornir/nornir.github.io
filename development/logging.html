@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logging convention &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Release process" href="release.html" />
+    <link rel="prev" title="GitHub Pages hosting" href="github_pages.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="publishing_documentation.html">Publishing the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_pages.html">GitHub Pages hosting</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logging convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variable">Environment variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#session-file-layout">Session file layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#single-process-setup">Single-process setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multiprocessing-setup">Multiprocessing setup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#session-inheritance">Session inheritance</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rules-enforced-by-the-unified-logging-convention-cursor-rule">Rules (enforced by the <code class="docutils literal notranslate"><span class="pre">Unified-Logging-Convention</span></code> Cursor rule)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyre_development.html">Pyre development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Development</a></li>
+      <li class="breadcrumb-item active">Logging convention</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/development/logging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="logging-convention">
+<h1>Logging convention<a class="headerlink" href="#logging-convention" title="Link to this heading"></a></h1>
+<p>All Nornir projects write persistent logs through a shared convention managed by <code class="docutils literal notranslate"><span class="pre">nornir-shared</span></code>.
+This page documents the required setup, the file layout that results, and the multiprocessing
+extension for pool-based workloads.</p>
+<section id="environment-variable">
+<h2>Environment variable<a class="headerlink" href="#environment-variable" title="Link to this heading"></a></h2>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code></dt><dd><p>Root directory for all file logs.  If unset, logging falls back to <strong>console only</strong> and a
+warning is emitted.  Set this to a stable path before starting any Nornir process:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$env:NORNIR_LOG_ROOT = 'D:\logs\nornir'   # PowerShell
+export NORNIR_LOG_ROOT=/var/log/nornir      # bash
+</pre></div>
+</div>
+</dd>
+</dl>
+</section>
+<section id="session-file-layout">
+<h2>Session file layout<a class="headerlink" href="#session-file-layout" title="Link to this heading"></a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> is defined the library creates:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;NORNIR_LOG_ROOT&gt;/
+└── &lt;YYYY-MM-DD&gt;/
+    ├── nornir-session-&lt;YYYYMMDD-HHMMSS&gt;.log        ← all levels
+    └── nornir-session-&lt;YYYYMMDD-HHMMSS&gt;-errors.log ← WARNING and above
+</pre></div>
+</div>
+<p>One session ID is minted once per <strong>parent process</strong> and reused across any child processes
+started in the same run (see multiprocessing section below).</p>
+</section>
+<section id="single-process-setup">
+<h2>Single-process setup<a class="headerlink" href="#single-process-setup" title="Link to this heading"></a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">nornir_shared.misc.SetupLogging</span></code> as early as possible in your entry point:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.misc</span>
+
+<span class="n">nornir_shared</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">SetupLogging</span><span class="p">()</span>   <span class="c1"># reads NORNIR_LOG_ROOT automatically</span>
+</pre></div>
+</div>
+<p>All subsequent <code class="docutils literal notranslate"><span class="pre">logging.getLogger(__name__)</span></code> calls in any Nornir package will write to the
+session files.  Use hierarchical logger names (e.g. <code class="docutils literal notranslate"><span class="pre">nornir_buildmanager.operations.block</span></code>)
+so log records carry project identity without needing separate files per project.</p>
+</section>
+<section id="multiprocessing-setup">
+<h2>Multiprocessing setup<a class="headerlink" href="#multiprocessing-setup" title="Link to this heading"></a></h2>
+<p>Direct <code class="docutils literal notranslate"><span class="pre">FileHandler</span></code> writes from worker processes can interleave or corrupt log files under
+heavy load.  Use the queue-listener pattern provided by <code class="docutils literal notranslate"><span class="pre">nornir_shared.misc</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.misc</span>
+
+<span class="c1"># --- Parent process ---</span>
+<span class="n">queue</span> <span class="o">=</span> <span class="n">nornir_shared</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">StartMultiprocessLoggingListener</span><span class="p">()</span>
+<span class="c1"># queue is a multiprocessing.Queue; pass it to each worker</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">worker_fn</span><span class="p">(</span><span class="n">log_queue</span><span class="p">):</span>
+    <span class="n">nornir_shared</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">ConfigureWorkerQueueLogging</span><span class="p">(</span><span class="n">log_queue</span><span class="p">)</span>
+    <span class="c1"># ... do work; logging calls go through the queue to the parent listener</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"worker log line"</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">worker_fn</span><span class="p">,</span>
+                          <span class="n">initargs</span><span class="o">=</span><span class="p">(</span><span class="n">queue</span><span class="p">,))</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># --- Shutdown ---</span>
+<span class="n">nornir_shared</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">StopMultiprocessLoggingListener</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">nornir-pools</span></code> process pools wire this automatically when a listener is active; you only need
+to call <code class="docutils literal notranslate"><span class="pre">StartMultiprocessLoggingListener</span></code> in the parent before creating the pool.</p>
+<section id="session-inheritance">
+<h3>Session inheritance<a class="headerlink" href="#session-inheritance" title="Link to this heading"></a></h3>
+<p>The parent sets <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_SESSION_ID</span></code> in the environment before spawning workers.  Workers
+that call <code class="docutils literal notranslate"><span class="pre">ConfigureWorkerQueueLogging</span></code> inherit the same session ID and never create their own
+log files.  If a worker is started standalone (without a parent listener), it falls back to
+standard <code class="docutils literal notranslate"><span class="pre">SetupLogging</span></code> behavior.</p>
+</section>
+</section>
+<section id="rules-enforced-by-the-unified-logging-convention-cursor-rule">
+<h2>Rules (enforced by the <code class="docutils literal notranslate"><span class="pre">Unified-Logging-Convention</span></code> Cursor rule)<a class="headerlink" href="#rules-enforced-by-the-unified-logging-convention-cursor-rule" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Do not</strong> create ad hoc debug files (<code class="docutils literal notranslate"><span class="pre">debug-*.log</span></code>, cwd log files, project-local directories).</p></li>
+<li><p><strong>Do not</strong> hardcode absolute log paths in project modules; always use <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir_shared.prettyoutput</span></code> is for user-facing <strong>console/UI presentation</strong> only; it must
+not own file log sinks.</p></li>
+<li><p>Project identity belongs in the <strong>logger name</strong> (e.g. <code class="docutils literal notranslate"><span class="pre">pyre.ui.stoswindow</span></code>), not in the
+log file name.</p></li>
+<li><p>In worker processes, attach <strong>only</strong> a <code class="docutils literal notranslate"><span class="pre">QueueHandler</span></code>; do not attach additional
+<code class="docutils literal notranslate"><span class="pre">FileHandler</span></code> instances.</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="../packages/nornir_shared.html"><span class="doc">nornir-shared</span></a> — package overview including logging utilities.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="github_pages.html" class="btn btn-neutral float-left" title="GitHub Pages hosting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release.html" class="btn btn-neutral float-right" title="Release process" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1177 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_volumemodel API &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="nornir_volumecontroller API" href="nornir_volumecontroller.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="nornir_shared.html"><code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html"><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_imageregistration.html"><code class="docutils literal notranslate"><span class="pre">nornir_imageregistration</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html"><code class="docutils literal notranslate"><span class="pre">nornir_buildmanager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_volumecontroller.html">nornir_volumecontroller API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">nornir_volumemodel API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Block"><code class="docutils literal notranslate"><span class="pre">Block</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Block.AddSection"><code class="docutils literal notranslate"><span class="pre">Block.AddSection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Block.Sections"><code class="docutils literal notranslate"><span class="pre">Block.Sections</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Block.StosGroups"><code class="docutils literal notranslate"><span class="pre">Block.StosGroups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Block.StosMaps"><code class="docutils literal notranslate"><span class="pre">Block.StosMaps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Channel"><code class="docutils literal notranslate"><span class="pre">Channel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Channel.AddFilter"><code class="docutils literal notranslate"><span class="pre">Channel.AddFilter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Channel.AddTransform"><code class="docutils literal notranslate"><span class="pre">Channel.AddTransform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Channel.Filters"><code class="docutils literal notranslate"><span class="pre">Channel.Filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Channel.Scale"><code class="docutils literal notranslate"><span class="pre">Channel.Scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Channel.Transforms"><code class="docutils literal notranslate"><span class="pre">Channel.Transforms</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.DirectoryResource"><code class="docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.ExternalResource"><code class="docutils literal notranslate"><span class="pre">ExternalResource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.ExternalResource.FullPath"><code class="docutils literal notranslate"><span class="pre">ExternalResource.FullPath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.ExternalResource.Parent"><code class="docutils literal notranslate"><span class="pre">ExternalResource.Parent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.ExternalResource.Path"><code class="docutils literal notranslate"><span class="pre">ExternalResource.Path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.ExternalResource.RelativePath"><code class="docutils literal notranslate"><span class="pre">ExternalResource.RelativePath</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.FileResource"><code class="docutils literal notranslate"><span class="pre">FileResource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.FileResource.Checksum"><code class="docutils literal notranslate"><span class="pre">FileResource.Checksum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.FileResource.Type"><code class="docutils literal notranslate"><span class="pre">FileResource.Type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Filter.HistogramData"><code class="docutils literal notranslate"><span class="pre">Filter.HistogramData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Filter.ImageSet"><code class="docutils literal notranslate"><span class="pre">Filter.ImageSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Filter.PruneData"><code class="docutils literal notranslate"><span class="pre">Filter.PruneData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Filter.TilePyramid"><code class="docutils literal notranslate"><span class="pre">Filter.TilePyramid</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Image.MaskPath"><code class="docutils literal notranslate"><span class="pre">Image.MaskPath</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.ImageSet"><code class="docutils literal notranslate"><span class="pre">ImageSet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.ImageSet.GetImages"><code class="docutils literal notranslate"><span class="pre">ImageSet.GetImages()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.InputTransformPropertySet"><code class="docutils literal notranslate"><span class="pre">InputTransformPropertySet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.InputTransformPropertySet.InputTransformChecksum"><code class="docutils literal notranslate"><span class="pre">InputTransformPropertySet.InputTransformChecksum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.InputTransformPropertySet.InputTransformType"><code class="docutils literal notranslate"><span class="pre">InputTransformPropertySet.InputTransformType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Level"><code class="docutils literal notranslate"><span class="pre">Level</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Level.Image"><code class="docutils literal notranslate"><span class="pre">Level.Image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Level.Number"><code class="docutils literal notranslate"><span class="pre">Level.Number</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Load_Xml"><code class="docutils literal notranslate"><span class="pre">Load_Xml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.ModelBase"><code class="docutils literal notranslate"><span class="pre">ModelBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.ModelBase.Version"><code class="docutils literal notranslate"><span class="pre">ModelBase.Version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Named"><code class="docutils literal notranslate"><span class="pre">Named</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Named.Name"><code class="docutils literal notranslate"><span class="pre">Named.Name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Numbered"><code class="docutils literal notranslate"><span class="pre">Numbered</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Numbered.Number"><code class="docutils literal notranslate"><span class="pre">Numbered.Number</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Save_Xml"><code class="docutils literal notranslate"><span class="pre">Save_Xml()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Scale"><code class="docutils literal notranslate"><span class="pre">Scale</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Scale.AxisNames"><code class="docutils literal notranslate"><span class="pre">Scale.AxisNames</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Scale.GetAxis"><code class="docutils literal notranslate"><span class="pre">Scale.GetAxis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Scale.SetAxis"><code class="docutils literal notranslate"><span class="pre">Scale.SetAxis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Scale.X"><code class="docutils literal notranslate"><span class="pre">Scale.X</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Scale.Y"><code class="docutils literal notranslate"><span class="pre">Scale.Y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Scale.Z"><code class="docutils literal notranslate"><span class="pre">Scale.Z</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Section"><code class="docutils literal notranslate"><span class="pre">Section</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Section.AddChannel"><code class="docutils literal notranslate"><span class="pre">Section.AddChannel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Section.Channels"><code class="docutils literal notranslate"><span class="pre">Section.Channels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.TilePyramid"><code class="docutils literal notranslate"><span class="pre">TilePyramid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.Volume"><code class="docutils literal notranslate"><span class="pre">Volume</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Volume.AddBlock"><code class="docutils literal notranslate"><span class="pre">Volume.AddBlock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.Volume.Blocks"><code class="docutils literal notranslate"><span class="pre">Volume.Blocks</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.volume.DirectoryResource"><code class="docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.volume.Named"><code class="docutils literal notranslate"><span class="pre">Named</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.volume.Named.Name"><code class="docutils literal notranslate"><span class="pre">Named.Name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.volume.Volume"><code class="docutils literal notranslate"><span class="pre">Volume</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.volume.Volume.AddBlock"><code class="docutils literal notranslate"><span class="pre">Volume.AddBlock()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.volume.Volume.Blocks"><code class="docutils literal notranslate"><span class="pre">Volume.Blocks</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.block.Block"><code class="docutils literal notranslate"><span class="pre">Block</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.block.Block.AddSection"><code class="docutils literal notranslate"><span class="pre">Block.AddSection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.block.Block.Sections"><code class="docutils literal notranslate"><span class="pre">Block.Sections</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.block.Block.StosGroups"><code class="docutils literal notranslate"><span class="pre">Block.StosGroups()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.block.Block.StosMaps"><code class="docutils literal notranslate"><span class="pre">Block.StosMaps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.block.DirectoryResource"><code class="docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.block.Named"><code class="docutils literal notranslate"><span class="pre">Named</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.block.Named.Name"><code class="docutils literal notranslate"><span class="pre">Named.Name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.section.DirectoryResource"><code class="docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.section.Numbered"><code class="docutils literal notranslate"><span class="pre">Numbered</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.section.Numbered.Number"><code class="docutils literal notranslate"><span class="pre">Numbered.Number</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.section.Section"><code class="docutils literal notranslate"><span class="pre">Section</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.section.Section.AddChannel"><code class="docutils literal notranslate"><span class="pre">Section.AddChannel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.section.Section.Channels"><code class="docutils literal notranslate"><span class="pre">Section.Channels</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.channel.Channel"><code class="docutils literal notranslate"><span class="pre">Channel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.channel.Channel.AddFilter"><code class="docutils literal notranslate"><span class="pre">Channel.AddFilter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.channel.Channel.AddTransform"><code class="docutils literal notranslate"><span class="pre">Channel.AddTransform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.channel.Channel.Filters"><code class="docutils literal notranslate"><span class="pre">Channel.Filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.channel.Channel.Scale"><code class="docutils literal notranslate"><span class="pre">Channel.Scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.channel.Channel.Transforms"><code class="docutils literal notranslate"><span class="pre">Channel.Transforms</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.channel.DirectoryResource"><code class="docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.channel.Named"><code class="docutils literal notranslate"><span class="pre">Named</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.channel.Named.Name"><code class="docutils literal notranslate"><span class="pre">Named.Name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.scale.AxisScale"><code class="docutils literal notranslate"><span class="pre">AxisScale</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.AxisScale.UnitsOfMeasure"><code class="docutils literal notranslate"><span class="pre">AxisScale.UnitsOfMeasure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.AxisScale.UnitsPerPixel"><code class="docutils literal notranslate"><span class="pre">AxisScale.UnitsPerPixel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.scale.ModelBase"><code class="docutils literal notranslate"><span class="pre">ModelBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.ModelBase.Version"><code class="docutils literal notranslate"><span class="pre">ModelBase.Version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale"><code class="docutils literal notranslate"><span class="pre">Scale</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale.AxisNames"><code class="docutils literal notranslate"><span class="pre">Scale.AxisNames</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale.GetAxis"><code class="docutils literal notranslate"><span class="pre">Scale.GetAxis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale.SetAxis"><code class="docutils literal notranslate"><span class="pre">Scale.SetAxis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale.X"><code class="docutils literal notranslate"><span class="pre">Scale.X</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale.Y"><code class="docutils literal notranslate"><span class="pre">Scale.Y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.scale.Scale.Z"><code class="docutils literal notranslate"><span class="pre">Scale.Z</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.transform.FileResource"><code class="docutils literal notranslate"><span class="pre">FileResource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.transform.FileResource.Checksum"><code class="docutils literal notranslate"><span class="pre">FileResource.Checksum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.transform.FileResource.Type"><code class="docutils literal notranslate"><span class="pre">FileResource.Type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.transform.InputTransformPropertySet"><code class="docutils literal notranslate"><span class="pre">InputTransformPropertySet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.transform.InputTransformPropertySet.InputTransformChecksum"><code class="docutils literal notranslate"><span class="pre">InputTransformPropertySet.InputTransformChecksum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.transform.InputTransformPropertySet.InputTransformType"><code class="docutils literal notranslate"><span class="pre">InputTransformPropertySet.InputTransformType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.transform.Transform"><code class="docutils literal notranslate"><span class="pre">Transform</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource"><code class="docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource"><code class="docutils literal notranslate"><span class="pre">ExternalResource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource.FullPath"><code class="docutils literal notranslate"><span class="pre">ExternalResource.FullPath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource.Parent"><code class="docutils literal notranslate"><span class="pre">ExternalResource.Parent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource.Path"><code class="docutils literal notranslate"><span class="pre">ExternalResource.Path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource.RelativePath"><code class="docutils literal notranslate"><span class="pre">ExternalResource.RelativePath</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource"><code class="docutils literal notranslate"><span class="pre">FileResource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource.Checksum"><code class="docutils literal notranslate"><span class="pre">FileResource.Checksum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource.Type"><code class="docutils literal notranslate"><span class="pre">FileResource.Type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ModelBase"><code class="docutils literal notranslate"><span class="pre">ModelBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.ModelBase.Version"><code class="docutils literal notranslate"><span class="pre">ModelBase.Version</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named"><code class="docutils literal notranslate"><span class="pre">Named</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named.Name"><code class="docutils literal notranslate"><span class="pre">Named.Name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.Numbered"><code class="docutils literal notranslate"><span class="pre">Numbered</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumemodel.model.base_classes.Numbered.Number"><code class="docutils literal notranslate"><span class="pre">Numbered.Number</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.ChildElementObjects"><code class="docutils literal notranslate"><span class="pre">ChildElementObjects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.GetModelLoadFuncFromTag"><code class="docutils literal notranslate"><span class="pre">GetModelLoadFuncFromTag()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.Load"><code class="docutils literal notranslate"><span class="pre">Load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.LoadModelObjectFromXmlPath"><code class="docutils literal notranslate"><span class="pre">LoadModelObjectFromXmlPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.LoadXmlElementFromPath"><code class="docutils literal notranslate"><span class="pre">LoadXmlElementFromPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.ModelFromXMLElement"><code class="docutils literal notranslate"><span class="pre">ModelFromXMLElement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumemodel.persistance.nornir_xml.main.Save"><code class="docutils literal notranslate"><span class="pre">Save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">nornir_volumemodel API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/nornir_volumemodel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-nornir_volumemodel">
+<span id="nornir-volumemodel-api"></span><h1>nornir_volumemodel API<a class="headerlink" href="#module-nornir_volumemodel" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Block">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Block" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>A grouping of contiguous Z-sections within a volume.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Block</span></code> is the second level of the volume hierarchy (<code class="docutils literal notranslate"><span class="pre">Volume</span> <span class="pre">→</span> <span class="pre">Block</span> <span class="pre">→</span>
+<span class="pre">Section</span> <span class="pre">→</span> <span class="pre">Channel</span> <span class="pre">…</span></code>).  In a typical Nornir experiment one block spans all
+physical sections, but the model allows multiple named blocks (e.g. separate
+tissue blocks imaged in the same experiment).</p>
+<p>Blocks own:</p>
+<ul class="simple">
+<li><p>A list of <a class="reference internal" href="#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><code class="xref py py-class docutils literal notranslate"><span class="pre">Section</span></code></a> objects.</p></li>
+<li><p>Optional section-to-section (STOS) alignment groups and maps.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Block.AddSection">
+<span class="sig-name descname"><span class="pre">AddSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block.AddSection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Block.AddSection" title="Link to this definition"></a></dt>
+<dd><p>Append a section to this block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><em>section.Section</em></a>) – Section to add; must not already be present.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">val</span></code> is not a <code class="docutils literal notranslate"><span class="pre">Section</span></code> or is a duplicate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Block.Sections">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Sections</span></span><a class="headerlink" href="#nornir_volumemodel.Block.Sections" title="Link to this definition"></a></dt>
+<dd><p>List of <a class="reference internal" href="#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><code class="xref py py-class docutils literal notranslate"><span class="pre">Section</span></code></a> objects in this block.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Block.StosGroups">
+<span class="sig-name descname"><span class="pre">StosGroups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block.StosGroups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Block.StosGroups" title="Link to this definition"></a></dt>
+<dd><p>Return the dictionary of section-to-section alignment groups keyed by group name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Block.StosMaps">
+<span class="sig-name descname"><span class="pre">StosMaps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block.StosMaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Block.StosMaps" title="Link to this definition"></a></dt>
+<dd><p>Return the dictionary of STOS alignment maps keyed by map name.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Channel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/channel.html#Channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Channel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>classdocs</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Channel.AddFilter">
+<span class="sig-name descname"><span class="pre">AddFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/channel.html#Channel.AddFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Channel.AddFilter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Channel.AddTransform">
+<span class="sig-name descname"><span class="pre">AddTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/channel.html#Channel.AddTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Channel.AddTransform" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Channel.Filters">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Filters</span></span><a class="headerlink" href="#nornir_volumemodel.Channel.Filters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Channel.Scale">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Scale</span></span><a class="headerlink" href="#nornir_volumemodel.Channel.Scale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Channel.Transforms">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Transforms</span></span><a class="headerlink" href="#nornir_volumemodel.Channel.Transforms" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Data">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/data.html#Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Data" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource" title="nornir_volumemodel.model.base_classes.FileResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileResource</span></code></a></p>
+<p>Represents a file on disk with hashable amount of data</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.DirectoryResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">DirectoryResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#DirectoryResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.DirectoryResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.ExternalResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">ExternalResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#ExternalResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.ExternalResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ModelBase" title="nornir_volumemodel.model.base_classes.ModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBase</span></code></a></p>
+<p>Properties of objects whose data is stored outside the object file structure, such as on a file system</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.ExternalResource.FullPath">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FullPath</span></span><a class="headerlink" href="#nornir_volumemodel.ExternalResource.FullPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.ExternalResource.Parent">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parent</span></span><a class="headerlink" href="#nornir_volumemodel.ExternalResource.Parent" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.ExternalResource.Path">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Path</span></span><a class="headerlink" href="#nornir_volumemodel.ExternalResource.Path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.ExternalResource.RelativePath">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RelativePath</span></span><a class="headerlink" href="#nornir_volumemodel.ExternalResource.RelativePath" title="Link to this definition"></a></dt>
+<dd><p>Relative path from volume root</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.FileResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">FileResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#FileResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.FileResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+<p>Represents a file</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.FileResource.Checksum">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Checksum</span></span><a class="headerlink" href="#nornir_volumemodel.FileResource.Checksum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.FileResource.Type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Type</span></span><a class="headerlink" href="#nornir_volumemodel.FileResource.Type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Filter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/filter.html#Filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Filter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>classdocs</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Filter.HistogramData">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HistogramData</span></span><a class="headerlink" href="#nornir_volumemodel.Filter.HistogramData" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Filter.ImageSet">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImageSet</span></span><a class="headerlink" href="#nornir_volumemodel.Filter.ImageSet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Filter.PruneData">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PruneData</span></span><a class="headerlink" href="#nornir_volumemodel.Filter.PruneData" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Filter.TilePyramid">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TilePyramid</span></span><a class="headerlink" href="#nornir_volumemodel.Filter.TilePyramid" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Image">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/image.html#Image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Image" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource" title="nornir_volumemodel.model.base_classes.FileResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileResource</span></code></a></p>
+<p>An image file on disk</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Image.MaskPath">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MaskPath</span></span><a class="headerlink" href="#nornir_volumemodel.Image.MaskPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.ImageSet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">ImageSet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/imageset.html#ImageSet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.ImageSet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyramidInterface</span></code></p>
+<p>classdocs</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.ImageSet.GetImages">
+<span class="sig-name descname"><span class="pre">GetImages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/imageset.html#ImageSet.GetImages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.ImageSet.GetImages" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.InputTransformPropertySet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">InputTransformPropertySet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/property_sets.html#InputTransformPropertySet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.InputTransformPropertySet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.InputTransformPropertySet.InputTransformChecksum">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InputTransformChecksum</span></span><a class="headerlink" href="#nornir_volumemodel.InputTransformPropertySet.InputTransformChecksum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.InputTransformPropertySet.InputTransformType">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InputTransformType</span></span><a class="headerlink" href="#nornir_volumemodel.InputTransformPropertySet.InputTransformType" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Level">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/level.html#Level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Level" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a></p>
+<p>classdocs</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Level.Image">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Image</span></span><a class="headerlink" href="#nornir_volumemodel.Level.Image" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Level.Number">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Number</span></span><a class="headerlink" href="#nornir_volumemodel.Level.Number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.Load_Xml">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Load_Xml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VolumePath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UseCache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_volumemodel.Load_Xml" title="Link to this definition"></a></dt>
+<dd><p>Load the volume information for the specified directory or create one if it doesn’t exist</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.ModelBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">ModelBase</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#ModelBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.ModelBase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Properties common to all volume objects</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.ModelBase.Version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Version</span></span><a class="headerlink" href="#nornir_volumemodel.ModelBase.Version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Named">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Named</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Named"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Named" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Named.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumemodel.Named.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Numbered">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Numbered</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Numbered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Numbered" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Numbered.Number">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Number</span></span><a class="headerlink" href="#nornir_volumemodel.Numbered.Number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.Save_Xml">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Save_Xml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">XMLPath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_volumemodel.Save_Xml" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Scale" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ModelBase" title="nornir_volumemodel.model.base_classes.ModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBase</span></code></a></p>
+<p>classdocs</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale.AxisNames">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AxisNames</span></span><a class="headerlink" href="#nornir_volumemodel.Scale.AxisNames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale.GetAxis">
+<span class="sig-name descname"><span class="pre">GetAxis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axisname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#Scale.GetAxis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Scale.GetAxis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale.SetAxis">
+<span class="sig-name descname"><span class="pre">SetAxis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axisname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UnitsPerPixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UnitsOfMeasure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#Scale.SetAxis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Scale.SetAxis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale.X">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><a class="headerlink" href="#nornir_volumemodel.Scale.X" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale.Y">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><a class="headerlink" href="#nornir_volumemodel.Scale.Y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Scale.Z">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Z</span></span><a class="headerlink" href="#nornir_volumemodel.Scale.Z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Section">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/section.html#Section"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Section" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Numbered" title="nornir_volumemodel.model.base_classes.Numbered"><code class="xref py py-class docutils literal notranslate"><span class="pre">Numbered</span></code></a></p>
+<p>One physical Z-slice (section) of the volume.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Section</span></code> is identified by its integer <code class="docutils literal notranslate"><span class="pre">Number</span></code> (the Z-level in the
+volume stack).  It holds one or more imaging
+<a class="reference internal" href="#nornir_volumemodel.model.channel.Channel" title="nornir_volumemodel.model.channel.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a> objects — e.g. <code class="docutils literal notranslate"><span class="pre">TEM</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Leveled</span></code> — each of which owns filters, tile pyramids, and
+registration transforms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Section.AddChannel">
+<span class="sig-name descname"><span class="pre">AddChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/section.html#Section.AddChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Section.AddChannel" title="Link to this definition"></a></dt>
+<dd><p>Append a channel to this section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="#nornir_volumemodel.model.channel.Channel" title="nornir_volumemodel.model.channel.Channel"><em>channel.Channel</em></a>) – Channel to add; must not already be present.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">val</span></code> is not a <code class="docutils literal notranslate"><span class="pre">Channel</span></code> or is a duplicate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Section.Channels">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Channels</span></span><a class="headerlink" href="#nornir_volumemodel.Section.Channels" title="Link to this definition"></a></dt>
+<dd><p>List of <a class="reference internal" href="#nornir_volumemodel.model.channel.Channel" title="nornir_volumemodel.model.channel.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a> objects for this section.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.TilePyramid">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">TilePyramid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/tilepyramid.html#TilePyramid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.TilePyramid" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PyramidInterface</span></code></p>
+<p>classdocs</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Transform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/transform.html#Transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Transform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource" title="nornir_volumemodel.model.base_classes.FileResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.transform.InputTransformPropertySet" title="nornir_volumemodel.model.property_sets.InputTransformPropertySet"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputTransformPropertySet</span></code></a></p>
+<p>Represents a file on disk with hashable amount of data</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.Volume">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.</span></span><span class="sig-name descname"><span class="pre">Volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/volume.html#Volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Volume" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>Top-level container for a Nornir-registered electron-microscopy volume.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Volume</span></code> is the root of the object hierarchy.  It owns one or more
+<a class="reference internal" href="#nornir_volumemodel.model.block.Block" title="nornir_volumemodel.model.block.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> objects, each of which
+groups a contiguous run of Z-sections and their associated image channels,
+filters, tile pyramids, and registration transforms.</p>
+<p>Typical usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">'/path/to/volume.xml'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">vol</span><span class="o">.</span><span class="n">Blocks</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">Sections</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.Volume.AddBlock">
+<span class="sig-name descname"><span class="pre">AddBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/volume.html#Volume.AddBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.Volume.AddBlock" title="Link to this definition"></a></dt>
+<dd><p>Append a block to this volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="#nornir_volumemodel.model.block.Block" title="nornir_volumemodel.model.block.Block"><em>block.Block</em></a>) – Block to add; must not already be present.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">val</span></code> is not a <code class="docutils literal notranslate"><span class="pre">Block</span></code> or is a duplicate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.Volume.Blocks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Blocks</span></span><a class="headerlink" href="#nornir_volumemodel.Volume.Blocks" title="Link to this definition"></a></dt>
+<dd><p>List of <a class="reference internal" href="#nornir_volumemodel.model.block.Block" title="nornir_volumemodel.model.block.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> objects in this volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.volume">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.volume.DirectoryResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.volume.</span></span><span class="sig-name descname"><span class="pre">DirectoryResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#DirectoryResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.volume.DirectoryResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.volume.Named">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.volume.</span></span><span class="sig-name descname"><span class="pre">Named</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Named"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.volume.Named" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.volume.Named.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumemodel.model.volume.Named.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.volume.Volume">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.volume.</span></span><span class="sig-name descname"><span class="pre">Volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/volume.html#Volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.volume.Volume" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>Top-level container for a Nornir-registered electron-microscopy volume.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Volume</span></code> is the root of the object hierarchy.  It owns one or more
+<a class="reference internal" href="#nornir_volumemodel.model.block.Block" title="nornir_volumemodel.model.block.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> objects, each of which
+groups a contiguous run of Z-sections and their associated image channels,
+filters, tile pyramids, and registration transforms.</p>
+<p>Typical usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">'/path/to/volume.xml'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">vol</span><span class="o">.</span><span class="n">Blocks</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">Sections</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.volume.Volume.AddBlock">
+<span class="sig-name descname"><span class="pre">AddBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/volume.html#Volume.AddBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.volume.Volume.AddBlock" title="Link to this definition"></a></dt>
+<dd><p>Append a block to this volume.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="#nornir_volumemodel.model.block.Block" title="nornir_volumemodel.model.block.Block"><em>block.Block</em></a>) – Block to add; must not already be present.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">val</span></code> is not a <code class="docutils literal notranslate"><span class="pre">Block</span></code> or is a duplicate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.volume.Volume.Blocks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Blocks</span></span><a class="headerlink" href="#nornir_volumemodel.model.volume.Volume.Blocks" title="Link to this definition"></a></dt>
+<dd><p>List of <a class="reference internal" href="#nornir_volumemodel.model.block.Block" title="nornir_volumemodel.model.block.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> objects in this volume.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.block">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Block">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.block.</span></span><span class="sig-name descname"><span class="pre">Block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.block.Block" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>A grouping of contiguous Z-sections within a volume.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Block</span></code> is the second level of the volume hierarchy (<code class="docutils literal notranslate"><span class="pre">Volume</span> <span class="pre">→</span> <span class="pre">Block</span> <span class="pre">→</span>
+<span class="pre">Section</span> <span class="pre">→</span> <span class="pre">Channel</span> <span class="pre">…</span></code>).  In a typical Nornir experiment one block spans all
+physical sections, but the model allows multiple named blocks (e.g. separate
+tissue blocks imaged in the same experiment).</p>
+<p>Blocks own:</p>
+<ul class="simple">
+<li><p>A list of <a class="reference internal" href="#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><code class="xref py py-class docutils literal notranslate"><span class="pre">Section</span></code></a> objects.</p></li>
+<li><p>Optional section-to-section (STOS) alignment groups and maps.</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Block.AddSection">
+<span class="sig-name descname"><span class="pre">AddSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block.AddSection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.block.Block.AddSection" title="Link to this definition"></a></dt>
+<dd><p>Append a section to this block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><em>section.Section</em></a>) – Section to add; must not already be present.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">val</span></code> is not a <code class="docutils literal notranslate"><span class="pre">Section</span></code> or is a duplicate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Block.Sections">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Sections</span></span><a class="headerlink" href="#nornir_volumemodel.model.block.Block.Sections" title="Link to this definition"></a></dt>
+<dd><p>List of <a class="reference internal" href="#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><code class="xref py py-class docutils literal notranslate"><span class="pre">Section</span></code></a> objects in this block.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Block.StosGroups">
+<span class="sig-name descname"><span class="pre">StosGroups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block.StosGroups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.block.Block.StosGroups" title="Link to this definition"></a></dt>
+<dd><p>Return the dictionary of section-to-section alignment groups keyed by group name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Block.StosMaps">
+<span class="sig-name descname"><span class="pre">StosMaps</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/block.html#Block.StosMaps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.block.Block.StosMaps" title="Link to this definition"></a></dt>
+<dd><p>Return the dictionary of STOS alignment maps keyed by map name.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.DirectoryResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.block.</span></span><span class="sig-name descname"><span class="pre">DirectoryResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#DirectoryResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.block.DirectoryResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Named">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.block.</span></span><span class="sig-name descname"><span class="pre">Named</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Named"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.block.Named" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.block.Named.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumemodel.model.block.Named.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.section">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.section.DirectoryResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.section.</span></span><span class="sig-name descname"><span class="pre">DirectoryResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#DirectoryResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.section.DirectoryResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.section.Numbered">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.section.</span></span><span class="sig-name descname"><span class="pre">Numbered</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Numbered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.section.Numbered" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.section.Numbered.Number">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Number</span></span><a class="headerlink" href="#nornir_volumemodel.model.section.Numbered.Number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.section.Section">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.section.</span></span><span class="sig-name descname"><span class="pre">Section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/section.html#Section"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.section.Section" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Numbered" title="nornir_volumemodel.model.base_classes.Numbered"><code class="xref py py-class docutils literal notranslate"><span class="pre">Numbered</span></code></a></p>
+<p>One physical Z-slice (section) of the volume.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Section</span></code> is identified by its integer <code class="docutils literal notranslate"><span class="pre">Number</span></code> (the Z-level in the
+volume stack).  It holds one or more imaging
+<a class="reference internal" href="#nornir_volumemodel.model.channel.Channel" title="nornir_volumemodel.model.channel.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a> objects — e.g. <code class="docutils literal notranslate"><span class="pre">TEM</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Leveled</span></code> — each of which owns filters, tile pyramids, and
+registration transforms.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.section.Section.AddChannel">
+<span class="sig-name descname"><span class="pre">AddChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/section.html#Section.AddChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.section.Section.AddChannel" title="Link to this definition"></a></dt>
+<dd><p>Append a channel to this section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<a class="reference internal" href="#nornir_volumemodel.model.channel.Channel" title="nornir_volumemodel.model.channel.Channel"><em>channel.Channel</em></a>) – Channel to add; must not already be present.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#AssertionError" title="(in Python v3.14)"><strong>AssertionError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">val</span></code> is not a <code class="docutils literal notranslate"><span class="pre">Channel</span></code> or is a duplicate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.section.Section.Channels">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Channels</span></span><a class="headerlink" href="#nornir_volumemodel.model.section.Section.Channels" title="Link to this definition"></a></dt>
+<dd><p>List of <a class="reference internal" href="#nornir_volumemodel.model.channel.Channel" title="nornir_volumemodel.model.channel.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Channel</span></code></a> objects for this section.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.channel">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Channel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.channel.</span></span><span class="sig-name descname"><span class="pre">Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/channel.html#Channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.channel.Channel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="nornir_volumemodel.model.base_classes.DirectoryResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectoryResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.base_classes.Named" title="nornir_volumemodel.model.base_classes.Named"><code class="xref py py-class docutils literal notranslate"><span class="pre">Named</span></code></a></p>
+<p>classdocs</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Channel.AddFilter">
+<span class="sig-name descname"><span class="pre">AddFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/channel.html#Channel.AddFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.channel.Channel.AddFilter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Channel.AddTransform">
+<span class="sig-name descname"><span class="pre">AddTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/channel.html#Channel.AddTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.channel.Channel.AddTransform" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Channel.Filters">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Filters</span></span><a class="headerlink" href="#nornir_volumemodel.model.channel.Channel.Filters" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Channel.Scale">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Scale</span></span><a class="headerlink" href="#nornir_volumemodel.model.channel.Channel.Scale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Channel.Transforms">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Transforms</span></span><a class="headerlink" href="#nornir_volumemodel.model.channel.Channel.Transforms" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.DirectoryResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.channel.</span></span><span class="sig-name descname"><span class="pre">DirectoryResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#DirectoryResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.channel.DirectoryResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Named">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.channel.</span></span><span class="sig-name descname"><span class="pre">Named</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Named"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.channel.Named" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.channel.Named.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumemodel.model.channel.Named.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.scale">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.AxisScale">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.scale.</span></span><span class="sig-name descname"><span class="pre">AxisScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UnitsPerPixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UnitsOfMeasure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#AxisScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.scale.AxisScale" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.AxisScale.UnitsOfMeasure">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UnitsOfMeasure</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.AxisScale.UnitsOfMeasure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.AxisScale.UnitsPerPixel">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UnitsPerPixel</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.AxisScale.UnitsPerPixel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.ModelBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.scale.</span></span><span class="sig-name descname"><span class="pre">ModelBase</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#ModelBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.scale.ModelBase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Properties common to all volume objects</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.ModelBase.Version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Version</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.ModelBase.Version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.scale.</span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ModelBase" title="nornir_volumemodel.model.base_classes.ModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBase</span></code></a></p>
+<p>classdocs</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale.AxisNames">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AxisNames</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale.AxisNames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale.GetAxis">
+<span class="sig-name descname"><span class="pre">GetAxis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axisname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#Scale.GetAxis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale.GetAxis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale.SetAxis">
+<span class="sig-name descname"><span class="pre">SetAxis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axisname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UnitsPerPixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UnitsOfMeasure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/scale.html#Scale.SetAxis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale.SetAxis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale.X">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale.X" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale.Y">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale.Y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.scale.Scale.Z">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Z</span></span><a class="headerlink" href="#nornir_volumemodel.model.scale.Scale.Z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.transform">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.FileResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.transform.</span></span><span class="sig-name descname"><span class="pre">FileResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#FileResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.transform.FileResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+<p>Represents a file</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.FileResource.Checksum">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Checksum</span></span><a class="headerlink" href="#nornir_volumemodel.model.transform.FileResource.Checksum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.FileResource.Type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Type</span></span><a class="headerlink" href="#nornir_volumemodel.model.transform.FileResource.Type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.InputTransformPropertySet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.transform.</span></span><span class="sig-name descname"><span class="pre">InputTransformPropertySet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/property_sets.html#InputTransformPropertySet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.transform.InputTransformPropertySet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.InputTransformPropertySet.InputTransformChecksum">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InputTransformChecksum</span></span><a class="headerlink" href="#nornir_volumemodel.model.transform.InputTransformPropertySet.InputTransformChecksum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.InputTransformPropertySet.InputTransformType">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InputTransformType</span></span><a class="headerlink" href="#nornir_volumemodel.model.transform.InputTransformPropertySet.InputTransformType" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.transform.Transform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.transform.</span></span><span class="sig-name descname"><span class="pre">Transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/model/transform.html#Transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.transform.Transform" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.FileResource" title="nornir_volumemodel.model.base_classes.FileResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileResource</span></code></a>, <a class="reference internal" href="#nornir_volumemodel.model.transform.InputTransformPropertySet" title="nornir_volumemodel.model.property_sets.InputTransformPropertySet"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputTransformPropertySet</span></code></a></p>
+<p>Represents a file on disk with hashable amount of data</p>
+</dd></dl>
+
+<p id="module-nornir_volumemodel.model.base_classes">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.DirectoryResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.base_classes.</span></span><span class="sig-name descname"><span class="pre">DirectoryResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#DirectoryResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.base_classes.DirectoryResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ExternalResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.base_classes.</span></span><span class="sig-name descname"><span class="pre">ExternalResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#ExternalResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ModelBase" title="nornir_volumemodel.model.base_classes.ModelBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelBase</span></code></a></p>
+<p>Properties of objects whose data is stored outside the object file structure, such as on a file system</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ExternalResource.FullPath">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FullPath</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ExternalResource.FullPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ExternalResource.Parent">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parent</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ExternalResource.Parent" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ExternalResource.Path">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Path</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ExternalResource.Path" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ExternalResource.RelativePath">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RelativePath</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ExternalResource.RelativePath" title="Link to this definition"></a></dt>
+<dd><p>Relative path from volume root</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.FileResource">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.base_classes.</span></span><span class="sig-name descname"><span class="pre">FileResource</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#FileResource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.base_classes.FileResource" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumemodel.model.base_classes.ExternalResource" title="nornir_volumemodel.model.base_classes.ExternalResource"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExternalResource</span></code></a></p>
+<p>Represents a file</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.FileResource.Checksum">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Checksum</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.FileResource.Checksum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.FileResource.Type">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Type</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.FileResource.Type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ModelBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.base_classes.</span></span><span class="sig-name descname"><span class="pre">ModelBase</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#ModelBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ModelBase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Properties common to all volume objects</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.ModelBase.Version">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Version</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.ModelBase.Version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.Named">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.base_classes.</span></span><span class="sig-name descname"><span class="pre">Named</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Named"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.base_classes.Named" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.Named.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.Named.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.Numbered">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.model.base_classes.</span></span><span class="sig-name descname"><span class="pre">Numbered</span></span><a class="reference internal" href="../_modules/nornir_volumemodel/model/base_classes.html#Numbered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.model.base_classes.Numbered" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that contains other objects.  Path always refers to a directory</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumemodel.model.base_classes.Numbered.Number">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Number</span></span><a class="headerlink" href="#nornir_volumemodel.model.base_classes.Numbered.Number" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumemodel.persistance.nornir_xml.main">Created on Apr 11, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.ChildElementObjects">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">ChildElementObjects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_full_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#ChildElementObjects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.ChildElementObjects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.GetModelLoadFuncFromTag">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">GetModelLoadFuncFromTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#GetModelLoadFuncFromTag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.GetModelLoadFuncFromTag" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.Load">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">VolumePath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Create</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UseCache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#Load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.Load" title="Link to this definition"></a></dt>
+<dd><p>Load the volume information for the specified directory or create one if it doesn’t exist</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.LoadModelObjectFromXmlPath">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">LoadModelObjectFromXmlPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#LoadModelObjectFromXmlPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.LoadModelObjectFromXmlPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.LoadXmlElementFromPath">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">LoadXmlElementFromPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullpath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#LoadXmlElementFromPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.LoadXmlElementFromPath" title="Link to this definition"></a></dt>
+<dd><p>Returns root xml element from xml file at fullpath</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.ModelFromXMLElement">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">ModelFromXMLElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ElementPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#ModelFromXMLElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.ModelFromXMLElement" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumemodel.persistance.nornir_xml.main.Save">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumemodel.persistance.nornir_xml.main.</span></span><span class="sig-name descname"><span class="pre">Save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">XMLPath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumemodel/persistance/nornir_xml/main.html#Save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumemodel.persistance.nornir_xml.main.Save" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nornir_volumecontroller.html" class="btn btn-neutral float-left" title="nornir_volumecontroller API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

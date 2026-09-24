@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_volumecontroller API &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nornir_volumemodel API" href="nornir_volumemodel.html" />
+    <link rel="prev" title="nornir_buildmanager" href="nornir_buildmanager.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="nornir_shared.html"><code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html"><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_imageregistration.html"><code class="docutils literal notranslate"><span class="pre">nornir_imageregistration</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html"><code class="docutils literal notranslate"><span class="pre">nornir_buildmanager</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">nornir_volumecontroller API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.CreateVolumeController"><code class="docutils literal notranslate"><span class="pre">CreateVolumeController()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.Volume"><code class="docutils literal notranslate"><span class="pre">Volume</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.Bounds"><code class="docutils literal notranslate"><span class="pre">Volume.Bounds</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.Calculate2DBoundingBox"><code class="docutils literal notranslate"><span class="pre">Volume.Calculate2DBoundingBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.Channels"><code class="docutils literal notranslate"><span class="pre">Volume.Channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.GetData"><code class="docutils literal notranslate"><span class="pre">Volume.GetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.GetHighestResolution"><code class="docutils literal notranslate"><span class="pre">Volume.GetHighestResolution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.Name"><code class="docutils literal notranslate"><span class="pre">Volume.Name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.Volume.transform_path_map"><code class="docutils literal notranslate"><span class="pre">Volume.transform_path_map</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.base_objects.GetChannels"><code class="docutils literal notranslate"><span class="pre">GetChannels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Scale"><code class="docutils literal notranslate"><span class="pre">Scale</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Scale.MinAxisScales"><code class="docutils literal notranslate"><span class="pre">Scale.MinAxisScales()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Scale.X"><code class="docutils literal notranslate"><span class="pre">Scale.X</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Scale.Y"><code class="docutils literal notranslate"><span class="pre">Scale.Y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Scale.Z"><code class="docutils literal notranslate"><span class="pre">Scale.Z</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume"><code class="docutils literal notranslate"><span class="pre">Volume</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.Bounds"><code class="docutils literal notranslate"><span class="pre">Volume.Bounds</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.Calculate2DBoundingBox"><code class="docutils literal notranslate"><span class="pre">Volume.Calculate2DBoundingBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.Channels"><code class="docutils literal notranslate"><span class="pre">Volume.Channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.GetData"><code class="docutils literal notranslate"><span class="pre">Volume.GetData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.GetHighestResolution"><code class="docutils literal notranslate"><span class="pre">Volume.GetHighestResolution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.Name"><code class="docutils literal notranslate"><span class="pre">Volume.Name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume.transform_path_map"><code class="docutils literal notranslate"><span class="pre">Volume.transform_path_map</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface"><code class="docutils literal notranslate"><span class="pre">VolumeInterface</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface.Bounds"><code class="docutils literal notranslate"><span class="pre">VolumeInterface.Bounds</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface.Channels"><code class="docutils literal notranslate"><span class="pre">VolumeInterface.Channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface.GetData"><code class="docutils literal notranslate"><span class="pre">VolumeInterface.GetData()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel"><code class="docutils literal notranslate"><span class="pre">VolumeRegisteredChannel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.GetTilesPath"><code class="docutils literal notranslate"><span class="pre">VolumeRegisteredChannel.GetTilesPath()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Name"><code class="docutils literal notranslate"><span class="pre">VolumeRegisteredChannel.Name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Scale"><code class="docutils literal notranslate"><span class="pre">VolumeRegisteredChannel.Scale</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Transform"><code class="docutils literal notranslate"><span class="pre">VolumeRegisteredChannel.Transform</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.factory.CreateVolumeController"><code class="docutils literal notranslate"><span class="pre">CreateVolumeController()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.spatial.BuildSectionChannelMap"><code class="docutils literal notranslate"><span class="pre">BuildSectionChannelMap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.spatial.BuildVolumeTransformMap"><code class="docutils literal notranslate"><span class="pre">BuildVolumeTransformMap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_volumecontroller.spatial.SectionsInBoundingBox"><code class="docutils literal notranslate"><span class="pre">SectionsInBoundingBox()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_volumemodel.html">nornir_volumemodel API</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active">nornir_volumecontroller API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/nornir_volumecontroller.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-nornir_volumecontroller">
+<span id="nornir-volumecontroller-api"></span><h1>nornir_volumecontroller API<a class="headerlink" href="#module-nornir_volumecontroller" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumecontroller.CreateVolumeController">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.</span></span><span class="sig-name descname"><span class="pre">CreateVolumeController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vol_model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/factory.html#CreateVolumeController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.CreateVolumeController" title="Link to this definition"></a></dt>
+<dd><p>Given a volume model create a controller for the model</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.</span></span><span class="sig-name descname"><span class="pre">Volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volumeModel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.Volume" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface" title="nornir_volumecontroller.base_objects.VolumeInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">VolumeInterface</span></code></a></p>
+<p>Concrete volume controller wrapping a <a class="reference internal" href="nornir_volumemodel.html#nornir_volumemodel.model.volume.Volume" title="nornir_volumemodel.model.volume.Volume"><code class="xref py py-class docutils literal notranslate"><span class="pre">Volume</span></code></a> model.</p>
+<p>Lazily builds per-section transform maps and channel lists on first access so
+loading a large volume does not incur upfront I/O costs.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.Bounds">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bounds</span></span><a class="headerlink" href="#nornir_volumecontroller.Volume.Bounds" title="Link to this definition"></a></dt>
+<dd><p>Bounding box of the entire volume
+:return: (minZ, minY, minX, maxZ, maxY, maxX)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.Calculate2DBoundingBox">
+<span class="sig-name descname"><span class="pre">Calculate2DBoundingBox</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume.Calculate2DBoundingBox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.Volume.Calculate2DBoundingBox" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.Channels">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Channels</span></span><a class="headerlink" href="#nornir_volumecontroller.Volume.Channels" title="Link to this definition"></a></dt>
+<dd><p>List of all channels in the volume</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.GetData">
+<span class="sig-name descname"><span class="pre">GetData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume.GetData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.Volume.GetData" title="Link to this definition"></a></dt>
+<dd><p>Return data for the specified region
+:param ndarray region: (minZ, minY, minX, maxZ, maxY, maxX)
+:param float resolution: resolution of output data
+:param list channels: channels to include in output
+:returns: list of ndarray images</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.GetHighestResolution">
+<span class="sig-name descname"><span class="pre">GetHighestResolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume.GetHighestResolution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.Volume.GetHighestResolution" title="Link to this definition"></a></dt>
+<dd><p>Return the highest resolution of data within the bounding box</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumecontroller.Volume.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.Volume.transform_path_map">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_path_map</span></span><a class="headerlink" href="#nornir_volumecontroller.Volume.transform_path_map" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function" id="module-nornir_volumecontroller.base_objects">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.GetChannels">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">GetChannels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channelmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channelnames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#GetChannels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.GetChannels" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Scale">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Scale" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Physical scale of a volume channel on each spatial axis (units per pixel).</p>
+<p>Wraps the volumemodel <code class="docutils literal notranslate"><span class="pre">Scale</span></code> object so callers can read <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>, and <code class="docutils literal notranslate"><span class="pre">Z</span></code>
+units-per-pixel as plain floats rather than navigating the model hierarchy.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Scale.MinAxisScales">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MinAxisScales</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale_model_A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_model_B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Scale.MinAxisScales"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Scale.MinAxisScales" title="Link to this definition"></a></dt>
+<dd><p>Given two scale models, return a scale object describing the highest resolution available for each axis</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Scale.X">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">X</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Scale.X" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Scale.Y">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Y</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Scale.Y" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Scale.Z">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Z</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Scale.Z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">Volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volumeModel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface" title="nornir_volumecontroller.base_objects.VolumeInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">VolumeInterface</span></code></a></p>
+<p>Concrete volume controller wrapping a <a class="reference internal" href="nornir_volumemodel.html#nornir_volumemodel.model.volume.Volume" title="nornir_volumemodel.model.volume.Volume"><code class="xref py py-class docutils literal notranslate"><span class="pre">Volume</span></code></a> model.</p>
+<p>Lazily builds per-section transform maps and channel lists on first access so
+loading a large volume does not incur upfront I/O costs.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.Bounds">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bounds</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.Bounds" title="Link to this definition"></a></dt>
+<dd><p>Bounding box of the entire volume
+:return: (minZ, minY, minX, maxZ, maxY, maxX)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.Calculate2DBoundingBox">
+<span class="sig-name descname"><span class="pre">Calculate2DBoundingBox</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume.Calculate2DBoundingBox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.Calculate2DBoundingBox" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.Channels">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Channels</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.Channels" title="Link to this definition"></a></dt>
+<dd><p>List of all channels in the volume</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.GetData">
+<span class="sig-name descname"><span class="pre">GetData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume.GetData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.GetData" title="Link to this definition"></a></dt>
+<dd><p>Return data for the specified region
+:param ndarray region: (minZ, minY, minX, maxZ, maxY, maxX)
+:param float resolution: resolution of output data
+:param list channels: channels to include in output
+:returns: list of ndarray images</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.GetHighestResolution">
+<span class="sig-name descname"><span class="pre">GetHighestResolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Volume.GetHighestResolution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.GetHighestResolution" title="Link to this definition"></a></dt>
+<dd><p>Return the highest resolution of data within the bounding box</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Volume.transform_path_map">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_path_map</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.Volume.transform_path_map" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeInterface">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">VolumeInterface</span></span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#VolumeInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeInterface" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Abstract interface for any volume controller.</p>
+<p>Concrete subclasses (e.g. <a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume" title="nornir_volumecontroller.base_objects.Volume"><code class="xref py py-class docutils literal notranslate"><span class="pre">Volume</span></code></a>) must implement <code class="docutils literal notranslate"><span class="pre">Bounds</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Channels</span></code>, and <a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface.GetData" title="nornir_volumecontroller.base_objects.VolumeInterface.GetData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GetData()</span></code></a>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeInterface.Bounds">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Bounds</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeInterface.Bounds" title="Link to this definition"></a></dt>
+<dd><p>Bounding box of the entire volume</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeInterface.Channels">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Channels</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeInterface.Channels" title="Link to this definition"></a></dt>
+<dd><p>List of all channels available in the volume</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeInterface.GetData">
+<span class="sig-name descname"><span class="pre">GetData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#VolumeInterface.GetData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeInterface.GetData" title="Link to this definition"></a></dt>
+<dd><p>Get the raw data inside the boundaries
+:param box region: Data within the region is returned
+:param ndarray resolution: The resolution to return data in
+:param list channels: List of channels to assign to the output array
+:returns: 4D Matrix with Channel,Z,Y,X axes
+:rtype: ndarray</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeRegisteredChannel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">VolumeRegisteredChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channelModel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#VolumeRegisteredChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Wraps a single imaging channel together with its channel-to-volume registration transform.</p>
+<p>Provides convenient access to the channel’s <code class="docutils literal notranslate"><span class="pre">Name</span></code>, <code class="docutils literal notranslate"><span class="pre">Scale</span></code>, and tile-pyramid
+file paths at a given downsample level.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeRegisteredChannel.GetTilesPath">
+<span class="sig-name descname"><span class="pre">GetTilesPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filtername</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#VolumeRegisteredChannel.GetTilesPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.GetTilesPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Name</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Scale">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Scale</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Scale" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Transform">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Transform</span></span><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel.Transform" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-nornir_volumecontroller.factory">Created on Apr 10, 2014</p>
+<p>&#64;author: u0490822</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumecontroller.factory.CreateVolumeController">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.factory.</span></span><span class="sig-name descname"><span class="pre">CreateVolumeController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vol_model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/factory.html#CreateVolumeController"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.factory.CreateVolumeController" title="Link to this definition"></a></dt>
+<dd><p>Given a volume model create a controller for the model</p>
+</dd></dl>
+
+<dl class="py function" id="module-nornir_volumecontroller.spatial">
+<dt class="sig sig-object py" id="nornir_volumecontroller.spatial.BuildSectionChannelMap">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.spatial.</span></span><span class="sig-name descname"><span class="pre">BuildSectionChannelMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/spatial.html#BuildSectionChannelMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.spatial.BuildSectionChannelMap" title="Link to this definition"></a></dt>
+<dd><p>Build a mapping from channel name to <code class="xref py py-class docutils literal notranslate"><span class="pre">VolumeRegisteredChannel</span></code> for one section.</p>
+<p>Only channels that have a <code class="docutils literal notranslate"><span class="pre">ChannelToVolume</span></code> transform are included.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>section</strong> – A <a class="reference internal" href="nornir_volumemodel.html#nornir_volumemodel.model.section.Section" title="nornir_volumemodel.model.section.Section"><code class="xref py py-class docutils literal notranslate"><span class="pre">Section</span></code></a> model object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">{channel_name:</span> <span class="pre">VolumeRegisteredChannel}</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumecontroller.spatial.BuildVolumeTransformMap">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.spatial.</span></span><span class="sig-name descname"><span class="pre">BuildVolumeTransformMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">volume</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/spatial.html#BuildVolumeTransformMap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.spatial.BuildVolumeTransformMap" title="Link to this definition"></a></dt>
+<dd><p>Build a two-level map from section number → channel name → <code class="xref py py-class docutils literal notranslate"><span class="pre">VolumeRegisteredChannel</span></code>.</p>
+<p>Only sections that contain at least one channel with a <code class="docutils literal notranslate"><span class="pre">ChannelToVolume</span></code> transform are
+included.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>volume</strong> – A <a class="reference internal" href="nornir_volumemodel.html#nornir_volumemodel.model.volume.Volume" title="nornir_volumemodel.model.volume.Volume"><code class="xref py py-class docutils literal notranslate"><span class="pre">Volume</span></code></a> model object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">{section_number:</span> <span class="pre">{channel_name:</span> <span class="pre">VolumeRegisteredChannel}}</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_volumecontroller.spatial.SectionsInBoundingBox">
+<span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.spatial.</span></span><span class="sig-name descname"><span class="pre">SectionsInBoundingBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boundingbox</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/spatial.html#SectionsInBoundingBox"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.spatial.SectionsInBoundingBox" title="Link to this definition"></a></dt>
+<dd><p>Yield every integer section number whose Z-coordinate falls within <em>boundingbox</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>boundingbox</strong> – A bounding-box object with a <code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code> attribute indexed
+by <code class="xref py py-data docutils literal notranslate"><span class="pre">nornir_imageregistration.iBox</span></code> constants.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p>int — section numbers from <code class="docutils literal notranslate"><span class="pre">MinZ</span></code> to <code class="docutils literal notranslate"><span class="pre">MaxZ</span></code> inclusive.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nornir_buildmanager.html" class="btn btn-neutral float-left" title="nornir_buildmanager" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nornir_volumemodel.html" class="btn btn-neutral float-right" title="nornir_volumemodel API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grid690 Python Refine-Grid Parity — Change Log &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Grid690 Python Refine-Grid Parity — Change Log</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/refine-grid690-python-parity-changelog.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="grid690-python-refine-grid-parity-change-log">
+<h1>Grid690 Python Refine-Grid Parity — Change Log<a class="headerlink" href="#grid690-python-refine-grid-parity-change-log" title="Link to this heading"></a></h1>
+<p>Summary of work aligning Python <code class="docutils literal notranslate"><span class="pre">RefineGridMosaic</span></code> with legacy C++ <code class="docutils literal notranslate"><span class="pre">ir-refine-grid</span></code> for
+RC2_4Square_Assembled section 0690 (Grid690 / IDocBuildTest).</p>
+<p>See also: <a class="reference internal" href="refine-grid-cpp-parity-checklist.html"><span class="std std-doc">refine-grid-cpp-parity-checklist.md</span></a> for the
+C++→Python audit mapping.</p>
+<section id="package-nornir-imageregistration">
+<h2>Package: <code class="docutils literal notranslate"><span class="pre">nornir-imageregistration</span></code><a class="headerlink" href="#package-nornir-imageregistration" title="Link to this heading"></a></h2>
+<section id="core-algorithm-local-distortion-correction-py">
+<h3>Core algorithm (<code class="docutils literal notranslate"><span class="pre">local_distortion_correction.py</span></code>)<a class="headerlink" href="#core-algorithm-local-distortion-correction-py" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Replaced overlap-subcell incremental delta model with C++ mesh-vertex update architecture:</p>
+<ul>
+<li><p>Per-pass full-tile prewarp (<code class="docutils literal notranslate"><span class="pre">_prewarp_tile_for_grid_refine</span></code>)</p></li>
+<li><p>Per-mesh-vertex phase correlation against each overlapping neighbor (<code class="docutils literal notranslate"><span class="pre">_measure_grid_vertex_displacements</span></code>)</p></li>
+<li><p>Legacy regularization pipeline (<code class="docutils literal notranslate"><span class="pre">_regularize_displacements</span></code>: median r=1, gap-fill, Gaussian σ=1.0)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1/(1+mass)</span></code> shift blending and direct <code class="docutils literal notranslate"><span class="pre">TargetPoints</span></code> updates</p></li>
+<li><p>Dual convergence stop (threshold <strong>or</strong> no improvement vs prior pass)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min_overlap</span></code> default for mosaic refine path set to <strong>0.25</strong> (per-cell valid-area gate, matching C++)</p></li>
+<li><p>Removed <code class="docutils literal notranslate"><span class="pre">estimate_cutoff</span></code> gating from mosaic refine hot path (retained for STOS refine)</p></li>
+<li><p>Skip final lattice resample when transforms are already on the output grid</p></li>
+<li><p>Refinement cells use direct equal-size FFT (no random-noise padding) for deterministic parity</p></li>
+<li><p>Added vertex measurement diagnostics per pass</p></li>
+</ul>
+</section>
+<section id="supporting-modules">
+<h3>Supporting modules<a class="headerlink" href="#supporting-modules" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">transforms/gridtransform.py</span></code>: bulk <code class="docutils literal notranslate"><span class="pre">UpdateTargetPointsByIndex</span></code> support</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transforms/factory.py</span></code>, <code class="docutils literal notranslate"><span class="pre">mosaic_tileset.py</span></code>, <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>: export/API wiring</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">assemble_tiles.py</span></code>: assemble buffer size guard (<code class="docutils literal notranslate"><span class="pre">NORNIR_MAX_ASSEMBLE_BUFFER_BYTES</span></code>) for exploded target bounds</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">phasecorrelation.py</span></code>: guard flat correlation normalization (divide-by-zero)</p></li>
+</ul>
+</section>
+<section id="tests-and-fixtures">
+<h3>Tests and fixtures<a class="headerlink" href="#tests-and-fixtures" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/grid_seam_metrics.py</span></code> — seam MAE, golden target-point delta, chained-pass helpers</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">REFINE_MAX_PASSES</span> <span class="pre">=</span> <span class="pre">10</span></code>, <code class="docutils literal notranslate"><span class="pre">GOLDEN_TARGET_DELTA_MAX</span> <span class="pre">=</span> <span class="pre">2.2</span> <span class="pre">px</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">REFINE_DISPLACEMENT_THRESHOLD</span> <span class="pre">=</span> <span class="pre">0.5</span></code> (matches golden mosaic Thr0.5 filename)</p></li>
+<li><p>Convergence uses <strong>max</strong> |shift component| per pass (legacy C++ uses mean)</p></li>
+<li><p>Chained passes stop when displacement ≤ threshold (matches C++ breaking after a converged pass)</p></li>
+<li><p>Golden comparison removes global translation gauge before per-tile deltas</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/grid690_diagnostics.py</span></code> — headless PNG/JSON diagnostics for functional tests</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_refine_grid_690_functional.py</span></code> — RC2 Grid690 end-to-end functional suite</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_refine_grid_legacy_parity.py</span></code> — optional exe parity (skipped without <code class="docutils literal notranslate"><span class="pre">NORNIR_LEGACY_IR_REFINE_GRID</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tests/test_local_distortion.py</span></code> — <code class="docutils literal notranslate"><span class="pre">TestMosaicGridRefinementApi</span></code> unit coverage</p></li>
+</ul>
+</section>
+<section id="validation-rc2-fixture">
+<h3>Validation (RC2 fixture)<a class="headerlink" href="#validation-rc2-fixture" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Functional tests</p></td>
+<td><p>3/3 pass</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mean target delta vs golden (gauge-removed)</p></td>
+<td><p>~1.79 px (gate 2.0)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mean seam MAE (1 pass, thr 0.2)</p></td>
+<td><p>~0.096 (golden ~0.091)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Worst vertical seam pair</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">015-397</span></code> (~0.125 MAE) vs horizontal pairs ~0.065</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="package-umbrella-docs">
+<h2>Package: umbrella <code class="docutils literal notranslate"><span class="pre">docs/</span></code><a class="headerlink" href="#package-umbrella-docs" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">refine-grid-cpp-parity-checklist.md</span></code> — Phase 0 C++ audit deliverable</p></li>
+</ul>
+</section>
+<section id="other-nornir-packages">
+<h2>Other Nornir packages<a class="headerlink" href="#other-nornir-packages" title="Link to this heading"></a></h2>
+<p>No Grid690-specific code changes were made in <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-shared</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nornir-pools</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-pyre</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-web</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-docker</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-volumecontroller</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">nornir-volumemodel</span></code>. Submodule working trees may show line-ending noise unrelated to this work.</p>
+<p><strong>Excluded:</strong> <code class="docutils literal notranslate"><span class="pre">dm4</span></code> (per request).</p>
+</section>
+<section id="follow-up-fixes">
+<h2>Follow-up fixes<a class="headerlink" href="#follow-up-fixes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Prewarp interpolation (Bugbot):</strong> <code class="docutils literal notranslate"><span class="pre">_prewarp_tile_for_grid_refine</span></code> now passes <code class="docutils literal notranslate"><span class="pre">interpolation_order=0</span></code> to
+<code class="docutils literal notranslate"><span class="pre">_TransformImageUsingCoords</span></code>, matching C++ <code class="docutils literal notranslate"><span class="pre">warp&lt;&gt;</span></code> (<code class="docutils literal notranslate"><span class="pre">itk::NearestNeighborInterpolateImageFunction</span></code>).</p></li>
+</ul>
+</section>
+<section id="known-follow-ups-bugbot-review">
+<h2>Known follow-ups (Bugbot / review)<a class="headerlink" href="#known-follow-ups-bugbot-review" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Severity</p></th>
+<th class="head"><p>Location</p></th>
+<th class="head"><p>Finding</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>~~High~~</p></td>
+<td><p>~~<code class="docutils literal notranslate"><span class="pre">assemble.py</span></code> prewarp interpolation~~</p></td>
+<td><p>Fixed: grid-refine prewarp uses nearest-neighbor (<code class="docutils literal notranslate"><span class="pre">order=0</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Medium</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tests/grid_seam_metrics.py</span></code></p></td>
+<td><p>Chained single-iteration passes reset <code class="docutils literal notranslate"><span class="pre">last_average</span></code> each call; cross-pass “no improvement” stop only applies inside one <code class="docutils literal notranslate"><span class="pre">RefineGridMosaic</span></code> invocation</p></td>
+</tr>
+<tr class="row-even"><td><p>High</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">assemble.py</span></code> <code class="docutils literal notranslate"><span class="pre">TransformStos</span></code></p></td>
+<td><p>Image warp call commented out — verify STOS path if touched in same branch</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

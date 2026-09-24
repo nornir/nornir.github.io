@@ -1,0 +1,768 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_imageregistration.transforms.utils &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_imageregistration.transforms.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_imageregistration.transforms.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Created on Apr 4, 2013</span>
+
+<span class="sd">@author: u0490822</span>
+<span class="sd">"""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cupy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_imageregistration.cupy_thunk</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+    <span class="c1"># import nornir_imageregistration.cupyx_thunk as cupyx</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_imageregistration.cupy_thunk</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+    <span class="c1"># import nornir_imageregistration.cupyx_thunk as cupyx</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_imageregistration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.transforms.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ITransform</span><span class="p">,</span> <span class="n">IControlPoints</span><span class="p">,</span> <span class="n">IDiscreteTransform</span><span class="p">,</span> <span class="n">ITransformTranslation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.spatial.rectangle</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rectangle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_shared</span><span class="w"> </span><span class="kn">import</span> <span class="n">prettyoutput</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.type_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShapeLike</span><span class="p">,</span> <span class="n">RectLike</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_xp_for_transform_geometry</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">"""NumPy vs CuPy for aggregate ops on transform geometry — follow stored points, not global backend."""</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">:</span>
+        <span class="n">pts</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">"_points"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+        <span class="n">off</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s2">"_target_offset"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">off</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">off</span><span class="p">,</span> <span class="s2">"shape"</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">off</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">host_copy_points</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Copy control points to host memory so a background build cannot race the UI."""</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="s2">"get"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="InvalidIndices">
+<a class="viewcode-back" href="../../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.InvalidIndices">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">InvalidIndices</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">"""Remove rows that are not finite, i.e. containing NaN or +-Inf.</span>
+
+<span class="sd">    :param points: NxM array of points (e.g. Nx2 or Nx4).</span>
+<span class="sd">    :return: Tuple of (points_with_non_finite_rows_removed, invalid_row_mask).</span>
+<span class="sd">        Callers that need the valid side can invert with ``~invalid_mask``.</span>
+<span class="sd">        Returning a bool mask avoids CuPy ``flatnonzero`` index materialization</span>
+<span class="sd">        and the host syncs that come with integer index arrays on the GPU path.</span>
+
+<span class="sd">    Inf counts as invalid, not just NaN. An infinite coordinate is no more usable</span>
+<span class="sd">    than NaN: callers either route these rows to a continuous fallback transform</span>
+<span class="sd">    or drop them before scattering, and an Inf that reads as valid becomes a</span>
+<span class="sd">    garbage sample index instead. On the host ``np.seterr(invalid='raise',</span>
+<span class="sd">    divide='raise')`` makes most ways of producing Inf raise first, but CuPy</span>
+<span class="sd">    ignores ``seterr``, so on the GPU path an overflowing float64-&gt;float32</span>
+<span class="sd">    downcast or a divide by zero yields Inf silently.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"points must not be None"</span><span class="p">)</span>
+
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">invalid_mask</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">xp</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">points</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">filtered</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="o">~</span><span class="n">invalid_mask</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">filtered</span><span class="p">,</span> <span class="n">invalid_mask</span></div>
+
+
+
+<span class="c1"># Deprecated: use InvalidIndices (correct spelling).</span>
+<span class="n">InvalidIndicies</span> <span class="o">=</span> <span class="n">InvalidIndices</span>
+
+<span class="c1"># Deprecated: use InvalidIndices; implementation is backend-agnostic via get_array_module.</span>
+<span class="n">InvalidIndices_GPU</span> <span class="o">=</span> <span class="n">InvalidIndices</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">RotationMatrix</span><span class="p">(</span><span class="n">rangle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    :param float rangle: Angle in radians</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">rangle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Angle must not be none"</span><span class="p">)</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">rangle</span><span class="p">)</span>
+    <span class="c1"># Use Python floats so CuPy's array() does not reject numpy scalars</span>
+    <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">rot_mat</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">rot_mat</span>
+
+    <span class="c1"># Legacy: alternative interchange matrix; unused.</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">IdentityMatrix</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return a 3x3 identity matrix (numpy or cupy depending on active backend).</span>
+
+<span class="sd">    :return: 3x3 identity matrix.</span>
+<span class="sd">    """</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">TranslateMatrixXY</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Build a 3x3 translation matrix for (Y, X) offset.</span>
+
+<span class="sd">    :param offset: Translation offset as (Y, X) tuple or 2-element array.</span>
+<span class="sd">    :return: 3x3 translation matrix.</span>
+<span class="sd">    :raises ValueError: If offset is None.</span>
+<span class="sd">    """</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"offset must not be none"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="s2">"__iter__"</span><span class="p">):</span>
+        <span class="c1"># Coerce to Python floats so CuPy's array() does not reject numpy scalars</span>
+        <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Unexpected argument"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ScaleMatrixXY</span><span class="p">(</span><span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Build a 3x3 scale matrix for Y and X.</span>
+
+<span class="sd">    :param scale: Scale factor (single value for uniform, or (Y, X) for per-axis).</span>
+<span class="sd">    :return: 3x3 scale matrix.</span>
+<span class="sd">    :raises ValueError: If scale is None.</span>
+<span class="sd">    """</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"scale must not be none"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="s2">"__iter__"</span><span class="p">):</span>
+        <span class="n">s0</span><span class="p">,</span> <span class="n">s1</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">scale</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">s0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected argument: </span><span class="si">{</span><span class="n">scale</span><span class="si">}</span><span class="s2"> is a </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FlipMatrixY</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    :return: 3x3 matrix that flips the Y axis</span>
+<span class="sd">    """</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FlipMatrixX</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    :return: 3x3 matrix that flips the X axis</span>
+<span class="sd">    """</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+
+<span class="n">DEFAULT_MAX_BLEND_WEIGHT</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">DEFAULT_REBLEND_ITERATIONS</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">DEFAULT_REBLEND_TOLERANCE</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">DEFAULT_REBLEND_WEIGHT_TOLERANCE</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">INVERSE_MAP_Y_CORRELATION_THRESHOLD</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return min_blend, accepting deprecated linear_factor with a warning."""</span>
+    <span class="k">if</span> <span class="n">linear_factor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">min_blend</span> <span class="o">!=</span> <span class="n">linear_factor</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"min_blend (</span><span class="si">{</span><span class="n">min_blend</span><span class="si">}</span><span class="s2">) and linear_factor (</span><span class="si">{</span><span class="n">linear_factor</span><span class="si">}</span><span class="s2">) disagree"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">"linear_factor is deprecated; use min_blend instead"</span><span class="p">,</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">linear_factor</span>
+    <span class="k">return</span> <span class="n">min_blend</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Choose per-point max rigid blend weight from explicit cap or subtle defaults."""</span>
+    <span class="k">if</span> <span class="n">max_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">max_blend</span>
+    <span class="k">if</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">min_blend</span>
+    <span class="k">return</span> <span class="n">DEFAULT_MAX_BLEND_WEIGHT</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_as_numpy_points</span><span class="p">(</span><span class="n">points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return control points as a NumPy array."""</span>
+    <span class="n">xp_mod</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xp_mod</span> <span class="ow">is</span> <span class="n">cp</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">asnumpy</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_inverse_map_y_correlation</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span>
+                                       <span class="n">source_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Pearson correlation of volume-Y vs section-Y along an inverse-map vertical midline."""</span>
+    <span class="k">if</span> <span class="n">source_points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">IControlPoints</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+        <span class="n">source_points</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">SourcePoints</span>
+
+    <span class="n">source</span> <span class="o">=</span> <span class="n">_as_numpy_points</span><span class="p">(</span><span class="n">source_points</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">source</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">x_min</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">y_max</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y_max</span> <span class="o">-</span> <span class="n">y_min</span><span class="p">)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x_min</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="s1">'InverseTransform'</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">volume_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span> <span class="o">+</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">y_min</span> <span class="o">+</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">volume_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">x_min</span> <span class="o">+</span> <span class="n">width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">section_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">volume_y</span><span class="p">,</span> <span class="n">volume_x</span><span class="p">):</span>
+        <span class="n">mapped</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">InverseTransform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span>
+        <span class="n">mapped</span> <span class="o">=</span> <span class="n">_as_numpy_points</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">section_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">mapped</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">volume_y</span><span class="p">,</span> <span class="n">section_y</span><span class="p">)</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">corr_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">corr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">corr</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_orientation_sign_preserved</span><span class="p">(</span><span class="n">original_corr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">result_corr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True when inverse-map Y correlation sign is unchanged."""</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">original_corr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">INVERSE_MAP_Y_CORRELATION_THRESHOLD</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">result_corr</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">original_corr</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">result_corr</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_travel_blend_weights</span><span class="p">(</span><span class="n">distances</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span>
+                          <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                          <span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                          <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">DEFAULT_MAX_BLEND_WEIGHT</span><span class="p">,</span>
+                          <span class="o">*</span><span class="p">,</span>
+                          <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return per-point linear blend weights from deviation distance and travel_limit."""</span>
+    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">min_blend</span> <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">distances</span> <span class="o">/</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">travel_weight</span> <span class="o">=</span> <span class="n">normalized</span> <span class="o">*</span> <span class="n">normalized</span> <span class="o">*</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">normalized</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">base</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">base</span><span class="p">)</span> <span class="o">*</span> <span class="n">travel_weight</span>
+    <span class="k">if</span> <span class="n">max_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">weights</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_blend_target_points</span><span class="p">(</span><span class="n">target_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span>
+                         <span class="n">linear_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span>
+                         <span class="n">linear_factors</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Blend target-space control points toward linear predictions."""</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">target_points</span><span class="p">,</span> <span class="n">linear_points</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">linear_factors</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">target_points</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">weights</span><span class="p">)</span> <span class="o">+</span> <span class="n">linear_points</span> <span class="o">*</span> <span class="n">weights</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_control_points_from_blended_targets</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">IControlPoints</span><span class="p">,</span>
+                                         <span class="n">output_target_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Build a mesh or grid transform with blended target control points."""</span>
+    <span class="n">source_points</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">SourcePoints</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">output_target_points</span><span class="p">,</span> <span class="n">source_points</span><span class="p">)</span>
+    <span class="n">output_target_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">output_target_points</span><span class="p">)</span>
+    <span class="n">source_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">source_points</span><span class="p">)</span>
+    <span class="n">use_gpu</span> <span class="o">=</span> <span class="n">xp</span> <span class="ow">is</span> <span class="n">cp</span> <span class="ow">or</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">UsingCupy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">IGridTransform</span><span class="p">):</span>
+        <span class="n">output_grid</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITKGridDivision</span><span class="p">(</span><span class="n">source_shape</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">source_shape</span><span class="p">,</span>
+                                                               <span class="n">cell_size</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">cell_size</span><span class="p">,</span>
+                                                               <span class="n">grid_dims</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">grid_dims</span><span class="p">,</span>
+                                                               <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">output_grid</span><span class="o">.</span><span class="n">TargetPoints</span> <span class="o">=</span> <span class="n">output_target_points</span>
+        <span class="k">if</span> <span class="n">use_gpu</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">GridWithRBFFallback_GPUComponent</span><span class="p">(</span><span class="n">output_grid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">GridWithRBFFallback</span><span class="p">(</span><span class="n">output_grid</span><span class="p">)</span>
+    <span class="n">output_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">output_target_points</span><span class="p">,</span> <span class="n">source_points</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">use_gpu</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">MeshWithRBFFallback_GPUComponent</span><span class="p">(</span><span class="n">output_points</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">MeshWithRBFFallback</span><span class="p">(</span><span class="n">output_points</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">BlendWithLinear</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">IControlPoints</span><span class="p">,</span>
+                    <span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">ignore_rotation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">reblend_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="n">reblend_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_TOLERANCE</span><span class="p">,</span>
+                    <span class="n">reblend_weight_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_WEIGHT_TOLERANCE</span><span class="p">,</span>
+                    <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="o">*</span><span class="p">,</span>
+                    <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Blends a transform with the estimate linear transform of its control points.  The goal is to "flatten" a transform to gradually reduce folds and other high distortion areas.</span>
+<span class="sd">    :param transform:</span>
+<span class="sd">    :param min_blend:  Floor weight toward the rigid linear approximation (uniform when travel_limit is omitted).</span>
+<span class="sd">    :param ignore_rotation: This was added for SEM data which is known to not have rotation between slices.  Defaults to false.</span>
+<span class="sd">    :return:  Either a mesh triangulation, a grid triangulation, or a linear transformation.  Grid and Triangulation</span>
+<span class="sd">    match the input transform.  Linear transforms are only returned if min_blend is 1.0.</span>
+<span class="sd">    """</span>
+    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
+    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
+
+    <span class="c1"># This check is here to help the IDE with autocompletion</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITransform</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"transform"</span><span class="p">)</span>
+
+    <span class="n">mesh_corr</span> <span class="o">=</span> <span class="n">estimate_inverse_map_y_correlation</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">linear_transform</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">converters</span><span class="o">.</span><span class="n">ConvertControlPointsToRigidTransformForBlend</span><span class="p">(</span>
+        <span class="n">transform</span><span class="p">,</span>
+        <span class="n">ignore_rotation</span><span class="o">=</span><span class="n">ignore_rotation</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">min_blend</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">linear_transform</span>
+
+    <span class="k">if</span> <span class="n">reblend_iterations</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">blended</span> <span class="o">=</span> <span class="n">BlendTransformsIteratively</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span>
+                                             <span class="n">linear_transform</span><span class="o">=</span><span class="n">linear_transform</span><span class="p">,</span>
+                                             <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
+                                             <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
+                                             <span class="n">reblend_iterations</span><span class="o">=</span><span class="n">reblend_iterations</span><span class="p">,</span>
+                                             <span class="n">reblend_tolerance</span><span class="o">=</span><span class="n">reblend_tolerance</span><span class="p">,</span>
+                                             <span class="n">reblend_weight_tolerance</span><span class="o">=</span><span class="n">reblend_weight_tolerance</span><span class="p">,</span>
+                                             <span class="n">max_blend</span><span class="o">=</span><span class="n">effective_max_blend</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blended</span> <span class="o">=</span> <span class="n">BlendTransforms</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="o">=</span><span class="n">linear_transform</span><span class="p">,</span> <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
+                                  <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="o">=</span><span class="n">effective_max_blend</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">_orientation_sign_preserved</span><span class="p">(</span><span class="n">mesh_corr</span><span class="p">,</span> <span class="n">estimate_inverse_map_y_correlation</span><span class="p">(</span><span class="n">blended</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">blended</span>
+    <span class="k">return</span> <span class="n">transform</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">BlendTransforms</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">IControlPoints</span><span class="p">,</span>
+                    <span class="n">linear_transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span>
+                    <span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="o">*</span><span class="p">,</span>
+                    <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Blend control-point transform with a linear transform and return a new transform.</span>
+
+<span class="sd">    Transforms control points through both transform and linear_transform, blends the</span>
+<span class="sd">    results by min_blend, and returns a new transform (mesh/grid/linear) with the</span>
+<span class="sd">    blended target-space control points.</span>
+
+<span class="sd">    :param transform: Control-point transform (mesh or grid) to blend.</span>
+<span class="sd">    :param linear_transform: Linear transform used in the blend.</span>
+<span class="sd">    :param min_blend: Floor weight toward rigid (0–1); uniform when travel_limit is omitted.</span>
+<span class="sd">    :param travel_limit: Distance scale for smooth per-point blend toward linear_transform.</span>
+<span class="sd">    :param max_blend: Cap per-point linear weight; defaults to min_blend or 0.9 by mode.</span>
+<span class="sd">    :return: Mesh triangulation, grid triangulation, or linear transform matching input type.</span>
+<span class="sd">    """</span>
+    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
+    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">min_blend</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">min_blend</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"min_blend must be between 0 and 1.0, got </span><span class="si">{</span><span class="n">min_blend</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Either travel_limit or min_blend must have a value"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">travel_limit</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"travel_limit must be positive </span><span class="si">{</span><span class="n">travel_limit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_blend</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">transform</span>
+
+    <span class="n">source_points</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">SourcePoints</span>
+    <span class="n">target_points</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">TargetPoints</span>
+    <span class="n">linear_points</span> <span class="o">=</span> <span class="n">linear_transform</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">source_points</span><span class="p">)</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">target_points</span><span class="p">,</span> <span class="n">linear_points</span><span class="p">,</span> <span class="n">source_points</span><span class="p">)</span>
+    <span class="n">target_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">target_points</span><span class="p">)</span>
+    <span class="n">linear_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">linear_points</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">linear_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">blend_weights</span> <span class="o">=</span> <span class="n">_travel_blend_weights</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">effective_max_blend</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blend_weights</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">target_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="n">output_target_points</span> <span class="o">=</span> <span class="n">_blend_target_points</span><span class="p">(</span><span class="n">target_points</span><span class="p">,</span> <span class="n">linear_points</span><span class="p">,</span> <span class="n">blend_weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_control_points_from_blended_targets</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">output_target_points</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">BlendTransformsIteratively</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">IControlPoints</span><span class="p">,</span>
+                               <span class="n">linear_transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span>
+                               <span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                               <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                               <span class="n">reblend_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_ITERATIONS</span><span class="p">,</span>
+                               <span class="n">reblend_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_TOLERANCE</span><span class="p">,</span>
+                               <span class="n">reblend_weight_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_WEIGHT_TOLERANCE</span><span class="p">,</span>
+                               <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                               <span class="o">*</span><span class="p">,</span>
+                               <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Iteratively blend toward linear_transform until points stabilize or iteration cap is reached."""</span>
+    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
+    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">reblend_iterations</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">BlendTransforms</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span>
+                               <span class="n">linear_transform</span><span class="o">=</span><span class="n">linear_transform</span><span class="p">,</span>
+                               <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
+                               <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
+                               <span class="n">max_blend</span><span class="o">=</span><span class="n">effective_max_blend</span><span class="p">)</span>
+
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">TargetPoints</span><span class="p">)</span>
+    <span class="n">current_target_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">TargetPoints</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">source_points</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">SourcePoints</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reblend_iterations</span><span class="p">):</span>
+        <span class="n">target_points</span> <span class="o">=</span> <span class="n">current_target_points</span>
+        <span class="n">linear_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">linear_transform</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">source_points</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">linear_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">_travel_blend_weights</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">effective_max_blend</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">target_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="n">new_target_points</span> <span class="o">=</span> <span class="n">_blend_target_points</span><span class="p">(</span><span class="n">target_points</span><span class="p">,</span> <span class="n">linear_points</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="n">movement</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">new_target_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))))</span>
+        <span class="n">current_target_points</span> <span class="o">=</span> <span class="n">new_target_points</span>
+
+        <span class="k">if</span> <span class="n">movement</span> <span class="o">&lt;</span> <span class="n">reblend_tolerance</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">reblend_weight_tolerance</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">_control_points_from_blended_targets</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">current_target_points</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FixedOriginOffset</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Compute the smallest fixed-space origin (min Y, min X) across transforms.</span>
+
+<span class="sd">    Used to shift a mosaic so its origin is at (0, 0). Supports discrete and</span>
+<span class="sd">    continuous transforms.</span>
+
+<span class="sd">    :param transforms: Sequence of transforms (discrete or continuous).</span>
+<span class="sd">    :return: 2-element array (minY, minX) — smallest origin offset in fixed space.</span>
+<span class="sd">    :raises ValueError: If a transform type is not supported.</span>
+<span class="sd">    """</span>
+
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">_xp_for_transform_geometry</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span>
+
+    <span class="n">mins</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transforms</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">IDiscreteTransform</span><span class="p">):</span>
+            <span class="n">mins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">FixedBoundingBox</span><span class="o">.</span><span class="n">BottomLeft</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">xp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">RigidTranslation</span><span class="p">):</span>
+            <span class="n">mins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">_target_offset</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">xp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">'FixedBoundingBox'</span><span class="p">):</span>
+            <span class="n">mins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">FixedBoundingBox</span><span class="o">.</span><span class="n">BottomLeft</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">xp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected transform type </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> at index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FixedBoundingBox</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">],</span> <span class="n">images</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ShapeLike</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rectangle</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Calculate the bounding box of the warped position for a set of transforms</span>
+<span class="sd">    :param list transforms: A list of transforms</span>
+<span class="sd">    :param list images: A list of image parameters (strings, ndarrays, or 1x2</span>
+<span class="sd">                        ndarray.shape arrays, of the size of the image.  Only</span>
+<span class="sd">                        required for continuous transforms so a bounding box can</span>
+<span class="sd">                        be calculated</span>
+<span class="sd">    :return: A rectangle describing the bounding box</span>
+<span class="sd">    """</span>
+    <span class="c1"># Single-transform path omitted; multi-transform path used for consistency.</span>
+
+    <span class="n">is_images_param_single_size</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">images</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">images</span><span class="o">.</span><span class="n">flat</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># type: ignore[union-attr]</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must use a 1x2 array to specify a universal image size"</span><span class="p">)</span>
+            <span class="n">is_images_param_single_size</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"images list not of equal length as transforms list. Transforms: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span><span class="si">}</span><span class="s2"> Images: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">"If not none or a single 1x2 array the images parameter must be an iterable of equal length as transform array."</span><span class="p">)</span>
+
+    <span class="n">mbb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transforms</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">IDiscreteTransform</span><span class="p">):</span>
+            <span class="n">mbb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">TargetBoundingBox</span><span class="o">.</span><span class="n">ToArray</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">RigidTranslation</span><span class="p">):</span>
+            <span class="c1"># If there are no images we cannot calculate the bounding box</span>
+            <span class="k">if</span> <span class="n">images</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot calculate bounding box of rigid transform without images"</span><span class="p">)</span>
+
+            <span class="c1"># Figure out if images is an iterable or just a single size for all tiles</span>
+            <span class="n">t_rigid</span> <span class="o">=</span> <span class="n">t</span>  <span class="c1"># type: nornir_imageregistration.transforms.RigidTranslation</span>
+            <span class="k">if</span> <span class="n">is_images_param_single_size</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">images</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetImageSize</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+            <span class="n">mbb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_rigid</span><span class="o">.</span><span class="n">target_offset</span>
+            <span class="n">mbb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="n">t_rigid</span><span class="o">.</span><span class="n">target_offset</span> <span class="o">+</span> <span class="n">size</span>  <span class="c1"># type: ignore[operator]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">IDiscreteTransform</span><span class="p">):</span>
+            <span class="n">mbb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">TargetBoundingBox</span><span class="o">.</span><span class="n">ToArray</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="s1">'FixedBoundingBox'</span><span class="p">):</span>
+            <span class="n">mbb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">FixedBoundingBox</span><span class="o">.</span><span class="n">ToArray</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unexpected type passed to FixedBoundingBox </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="vm">__class__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">minX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">minY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">maxX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">maxY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">minY</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">minX</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxY</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxX</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">MappedBoundingBox</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Rectangle</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Calculate the bounding box of the original source space positions for a set of transforms."""</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Copy the data instead of passing the transforms object</span>
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">(</span><span class="n">transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">MappedBoundingBox</span><span class="o">.</span><span class="n">ToTuple</span><span class="p">())</span>  <span class="c1"># type: ignore[union-attr]</span>
+
+    <span class="n">discrete_found</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">mbb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">transforms</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">IDiscreteTransform</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">mbb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">MappedBoundingBox</span><span class="o">.</span><span class="n">ToArray</span><span class="p">()</span>
+        <span class="n">discrete_found</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">discrete_found</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No discrete transforms found in transforms list"</span><span class="p">)</span>
+
+    <span class="n">minX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">minY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">maxX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">maxY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mbb</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">minY</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">minX</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxY</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxX</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">IsOriginAtZero</span><span class="p">(</span><span class="n">transforms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">""":return: True if transform bounding box has origin at 0,0 otherise false"""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">FixedOriginOffset</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span>
+        <span class="n">origin_np</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="p">(</span><span class="n">minY</span><span class="p">,</span> <span class="n">minX</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">origin_np</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">origin_np</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">minY</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">minX</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Could not determine origin of transforms, continuing"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">TranslateToZeroOrigin</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Translate the fixed space of all passed transforms so no point maps to a negative number. Useful for image coordinates.</span>
+<span class="sd">    :return: The offset the mosaic was translated by, or None if no translation was needed.</span>
+<span class="sd">    """</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">origin</span> <span class="o">=</span> <span class="n">FixedOriginOffset</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Could not determine origin of transforms, continuing"</span><span class="p">)</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">_xp_for_transform_geometry</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,))</span>
+
+    <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xp</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">xp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)):</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">ITransformTranslation</span><span class="p">):</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">TranslateFixed</span><span class="p">(</span><span class="o">-</span><span class="n">origin</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="n">origin</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FixedBoundingBoxWidth</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the width in fixed (target) space of the bounding box of the given transforms."""</span>
+    <span class="p">(</span><span class="n">minY</span><span class="p">,</span> <span class="n">minX</span><span class="p">,</span> <span class="n">maxY</span><span class="p">,</span> <span class="n">maxX</span><span class="p">)</span> <span class="o">=</span> <span class="n">FixedBoundingBox</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span><span class="o">.</span><span class="n">ToTuple</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">maxX</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">minX</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">FixedBoundingBoxHeight</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the height in fixed (target) space of the bounding box of the given transforms."""</span>
+    <span class="p">(</span><span class="n">minY</span><span class="p">,</span> <span class="n">minX</span><span class="p">,</span> <span class="n">maxY</span><span class="p">,</span> <span class="n">maxX</span><span class="p">)</span> <span class="o">=</span> <span class="n">FixedBoundingBox</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span><span class="o">.</span><span class="n">ToTuple</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">maxY</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">minY</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">MappedBoundingBoxWidth</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the width in mapped (source) space of the bounding box of the given transforms.</span>
+
+<span class="sd">    :param transforms: Sequence of transforms (must include at least one discrete transform).</span>
+<span class="sd">    :return: Width (maxX - minX) in mapped space, in pixels (ceiling/floor).</span>
+<span class="sd">    """</span>
+    <span class="p">(</span><span class="n">minY</span><span class="p">,</span> <span class="n">minX</span><span class="p">,</span> <span class="n">maxY</span><span class="p">,</span> <span class="n">maxX</span><span class="p">)</span> <span class="o">=</span> <span class="n">MappedBoundingBox</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span><span class="o">.</span><span class="n">ToTuple</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">maxX</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">minX</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">MappedBoundingBoxHeight</span><span class="p">(</span><span class="n">transforms</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">ITransform</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the height in mapped (source) space of the bounding box of the given transforms.</span>
+
+<span class="sd">    :param transforms: Sequence of transforms (must include at least one discrete transform).</span>
+<span class="sd">    :return: Height (maxY - minY) in mapped space, in pixels (ceiling/floor).</span>
+<span class="sd">    """</span>
+    <span class="p">(</span><span class="n">minY</span><span class="p">,</span> <span class="n">minX</span><span class="p">,</span> <span class="n">maxY</span><span class="p">,</span> <span class="n">maxX</span><span class="p">)</span> <span class="o">=</span> <span class="n">MappedBoundingBox</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span><span class="o">.</span><span class="n">ToTuple</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">maxY</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">minY</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GetRotatedBoundaries</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">,</span>
+                         <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the axis-aligned bounding box after rotating a shape by the given angle.</span>
+
+<span class="sd">    :param shape: Image shape (H, W) or Rectangle; non-Rectangle is interpreted as (H, W).</span>
+<span class="sd">    :param angle: Rotation angle in radians.</span>
+<span class="sd">    :return: Rectangle enclosing the rotated shape.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">):</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">CreateFromBounds</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">shape</span>
+
+    <span class="k">if</span> <span class="n">angle</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">rect</span>
+
+    <span class="n">corners</span> <span class="o">=</span> <span class="n">rect</span><span class="o">.</span><span class="n">Corners</span>
+
+    <span class="c1"># If there are "off by one" errors, check that the center shouldn't have 0.5 pixels subtracted</span>
+    <span class="n">rigid_transform</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">CenteredSimilarity2DTransform</span><span class="p">(</span>
+        <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span>
+        <span class="n">source_rotation_center</span><span class="o">=</span><span class="n">rect</span><span class="o">.</span><span class="n">Center</span><span class="p">,</span>
+        <span class="n">target_offset</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">scalar</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">flip_ud</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">rotated_corners</span> <span class="o">=</span> <span class="n">rigid_transform</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">corners</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Rectangle</span><span class="o">.</span><span class="n">CreateBoundingRectangleForPoints</span><span class="p">(</span><span class="n">rotated_corners</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

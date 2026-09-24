@@ -1,216 +1,189 @@
 
+
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir-shared &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
-    <title>Shared (nornir_shared) &#8212; Nornir 1.3.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
-    
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    
-    <link rel="author" title="About these documents" href="../about.html" />
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Buildmanager (nornir_buildmanager)" href="nornir_buildmanager.html" />
-    <link rel="prev" title="Pools (nornir_pools)" href="nornir_pools.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nornir_buildmanager.html" title="Buildmanager (nornir_buildmanager)"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="nornir_pools.html" title="Pools (nornir_pools)"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="packages.html" accesskey="U">Packages</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Shared (nornir_shared)</a></li> 
-      </ul>
-    </div>  
+    <link rel="next" title="nornir-pools" href="nornir_pools.html" />
+    <link rel="prev" title="Packages" href="index.html" /> 
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <section id="module-nornir_shared">
-<span id="shared-nornir-shared"></span><h1>Shared (nornir_shared)<a class="headerlink" href="#module-nornir_shared" title="Permalink to this headline">¶</a></h1>
-<section id="nornir-shared-package">
-<h2>Nornir Shared Package<a class="headerlink" href="#nornir-shared-package" title="Permalink to this headline">¶</a></h2>
-<p>Functions shared across the various Nornir and connectomics packages live in this module.</p>
-<section id="module-nornir_shared.checksum">
-<span id="checksum"></span><h3>checksum<a class="headerlink" href="#module-nornir_shared.checksum" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="nornir_shared.checksum.DataChecksum">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">DataChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.DataChecksum" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Removes whitespace from strings before calculating md5 checksum</p>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>obj</em>) – string, list or object convertible to string</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>md5 checksum</p>
-</dd>
-<dt class="field-odd">Rtype str</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</dd></dl>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-<dl class="py function">
-<dt class="sig sig-object py" id="nornir_shared.checksum.FileChecksum">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">FileChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.FileChecksum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the md5 hash of a file read in txt mode</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to file</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>md5 checksum</p>
-</dd>
-<dt class="field-odd">Rtype str</dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="nornir_shared.checksum.FilesizeChecksum">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.checksum.</span></span><span class="sig-name descname"><span class="pre">FilesizeChecksum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.checksum.FilesizeChecksum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the size of a file in bytes for use as a simple checksum</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – path to file</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Size of file as a string</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="module-nornir_shared.emaillib">
-<span id="emaillib"></span><h3>emaillib<a class="headerlink" href="#module-nornir_shared.emaillib" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt class="sig sig-object py" id="nornir_shared.emaillib.SendMail">
-<span class="sig-prename descclassname"><span class="pre">nornir_shared.emaillib.</span></span><span class="sig-name descname"><span class="pre">SendMail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#nornir_shared.emaillib.SendMail" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends an email</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>host</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Address of smpt server</p></li>
-<li><p><strong>username</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – username for smtp account if required</p></li>
-<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – password for smtp account if required</p></li>
-<li><p><strong>subject</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – subject for E-mail</p></li>
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – text content of message</p></li>
-<li><p><strong>to</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Recipient addresses as string or list of strings</p></li>
-<li><p><strong>cc</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Recipient addresses as string or list of strings</p></li>
-<li><p><strong>from</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Sender’s E-mail address</p></li>
-<li><p><strong>fromFriendlyAddress</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Nice looking Sender’s E-mail address</p></li>
-<li><p><strong>files</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – comma delimited list of files to attach</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – port to use on server, default is 25</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-</section>
-</section>
-
-
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Shared (nornir_shared)</a><ul>
-<li><a class="reference internal" href="#nornir-shared-package">Nornir Shared Package</a><ul>
-<li><a class="reference internal" href="#module-nornir_shared.checksum">checksum</a></li>
-<li><a class="reference internal" href="#module-nornir_shared.emaillib">emaillib</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  </div>
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="nornir_pools.html"
-                          title="previous chapter">Pools (nornir_pools)</a></p>
-  </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="nornir_buildmanager.html"
-                          title="next chapter">Buildmanager (nornir_buildmanager)</a></p>
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/packages/nornir_shared.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-<script>$('#searchbox').show(0);</script>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Packages</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">nornir-shared</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-modules">Key modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir-shared-misc"><code class="docutils literal notranslate"><span class="pre">nornir_shared.misc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir-shared-prettyoutput"><code class="docutils literal notranslate"><span class="pre">nornir_shared.prettyoutput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir-shared-filesystem"><code class="docutils literal notranslate"><span class="pre">nornir_shared.filesystem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir-shared-plot"><code class="docutils literal notranslate"><span class="pre">nornir_shared.plot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html">nornir-pools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_imageregistration.html">nornir-imageregistration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html">nornir-buildmanager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_volumecontroller.html">nornir-volumecontroller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_volumemodel.html">nornir-volumemodel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_web.html">nornir-web</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyre_install.html">Installing Pyre on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="other_packages.html">Other repositories in the umbrella</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+</ul>
+
         </div>
       </div>
-      <div class="clearer"></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Packages</a></li>
+      <li class="breadcrumb-item active">nornir-shared</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/packages/nornir_shared.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nornir-shared">
+<h1>nornir-shared<a class="headerlink" href="#nornir-shared" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code> is the common utilities package used by every other Nornir project.  It owns
+the <strong>logging convention</strong>, console/UI output helpers, filesystem utilities, and lightweight
+parallelism helpers that do not belong in any single domain package.</p>
+<ul class="simple">
+<li><p><strong>Repository:</strong> <code class="docutils literal notranslate"><span class="pre">nornir-shared/</span></code></p></li>
+<li><p><strong>Python import:</strong> <code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code></p></li>
+</ul>
+<section id="key-modules">
+<h2>Key modules<a class="headerlink" href="#key-modules" title="Link to this heading"></a></h2>
+<section id="nornir-shared-misc">
+<h3><code class="docutils literal notranslate"><span class="pre">nornir_shared.misc</span></code><a class="headerlink" href="#nornir-shared-misc" title="Link to this heading"></a></h3>
+<p>The primary utilities module.  Key APIs:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SetupLogging()</span></code></dt><dd><p>Initialise file logging for the current process.  Reads <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> to determine
+the root directory for session log files.  Safe to call multiple times (idempotent handlers).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">StartMultiprocessLoggingListener()</span></code></dt><dd><p>Start a queue-based logging listener in the parent process before spawning workers.
+Returns the <code class="docutils literal notranslate"><span class="pre">multiprocessing.Queue</span></code> to pass to workers.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ConfigureWorkerQueueLogging(queue)</span></code></dt><dd><p>Call in each worker process to route all log records through the shared queue to the
+parent listener (avoids concurrent file writes).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">StopMultiprocessLoggingListener()</span></code></dt><dd><p>Gracefully shut down the listener after all workers have finished.</p>
+</dd>
+</dl>
+<p>See <a class="reference internal" href="../development/logging.html"><span class="doc">Logging convention</span></a> for the full logging guide, including environment variables,
+session file layout, and multiprocessing patterns.</p>
+</section>
+<section id="nornir-shared-prettyoutput">
+<h3><code class="docutils literal notranslate"><span class="pre">nornir_shared.prettyoutput</span></code><a class="headerlink" href="#nornir-shared-prettyoutput" title="Link to this heading"></a></h3>
+<p>Console and UI presentation helpers (progress indicators, coloured status lines).
+<strong>Not</strong> a logging sink — do not use this module to write persistent log files.</p>
+</section>
+<section id="nornir-shared-filesystem">
+<h3><code class="docutils literal notranslate"><span class="pre">nornir_shared.filesystem</span></code><a class="headerlink" href="#nornir-shared-filesystem" title="Link to this heading"></a></h3>
+<p>Filesystem utilities used by buildmanager and imageregistration: path normalisation, directory
+creation helpers, and checksum utilities.</p>
+</section>
+<section id="nornir-shared-plot">
+<h3><code class="docutils literal notranslate"><span class="pre">nornir_shared.plot</span></code><a class="headerlink" href="#nornir-shared-plot" title="Link to this heading"></a></h3>
+<p>Shared matplotlib plotting helpers (histograms, overlay images) used by imageregistration
+and buildmanager for diagnostic output.</p>
+</section>
+</section>
+<section id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code></dt><dd><p>Root directory for all Nornir file logs.  Required for persistent logging; omit to get
+console-only output.  See <a class="reference internal" href="../development/logging.html"><span class="doc">Logging convention</span></a>.</p>
+</dd>
+</dl>
+<p><strong>API reference:</strong> <a class="reference internal" href="../api/nornir_shared.html"><span class="doc">nornir_shared</span></a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Packages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nornir_pools.html" class="btn btn-neutral float-right" title="nornir-pools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nornir_buildmanager.html" title="Buildmanager (nornir_buildmanager)"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="nornir_pools.html" title="Pools (nornir_pools)"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Nornir 1.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="packages.html" >Packages</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Shared (nornir_shared)</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2014, James Anderson.
-      Last updated on Apr 01, 2022.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
-    </div>
-  </body>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

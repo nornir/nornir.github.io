@@ -1,0 +1,728 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_shared.misc &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_shared.misc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_shared.misc</h1><div class="highlight"><pre>
+<span></span><span class="sd">'''</span>
+<span class="sd">Created on Jul 11, 2012</span>
+
+<span class="sd">@author: Jamesan</span>
+
+<span class="sd">Functions that are broadly used in Python programs but don't have a specific category</span>
+<span class="sd">'''</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging.handlers</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shlex</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+
+<span class="n">logging_setup</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">_active_log_session_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_multiprocess_logging_queue</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_multiprocess_logging_listener</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_multiprocess_logging_owner_pid</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">NORNIR_LOG_ROOT_ENV</span> <span class="o">=</span> <span class="s1">'NORNIR_LOG_ROOT'</span>
+<span class="n">NORNIR_LOG_SESSION_ENV</span> <span class="o">=</span> <span class="s1">'NORNIR_LOG_SESSION_ID'</span>
+
+<span class="n">MQTT_LOG_HANDLER_NAME</span> <span class="o">=</span> <span class="s1">'nornir_mqtt_log_handler'</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MQTTLogHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Forward warning/error/debug logging records to run-scoped MQTT topics.</span>
+
+<span class="sd">    Info records are published by :func:`nornir_shared.prettyoutput.Log`. Records</span>
+<span class="sd">    already marked with ``mqtt_published=True`` (set via ``extra=`` from</span>
+<span class="sd">    prettyoutput) are skipped to avoid duplicate MQTT publishes.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">MQTT_LOG_HANDLER_NAME</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">LogRecord</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Publish a single logging record to the matching MQTT log topic."""</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="s1">'mqtt_published'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">topic_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">&gt;=</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span>
+            <span class="n">topic_key</span> <span class="o">=</span> <span class="s1">'error'</span>
+        <span class="k">elif</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">&gt;=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span>
+            <span class="n">topic_key</span> <span class="o">=</span> <span class="s1">'warning'</span>
+        <span class="k">elif</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">&gt;=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span> <span class="ow">and</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">&lt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span>
+            <span class="n">topic_key</span> <span class="o">=</span> <span class="s1">'debug'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_shared</span><span class="w"> </span><span class="kn">import</span> <span class="n">prettyoutput</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">record</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span> <span class="k">else</span> <span class="n">record</span><span class="o">.</span><span class="n">getMessage</span><span class="p">()</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">_publish_mqtt_message</span><span class="p">(</span>
+                <span class="n">topic_key</span><span class="p">,</span>
+                <span class="n">message</span><span class="p">,</span>
+                <span class="p">{</span><span class="s1">'logger_name'</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">name</span><span class="p">},</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">handleError</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_mqtt_log_handler</span><span class="p">(</span><span class="n">handlers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MQTTLogHandler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return an MQTTLogHandler, adding it to *handlers* when provided and missing."""</span>
+    <span class="k">if</span> <span class="n">handlers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">handlers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">MQTT_LOG_HANDLER_NAME</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">handler</span>  <span class="c1"># type: ignore[return-value]</span>
+
+    <span class="n">mqtt_handler</span> <span class="o">=</span> <span class="n">MQTTLogHandler</span><span class="p">()</span>
+    <span class="n">mqtt_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">handlers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mqtt_handler</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mqtt_handler</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_unified_log_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">env_value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NORNIR_LOG_ROOT_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">env_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">stripped_value</span> <span class="o">=</span> <span class="n">env_value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">stripped_value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">stripped_value</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_or_create_session_id</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">_active_log_session_id</span>
+    <span class="k">if</span> <span class="n">_active_log_session_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_active_log_session_id</span>
+
+    <span class="n">session_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NORNIR_LOG_SESSION_ENV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">session_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">session_id</span> <span class="o">=</span> <span class="n">session_id</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">session_id</span><span class="p">:</span>
+        <span class="n">session_id</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y%m</span><span class="si">%d</span><span class="s1">-%H%M%S'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">NORNIR_LOG_SESSION_ENV</span><span class="p">]</span> <span class="o">=</span> <span class="n">session_id</span>
+
+    <span class="n">_active_log_session_id</span> <span class="o">=</span> <span class="n">session_id</span>
+    <span class="k">return</span> <span class="n">_active_log_session_id</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_session_date_folder_name</span><span class="p">(</span><span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">8</span> <span class="ow">and</span> <span class="n">session_id</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">session_id</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">session_id</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">session_id</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s1">'</span>
+
+    <span class="k">return</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%Y-%m-</span><span class="si">%d</span><span class="s1">'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GetUnifiedSessionPaths</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Returns (log_dir, session_log_path, error_log_path) for shared session logs."""</span>
+    <span class="n">log_root</span> <span class="o">=</span> <span class="n">_resolve_unified_log_root</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">log_root</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">session_id</span> <span class="o">=</span> <span class="n">_get_or_create_session_id</span><span class="p">()</span>
+    <span class="n">date_folder</span> <span class="o">=</span> <span class="n">_session_date_folder_name</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span>
+    <span class="n">log_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_root</span><span class="p">,</span> <span class="n">date_folder</span><span class="p">)</span>
+    <span class="n">session_log_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'nornir-session-</span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s1">.log'</span><span class="p">)</span>
+    <span class="n">error_log_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'nornir-session-</span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s1">-errors.log'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">session_log_path</span><span class="p">,</span> <span class="n">error_log_path</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fallback_file_log_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Directory for file logs when ``NORNIR_LOG_ROOT`` is unset.</span>
+
+<span class="sd">    Prefer ``TESTOUTPUTPATH`` for test runs; otherwise the system temp dir.</span>
+<span class="sd">    Never the process CWD — that scatters per-run logs into working trees.</span>
+<span class="sd">    """</span>
+    <span class="n">test_output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'TESTOUTPUTPATH'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">test_output</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">test_output</span>
+    <span class="k">return</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_directory_is_writable</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True if log files can be created under ``path``."""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">probe_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'.nornir-write-probe-</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">probe_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">probe_file</span><span class="p">:</span>
+            <span class="n">probe_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">probe_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GetUnifiedConsoleLogPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Returns a unified console tee path for the active session, if configured."""</span>
+    <span class="n">session_paths</span> <span class="o">=</span> <span class="n">GetUnifiedSessionPaths</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">session_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">log_dir</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">session_paths</span>
+    <span class="n">session_id</span> <span class="o">=</span> <span class="n">_get_or_create_session_id</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'nornir-console-</span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s1">.log'</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reset_root_logger</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">):</span>
+        <span class="n">root_logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">handler</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">root_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_standard_handlers</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">]:</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">handlers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">session_paths</span> <span class="o">=</span> <span class="n">GetUnifiedSessionPaths</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">session_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">log_dir</span><span class="p">,</span> <span class="n">log_file_name</span><span class="p">,</span> <span class="n">errlog_file_name</span> <span class="o">=</span> <span class="n">session_paths</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">info_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">log_file_name</span><span class="p">)</span>
+        <span class="n">info_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="n">info_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+        <span class="n">handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info_handler</span><span class="p">)</span>
+
+        <span class="n">error_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">errlog_file_name</span><span class="p">)</span>
+        <span class="n">error_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+        <span class="n">error_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+        <span class="n">handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error_handler</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">'ECLIPSE'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">stream_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+        <span class="n">stream_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+        <span class="n">stream_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+        <span class="n">handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stream_handler</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">handlers</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">StartMultiprocessLoggingListener</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Create and start a queue listener for multiprocess-safe logging."""</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_queue</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_listener</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_owner_pid</span>
+
+    <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+
+    <span class="n">session_paths</span> <span class="o">=</span> <span class="n">GetUnifiedSessionPaths</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">session_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Multiprocess file logging disabled because </span><span class="si">%s</span><span class="s2"> is not set"</span><span class="p">,</span> <span class="n">NORNIR_LOG_ROOT_ENV</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">_multiprocess_logging_listener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_multiprocess_logging_owner_pid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">_multiprocess_logging_queue</span>
+
+    <span class="n">handlers</span> <span class="o">=</span> <span class="n">_build_standard_handlers</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">handlers</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">_ensure_mqtt_log_handler</span><span class="p">(</span><span class="n">handlers</span><span class="p">)</span>
+
+    <span class="n">_multiprocess_logging_queue</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">_multiprocess_logging_listener</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">QueueListener</span><span class="p">(</span><span class="n">_multiprocess_logging_queue</span><span class="p">,</span> <span class="o">*</span><span class="n">handlers</span><span class="p">)</span>
+    <span class="n">_multiprocess_logging_listener</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">_multiprocess_logging_owner_pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
+    <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">StopMultiprocessLoggingListener</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_multiprocess_logging_queue</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">StopMultiprocessLoggingListener</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Stop the active queue listener and close associated resources."""</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_queue</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_listener</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_owner_pid</span>
+
+    <span class="k">if</span> <span class="n">_multiprocess_logging_listener</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_multiprocess_logging_listener</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">_multiprocess_logging_listener</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">_multiprocess_logging_queue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_multiprocess_logging_queue</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">_multiprocess_logging_queue</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">_multiprocess_logging_owner_pid</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_suppress_noisy_libraries</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Raise the log level of chatty third-party libraries to WARNING.</span>
+
+<span class="sd">    Called from both SetupLogging and ConfigureWorkerQueueLogging so that the</span>
+<span class="sd">    suppression is applied in every process — parent, forked worker, and</span>
+<span class="sd">    spawned/forkserver worker alike.</span>
+<span class="sd">    """</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">'PIL'</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+    <span class="c1"># findfont score() dumps one DEBUG line per installed font when the root</span>
+    <span class="c1"># logger is DEBUG (nornir-build -debug). That is not Nornir diagnostics.</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">'matplotlib'</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">'matplotlib.font_manager'</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ConfigureWorkerQueueLogging</span><span class="p">(</span><span class="n">log_queue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Configure this process to emit logs via QueueHandler."""</span>
+    <span class="k">global</span> <span class="n">logging_setup</span>
+    <span class="k">global</span> <span class="n">_multiprocess_logging_queue</span>
+
+    <span class="k">if</span> <span class="n">level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+
+    <span class="n">queue_to_use</span> <span class="o">=</span> <span class="n">log_queue</span> <span class="k">if</span> <span class="n">log_queue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_multiprocess_logging_queue</span>
+    <span class="k">if</span> <span class="n">queue_to_use</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">_multiprocess_logging_queue</span> <span class="o">=</span> <span class="n">queue_to_use</span>
+    <span class="n">_reset_root_logger</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="n">root_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">QueueHandler</span><span class="p">(</span><span class="n">queue_to_use</span><span class="p">))</span>
+    <span class="n">root_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    <span class="n">_suppress_noisy_libraries</span><span class="p">()</span>
+    <span class="n">logging_setup</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">RunWithProfiler</span><span class="p">(</span><span class="n">functionStr</span><span class="p">,</span> <span class="n">outputpath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cProfile</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pstats</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="k">if</span> <span class="n">outputpath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">outputpath</span> <span class="o">=</span> <span class="s2">"C:</span><span class="se">\\</span><span class="s2">Temp"</span>
+
+    <span class="n">ProfilePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputpath</span><span class="p">,</span> <span class="s1">'BuildProfile.pr'</span><span class="p">)</span>
+
+    <span class="n">ProfileDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">ProfilePath</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">ProfileDir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">'.RunWithProfiler'</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Profiling: "</span> <span class="o">+</span> <span class="n">functionStr</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cProfile</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">functionStr</span><span class="p">,</span> <span class="n">ProfilePath</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ProfilePath</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"No profile file found"</span> <span class="o">+</span> <span class="n">ProfilePath</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+        <span class="n">pr</span> <span class="o">=</span> <span class="n">pstats</span><span class="o">.</span><span class="n">Stats</span><span class="p">(</span><span class="n">ProfilePath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pr</span><span class="o">.</span><span class="n">sort_stats</span><span class="p">(</span><span class="s1">'time'</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">print_stats</span><span class="p">(</span><span class="mf">.1</span><span class="p">)))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pr</span><span class="o">.</span><span class="n">print_stats</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)))</span>
+
+    <span class="n">pr</span><span class="o">.</span><span class="n">print_callers</span><span class="p">(</span><span class="mf">.1</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">format_startup_command_line</span><span class="p">(</span><span class="n">argv</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return a shell-quoted command line for the current process.</span>
+
+<span class="sd">    Includes ``sys.executable`` when *argv* does not already start with the</span>
+<span class="sd">    interpreter path, then the remaining arguments.</span>
+<span class="sd">    """</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span> <span class="k">if</span> <span class="n">argv</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">argv</span><span class="p">)]</span>
+    <span class="n">executable</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">executable</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">same_executable</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normcase</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normcase</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">executable</span><span class="p">))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">same_executable</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">same_executable</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">executable</span><span class="p">,</span> <span class="o">*</span><span class="n">parts</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">'nt'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">list2cmdline</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">shlex</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_log_startup_command_line</span><span class="p">(</span><span class="n">configured_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Record the process command line after logging handlers are attached.</span>
+
+<span class="sd">    Emits INFO when that level is enabled; otherwise uses *configured_level* so</span>
+<span class="sd">    WARNING-only setups such as Pyre still persist the line.</span>
+<span class="sd">    """</span>
+    <span class="n">emit_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span> <span class="k">if</span> <span class="n">configured_level</span> <span class="o">&lt;=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span> <span class="k">else</span> <span class="n">configured_level</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+        <span class="n">emit_level</span><span class="p">,</span> <span class="s2">"Command line: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">format_startup_command_line</span><span class="p">())</span>
+
+
+<div class="viewcode-block" id="SetupLogging">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.SetupLogging">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">SetupLogging</span><span class="p">(</span><span class="n">LogToFile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">OutputPath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    :param bool LogToFile: True if logs should be saved to a file.  Automatically set to true if OutputPath is not None</span>
+<span class="sd">    :param str OutputPath: Path to directory to use to save log files.</span>
+<span class="sd">    :param Level: Level of messages to write to log</span>
+<span class="sd">    '''</span>
+    <span class="k">global</span> <span class="n">logging_setup</span>
+    <span class="k">if</span> <span class="n">logging_setup</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">logging_setup</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">Level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+
+    <span class="n">_suppress_noisy_libraries</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">ConfigureWorkerQueueLogging</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">Level</span><span class="p">):</span>
+        <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">shutdown</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">'</span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+    <span class="n">unified_session_paths</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">OutputPath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">unified_session_paths</span> <span class="o">=</span> <span class="n">GetUnifiedSessionPaths</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">unified_session_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">LogToFile</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># When NORNIR_LOG_ROOT is unset, keep console-only unless the caller</span>
+        <span class="c1"># passed LogToFile=True or an OutputPath (do not auto-scatter into CWD).</span>
+
+    <span class="k">if</span> <span class="n">OutputPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">LogToFile</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">LogToFile</span><span class="p">:</span>
+        <span class="n">LogPath</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">logFileName</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">errlogFileName</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">unified_session_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">LogPath</span><span class="p">,</span> <span class="n">logFileName</span><span class="p">,</span> <span class="n">errlogFileName</span> <span class="o">=</span> <span class="n">unified_session_paths</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Figure out the loggging directory if it is not specified</span>
+            <span class="k">if</span> <span class="n">OutputPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">OutputPath</span><span class="p">):</span>
+                <span class="n">LogPath</span> <span class="o">=</span> <span class="n">OutputPath</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">BaseLoggingDir</span> <span class="o">=</span> <span class="n">_fallback_file_log_dir</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">OutputPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">LogPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BaseLoggingDir</span><span class="p">,</span> <span class="n">OutputPath</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">LogPath</span> <span class="o">=</span> <span class="n">BaseLoggingDir</span>
+
+        <span class="k">if</span> <span class="n">LogPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_directory_is_writable</span><span class="p">(</span><span class="n">LogPath</span><span class="p">):</span>
+            <span class="n">rejected_path</span> <span class="o">=</span> <span class="n">LogPath</span>
+            <span class="n">fallback_paths</span> <span class="o">=</span> <span class="n">GetUnifiedSessionPaths</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">fallback_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">LogPath</span><span class="p">,</span> <span class="n">logFileName</span><span class="p">,</span> <span class="n">errlogFileName</span> <span class="o">=</span> <span class="n">fallback_paths</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LogPath</span> <span class="o">=</span> <span class="n">_fallback_file_log_dir</span><span class="p">()</span>
+                <span class="n">logFileName</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">errlogFileName</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Log path not writable (</span><span class="si">{</span><span class="n">rejected_path</span><span class="si">}</span><span class="s2">); using </span><span class="si">{</span><span class="n">LogPath</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">LogPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">LogPath</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Could not create logging output directory: "</span> <span class="o">+</span> <span class="n">LogPath</span><span class="p">)</span>
+                <span class="k">pass</span>
+
+            <span class="c1"># Named from the shared session ID rather than a fresh local</span>
+            <span class="c1"># timestamp.  The old format was 'log-%M.%d.%y_%H.%M.txt', where the</span>
+            <span class="c1"># month position held %M (minutes): logs recorded the minute twice</span>
+            <span class="c1"># and the month never. It also collided whenever two runs started in</span>
+            <span class="c1"># the same minute of the same day, and basicConfig appends, so</span>
+            <span class="c1"># unrelated runs merged into one file.</span>
+            <span class="c1">#</span>
+            <span class="c1"># The session ID carries seconds and is inherited through the</span>
+            <span class="c1"># environment, so every process in a run shares one file instead of</span>
+            <span class="c1"># each child opening its own.</span>
+            <span class="n">session_id</span> <span class="o">=</span> <span class="n">_get_or_create_session_id</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">logFileName</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">logFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">LogPath</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'log-</span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s1">.txt'</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">errlogFileName</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">errlogFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">LogPath</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'log-</span><span class="si">{</span><span class="n">session_id</span><span class="si">}</span><span class="s1">-Errors.txt'</span><span class="p">)</span>
+
+            <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">logFileName</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">Level</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'</span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+            <span class="n">eh</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">errlogFileName</span><span class="p">)</span>
+            <span class="n">eh</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+            <span class="n">eh</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+            <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">eh</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">Level</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'</span><span class="si">%(levelname)s</span><span class="s1"> - </span><span class="si">%(name)s</span><span class="s1"> - </span><span class="si">%(message)s</span><span class="s1">'</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="s1">'ECLIPSE'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+        <span class="n">ch</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">Level</span><span class="p">)</span>
+        <span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+    <span class="c1"># Central MQTT forwarding for warning/error/debug (parent process only).</span>
+    <span class="n">root_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">MQTT_LOG_HANDLER_NAME</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">root_logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">):</span>
+        <span class="n">root_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">_ensure_mqtt_log_handler</span><span class="p">())</span>
+
+    <span class="c1"># Automatically shutdown logging when our process ends</span>
+    <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">shutdown</span><span class="p">)</span>
+    <span class="n">_log_startup_command_line</span><span class="p">(</span><span class="n">Level</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="lowpriority">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.lowpriority">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lowpriority</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">""" Set the priority of the process to below-normal.</span>
+<span class="sd">        Copied from: http://stackoverflow.com/questions/1023038/change-process-priority-in-python-cross-platform"""</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">getwindowsversion</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">isWindows</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">isWindows</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isWindows</span><span class="p">:</span>
+            <span class="c1"># Based on:</span>
+            <span class="c1">#   "Recipe 496767: Set Process Priority In Windows" on ActiveState</span>
+            <span class="c1">#   http://code.activestate.com/recipes/496767/</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">win32api</span>  <span class="c1"># type: ignore[reportMissingModuleSource]</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">win32process</span>  <span class="c1"># type: ignore[reportMissingModuleSource]</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">win32con</span>  <span class="c1"># type: ignore[reportMissingModuleSource]</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()</span>
+            <span class="n">handle</span> <span class="o">=</span> <span class="n">win32api</span><span class="o">.</span><span class="n">OpenProcess</span><span class="p">(</span><span class="n">win32con</span><span class="o">.</span><span class="n">PROCESS_ALL_ACCESS</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+            <span class="n">win32process</span><span class="o">.</span><span class="n">SetPriorityClass</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">win32process</span><span class="o">.</span><span class="n">BELOW_NORMAL_PRIORITY_CLASS</span><span class="p">)</span>
+            <span class="n">win32api</span><span class="o">.</span><span class="n">CloseHandle</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Unix and Mac should have a nice function</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">'nice'</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="kc">None</span><span class="p">)(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">'.lowpriority'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">logger</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Could not lower process priority"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">isWindows</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Are you missing Win32 extensions for python? http://sourceforge.net/projects/pywin32/"</span><span class="p">)</span>
+        <span class="k">pass</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">enum</span><span class="p">(</span><span class="o">*</span><span class="n">sequential</span><span class="p">,</span> <span class="o">**</span><span class="n">named</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Generates a dictionary of names to number values used as an enumeration'''</span>
+    <span class="n">enums</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">sequential</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sequential</span><span class="p">))),</span> <span class="o">**</span><span class="n">named</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="s1">'Enum'</span><span class="p">,</span> <span class="p">(),</span> <span class="n">enums</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ArgumentsFromDict</span><span class="p">(</span><span class="n">dictObj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Generates an argument string for a command line program from a dictionary</span>
+<span class="sd">    Takes a dictionary and returns a string with '-' prepended to the entry name, a space, and the entry string verbatim'''</span>
+
+    <span class="n">outstr</span> <span class="o">=</span> <span class="s2">" "</span>
+
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">dictObj</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">))</span>
+        <span class="n">outstr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> -</span><span class="si">{1}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2"> "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">outstr</span><span class="p">,</span> <span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="c1"># outstr = outstr + " -" + entry[0] + " " + str(entry[1]) + " "</span>
+
+    <span class="k">return</span> <span class="n">outstr</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GenNameFromDict</span><span class="p">(</span><span class="n">dictObj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Create a mangled name unique to the contents of a dictionary.</span>
+
+<span class="sd">    Uses the first three letters of each key plus a string form of the value.</span>
+<span class="sd">    List values are joined with ``x`` (e.g. ``[1, 2, 3]`` → ``1x2x3``).</span>
+<span class="sd">    """</span>
+    <span class="n">outstr</span> <span class="o">=</span> <span class="s2">""</span>
+
+    <span class="n">sorted_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dictObj</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sorted_keys</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">dictObj</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
+        <span class="n">nameMangle</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nameMangle</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">nameMangle</span> <span class="o">=</span> <span class="n">nameMangle</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="n">ValueStr</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ValueStr</span> <span class="o">=</span> <span class="s2">"None"</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># Join all elements; previous code used value[1:-1] and overwrote</span>
+            <span class="c1"># ValueStr each iteration, dropping the first/last entries.</span>
+            <span class="n">ValueStr</span> <span class="o">=</span> <span class="s1">'x'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ValueStr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="n">outstr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">_</span><span class="si">{1}{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">outstr</span><span class="p">,</span> <span class="n">nameMangle</span><span class="p">,</span> <span class="n">ValueStr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">outstr</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ListFromDelimited</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Split a delimited string into ints/floats/strings, or wrap a scalar in a list."""</span>
+    <span class="k">if</span> <span class="n">delimiter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">','</span>
+
+    <span class="n">ValueList</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">Values</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)</span>
+        <span class="n">ValueList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">Value</span> <span class="ow">in</span> <span class="n">Values</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">floatVal</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">intVal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span>
+                    <span class="n">ValueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intVal</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">ValueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">floatVal</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ValueList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">ValueList</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">ValueList</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">SortedListFromDelimited</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">ValueList</span> <span class="o">=</span> <span class="n">ListFromDelimited</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">)</span>
+    <span class="n">ValueList</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ValueList</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ListFromAttribute</span><span class="p">(</span><span class="n">attrib</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ListFromDelimited</span><span class="p">(</span><span class="n">attrib</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">IsSequence</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''Return true if arg is iterable and not a string or bytes.'''</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s2">"__iter__"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

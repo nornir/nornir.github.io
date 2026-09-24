@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_imageregistration.image_filter_cache &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_imageregistration.image_filter_cache</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_imageregistration.image_filter_cache</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""</span>
+<span class="sd">Implements a class that caches filter windows for use in image processing.  Examples are hamming and distance filters.</span>
+
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">window</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">DTypeLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">skimage.filters</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.files</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.prettyoutput</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prettyoutput</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.type_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShapeLike</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_imageregistration</span>
+
+<span class="n">FilterWindowCreationFunction</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ShapeLike</span><span class="p">,</span> <span class="n">DTypeLike</span> <span class="o">|</span> <span class="kc">None</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]]</span>
+
+
+<div class="viewcode-block" id="WindowFilterCache">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.WindowFilterCache">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WindowFilterCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    A generic class that creates and caches filter windows for use in image processing based on size.</span>
+<span class="sd">    Cached images are saved to disk in a temporary directory for easy access in multiprocessing.  T</span>
+<span class="sd">    The images in the cache are read-only.</span>
+<span class="sd">    """</span>
+
+    <span class="n">_creation_function</span><span class="p">:</span> <span class="n">FilterWindowCreationFunction</span>
+    <span class="n">cache_dir</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">_loaded_images</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">ShapeLike</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]]</span>
+    <span class="n">_lock</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">creation_function</span><span class="p">:</span> <span class="n">FilterWindowCreationFunction</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DTypeLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        :param name: Name of the filter cache, used as a subdirectory in under the temp directory</span>
+<span class="sd">        :param creation_function:  Function to call if a filter needs to be created for a given size</span>
+<span class="sd">        """</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_creation_function</span> <span class="o">=</span> <span class="n">creation_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="n">dtype</span> <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_depth_image_dtype</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loaded_images</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="c1"># Callers reach this cache from worker threads, and the lookup-then-create sequence</span>
+        <span class="c1"># below is not atomic. Guarding it here rather than at the call sites because that is</span>
+        <span class="c1"># where the invariant lives: assemble_tiles held an external lock at one of its three</span>
+        <span class="c1"># call sites and not at the other two, and the unguarded one is the path</span>
+        <span class="c1"># TilesToImageParallel takes for every tile. Reentrant because _creation_function is</span>
+        <span class="c1"># supplied by the caller and nothing stops it consulting the cache. (#104)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Only delete cache directory if we're in the parent process</span>
+            <span class="k">if</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">'MainProcess'</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">cache_dir</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'cache_dir'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">cache_dir</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">):</span>
+                <span class="k">return</span>
+            <span class="c1"># Release any memory-mapped file handles before deletion to avoid</span>
+            <span class="c1"># Windows "file in use" errors (WinError 32).</span>
+            <span class="n">loaded</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_loaded_images'</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">loaded</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="c1"># Delete the memmap object to release the file handle.</span>
+                        <span class="c1"># Accessing private _mmap is unsafe across numpy versions;</span>
+                        <span class="c1"># dropping the reference is sufficient on CPython.</span>
+                        <span class="k">del</span> <span class="n">arr</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="k">pass</span>
+            <span class="n">loaded</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="c1"># ignore_errors so Windows in-use files don't prevent a clean exit</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># During interpreter shutdown logging infrastructure may be gone;</span>
+            <span class="c1"># swallow all errors silently.</span>
+            <span class="k">pass</span>
+
+<div class="viewcode-block" id="WindowFilterCache.GetOrCreate">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.WindowFilterCache.GetOrCreate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetOrCreate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Get or create a cached image filter of the expected shape"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__GetOrCreateCachedImage</span><span class="p">(</span><span class="n">image_shape</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WindowFilterCache.KeepGetOrCreate">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.WindowFilterCache.KeepGetOrCreate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">KeepGetOrCreate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        If image is the expected shape, returns image.  Otherwise returns or generates a cached image of the expected shape</span>
+<span class="sd">        :param image: Existing image to return if it is the correct shape</span>
+<span class="sd">        :param image_shape: Shape of the image to return</span>
+<span class="sd">        :return:</span>
+<span class="sd">        """</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"image_shape must be a 2 element tuple"</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">image</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__GetOrCreateCachedImage</span><span class="p">((</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__GetOrCreateCachedImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">,</span> <span class="n">creation_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">image_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">image_shape</span><span class="p">)</span>
+
+        <span class="c1"># Held across the whole lookup-load-create-save sequence, not just the dict access.</span>
+        <span class="c1"># Without it every thread that arrived before the first one finished missed the dict</span>
+        <span class="c1"># and built its own copy: measured at one build per worker thread for a single shape,</span>
+        <span class="c1"># 16 of 16 with 16 workers, so the cache deduplicated nothing under concurrency. Those</span>
+        <span class="c1"># threads also raced to np.save the same path. The duplicated work is cheap here</span>
+        <span class="c1"># (CreateDistanceImage is 1.8 ms at 1024x1024) and the burst is bounded by the worker</span>
+        <span class="c1"># count per distinct shape, so this is a correctness and tidiness fix rather than a</span>
+        <span class="c1"># throughput one. Creation is serialised across shapes too; a mosaic has one or two</span>
+        <span class="c1"># tile sizes, so that costs nothing worth the complexity of per-shape locks. (#104)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">image_shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded_images</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded_images</span><span class="p">[</span><span class="n">image_shape</span><span class="p">]</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__LoadOrCreate</span><span class="p">(</span><span class="n">image_shape</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__LoadOrCreate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Load the cached image from disk, or build and persist it.  Caller holds _lock."""</span>
+        <span class="n">image_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">x</span><span class="si">{</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">.npy'</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># output = nornir_imageregistration.LoadImage(distance_image_path)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1">#             if use_memmap:</span>
+            <span class="c1">#                 output = np.load(distance_array_path, mmap_mode='r')</span>
+            <span class="c1">#             else:</span>
+            <span class="c1"># Load without mmap to avoid Windows "file in use" locks during shutdown.</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Removed outdated image from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> cache: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">writeable</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_loaded_images</span><span class="p">[</span><span class="n">image_shape</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+                <span class="k">return</span> <span class="n">output</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="c1"># print("Distance_image %s does not exist" % distance_array_path)</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">: Invalid image </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unable to delete invalid image: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="k">pass</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_creation_function</span><span class="p">(</span><span class="n">image_shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span>
+            <span class="c1"># Marked read-only before publishing, not after saving. The class documents cache</span>
+            <span class="c1"># images as read-only, but the flag used to be cleared at the end of this branch,</span>
+            <span class="c1"># leaving a window in which the dict held a writeable array. (#104)</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">writeable</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_loaded_images</span><span class="p">[</span><span class="n">image_shape</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># Directory may have been removed by another process's cache</span>
+                <span class="c1"># cleanup (__del__) or a temp scrubber since __init__.</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">retry_error</span><span class="p">:</span>
+                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Unable to save </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> cache image </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">retry_error</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">CreateWindowFilterCache</span><span class="p">(</span><span class="n">window_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DTypeLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WindowFilterCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Create a window of the specified shape and type"""</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span> <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_image_dtype</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">WindowFilterCache</span><span class="p">(</span><span class="n">window_type</span><span class="p">,</span>
+                             <span class="k">lambda</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">skimage</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="n">window_type</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span>
+                                                                                                          <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

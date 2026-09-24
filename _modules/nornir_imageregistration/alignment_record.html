@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_imageregistration.alignment_record &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_imageregistration.alignment_record</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_imageregistration.alignment_record</h1><div class="highlight"><pre>
+<span></span><span class="sd">"""Alignment records and enhanced records for registration (angle, offset, weight, etc.)."""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_imageregistration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ITransform</span>
+
+
+<div class="viewcode-block" id="AlignmentRecord">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AlignmentRecord</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Records basic registration information as an angle and offset between a fixed and moving image</span>
+<span class="sd">    If the offset is zero the center of both images occupy the same point.</span>
+<span class="sd">    The offset determines the translation of the moving image over the fixed image.</span>
+<span class="sd">    There is no support for scale, and there should not be unless added as another variable to the alignment record</span>
+
+<span class="sd">    :param array peak: Translation vector for moving image</span>
+<span class="sd">    :param float weight: The strength of the alignment</span>
+<span class="sd">    :param float angle: Angle to rotate moving image in degrees</span>
+
+<span class="sd">    """</span>
+
+    <span class="n">_peak</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]</span>
+    <span class="n">_angle</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">_weight</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">_flippedud</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">_scale</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">_peak_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Rotation in degrees"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rangle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Rotation in radians"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weight</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Quantifies the quality of the alignment"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span>
+
+    <span class="nd">@weight</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">peak_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Primary / masked-2nd-peak uniqueness, or None if not measured."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peak_ratio</span>
+
+    <span class="nd">@peak_ratio</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">peak_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_peak_ratio</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flippedud</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""True if the warped image was flipped vertically for the alignment"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flippedud</span>
+
+    <span class="nd">@flippedud</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">flippedud</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flippedud</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">peak</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Translation vector for the alignment"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peak</span>
+
+<div class="viewcode-block" id="AlignmentRecord.WeightKey">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.WeightKey">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">WeightKey</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span>
+
+    <span class="nd">@scale</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Scales the source space to target space, including peak"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="AlignmentRecord.translate">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.translate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">"""Translates the peak position using tuple (Y,X)"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_peak</span> <span class="o">+=</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="AlignmentRecord.Invert">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.Invert">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Invert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Returns a new alignment record with the coordinates of the peak reversed</span>
+<span class="sd">        Used to change the frame of reference of the alignment from one tile to another</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">AlignmentRecord</span><span class="p">(</span>
+            <span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span>
+            <span class="n">peak_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_peak_ratio</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">'</span><span class="si">{x:.2f}</span><span class="s1">x, </span><span class="si">{y:.2f}</span><span class="s1">y Weight: </span><span class="si">{w:.2f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_peak</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_peak</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">' Angle: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_angle</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_peak_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">' PeakRatio: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_peak_ratio</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">'</span>
+
+        <span class="c1"># s = 'angle: ' + str(self._angle) + ' offset: ' + str(self._peak) + ' weight: ' + str(self._weight)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flippedud</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s1">' Flipped up/down'</span>
+
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'Offset: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">peak</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+                 <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">flipped_ud</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">peak_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        :param float scale: Scales source space by this factor to map into target space</span>
+<span class="sd">        :param peak_ratio: Optional primary/2nd-peak uniqueness from phase correlation</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_angle</span> <span class="o">=</span> <span class="n">angle</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">peak</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">peak</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_peak</span> <span class="o">=</span> <span class="n">peak</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flippedud</span> <span class="o">=</span> <span class="n">flipped_ud</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_peak_ratio</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">peak_ratio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">peak_ratio</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AlignmentRecord.CorrectPeakForOriginalImageSize">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.CorrectPeakForOriginalImageSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CorrectPeakForOriginalImageSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TargetImageShape</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">],</span>
+                                        <span class="n">SourceImageShape</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">]):</span>
+
+        <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">__CorrectOffsetForMismatchedImageSizes</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span>
+                                                                                                  <span class="n">target_image_shape</span><span class="o">=</span><span class="n">TargetImageShape</span><span class="p">,</span>
+                                                                                                  <span class="n">source_image_shape</span><span class="o">=</span><span class="n">SourceImageShape</span><span class="p">)</span></div>
+
+
+    <span class="c1"># def GetTransformedCornerPointsForImage(self, warpedImageSize: NDArray[np.integer]) -&gt; NDArray[np.floating]:</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     Return the corners of a bounding box in the target space after the transform is applied.</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     return nornir_imageregistration.transforms.factory.GetTransformedRigidCornerPointsForImage(warpedImageSize,</span>
+    <span class="c1">#                                                                                                self.rangle,</span>
+    <span class="c1">#                                                                                                self.peak,</span>
+    <span class="c1">#                                                                                                self.flippedud)</span>
+
+<div class="viewcode-block" id="AlignmentRecord.GetTransformedCornerPoints">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.GetTransformedCornerPoints">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetTransformedCornerPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warpedImageSize</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Return the corners of a bounding box in the target space after the transform is applied.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">GetTransformedRigidCornerPoints</span><span class="p">(</span>
+            <span class="n">warpedImageSize</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>  <span class="c1"># type: ignore[arg-type]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rangle</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">peak</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flippedud</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AlignmentRecord.ToImageTransform">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.ToImageTransform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ToImageTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_image_shape</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+                         <span class="n">source_image_shape</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Generates a rigid transform for the alignment record in the context of two images of the specified size.  Because</span>
+<span class="sd">        images are indexed starting at zero, the center of a 10x10 image is 4.5,4.5.  The center of a 9x9 image is 4,4.</span>
+
+
+<span class="sd">        :param (Height, Width) target_image_shape: Size of translated image in fixed space</span>
+<span class="sd">        :param (Height, Width) source_image_shape: Size of translated image in warped space.   If unspecified defaults to fixedImageSize</span>
+<span class="sd">        :return: A rigid rotation+translation transform described by the alignment record</span>
+<span class="sd">        """</span>
+
+        <span class="k">if</span> <span class="n">source_image_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source_image_shape</span> <span class="o">=</span> <span class="n">target_image_shape</span>
+
+        <span class="n">source_image_shape</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsurePointsAre1DNumpyArray</span><span class="p">(</span><span class="n">source_image_shape</span><span class="p">)</span>
+        <span class="n">target_image_shape</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsurePointsAre1DNumpyArray</span><span class="p">(</span><span class="n">target_image_shape</span><span class="p">)</span>
+
+        <span class="c1"># Subtract 1 from rotation center.</span>
+        <span class="c1"># Images are indexed starting at zero, so an image of size 10,10 has a center of 4.5,4.5</span>
+        <span class="n">source_center_of_rotation</span> <span class="o">=</span> <span class="p">(</span><span class="n">source_image_shape</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="c1"># Adjust the center of rotation by 0.5 if there is an even dimension</span>
+        <span class="c1"># source_center_of_rotation[np.mod(warpedImageSize, 2) == 0] -= 0.5</span>
+        <span class="n">target_center</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_image_shape</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="c1"># If there is a 0.5 in this offset, pixels will be interpolated between</span>
+        <span class="c1"># the two adjacent pixels on that axis... This is technically correct.</span>
+        <span class="c1"># It expands the output image by one pixel and essentially blurs </span>
+        <span class="c1"># the output.  Peak is most likely also a fraction which will blur the </span>
+        <span class="c1"># image as well.  </span>
+
+        <span class="c1"># If we don't want to blur, one idea is to nudge the peak at a sub-pixel </span>
+        <span class="c1"># distance to make source_to_target_offset a whole number.  However, </span>
+        <span class="c1"># this adjustment is pointless if a rotation is present since that will</span>
+        <span class="c1"># also blur the output </span>
+
+        <span class="n">source_to_target_offset</span> <span class="o">=</span> <span class="n">target_center</span> <span class="o">-</span> <span class="n">source_center_of_rotation</span>
+
+        <span class="n">target_translation</span> <span class="o">=</span> <span class="n">source_to_target_offset</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">CenteredSimilarity2DTransform</span><span class="p">(</span>
+                <span class="n">target_offset</span><span class="o">=</span><span class="n">target_translation</span><span class="p">,</span>
+                <span class="n">source_rotation_center</span><span class="o">=</span><span class="n">source_center_of_rotation</span><span class="p">,</span>
+                <span class="n">angle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rangle</span><span class="p">,</span>
+                <span class="n">scalar</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">),</span>
+                <span class="n">flip_ud</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">flippedud</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Rigid</span><span class="p">(</span><span class="n">target_offset</span><span class="o">=</span><span class="n">target_translation</span><span class="p">,</span>
+                                                         <span class="n">source_rotation_center</span><span class="o">=</span><span class="n">source_center_of_rotation</span><span class="p">,</span>
+                                                         <span class="n">angle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rangle</span><span class="p">,</span>
+                                                         <span class="n">flip_ud</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">flippedud</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AlignmentRecord.ToSpatialTransform">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.ToSpatialTransform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ToSpatialTransform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_shape</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+                           <span class="n">source_shape</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Generates a rigid transform for the alignment record in the context of two images of the specified size.</span>
+<span class="sd">        The center is not adjusted as it would be for an image transform.</span>
+
+
+<span class="sd">        :param (Height, Width) target_image_shape: Size of translated image in fixed space</span>
+<span class="sd">        :param (Height, Width) source_image_shape: Size of translated image in warped space.   If unspecified defaults to fixedImageSize</span>
+<span class="sd">        :return: A rigid rotation+translation transform described by the alignment record</span>
+<span class="sd">        """</span>
+
+        <span class="k">if</span> <span class="n">source_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source_shape</span> <span class="o">=</span> <span class="n">target_shape</span>
+
+        <span class="n">source_shape</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsurePointsAre1DNumpyArray</span><span class="p">(</span><span class="n">source_shape</span><span class="p">)</span>
+        <span class="n">target_shape</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsurePointsAre1DNumpyArray</span><span class="p">(</span><span class="n">target_shape</span><span class="p">)</span>
+
+        <span class="n">source_center_of_rotation</span> <span class="o">=</span> <span class="n">source_shape</span> <span class="o">/</span> <span class="mf">2.0</span>  <span class="c1"># Subtract 1 because images are indexed starting at zero, so an image of size 10,10 has a center of 4.5,4.5</span>
+        <span class="c1"># Adjust the center of rotation by 0.5 if there is an even dimension</span>
+        <span class="c1"># source_center_of_rotation[np.mod(warpedImageSize, 2) == 0] -= 0.5</span>
+        <span class="n">target_center</span> <span class="o">=</span> <span class="n">target_shape</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="n">target_translation</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_center</span> <span class="o">-</span> <span class="n">source_center_of_rotation</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span>
+
+        <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">Rigid</span><span class="p">(</span><span class="n">target_offset</span><span class="o">=</span><span class="n">target_translation</span><span class="p">,</span>
+                                                         <span class="n">source_rotation_center</span><span class="o">=</span><span class="n">source_center_of_rotation</span><span class="p">,</span>
+                                                         <span class="n">angle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rangle</span><span class="p">,</span>
+                                                         <span class="n">flip_ud</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">flippedud</span><span class="p">)</span></div>
+
+
+        <span class="c1"># return nornir_imageregistration.transforms.factory.CreateRigidTransform(warped_offset=self.peak,</span>
+        <span class="c1">#                                                                        rangle=self.rangle,</span>
+        <span class="c1">#                                                                        target_image_shape=fixedImageSize,</span>
+        <span class="c1">#                                                                        source_image_shape=warpedImageSize,</span>
+        <span class="c1">#                                                                        flip_ud=self.flippedud</span>
+        <span class="c1">#                                                                        )</span>
+
+        <span class="c1"># return nornir_imageregistration.transforms.factory.CreateRigidMeshTransform(target_image_shape=fixedImageSize,</span>
+        <span class="c1">#                                                                         source_image_shape=warpedImageSize,</span>
+        <span class="c1">#                                                                         rangle=self.rangle,</span>
+        <span class="c1">#                                                                         warped_offset=self.peak,</span>
+        <span class="c1">#                                                                         flip_ud=self.flippedud,</span>
+        <span class="c1">#                                                                         scale=self.scale)</span>
+
+<div class="viewcode-block" id="AlignmentRecord.ToStos">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.alignment_record.AlignmentRecord.ToStos">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ToStos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+               <span class="n">ImagePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+               <span class="n">WarpedImagePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+               <span class="n">FixedImageMaskPath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">WarpedImageMaskPath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">PixelSpacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Convert the alignment record to a StosFile"""</span>
+
+        <span class="n">stos</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span><span class="p">()</span>
+        <span class="n">stos</span><span class="o">.</span><span class="n">ControlImageName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">ImagePath</span><span class="p">)</span>
+        <span class="n">stos</span><span class="o">.</span><span class="n">ControlImagePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">ImagePath</span><span class="p">)</span>
+
+        <span class="n">stos</span><span class="o">.</span><span class="n">MappedImageName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">WarpedImagePath</span><span class="p">)</span>
+        <span class="n">stos</span><span class="o">.</span><span class="n">MappedImagePath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">WarpedImagePath</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">FixedImageMaskPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stos</span><span class="o">.</span><span class="n">ControlMaskName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">FixedImageMaskPath</span><span class="p">)</span>
+            <span class="n">stos</span><span class="o">.</span><span class="n">ControlMaskPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">FixedImageMaskPath</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">WarpedImageMaskPath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stos</span><span class="o">.</span><span class="n">MappedMaskName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">WarpedImageMaskPath</span><span class="p">)</span>
+            <span class="n">stos</span><span class="o">.</span><span class="n">MappedMaskPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">WarpedImageMaskPath</span><span class="p">)</span>
+
+        <span class="p">(</span><span class="n">ControlHeight</span><span class="p">,</span> <span class="n">ControlWidth</span><span class="p">)</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">GetImageSize</span><span class="p">(</span><span class="n">ImagePath</span><span class="p">)</span>
+        <span class="n">stos</span><span class="o">.</span><span class="n">ControlImageDim</span> <span class="o">=</span> <span class="p">[</span><span class="n">ControlWidth</span><span class="p">,</span> <span class="n">ControlHeight</span><span class="p">]</span>  <span class="c1"># type: ignore[assignment]</span>
+
+        <span class="p">(</span><span class="n">MappedHeight</span><span class="p">,</span> <span class="n">MappedWidth</span><span class="p">)</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">GetImageSize</span><span class="p">(</span><span class="n">WarpedImagePath</span><span class="p">)</span>
+        <span class="n">stos</span><span class="o">.</span><span class="n">MappedImageDim</span> <span class="o">=</span> <span class="p">[</span><span class="n">MappedWidth</span><span class="p">,</span> <span class="n">MappedHeight</span><span class="p">]</span>  <span class="c1"># type: ignore[assignment]</span>
+
+        <span class="c1"># transformTemplate = "FixedCenterOfRotationAffineTransform_double_2_2 vp 8 %(cos)g %(negsin)g %(sin)g %(cos)g %(x)g %(y)g 1 1 fp 2 %(mapwidth)d %(mapheight)d"</span>
+
+        <span class="c1"># stos.transform = transformTemplate % {'cos' : cos(Match.angle * numpy.pi / 180),</span>
+        <span class="c1">#                                 'sin' : sin(Match.angle * numpy.pi / 180),</span>
+        <span class="c1">#                                 'negsin' : -sin(Match.angle * numpy.pi / 180),</span>
+        <span class="c1">#                                 'x' : Match.peak[0],</span>
+        <span class="c1">#                                 'y' : -Match.peak[1],</span>
+        <span class="c1">#                                 'mapwidth' : stos.MappedImageDim[0]/2,</span>
+        <span class="c1">#                                 'mapheight' : stos.MappedImageDim[1]/2}</span>
+
+        <span class="c1"># transformTemplate = "GridTransform_double_2_2 vp 8 %(coordString)s fp 7 0 1 1 0 0 %(width)d %(height)d"</span>
+
+        <span class="c1"># I have checked the dimensions that should be written for Grid transform against the original SCI code.  The image dimensions should be the actual dimensions and not</span>
+        <span class="c1"># have a -1 to account for the zero origin</span>
+        <span class="c1"># stos.transform = transformTemplate % {'coordString': coordString,</span>
+        <span class="c1"># 'width': stos.MappedImageDim[0],</span>
+        <span class="c1"># 'height': stos.MappedImageDim[1]}</span>
+
+        <span class="n">transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ToImageTransform</span><span class="p">(</span><span class="n">target_image_shape</span><span class="o">=</span><span class="p">(</span><span class="n">ControlHeight</span><span class="p">,</span> <span class="n">ControlWidth</span><span class="p">),</span>
+                                          <span class="n">source_image_shape</span><span class="o">=</span><span class="p">(</span><span class="n">MappedHeight</span><span class="p">,</span> <span class="n">MappedWidth</span><span class="p">))</span>
+
+        <span class="n">stos</span><span class="o">.</span><span class="n">Transform</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">ToITKString</span><span class="p">()</span>
+
+        <span class="n">stos</span><span class="o">.</span><span class="n">Downsample</span> <span class="o">=</span> <span class="n">PixelSpacing</span>
+
+        <span class="c1">#        print "Done!"</span>
+
+        <span class="k">return</span> <span class="n">stos</span></div>
+</div>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">EnhancedAlignmentRecord</span><span class="p">(</span><span class="n">AlignmentRecord</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    An extension of the AlignmentRecord class that also records the Fixed and Warped Points</span>
+<span class="sd">    """</span>
+    <span class="n">_ID</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">_TargetPoint</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]</span>
+    <span class="n">_SourcePoint</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]</span>
+    <span class="n">_cutoff_percent</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">_cutoff_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">_roi_candidate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ID</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">TargetPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TargetPoint</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SourcePoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SourcePoint</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AdjustedTargetPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TargetPoint</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">TargetOffset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""The amount to add to the target point to get the adjusted target point"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AdjustedSourcePoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Note if there is rotation involved this point is not reliable"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SourcePoint</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CutoffPercent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The percentage of pixels in the correlation image that are below the cutoff value used to locate the peak"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cutoff_percent</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CutoffValue</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""The value below which pixels in the correlation image are considered to be below the cutoff"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cutoff_value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">roi_candidate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Which source ROI produced this peak: ``'rigid'``, ``'exact'``, or None."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_roi_candidate</span>
+
+    <span class="nd">@roi_candidate</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">roi_candidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_roi_candidate</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">ID</span><span class="p">,</span>
+                 <span class="n">TargetPoint</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span>
+                 <span class="n">SourcePoint</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span>
+                 <span class="n">peak</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span>
+                 <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                 <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">flipped_ud</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">cutoff_percent</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">cutoff_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">peak_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">roi_candidate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EnhancedAlignmentRecord</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">peak</span><span class="o">=</span><span class="n">peak</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="n">flipped_ud</span><span class="o">=</span><span class="n">flipped_ud</span><span class="p">,</span> <span class="n">peak_ratio</span><span class="o">=</span><span class="n">peak_ratio</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ID</span> <span class="o">=</span> <span class="n">ID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_TargetPoint</span> <span class="o">=</span> <span class="n">TargetPoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_SourcePoint</span> <span class="o">=</span> <span class="n">SourcePoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cutoff_percent</span> <span class="o">=</span> <span class="n">cutoff_percent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cutoff_value</span> <span class="o">=</span> <span class="n">cutoff_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_roi_candidate</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">roi_candidate</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">roi_candidate</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">'ID: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_ID</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="nb">super</span><span class="p">(</span><span class="n">EnhancedAlignmentRecord</span><span class="p">,</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

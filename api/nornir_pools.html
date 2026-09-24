@@ -1,0 +1,1441 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_pools &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nornir_imageregistration" href="nornir_imageregistration.html" />
+    <link rel="prev" title="nornir_shared" href="nornir_shared.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="nornir_shared.html"><code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pool-creation">Pool Creation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetThreadPool"><code class="docutils literal notranslate"><span class="pre">GetThreadPool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetMultithreadingPool"><code class="docutils literal notranslate"><span class="pre">GetMultithreadingPool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetProcessPool"><code class="docutils literal notranslate"><span class="pre">GetProcessPool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetParallelPythonPool"><code class="docutils literal notranslate"><span class="pre">GetParallelPythonPool()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dashboard-pool-load">Dashboard pool load</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#global-pools">Global pools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetGlobalThreadPool"><code class="docutils literal notranslate"><span class="pre">GetGlobalThreadPool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetGlobalMultithreadingPool"><code class="docutils literal notranslate"><span class="pre">GetGlobalMultithreadingPool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetGlobalProcessPool"><code class="docutils literal notranslate"><span class="pre">GetGlobalProcessPool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.GetGlobalClusterPool"><code class="docutils literal notranslate"><span class="pre">GetGlobalClusterPool()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nornir_pools.poolbase">Pool Objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.poolbase.ABC"><code class="docutils literal notranslate"><span class="pre">ABC</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.poolbase.IPool"><code class="docutils literal notranslate"><span class="pre">IPool</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.poolbase.LocalThreadPoolBase"><code class="docutils literal notranslate"><span class="pre">LocalThreadPoolBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.poolbase.PoolBase"><code class="docutils literal notranslate"><span class="pre">PoolBase</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.poolbase.abstractmethod"><code class="docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#task-objects">Task Objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.task.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pool-lifecycle">Pool lifecycle</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.poolbase.PoolKind"><code class="docutils literal notranslate"><span class="pre">PoolKind</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-boundaries-recommended">Stage boundaries (recommended)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#optimization">Optimization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.ApplyOSThreadLimit"><code class="docutils literal notranslate"><span class="pre">ApplyOSThreadLimit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.ClosePools"><code class="docutils literal notranslate"><span class="pre">ClosePools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.CloseProcessPools"><code class="docutils literal notranslate"><span class="pre">CloseProcessPools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.CloseThreadPools"><code class="docutils literal notranslate"><span class="pre">CloseThreadPools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.Enum"><code class="docutils literal notranslate"><span class="pre">Enum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.FastClosePools"><code class="docutils literal notranslate"><span class="pre">FastClosePools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.GetAndCreateProfileDataFileName"><code class="docutils literal notranslate"><span class="pre">GetAndCreateProfileDataFileName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.GetAndCreateProfileDataPath"><code class="docutils literal notranslate"><span class="pre">GetAndCreateProfileDataPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">GetGlobalClusterPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.GetGlobalLocalMachinePool"><code class="docutils literal notranslate"><span class="pre">GetGlobalLocalMachinePool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">GetGlobalMultithreadingPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">GetGlobalProcessPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.GetGlobalSerialPool"><code class="docutils literal notranslate"><span class="pre">GetGlobalSerialPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">GetGlobalThreadPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.GetLocalMachinePool"><code class="docutils literal notranslate"><span class="pre">GetLocalMachinePool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">GetMultithreadingPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">GetParallelPythonPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">GetProcessPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.GetSerialPool"><code class="docutils literal notranslate"><span class="pre">GetSerialPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">GetThreadPool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.IPool"><code class="docutils literal notranslate"><span class="pre">IPool</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.IPool.add_process"><code class="docutils literal notranslate"><span class="pre">IPool.add_process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.IPool.add_task"><code class="docutils literal notranslate"><span class="pre">IPool.add_task()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.IPool.name"><code class="docutils literal notranslate"><span class="pre">IPool.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.IPool.num_active_tasks"><code class="docutils literal notranslate"><span class="pre">IPool.num_active_tasks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.IPool.shutdown"><code class="docutils literal notranslate"><span class="pre">IPool.shutdown()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.IPool.wait_completion"><code class="docutils literal notranslate"><span class="pre">IPool.wait_completion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.InstrumentedThreadPoolExecutor"><code class="docutils literal notranslate"><span class="pre">InstrumentedThreadPoolExecutor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.InstrumentedThreadPoolExecutor.submit"><code class="docutils literal notranslate"><span class="pre">InstrumentedThreadPoolExecutor.submit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.IsParallelPythonAvailable"><code class="docutils literal notranslate"><span class="pre">IsParallelPythonAvailable()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.MergeProfilerStats"><code class="docutils literal notranslate"><span class="pre">MergeProfilerStats()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.ParamSpec"><code class="docutils literal notranslate"><span class="pre">ParamSpec</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.args"><code class="docutils literal notranslate"><span class="pre">ParamSpec.args</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.has_default"><code class="docutils literal notranslate"><span class="pre">ParamSpec.has_default()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.kwargs"><code class="docutils literal notranslate"><span class="pre">ParamSpec.kwargs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.PoolFactory"><code class="docutils literal notranslate"><span class="pre">PoolFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.PoolKind"><code class="docutils literal notranslate"><span class="pre">PoolKind</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.PoolKind.PROCESS"><code class="docutils literal notranslate"><span class="pre">PoolKind.PROCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.PoolKind.THREAD"><code class="docutils literal notranslate"><span class="pre">PoolKind.THREAD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.Protocol"><code class="docutils literal notranslate"><span class="pre">Protocol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.ReleaseStagePools"><code class="docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.args"><code class="docutils literal notranslate"><span class="pre">Task.args</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.elapsed_time"><code class="docutils literal notranslate"><span class="pre">Task.elapsed_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.elapsed_time_str"><code class="docutils literal notranslate"><span class="pre">Task.elapsed_time_str</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.generate_id"><code class="docutils literal notranslate"><span class="pre">Task.generate_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.iscompleted"><code class="docutils literal notranslate"><span class="pre">Task.iscompleted()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.kwargs"><code class="docutils literal notranslate"><span class="pre">Task.kwargs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.name"><code class="docutils literal notranslate"><span class="pre">Task.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.pool"><code class="docutils literal notranslate"><span class="pre">Task.pool</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.set_completion_time"><code class="docutils literal notranslate"><span class="pre">Task.set_completion_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.task_end_time"><code class="docutils literal notranslate"><span class="pre">Task.task_end_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.task_id"><code class="docutils literal notranslate"><span class="pre">Task.task_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.task_start_time"><code class="docutils literal notranslate"><span class="pre">Task.task_start_time</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.wait"><code class="docutils literal notranslate"><span class="pre">Task.wait()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.Task.wait_return"><code class="docutils literal notranslate"><span class="pre">Task.wait_return()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.WaitOnAllPools"><code class="docutils literal notranslate"><span class="pre">WaitOnAllPools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.WaitOnProcessPools"><code class="docutils literal notranslate"><span class="pre">WaitOnProcessPools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.WaitOnThreadPools"><code class="docutils literal notranslate"><span class="pre">WaitOnThreadPools()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.aggregate_profiler_data"><code class="docutils literal notranslate"><span class="pre">aggregate_profiler_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.end_profiling"><code class="docutils literal notranslate"><span class="pre">end_profiling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.get_or_create_shared_memory_manager"><code class="docutils literal notranslate"><span class="pre">get_or_create_shared_memory_manager()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.init_pool_process"><code class="docutils literal notranslate"><span class="pre">init_pool_process()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.invoke_with_profiler"><code class="docutils literal notranslate"><span class="pre">invoke_with_profiler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nornir_pools.start_profiling"><code class="docutils literal notranslate"><span class="pre">start_profiling()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_imageregistration.html"><code class="docutils literal notranslate"><span class="pre">nornir_imageregistration</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html"><code class="docutils literal notranslate"><span class="pre">nornir_buildmanager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_volumecontroller.html">nornir_volumecontroller API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_volumemodel.html">nornir_volumemodel API</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/nornir_pools.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-nornir_pools">
+<span id="nornir-pools"></span><h1><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code><a class="headerlink" href="#module-nornir_pools" title="Link to this heading"></a></h1>
+<p>nornir_pools aims to provide a consistent interface around four different multi-threading and clustering libraries
+available to Python.</p>
+<p>The use pattern for pools is:</p>
+<ol class="arabic simple">
+<li><p>Create a pool</p></li>
+<li><p>add a task or process to the pool</p></li>
+<li><p>save the task object returned</p></li>
+<li><p>call wait or wait_return on the task object to fetch the output or raise exceptions</p></li>
+</ol>
+<p>Steps 3 and 4 can be skipped if output is not required.  In this case wait_completion can be called on the pool to
+delay until all tasks have completed.  Note that in this pattern exceptions may be lost.</p>
+<section id="pool-creation">
+<h2>Pool Creation<a class="headerlink" href="#pool-creation" title="Link to this heading"></a></h2>
+<p>Pool creation functions share a common signature</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Get&lt;X&gt;Pool([Poolname=None,</span> <span class="pre">num_threads=None)</span></span></dt>
+<dd><p>Return a pool of X type, listed below.  Repeated calls using the same name returns the same pool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Poolname</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the pool to get or create.  Passing “None” returns the global pool</p></li>
+<li><p><strong>num_threads</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Number of tasks allowed to execute concurrently.  Not honored by all pools at this time</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>object derived from PoolBase</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#nornir_pools.poolbase.PoolBase" title="nornir_pools.poolbase.PoolBase">PoolBase</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetThreadPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetThreadPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetThreadPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetThreadPool" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific thread pool using vanilla python threads</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetMultithreadingPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetMultithreadingPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetMultithreadingPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetMultithreadingPool" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific thread pool to execute threads in other processes on the same computer using the
+multiprocessing library</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetProcessPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetProcessPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetProcessPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetProcessPool" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific pool to invoke shell command processes on the same computer using the subprocess
+module</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetParallelPythonPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetParallelPythonPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetParallelPythonPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetParallelPythonPool" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific pool to invoke functions or shell command processes on a cluster using parallel
+python</p>
+</dd></dl>
+
+</section>
+<section id="dashboard-pool-load">
+<h2>Dashboard pool load<a class="headerlink" href="#dashboard-pool-load" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code> publishes <code class="docutils literal notranslate"><span class="pre">pool_load</span></code> MQTT events (via
+<code class="docutils literal notranslate"><span class="pre">nornir_shared.pool_load.report_pool_load</span></code>) so the build dashboard can show a
+thin <strong>Pools</strong> section. Ad hoc <code class="docutils literal notranslate"><span class="pre">concurrent.futures</span></code> work can use
+<a class="reference internal" href="#nornir_pools.InstrumentedThreadPoolExecutor" title="nornir_pools.InstrumentedThreadPoolExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">nornir_pools.InstrumentedThreadPoolExecutor</span></code></a> or call <code class="docutils literal notranslate"><span class="pre">report_pool_load</span></code>
+directly.</p>
+</section>
+<section id="global-pools">
+<h2>Global pools<a class="headerlink" href="#global-pools" title="Link to this heading"></a></h2>
+<p>Most callers will not care about getting a specific pool.  These functions always return the same pool.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetGlobalThreadPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalThreadPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalThreadPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetGlobalThreadPool" title="Link to this definition"></a></dt>
+<dd><p>Common pool for thread based tasks</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetGlobalMultithreadingPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalMultithreadingPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalMultithreadingPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetGlobalMultithreadingPool" title="Link to this definition"></a></dt>
+<dd><p>Common pool for multithreading module tasks, threads run in different python processes to work around the global
+interpreter lock</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetGlobalProcessPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalProcessPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalProcessPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetGlobalProcessPool" title="Link to this definition"></a></dt>
+<dd><p>Common pool for processes on the local machine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetGlobalClusterPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalClusterPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalClusterPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetGlobalClusterPool" title="Link to this definition"></a></dt>
+<dd><p>Get the common pool for placing tasks on the cluster</p>
+</dd></dl>
+
+</section>
+<section id="module-nornir_pools.poolbase">
+<span id="pool-objects"></span><h2>Pool Objects<a class="headerlink" href="#module-nornir_pools.poolbase" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.ABC">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.poolbase.</span></span><span class="sig-name descname"><span class="pre">ABC</span></span><a class="reference internal" href="../_modules/abc.html#ABC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.ABC" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.poolbase.</span></span><span class="sig-name descname"><span class="pre">IPool</span></span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.IPool" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.poolbase.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool.add_process">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TaskWithEvent</span></span></span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.add_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.IPool.add_process" title="Link to this definition"></a></dt>
+<dd><p>Invoke a process on the pool.  This function creates a task using name and then invokes pythons subprocess</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Friendly name of the task. Non-unique</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – Process name to invoke using subprocess</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>task object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool.add_task">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.task.Task" title="nornir_pools.task.Task"><span class="pre">Task</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.add_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.IPool.add_task" title="Link to this definition"></a></dt>
+<dd><p>Call a python function on the pool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Friendly name of the task. Non-unique</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – Python function pointer to invoke on the pool</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>task object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool.name">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.IPool.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool.num_active_tasks">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.IPool.num_active_tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool.shutdown">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.shutdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.IPool.shutdown" title="Link to this definition"></a></dt>
+<dd><p>The pool waits for all tasks to complete and frees any resources such as threads in a thread pool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.IPool.wait_completion">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.wait_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.IPool.wait_completion" title="Link to this definition"></a></dt>
+<dd><p>Blocks until all tasks have completed</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.poolbase.</span></span><span class="sig-name descname"><span class="pre">LocalThreadPoolBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.poolbase.PoolBase" title="nornir_pools.poolbase.PoolBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoolBase</span></code></a>, <a class="reference internal" href="#nornir_pools.poolbase.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Base class for pools that rely on local threads and a queue to dispatch jobs</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.AtExitLock">
+<span class="sig-name descname"><span class="pre">AtExitLock</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;unlocked</span> <span class="pre">_thread.lock</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.AtExitLock" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.AtExitRegisteredWaitTime">
+<span class="sig-name descname"><span class="pre">AtExitRegisteredWaitTime</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.AtExitRegisteredWaitTime" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.TryRegisterAtExit">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TryRegisterAtExit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.TryRegisterAtExit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.TryRegisterAtExit" title="Link to this definition"></a></dt>
+<dd><p>Register a wait atexit so we don’t leave threads alive when the program exits and get an error message</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.WorkerCheckInterval">
+<span class="sig-name descname"><span class="pre">WorkerCheckInterval</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.WorkerCheckInterval" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.active_tasks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.active_tasks" title="Link to this definition"></a></dt>
+<dd><p>Tasks currently executing. Override when in-flight is tracked.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.add_threads_if_needed">
+<span class="sig-name descname"><span class="pre">add_threads_if_needed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.add_threads_if_needed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.add_threads_if_needed" title="Link to this definition"></a></dt>
+<dd><p>Grow the pool towards one thread per outstanding task, capped at <code class="docutils literal notranslate"><span class="pre">num_threads</span></code>.</p>
+<p>Outstanding work is <code class="docutils literal notranslate"><span class="pre">queued</span> <span class="pre">+</span> <span class="pre">inflight</span></code>, and that choice is what makes this
+race-free. The previous version sized against <code class="docutils literal notranslate"><span class="pre">qsize()</span> <span class="pre">+</span> <span class="pre">1</span></code> and then re-checked
+<code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">self.tasks.empty()</span></code> before each creation, so a worker dequeueing the last item
+between the two cancelled a thread it had already decided was needed – and nothing
+revisited the decision until the next <code class="docutils literal notranslate"><span class="pre">add_task</span></code>, which for the final task of a
+batch is never. Measured on <code class="docutils literal notranslate"><span class="pre">ThreadPool(4)</span></code> with 4 blocking tasks, deterministically
+5 of 5 trials: 3 threads, 1 task left queued, and only <strong>3 of the 4 tasks running at
+once</strong>.</p>
+<p>A dequeue moves a task from <code class="docutils literal notranslate"><span class="pre">queued</span></code> to <code class="docutils literal notranslate"><span class="pre">inflight</span></code>, so it leaves the sum
+unchanged: the event that used to invalidate the target now cannot. Counting inflight
+also fixes the sizing itself, since <code class="docutils literal notranslate"><span class="pre">qsize()</span> <span class="pre">+</span> <span class="pre">1</span></code> ignored busy threads and so could
+only ever approach capacity one thread per submission.</p>
+<p>Reading <code class="docutils literal notranslate"><span class="pre">qsize()</span></code> before <code class="docutils literal notranslate"><span class="pre">active_tasks</span></code> is deliberate. The two reads are not
+atomic, so a dequeue landing between them counts one task in both terms; erring
+towards one extra thread is the direction that serves the throughput this method
+exists for, and <code class="docutils literal notranslate"><span class="pre">min</span></code> with <code class="docutils literal notranslate"><span class="pre">max_t</span></code> keeps the <code class="docutils literal notranslate"><span class="pre">num_threads</span></code> contract intact
+regardless. Idle threads are not over-created either: a pool of N idle workers
+receiving one task computes a target of 1 and creates nothing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.add_worker_thread">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_worker_thread</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.add_worker_thread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.add_worker_thread" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.called_from_pool_worker">
+<span class="sig-name descname"><span class="pre">called_from_pool_worker</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.called_from_pool_worker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.called_from_pool_worker" title="Link to this definition"></a></dt>
+<dd><p>True when the calling thread is one of this pool’s own workers.</p>
+<p>Worker threads record the pool they serve, so this is exact rather than a guess
+based on thread names or identity reuse.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.enqueue_task">
+<span class="sig-name descname"><span class="pre">enqueue_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.enqueue_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.enqueue_task" title="Link to this definition"></a></dt>
+<dd><p>Queue a task, applying capacity only to producers outside the pool.</p>
+<p>A worker submitting onto its own pool is never made to wait. Throttling it would
+block the thread that has to drain the queue for the wait to end, which is a
+deadlock no timeout can recover from. Outside producers still get backpressure,
+which is what the bound is for.</p>
+<p>The room check and the put are deliberately not atomic, so concurrent producers
+can overshoot the capacity slightly. It is a backpressure threshold, not an
+invariant, and making it exact would reintroduce a lock held across a put.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.mark_task_finished">
+<span class="sig-name descname"><span class="pre">mark_task_finished</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.mark_task_finished"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.mark_task_finished" title="Link to this definition"></a></dt>
+<dd><p>Called by a worker when a dequeued task finishes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.mark_task_started">
+<span class="sig-name descname"><span class="pre">mark_task_started</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.mark_task_started"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.mark_task_started" title="Link to this definition"></a></dt>
+<dd><p>Called by a worker when it dequeues a task to run.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.max_workers">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.max_workers" title="Link to this definition"></a></dt>
+<dd><p>Worker capacity when known.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.nested_wait_guard">
+<span class="sig-name descname"><span class="pre">nested_wait_guard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.nested_wait_guard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.nested_wait_guard" title="Link to this definition"></a></dt>
+<dd><p>Report a worker of this pool blocking on a task belonging to this same pool.</p>
+<p>#85 removed the queue-capacity half of this hazard, so a worker submitting onto
+its own pool is no longer throttled. Submitting is only half the pattern: a worker
+that then <em>waits</em> for its child consumes the very worker the child needs, because
+the child is queued behind the parent that is still occupying its thread. With
+every worker doing this the pool cannot drain and is wedged permanently.</p>
+<p>Nothing here changes that. Work-stealing or growing the pool would, but both are
+material behavioural changes – re-entrant execution on a thread that is mid-task
+can surprise anything holding a lock, and growing breaks the <code class="docutils literal notranslate"><span class="pre">num_threads</span></code>
+contract that <code class="docutils literal notranslate"><span class="pre">add_threads_if_needed</span></code> accounts against. This makes the fragility
+visible instead: a warning while it is merely wasteful, and an error once it is
+provably a deadlock, naming the pool so the report points at the fix.</p>
+<p>A no-op unless the caller really is one of this pool’s workers, so the ordinary
+outside-caller wait pays only one attribute lookup.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.num_active_tasks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.num_active_tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.queued_tasks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">queued_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.queued_tasks" title="Link to this definition"></a></dt>
+<dd><p>Tasks waiting to start. Override in subclasses with a queue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.remove_finished_threads">
+<span class="sig-name descname"><span class="pre">remove_finished_threads</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.remove_finished_threads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.remove_finished_threads" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.shutdown">
+<span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.shutdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.shutdown" title="Link to this definition"></a></dt>
+<dd><p>The pool waits for all tasks to complete and frees any resources such as threads in a thread pool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.LocalThreadPoolBase.wait_completion">
+<span class="sig-name descname"><span class="pre">wait_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#LocalThreadPoolBase.wait_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.LocalThreadPoolBase.wait_completion" title="Link to this definition"></a></dt>
+<dd><p>Wait for completion of all the tasks in the queue.
+Note that wait or wait_return must be called on
+each task to detect exceptions if there were any</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.poolbase.</span></span><span class="sig-name descname"><span class="pre">PoolBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#PoolBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.PoolBase" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><code class="xref py py-class docutils literal notranslate"><span class="pre">IPool</span></code></a></p>
+<p>Pool objects provide the interface to create tasks on the pool.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.PrintActiveTaskCount">
+<span class="sig-name descname"><span class="pre">PrintActiveTaskCount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#PoolBase.PrintActiveTaskCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.PrintActiveTaskCount" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.TryReportActiveTaskCount">
+<span class="sig-name descname"><span class="pre">TryReportActiveTaskCount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#PoolBase.TryReportActiveTaskCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.TryReportActiveTaskCount" title="Link to this definition"></a></dt>
+<dd><p>Report the current job count if we haven’t reported it recently</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.TryReportPoolLoad">
+<span class="sig-name descname"><span class="pre">TryReportPoolLoad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/poolbase.html#PoolBase.TryReportPoolLoad"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.TryReportPoolLoad" title="Link to this definition"></a></dt>
+<dd><p>Publish dashboard <code class="docutils literal notranslate"><span class="pre">pool_load</span></code> for this pool (throttled in shared helper).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.active_tasks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.active_tasks" title="Link to this definition"></a></dt>
+<dd><p>Tasks currently executing. Override when in-flight is tracked.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.logger">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">logger</span></span><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.logger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.max_workers">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_workers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.max_workers" title="Link to this definition"></a></dt>
+<dd><p>Worker capacity when known.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.name">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolBase.queued_tasks">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">queued_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.poolbase.PoolBase.queued_tasks" title="Link to this definition"></a></dt>
+<dd><p>Tasks waiting to start. Override in subclasses with a queue.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.abstractmethod">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.poolbase.</span></span><span class="sig-name descname"><span class="pre">abstractmethod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">funcobj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/abc.html#abstractmethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.poolbase.abstractmethod" title="Link to this definition"></a></dt>
+<dd><p>A decorator indicating abstract methods.</p>
+<p>Requires that the metaclass is ABCMeta or derived from it.  A
+class that has a metaclass derived from ABCMeta cannot be
+instantiated unless all of its abstract methods are overridden.
+The abstract methods can be called using any of the normal
+‘super’ call mechanisms.  abstractmethod() may be used to declare
+abstract methods for properties and descriptors.</p>
+<p>Usage:</p>
+<blockquote>
+<div><dl>
+<dt>class C(metaclass=ABCMeta):</dt><dd><p>&#64;abstractmethod
+def my_abstract_method(self, arg1, arg2, argN):</p>
+<blockquote>
+<div><p>…</p>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+</section>
+<section id="task-objects">
+<h2>Task Objects<a class="headerlink" href="#task-objects" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.task.Task">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.task.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.task.Task" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.poolbase.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Represents a task assigned to a pool.  Responsible for allowing the caller to wait for task completion, raising any exceptions, and returning data from the call.
+Task objects are created by adding tasks or processes to the pools.  They are not intended to be created directly by callers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.args">
+<span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nornir_pools.task.Task.args" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.elapsed_time">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elapsed_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#nornir_pools.task.Task.elapsed_time" title="Link to this definition"></a></dt>
+<dd><p>If the task is completed, returns the time to completion.  If the task is still running,
+returns the time from the start of the task to the current time</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.elapsed_time_str">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elapsed_time_str</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.task.Task.elapsed_time_str" title="Link to this definition"></a></dt>
+<dd><p>SS.ssss</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formats the elapsed time as a string in the format HH</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>MM</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.generate_id">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.generate_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.task.Task.generate_id" title="Link to this definition"></a></dt>
+<dd><p>Returns the next unique ID for a task.  Thread safe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.iscompleted">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iscompleted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.iscompleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.task.Task.iscompleted" title="Link to this definition"></a></dt>
+<dd><p>Non-blocking test to determine if task has completed.  No exception is raised if the task raised an exception during execution until wait or wait_return is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the task is completed, otherwise False</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.kwargs">
+<span class="sig-name descname"><span class="pre">kwargs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nornir_pools.task.Task.kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.task.Task.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.pool">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pool</span></span><a class="headerlink" href="#nornir_pools.task.Task.pool" title="Link to this definition"></a></dt>
+<dd><p>The pool that created this task, or None if it did not record itself.</p>
+<p>Held weakly: a task object outliving its pool must not keep the pool, and its
+worker threads, alive. Set by the creating pool rather than passed to __init__,
+because <a href="#id1"><span class="problematic" id="id2">*</span></a>args/<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs there belong to the task’s function.</p>
+<p>Knowing the owning pool is what lets a blocking wait notice that it is running on
+one of that same pool’s workers, which starves the worker the awaited task needs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.set_completion_time">
+<span class="sig-name descname"><span class="pre">set_completion_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.set_completion_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.task.Task.set_completion_time" title="Link to this definition"></a></dt>
+<dd><p>Marks the current time as the task completion time.  Will only set completion time on the first call.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.task_end_time">
+<span class="sig-name descname"><span class="pre">task_end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#nornir_pools.task.Task.task_end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.task_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">task_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.task.Task.task_id" title="Link to this definition"></a></dt>
+<dd><p>Unique ID of task</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.task_start_time">
+<span class="sig-name descname"><span class="pre">task_start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#nornir_pools.task.Task.task_start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.wait">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.wait"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.task.Task.wait" title="Link to this definition"></a></dt>
+<dd><p>Wait for task to complete, does not return a value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Exceptions raised during task execution are re-raised on the thread calling wait</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.task.Task.wait_return">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.wait_return"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.task.Task.wait_return" title="Link to this definition"></a></dt>
+<dd><p>Wait for task to complete and return the value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The output of the task function or the stdout text of a called process</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Exceptions raised during task execution are re-raised on the thread calling wait_return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="pool-lifecycle">
+<h2>Pool lifecycle<a class="headerlink" href="#pool-lifecycle" title="Link to this heading"></a></h2>
+<p>It is not necessary to perform cleanup during normal scripting; <code class="xref py py-func docutils literal notranslate"><span class="pre">ClosePools()</span></code> runs
+automatically at process exit via <code class="docutils literal notranslate"><span class="pre">atexit</span></code>.  Long-running pipelines (for example
+<code class="docutils literal notranslate"><span class="pre">nornir_buildmanager</span></code>) enqueue work on global pools across many stages.  <strong>Waiting</strong>
+for tasks and <strong>shutting down</strong> pools are separate operations:</p>
+<ul class="simple">
+<li><p><strong>Wait</strong> — block until queued tasks finish.  Pools stay registered and accept new work.</p></li>
+<li><p><strong>Close</strong> — shut down workers and remove the pool from the registry (after waiting,
+unless <code class="docutils literal notranslate"><span class="pre">skip_wait</span></code> is used).</p></li>
+</ul>
+<p>Thread-kind pools (<code class="docutils literal notranslate"><span class="pre">ThreadPool</span></code>, subprocess <code class="docutils literal notranslate"><span class="pre">ProcessPool</span></code>, <code class="docutils literal notranslate"><span class="pre">SerialPool</span></code>) run inside
+the parent process.  Process-kind pools (<code class="docutils literal notranslate"><span class="pre">MultiprocessThreadPool</span></code>, <code class="docutils literal notranslate"><span class="pre">LocalMachinePool</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ParallelPythonProcess_Pool</span></code>, cluster pools) keep OS worker processes alive.  Spawning
+those workers is expensive, so production code keeps process pools warm across pipeline
+stages and recreates thread pools at stage boundaries instead.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.poolbase.PoolKind">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.poolbase.</span></span><span class="sig-name descname"><span class="pre">PoolKind</span></span><a class="headerlink" href="#nornir_pools.poolbase.PoolKind" title="Link to this definition"></a></dt>
+<dd><p>Classifies a pool for selective wait/shutdown helpers.  <code class="docutils literal notranslate"><span class="pre">THREAD</span></code> pools are
+in-process; <code class="docutils literal notranslate"><span class="pre">PROCESS</span></code> pools use separate worker processes.</p>
+</dd></dl>
+
+<section id="stage-boundaries-recommended">
+<h3>Stage boundaries (recommended)<a class="headerlink" href="#stage-boundaries-recommended" title="Link to this heading"></a></h3>
+<p>At the end of a pipeline stage that used pools (import finished, transform saved, overlay
+assembly complete, <code class="docutils literal notranslate"><span class="pre">PipelineManager.Execute</span></code> returned, etc.), call
+<code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Wait for <strong>all</strong> thread- and process-pool tasks to finish so stage outputs are safe
+to read.</p></li>
+<li><p>Shut down <strong>thread-kind</strong> pools so idle in-process workers do not linger.</p></li>
+<li><p>Leave <strong>process-kind</strong> pools registered so the next stage reuses warm workers.</p></li>
+</ol>
+<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">WaitOnAllPools()</span></code> when you only need synchronization and will enqueue more work
+immediately without releasing thread workers.  Use <code class="xref py py-func docutils literal notranslate"><span class="pre">ClosePools()</span></code> once at process
+exit or test teardown when every pool must be destroyed.</p>
+</section>
+<section id="environment-variables">
+<h3>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">NORNIR_POOL_DIAG</span></code></dt><dd><p>When set to <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">true</span></code>, or <code class="docutils literal notranslate"><span class="pre">yes</span></code>, log pool names, kinds, and active task
+counts on each lifecycle call.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">NORNIR_KEEP_PROCESS_POOLS</span></code></dt><dd><p>When set, <code class="xref py py-func docutils literal notranslate"><span class="pre">CloseProcessPools()</span></code> skips process-pool shutdown.  Normally
+unnecessary because <code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code> already preserves process pools across
+stages; use only for advanced debugging or custom teardown.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="optimization">
+<h2>Optimization<a class="headerlink" href="#optimization" title="Link to this heading"></a></h2>
+<p>On windows there is significant overhead to passing parameters to multiprocessing jobs.  To address this I added
+pickle overrides to objects being marshalled.  I also removed as many global initializations as I could from modules
+loaded by the tasks.</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.ApplyOSThreadLimit">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">ApplyOSThreadLimit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#ApplyOSThreadLimit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.ApplyOSThreadLimit" title="Link to this definition"></a></dt>
+<dd><p>:return The minimum of the maximum number of threads on the OS, the
+MAX_PYTHON_THREADS environment variable, or the requested num_threads
+parameter</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.ClosePools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">ClosePools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#ClosePools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.ClosePools" title="Link to this definition"></a></dt>
+<dd><p>Shut down all known pools (wait for tasks, then destroy all workers).</p>
+<p>Registered as an <code class="docutils literal notranslate"><span class="pre">atexit</span></code> handler.  Tests and short scripts should also call
+this explicitly at teardown.  Long pipelines should use <a class="reference internal" href="#nornir_pools.ReleaseStagePools" title="nornir_pools.ReleaseStagePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a>
+between stages and reserve this for final cleanup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> – Seconds to wait per pool before giving up. <code class="docutils literal notranslate"><span class="pre">None</span></code> (the default)
+waits indefinitely, matching historical behaviour. Tests should pass a bound
+so a leaked worker becomes a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code> of that test rather than hanging
+the whole suite. When a timeout is given it is also applied to each pool’s
+shutdown drain (via <code class="docutils literal notranslate"><span class="pre">NORNIR_POOL_SHUTDOWN_TIMEOUT</span></code>), so a stuck worker is
+terminated rather than blocking teardown a second time. Pools are shut down
+even when the wait times out, so a later caller is not left facing the same
+stuck registry entry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.CloseProcessPools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">CloseProcessPools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#CloseProcessPools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.CloseProcessPools" title="Link to this definition"></a></dt>
+<dd><p>Shut down process-kind pools after waiting for their tasks.</p>
+<p>No-op when <code class="docutils literal notranslate"><span class="pre">NORNIR_KEEP_PROCESS_POOLS</span></code> is set.  Production pipelines normally
+call <a class="reference internal" href="#nornir_pools.ReleaseStagePools" title="nornir_pools.ReleaseStagePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a> at stage boundaries instead, which leaves process
+pools registered.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.CloseThreadPools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">CloseThreadPools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_wait</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#CloseThreadPools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.CloseThreadPools" title="Link to this definition"></a></dt>
+<dd><p>Shut down thread-kind pools after optionally waiting for their tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>skip_wait</strong> – When <code class="docutils literal notranslate"><span class="pre">True</span></code>, assume callers already waited (as
+<a class="reference internal" href="#nornir_pools.ReleaseStagePools" title="nornir_pools.ReleaseStagePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a> does via <a class="reference internal" href="#nornir_pools.WaitOnAllPools" title="nornir_pools.WaitOnAllPools"><code class="xref py py-func docutils literal notranslate"><span class="pre">WaitOnAllPools()</span></code></a>).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.Enum">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">Enum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_class_name</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/enum.html#Enum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Enum" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Create a collection of name/value pairs.</p>
+<p>Example enumeration:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">RED</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="n">BLUE</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">... </span>    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Access them by:</p>
+<ul>
+<li><p>attribute access:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Color</span><span class="o">.</span><span class="n">RED</span>
+<span class="go">&lt;Color.RED: 1&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>value lookup:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Color</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&lt;Color.RED: 1&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>name lookup:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Color</span><span class="p">[</span><span class="s1">'RED'</span><span class="p">]</span>
+<span class="go">&lt;Color.RED: 1&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Enumerations can be iterated over, and know how many members they have:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">Color</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">Color</span><span class="p">)</span>
+<span class="go">[&lt;Color.RED: 1&gt;, &lt;Color.BLUE: 2&gt;, &lt;Color.GREEN: 3&gt;]</span>
+</pre></div>
+</div>
+<p>Methods can be added to enumerations, and members can have their own
+attributes – see the documentation for details.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.FastClosePools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">FastClosePools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#FastClosePools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.FastClosePools" title="Link to this definition"></a></dt>
+<dd><p>Shut down all pools, force-terminating process workers when supported.</p>
+<p>Intended for faster test teardown when graceful multiprocessing <code class="docutils literal notranslate"><span class="pre">join</span></code> is too
+slow.  Production pipelines should use <a class="reference internal" href="#nornir_pools.ReleaseStagePools" title="nornir_pools.ReleaseStagePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a> between stages
+and <a class="reference internal" href="#nornir_pools.ClosePools" title="nornir_pools.ClosePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ClosePools()</span></code></a> at exit instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetAndCreateProfileDataFileName">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetAndCreateProfileDataFileName</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#GetAndCreateProfileDataFileName"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetAndCreateProfileDataFileName" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetAndCreateProfileDataPath">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetAndCreateProfileDataPath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#GetAndCreateProfileDataPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetAndCreateProfileDataPath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalClusterPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalClusterPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Get the common pool for placing tasks on the cluster</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetGlobalLocalMachinePool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalLocalMachinePool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalLocalMachinePool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetGlobalLocalMachinePool" title="Link to this definition"></a></dt>
+<dd><p>Common pool for launching other processes for threads or executables.  Combines multithreading and process pool
+interface.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalMultithreadingPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalMultithreadingPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Common pool for multithreading module tasks, threads run in different python processes to work around the global
+interpreter lock</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalProcessPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalProcessPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Common pool for processes on the local machine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetGlobalSerialPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalSerialPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalSerialPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetGlobalSerialPool" title="Link to this definition"></a></dt>
+<dd><p>Common pool for processes on the local machine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetGlobalThreadPool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetGlobalThreadPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>Common pool for thread based tasks</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetLocalMachinePool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetLocalMachinePool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetLocalMachinePool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetLocalMachinePool" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetMultithreadingPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetMultithreadingPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific thread pool to execute threads in other processes on the same computer using the
+multiprocessing library</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetParallelPythonPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetParallelPythonPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific pool to invoke functions or shell command processes on a cluster using parallel
+python</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetProcessPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetProcessPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific pool to invoke shell command processes on the same computer using the subprocess
+module</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.GetSerialPool">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetSerialPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetSerialPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.GetSerialPool" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific thread pool using vanilla python threads</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">GetThreadPool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Poolname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.IPool" title="nornir_pools.ipool.IPool"><span class="pre">IPool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#GetThreadPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Get or create a specific thread pool using vanilla python threads</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.IPool">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">IPool</span></span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.IPool" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.poolbase.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.IPool.add_process">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TaskWithEvent</span></span></span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.add_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.IPool.add_process" title="Link to this definition"></a></dt>
+<dd><p>Invoke a process on the pool.  This function creates a task using name and then invokes pythons subprocess</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Friendly name of the task. Non-unique</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – Process name to invoke using subprocess</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>task object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.IPool.add_task">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#nornir_pools.task.Task" title="nornir_pools.task.Task"><span class="pre">Task</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.add_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.IPool.add_task" title="Link to this definition"></a></dt>
+<dd><p>Call a python function on the pool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Friendly name of the task. Non-unique</p></li>
+<li><p><strong>func</strong> (<em>function</em>) – Python function pointer to invoke on the pool</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>task object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.IPool.name">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.IPool.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.IPool.num_active_tasks">
+<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num_active_tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.IPool.num_active_tasks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.IPool.shutdown">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.shutdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.IPool.shutdown" title="Link to this definition"></a></dt>
+<dd><p>The pool waits for all tasks to complete and frees any resources such as threads in a thread pool</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.IPool.wait_completion">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_completion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/ipool.html#IPool.wait_completion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.IPool.wait_completion" title="Link to this definition"></a></dt>
+<dd><p>Blocks until all tasks have completed</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.InstrumentedThreadPoolExecutor">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">InstrumentedThreadPoolExecutor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/instrumented_executor.html#InstrumentedThreadPoolExecutor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.InstrumentedThreadPoolExecutor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.ThreadPoolExecutor" title="concurrent.futures.thread.ThreadPoolExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThreadPoolExecutor</span></code></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">ThreadPoolExecutor</span></code> that reports load under a stable pool <em>name</em>.</p>
+<p>Use this (or call <code class="xref py py-func docutils literal notranslate"><span class="pre">nornir_shared.pool_load.report_pool_load()</span></code> manually)
+so ad hoc executors appear in the dashboard Pools section alongside
+<code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code> pools.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.InstrumentedThreadPoolExecutor.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.Future" title="concurrent.futures._base.Future"><span class="pre">Future</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/instrumented_executor.html#InstrumentedThreadPoolExecutor.submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.InstrumentedThreadPoolExecutor.submit" title="Link to this definition"></a></dt>
+<dd><p>Submits a callable to be executed with the given arguments.</p>
+<p>Schedules the callable to be executed as fn(<a href="#id12"><span class="problematic" id="id13">*</span></a>args, <a href="#id14"><span class="problematic" id="id15">**</span></a>kwargs) and
+returns a Future instance representing the execution of the
+callable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A Future representing the given call.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.IsParallelPythonAvailable">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">IsParallelPythonAvailable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#IsParallelPythonAvailable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.IsParallelPythonAvailable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.MergeProfilerStats">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">MergeProfilerStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">profile_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pool_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#MergeProfilerStats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.MergeProfilerStats" title="Link to this definition"></a></dt>
+<dd><p>Called by atexit.  Merges all <a href="#id16"><span class="problematic" id="id17">*</span></a>.profile files in the profile_dir into a single .profile file</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.ParamSpec">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">ParamSpec</span></span><a class="headerlink" href="#nornir_pools.ParamSpec" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Parameter specification variable.</p>
+<p>The preferred way to construct a parameter specification is via the
+dedicated syntax for generic functions, classes, and type aliases,
+where the use of ‘**’ creates a parameter specification:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span> <span class="n">IntFunc</span><span class="p">[</span><span class="o">**</span><span class="n">P</span><span class="p">]</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The following syntax creates a parameter specification that defaults
+to a callable accepting two positional-only arguments of types int
+and str:</p>
+<blockquote>
+<div><p>type IntFuncDefault[<a href="#id18"><span class="problematic" id="id19">**</span></a>P = [int, str]] = Callable[P, int]</p>
+</div></blockquote>
+<p>For compatibility with Python 3.11 and earlier, ParamSpec objects
+can also be created as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s1">'P'</span><span class="p">)</span>
+<span class="n">DefaultP</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s1">'DefaultP'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Parameter specification variables exist primarily for the benefit of
+static type checkers.  They are used to forward the parameter types of
+one callable to another callable, a pattern commonly found in
+higher-order functions and decorators.  They are only valid when used
+in <code class="docutils literal notranslate"><span class="pre">Concatenate</span></code>, or as the first argument to <code class="docutils literal notranslate"><span class="pre">Callable</span></code>, or as
+parameters for user-defined Generics. See class Generic for more
+information on generic types.</p>
+<p>An example for annotating a decorator:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_logging</span><span class="p">[</span><span class="o">**</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">](</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">'''A type-safe decorator to add logging to a function.'''</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> was called'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inner</span>
+
+<span class="nd">@add_logging</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_two</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">'''Add two numbers together.'''</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>Parameter specification variables can be introspected. e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">"P"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">P</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="go">'P'</span>
+</pre></div>
+</div>
+<p>Note that only parameter specification variables defined in the global
+scope can be pickled.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.ParamSpec.args">
+<span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#nornir_pools.ParamSpec.args" title="Link to this definition"></a></dt>
+<dd><p>Represents positional arguments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.ParamSpec.has_default">
+<span class="sig-name descname"><span class="pre">has_default</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#nornir_pools.ParamSpec.has_default" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.ParamSpec.kwargs">
+<span class="sig-name descname"><span class="pre">kwargs</span></span><a class="headerlink" href="#nornir_pools.ParamSpec.kwargs" title="Link to this definition"></a></dt>
+<dd><p>Represents keyword arguments.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.PoolFactory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">PoolFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#PoolFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.PoolFactory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.Protocol" title="typing.Protocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">Protocol</span></code></a>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">_PoolFactoryParams</span></code>]</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.PoolKind">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">PoolKind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#PoolKind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.PoolKind" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.Enum" title="enum.Enum"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>Whether a pool uses in-process workers or separate OS worker processes.</p>
+<p>Used by selective wait/shutdown helpers.  <code class="docutils literal notranslate"><span class="pre">THREAD</span></code> includes vanilla
+<code class="docutils literal notranslate"><span class="pre">ThreadPool</span></code>, subprocess <code class="docutils literal notranslate"><span class="pre">ProcessPool</span></code>, and <code class="docutils literal notranslate"><span class="pre">SerialPool</span></code>.  <code class="docutils literal notranslate"><span class="pre">PROCESS</span></code>
+includes <code class="docutils literal notranslate"><span class="pre">MultiprocessThreadPool</span></code>, <code class="docutils literal notranslate"><span class="pre">LocalMachinePool</span></code>, and cluster backends.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.PoolKind.PROCESS">
+<span class="sig-name descname"><span class="pre">PROCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'process'</span></em><a class="headerlink" href="#nornir_pools.PoolKind.PROCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.PoolKind.THREAD">
+<span class="sig-name descname"><span class="pre">THREAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'thread'</span></em><a class="headerlink" href="#nornir_pools.PoolKind.THREAD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.Protocol">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">Protocol</span></span><a class="reference internal" href="../_modules/typing.html#Protocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Protocol" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generic</span></code></a></p>
+<p>Base class for protocol classes.</p>
+<p>Protocol classes are defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Proto</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">meth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>Such classes are primarily used with static type checkers that recognize
+structural subtyping (static duck-typing).</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">meth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Proto</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">meth</span><span class="p">()</span>
+
+<span class="n">func</span><span class="p">(</span><span class="n">C</span><span class="p">())</span>  <span class="c1"># Passes static type check</span>
+</pre></div>
+</div>
+<p>See PEP 544 for details. Protocol classes decorated with
+&#64;typing.runtime_checkable act as simple-minded runtime protocols that check
+only the presence of given attributes, ignoring their type signatures.
+Protocol classes can be generic, they are defined as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">GenProto</span><span class="p">[</span><span class="n">T</span><span class="p">](</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">meth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.ReleaseStagePools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">ReleaseStagePools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#ReleaseStagePools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.ReleaseStagePools" title="Link to this definition"></a></dt>
+<dd><p>Synchronize a pipeline stage and release in-process pool workers.</p>
+<p>Waits for all thread- and process-pool tasks to complete, then shuts down
+thread-kind pools only.  Process-kind pools stay registered so later stages reuse
+warm worker processes instead of paying fork/spawn cost again.</p>
+<p>Call at production stage boundaries (import complete, registration transform
+saved, stos overlay assembly done, pipeline <code class="docutils literal notranslate"><span class="pre">Execute</span></code> finished).  Full pool
+teardown belongs in <a class="reference internal" href="#nornir_pools.ClosePools" title="nornir_pools.ClosePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ClosePools()</span></code></a> at process or test exit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="nornir_pools.Task">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Task" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nornir_pools.poolbase.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Represents a task assigned to a pool.  Responsible for allowing the caller to wait for task completion, raising any exceptions, and returning data from the call.
+Task objects are created by adding tasks or processes to the pools.  They are not intended to be created directly by callers.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.Task.args">
+<span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nornir_pools.Task.args" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.Task.elapsed_time">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elapsed_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#nornir_pools.Task.elapsed_time" title="Link to this definition"></a></dt>
+<dd><p>If the task is completed, returns the time to completion.  If the task is still running,
+returns the time from the start of the task to the current time</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.Task.elapsed_time_str">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elapsed_time_str</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.Task.elapsed_time_str" title="Link to this definition"></a></dt>
+<dd><p>SS.ssss</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Formats the elapsed time as a string in the format HH</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>MM</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.Task.generate_id">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.generate_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Task.generate_id" title="Link to this definition"></a></dt>
+<dd><p>Returns the next unique ID for a task.  Thread safe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.Task.iscompleted">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iscompleted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.iscompleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Task.iscompleted" title="Link to this definition"></a></dt>
+<dd><p>Non-blocking test to determine if task has completed.  No exception is raised if the task raised an exception during execution until wait or wait_return is called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the task is completed, otherwise False</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.Task.kwargs">
+<span class="sig-name descname"><span class="pre">kwargs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#nornir_pools.Task.kwargs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.Task.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_pools.Task.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.Task.pool">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pool</span></span><a class="headerlink" href="#nornir_pools.Task.pool" title="Link to this definition"></a></dt>
+<dd><p>The pool that created this task, or None if it did not record itself.</p>
+<p>Held weakly: a task object outliving its pool must not keep the pool, and its
+worker threads, alive. Set by the creating pool rather than passed to __init__,
+because <a href="#id20"><span class="problematic" id="id21">*</span></a>args/<a href="#id22"><span class="problematic" id="id23">**</span></a>kwargs there belong to the task’s function.</p>
+<p>Knowing the owning pool is what lets a blocking wait notice that it is running on
+one of that same pool’s workers, which starves the worker the awaited task needs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.Task.set_completion_time">
+<span class="sig-name descname"><span class="pre">set_completion_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.set_completion_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Task.set_completion_time" title="Link to this definition"></a></dt>
+<dd><p>Marks the current time as the task completion time.  Will only set completion time on the first call.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.Task.task_end_time">
+<span class="sig-name descname"><span class="pre">task_end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#nornir_pools.Task.task_end_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="nornir_pools.Task.task_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">task_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#nornir_pools.Task.task_id" title="Link to this definition"></a></dt>
+<dd><p>Unique ID of task</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.Task.task_start_time">
+<span class="sig-name descname"><span class="pre">task_start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><a class="headerlink" href="#nornir_pools.Task.task_start_time" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.Task.wait">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.wait"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Task.wait" title="Link to this definition"></a></dt>
+<dd><p>Wait for task to complete, does not return a value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Exceptions raised during task execution are re-raised on the thread calling wait</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="nornir_pools.Task.wait_return">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">wait_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/task.html#Task.wait_return"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.Task.wait_return" title="Link to this definition"></a></dt>
+<dd><p>Wait for task to complete and return the value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The output of the task function or the stdout text of a called process</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Exceptions raised during task execution are re-raised on the thread calling wait_return</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.WaitOnAllPools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">WaitOnAllPools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#WaitOnAllPools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.WaitOnAllPools" title="Link to this definition"></a></dt>
+<dd><p>Block until all known pools finish queued work without shutting them down.</p>
+<p>Use when later code on the same thread will enqueue more tasks and you do not
+need to release idle thread-pool workers.  Pipeline stage boundaries should
+prefer <a class="reference internal" href="#nornir_pools.ReleaseStagePools" title="nornir_pools.ReleaseStagePools"><code class="xref py py-func docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a> instead.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.WaitOnProcessPools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">WaitOnProcessPools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#WaitOnProcessPools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.WaitOnProcessPools" title="Link to this definition"></a></dt>
+<dd><p>Block until process-kind pools finish without shutting them down.</p>
+<p>Process-kind pools use OS worker processes (see <a class="reference internal" href="#nornir_pools.PoolKind" title="nornir_pools.PoolKind"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoolKind</span></code></a>).  Waiting does
+not destroy workers; they remain available for new tasks.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.WaitOnThreadPools">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">WaitOnThreadPools</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools.html#WaitOnThreadPools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.WaitOnThreadPools" title="Link to this definition"></a></dt>
+<dd><p>Block until thread-kind pools finish without shutting them down.</p>
+<p>Thread-kind pools are in-process (see <a class="reference internal" href="#nornir_pools.PoolKind" title="nornir_pools.PoolKind"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoolKind</span></code></a>).  This does not wait on
+multiprocessing worker pools.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.aggregate_profiler_data">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">aggregate_profiler_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#aggregate_profiler_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.aggregate_profiler_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.end_profiling">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">end_profiling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#end_profiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.end_profiling" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.get_or_create_shared_memory_manager">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">get_or_create_shared_memory_manager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">authkey</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#bytes" title="(in Python v3.14)"><span class="pre">bytes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools/shared_memory.html#get_or_create_shared_memory_manager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.get_or_create_shared_memory_manager" title="Link to this definition"></a></dt>
+<dd><p>Obtain a SharedMemoryManager for inter-process buffers.</p>
+<p>Call from the parent before workers start. The listener address/authkey are
+published via SHARED_MEMORY_SERVER_ADDRESS / SHARED_MEMORY_AUTHKEY so children
+can connect to the same manager.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.init_pool_process">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">init_pool_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logging_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">the_lock</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#init_pool_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.init_pool_process" title="Link to this definition"></a></dt>
+<dd><p>Worker initializer: configure queue logging and force the NumPy backend in workers.</p>
+<p>Optional <code class="docutils literal notranslate"><span class="pre">the_lock</span></code> sets <code class="docutils literal notranslate"><span class="pre">shared_lock</span></code> (legacy API).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.invoke_with_profiler">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">invoke_with_profiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#invoke_with_profiler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.invoke_with_profiler" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nornir_pools.start_profiling">
+<span class="sig-prename descclassname"><span class="pre">nornir_pools.</span></span><span class="sig-name descname"><span class="pre">start_profiling</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_pools.html#start_profiling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.start_profiling" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nornir_shared.html" class="btn btn-neutral float-left" title="nornir_shared" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nornir_imageregistration.html" class="btn btn-neutral float-right" title="nornir_imageregistration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

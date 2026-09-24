@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ir-refine-grid C++ → Python Parity Checklist &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ir-refine-grid C++ → Python Parity Checklist</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/refine-grid-cpp-parity-checklist.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ir-refine-grid-c-python-parity-checklist">
+<h1>ir-refine-grid C++ → Python Parity Checklist<a class="headerlink" href="#ir-refine-grid-c-python-parity-checklist" title="Link to this heading"></a></h1>
+<p>Audit of the legacy C++ <code class="docutils literal notranslate"><span class="pre">ir-refine-grid</span></code> tool (SCI trunk, mounted at <code class="docutils literal notranslate"><span class="pre">/legacycode</span></code>)
+mapped against the Python <code class="docutils literal notranslate"><span class="pre">RefineGridMosaic</span></code> implementation in
+<code class="docutils literal notranslate"><span class="pre">nornir-imageregistration/nornir_imageregistration/local_distortion_correction.py</span></code>.</p>
+<p>Golden reference output:
+<code class="docutils literal notranslate"><span class="pre">RC2_4Square_Assembled/TEM/0690/TEM/Grid_Cel96_Mes8_sp4_Mes8_Thr0.5.mosaic</span></code>
+(parameters: <code class="docutils literal notranslate"><span class="pre">-cell</span> <span class="pre">96</span> <span class="pre">-mesh</span> <span class="pre">8</span> <span class="pre">8</span> <span class="pre">-sp</span> <span class="pre">4</span> <span class="pre">-displacement_threshold</span> <span class="pre">0.5</span></code>, <code class="docutils literal notranslate"><span class="pre">-it</span></code> default 10).</p>
+<section id="cli-and-initialization-legacycode-code-ir-tools-ir-refine-grid-cxx">
+<h2>1. CLI and initialization (<code class="docutils literal notranslate"><span class="pre">/legacycode/code/ir-tools/ir-refine-grid.cxx</span></code>)<a class="headerlink" href="#cli-and-initialization-legacycode-code-ir-tools-ir-refine-grid-cxx" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>C++ behavior (file:line)</p></th>
+<th class="head"><p>Python equivalent</p></th>
+<th class="head"><p>Parity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1.1</p></td>
+<td><p>Defaults: <code class="docutils literal notranslate"><span class="pre">iterations</span> <span class="pre">=</span> <span class="pre">10</span></code>, <code class="docutils literal notranslate"><span class="pre">displacement_threshold</span> <span class="pre">=</span> <span class="pre">1.0</span></code> (ir-refine-grid.cxx L219, L224)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RefineGridMosaic(iterations=10,</span> <span class="pre">displacement_threshold=...)</span></code></p></td>
+<td><p>OK</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cell</span></code>/<code class="docutils literal notranslate"><span class="pre">mesh</span></code> auto formulas: <code class="docutils literal notranslate"><span class="pre">cell</span> <span class="pre">=</span> <span class="pre">max(3*dim/(mesh-1))</span></code>, <code class="docutils literal notranslate"><span class="pre">mesh</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">3*dim/cell</span></code> (L402–420)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">_resolve_mesh_shape_and_cell_size</span></code></p></td>
+<td><p>OK</p></td>
+</tr>
+<tr class="row-even"><td><p>1.3</p></td>
+<td><p>Tiles loaded via <code class="docutils literal notranslate"><span class="pre">std_tile</span></code> with <code class="docutils literal notranslate"><span class="pre">shrink_factor</span></code> and <code class="docutils literal notranslate"><span class="pre">pixel_spacing</span></code>; all math runs at working resolution (<code class="docutils literal notranslate"><span class="pre">sp</span> <span class="pre">4</span></code> → 1/4 scale)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">imageScale</span> <span class="pre">=</span> <span class="pre">1/sp</span></code>; warps run at <code class="docutils literal notranslate"><span class="pre">target_space_scale</span> <span class="pre">=</span> <span class="pre">imageScale</span></code></p></td>
+<td><p>OK (shifts must be converted back to full-res before mesh update)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1.4</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">setup_grid_transform(transform_,</span> <span class="pre">mesh_rows-1,</span> <span class="pre">mesh_cols-1,</span> <span class="pre">tile_min,</span> <span class="pre">tile_max,</span> <span class="pre">mask,</span> <span class="pre">tbase,</span> <span class="pre">...)</span></code> (L443–453): per-tile grid transform whose vertex <code class="docutils literal notranslate"><span class="pre">uv_</span></code> lattice spans the tile and <code class="docutils literal notranslate"><span class="pre">xy_</span></code> holds mosaic positions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">_initialize_tile_grid_transforms</span></code> → <code class="docutils literal notranslate"><span class="pre">ConvertTransformToGridTransform(grid_dims=mesh_shape)</span></code>; <code class="docutils literal notranslate"><span class="pre">SourcePoints</span></code> = lattice, <code class="docutils literal notranslate"><span class="pre">TargetPoints</span></code> = mosaic positions</p></td>
+<td><p>OK</p></td>
+</tr>
+<tr class="row-even"><td><p>1.5</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">refine_mosaic_mt(...,</span> <span class="pre">cell_size,</span> <span class="pre">prewarp=true,</span> <span class="pre">min_overlap=0.25,</span> <span class="pre">median_radius=1,</span> <span class="pre">iterations,</span> <span class="pre">keep_first_tile_fixed=false,</span> <span class="pre">displacement_threshold,</span> <span class="pre">threads)</span></code> (L479–491)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RefineGridMosaic</span></code> must hardcode <code class="docutils literal notranslate"><span class="pre">prewarp</span></code> semantics, <code class="docutils literal notranslate"><span class="pre">min_overlap=0.25</span></code> per-cell, <code class="docutils literal notranslate"><span class="pre">median_radius=1</span></code></p></td>
+<td><p><strong>Port</strong> (Python previously used overlap-fraction min_overlap and no median filter)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Vertex index ordering matches: C++ <code class="docutils literal notranslate"><span class="pre">i</span> <span class="pre">=</span> <span class="pre">col</span> <span class="pre">+</span> <span class="pre">row*mesh_cols</span></code> (col fastest); Python
+<code class="docutils literal notranslate"><span class="pre">build_coords_array</span></code> produces <code class="docutils literal notranslate"><span class="pre">index</span> <span class="pre">=</span> <span class="pre">row*grid_dims[1]</span> <span class="pre">+</span> <span class="pre">col</span></code> (col fastest).</p>
+</section>
+<section id="pass-structure-refine-mosaic-mt-mosaic-refinement-common-hxx-l14401803">
+<h2>2. Pass structure (<code class="docutils literal notranslate"><span class="pre">refine_mosaic_mt</span></code>, mosaic_refinement_common.hxx L1440–1803)<a class="headerlink" href="#pass-structure-refine-mosaic-mt-mosaic-refinement-common-hxx-l14401803" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>C++ behavior</p></th>
+<th class="head"><p>Python target</p></th>
+<th class="head"><p>Parity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2.1</p></td>
+<td><p>Neighbors = all tiles whose mosaic-space bboxes intersect (L1511–1531); recomputed once before the pass loop</p></td>
+<td><p>per-pass neighbor list from <code class="docutils literal notranslate"><span class="pre">FixedBoundingBox</span></code> intersection</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>2.2</p></td>
+<td><p>Each pass: re-warp every tile in full into mosaic space using current grid transform (<code class="docutils literal notranslate"><span class="pre">prewarp_tiles</span></code>, L1573–1596); <code class="docutils literal notranslate"><span class="pre">warp&lt;&gt;</span></code> uses <strong>nearest-neighbor</strong> (<code class="docutils literal notranslate"><span class="pre">common.hxx</span></code> L4858)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">_prewarp_tile_for_grid_refine</span></code> per tile per pass with <code class="docutils literal notranslate"><span class="pre">interpolation_order=0</span></code></p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>2.3</p></td>
+<td><p>Per tile i, per neighbor j: <code class="docutils literal notranslate"><span class="pre">calc_displacements(fixed=warped[j],</span> <span class="pre">moving=warped[i],</span> <span class="pre">forward_1=transform[i],</span> <span class="pre">cell,</span> <span class="pre">0.25,</span> <span class="pre">median_radius=1)</span></code> accumulating shared <code class="docutils literal notranslate"><span class="pre">mass</span></code> across neighbors (L1366–1398)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">_measure_grid_vertex_displacements</span></code> per neighbor; regularize per neighbor; <code class="docutils literal notranslate"><span class="pre">mass</span></code> accumulates</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>2.4</p></td>
+<td><p>Blend: <code class="docutils literal notranslate"><span class="pre">shift[i][k]</span> <span class="pre">=</span> <span class="pre">sum_j</span> <span class="pre">shift_j[k]</span></code>, then <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">=</span> <span class="pre">1/(1+mass[k])</span></code>, <code class="docutils literal notranslate"><span class="pre">shift[i][k]</span> <span class="pre">*=</span> <span class="pre">scale</span></code> (L1400–1419; <code class="docutils literal notranslate"><span class="pre">keep_first_tile_fixed=false</span></code>)</p></td>
+<td><p>identical blend; replaces Python <code class="docutils literal notranslate"><span class="pre">SplitDisplacements</span></code> d/2 convention (single-neighbor special case of <code class="docutils literal notranslate"><span class="pre">1/(1+mass)</span></code>)</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>2.5</p></td>
+<td><p>Apply only after all tiles measured: <code class="docutils literal notranslate"><span class="pre">gt.grid_.update(&amp;shift[i][0])</span></code> → <code class="docutils literal notranslate"><span class="pre">v.xy_</span> <span class="pre">+=</span> <span class="pre">shift</span></code> for every vertex, then <code class="docutils literal notranslate"><span class="pre">transform[i]-&gt;setup(gt)</span></code> (L1705–1710; the_grid_transform.cxx L315–327)</p></td>
+<td><p>buffer per-tile shifts; <code class="docutils literal notranslate"><span class="pre">UpdateTargetPointsByIndex(arange(N),</span> <span class="pre">TargetPoints</span> <span class="pre">+</span> <span class="pre">shift)</span></code> after all tiles measured</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>2.6</p></td>
+<td><p>Convergence metric: `avg = mean(</p></td>
+<td><p>sx</p></td>
+<td><p>+</p></td>
+</tr>
+<tr class="row-even"><td><p>2.7</p></td>
+<td><p>Dual early stop: <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(avg</span> <span class="pre">&lt;=</span> <span class="pre">threshold)</span> <span class="pre">break;</span> <span class="pre">else</span> <span class="pre">if</span> <span class="pre">(avg</span> <span class="pre">&gt;=</span> <span class="pre">last_average)</span> <span class="pre">break;</span></code> (L1793–1801)</p></td>
+<td><p>both conditions</p></td>
+<td><p><strong>Port</strong> (Python only had threshold)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2.8</p></td>
+<td><p>No final lattice resample — the grid IS the transform; mosaic saved from updated grid</p></td>
+<td><p>skip final <code class="docutils literal notranslate"><span class="pre">ConvertTransformToGridTransform</span></code> when transform already on output lattice</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="measurement-loop-calc-displacements-mosaic-refinement-common-hxx-l224395">
+<h2>3. Measurement loop (<code class="docutils literal notranslate"><span class="pre">calc_displacements</span></code>, mosaic_refinement_common.hxx L224–395)<a class="headerlink" href="#measurement-loop-calc-displacements-mosaic-refinement-common-hxx-l224395" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>C++ behavior</p></th>
+<th class="head"><p>Python target</p></th>
+<th class="head"><p>Parity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3.1</p></td>
+<td><p>Loops over <strong>all</strong> <code class="docutils literal notranslate"><span class="pre">mesh_size</span></code> grid vertices of the moving tile, not overlap FFT subcells (L317)</p></td>
+<td><p>per-vertex loop over <code class="docutils literal notranslate"><span class="pre">grid.TargetPoints</span></code></p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>3.2</p></td>
+<td><p>Mosaic-space measurement center: <code class="docutils literal notranslate"><span class="pre">gt.transform_inv(vertex.uv_,</span> <span class="pre">center)</span></code> (L324). At a vertex’s own uv this evaluates to the vertex mosaic position <code class="docutils literal notranslate"><span class="pre">v.xy_</span></code> — i.e. the vertex <strong>TargetPoint</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">center</span> <span class="pre">=</span> <span class="pre">TargetPoints[k]</span></code> (scaled by <code class="docutils literal notranslate"><span class="pre">imageScale</span></code> to index warped images)</p></td>
+<td><p><strong>Port</strong> (replaces inverse-warp of FFT-cell centers)</p></td>
+</tr>
+<tr class="row-even"><td><p>3.3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dx</span></code>, <code class="docutils literal notranslate"><span class="pre">dy</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code> mesh-lattice images; unmeasured vertices = 0 (L288–301, L330–332)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(rows,</span> <span class="pre">cols)</span></code> float arrays</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>3.4</p></td>
+<td><p>Prewarped path: <code class="docutils literal notranslate"><span class="pre">refine_one_point_fft(tile_0=warped[j],</span> <span class="pre">tile_1=warped[i],</span> <span class="pre">center,</span> <span class="pre">min_overlap,</span> <span class="pre">...)</span></code> (L338–354)</p></td>
+<td><p>extract aligned cells from the two prewarped images</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>3.5</p></td>
+<td><p>On success: <code class="docutils literal notranslate"><span class="pre">dx=shift[0]</span></code>, <code class="docutils literal notranslate"><span class="pre">dy=shift[1]</span></code>, <code class="docutils literal notranslate"><span class="pre">db=1</span></code> (L388–390)</p></td>
+<td><p>same</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>3.6</p></td>
+<td><p>Ends with <code class="docutils literal notranslate"><span class="pre">regularize_displacements(xy_shift,</span> <span class="pre">mass,</span> <span class="pre">dx,</span> <span class="pre">dy,</span> <span class="pre">db,</span> <span class="pre">median_radius)</span></code> (L394)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">_regularize_displacements</span></code></p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fft-cell-preprocessing-grid-common-hxx-fft-common-cxx">
+<h2>4. FFT cell preprocessing (<code class="docutils literal notranslate"><span class="pre">grid_common.hxx</span></code> / <code class="docutils literal notranslate"><span class="pre">fft_common.cxx</span></code>)<a class="headerlink" href="#fft-cell-preprocessing-grid-common-hxx-fft-common-cxx" title="Link to this heading"></a></h2>
+<p>C++ chain for the prewarped path:
+<code class="docutils literal notranslate"><span class="pre">refine_one_point_fft</span></code> (grid_common.hxx L1257) → <code class="docutils literal notranslate"><span class="pre">refine_one_point_helper</span></code>
+(neighborhood extraction) → <code class="docutils literal notranslate"><span class="pre">refine_one_point_fft</span></code> (L820) → <code class="docutils literal notranslate"><span class="pre">match_one_pair</span></code>
+(L269) → <code class="docutils literal notranslate"><span class="pre">find_correlation</span></code> (fft_common.cxx L467) → <code class="docutils literal notranslate"><span class="pre">estimate_displacement</span></code>.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>C++ behavior</p></th>
+<th class="head"><p>Python (<code class="docutils literal notranslate"><span class="pre">_phase_correlate_refinement_cell</span></code> / <code class="docutils literal notranslate"><span class="pre">find_offset</span></code>)</p></th>
+<th class="head"><p>Parity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>4.1</p></td>
+<td><p>Neighborhood: <code class="docutils literal notranslate"><span class="pre">sz</span> <span class="pre">=</span> <span class="pre">cell</span> <span class="pre">×</span> <span class="pre">cell</span></code> window in mosaic space, <code class="docutils literal notranslate"><span class="pre">origin</span> <span class="pre">=</span> <span class="pre">center</span> <span class="pre">-</span> <span class="pre">cell/2</span></code> sampled on the common mosaic grid for <strong>both</strong> tiles (grid_common.hxx L632–673) — cells are pre-aligned in mosaic space</p></td>
+<td><p>cells sliced from both prewarped images at the same mosaic window</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>4.2</p></td>
+<td><p>Pixels outside the image buffer or mask → value 0, mask 0 (L651–655, L667–671); <strong>no random-noise fill</strong></p></td>
+<td><p>zero-fill outside valid region</p></td>
+<td><p>Accepted difference: Python keeps its validated random-noise fill for invalid pixels (avoids zero-edge correlation bias); area-ratio gate below limits exposure</p></td>
+</tr>
+<tr class="row-even"><td><p>4.3</p></td>
+<td><p>Per-cell area gate: <code class="docutils literal notranslate"><span class="pre">area[k]/cell²</span>&#160; <span class="pre">&gt;=</span> <span class="pre">min_overlap</span> <span class="pre">(0.25)</span></code> for <strong>both</strong> cells, else no measurement (L675–685)</p></td>
+<td><p>identical fraction test on valid masks</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>4.4</p></td>
+<td><p>Skip if center not inside the fixed tile’s buffer (L616–621)</p></td>
+<td><p>skip if scaled center outside fixed warped image extent</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>4.5</p></td>
+<td><p>FFT: pad both to common size (equal already → no-op), low-pass filter <code class="docutils literal notranslate"><span class="pre">r=0.5,</span> <span class="pre">s=0.1</span></code> on each spectrum, Girod-Kuo normalized cross-power spectrum (phase correlation) with <code class="docutils literal notranslate"><span class="pre">eps=1e-8</span></code>, second low-pass <code class="docutils literal notranslate"><span class="pre">r*0.8</span></code> on P, ifft → PDF (fft_common.cxx L480–558)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">find_offset(...,</span> <span class="pre">fft_required=True)</span></code> phase correlation; Python applies its own normalization/padding</p></td>
+<td><p>Accepted difference: Python translate-path estimator (validated vs <code class="docutils literal notranslate"><span class="pre">ir-translate</span></code>) stands in for Girod-Kuo + lp-filter chain</p></td>
+</tr>
+<tr class="row-odd"><td><p>4.6</p></td>
+<td><p>Peak handling: <code class="docutils literal notranslate"><span class="pre">find_maxima_cm(percentage=0.9995)</span></code>, <code class="docutils literal notranslate"><span class="pre">reject_negligible_maxima(2.0)</span></code>, fail if <code class="docutils literal notranslate"><span class="pre">num_peaks</span> <span class="pre">&gt;</span> <span class="pre">10</span></code>; consider zero-displacement; evaluate 4 wrap-around permutations of each peak with masked mean-square <code class="docutils literal notranslate"><span class="pre">my_metric</span></code>, require overlap ratio in <code class="docutils literal notranslate"><span class="pre">[0.25,</span> <span class="pre">1.0]</span></code> (grid_common.hxx L296–372)</p></td>
+<td><p>Python <code class="docutils literal notranslate"><span class="pre">find_offset</span></code> resolves wrap-around internally with overlap constraints <code class="docutils literal notranslate"><span class="pre">min_overlap=0.25,</span> <span class="pre">max_overlap=1.0</span></code>; single-peak weight</p></td>
+<td><p>Accepted difference; the <code class="docutils literal notranslate"><span class="pre">weight</span></code> is only used for diagnostics in the C++ model (no estimate_cutoff gating)</p></td>
+</tr>
+<tr class="row-even"><td><p>4.7</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">shift</span> <span class="pre">=</span> <span class="pre">-translate-&gt;GetOffset()</span></code> = mosaic-space correction to move the <strong>moving</strong> tile content into alignment with the fixed neighbor (L885)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">record.peak</span></code> from <code class="docutils literal notranslate"><span class="pre">find_offset(fixed_cell,</span> <span class="pre">moving_cell)</span></code> = shift to apply to moving tile</p></td>
+<td><p>OK (sign convention verified)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="regularization-regularize-displacements-mosaic-refinement-common-cxx-l36171">
+<h2>5. Regularization (<code class="docutils literal notranslate"><span class="pre">regularize_displacements</span></code>, mosaic_refinement_common.cxx L36–171)<a class="headerlink" href="#regularization-regularize-displacements-mosaic-refinement-common-cxx-l36171" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>#</p></th>
+<th class="head"><p>C++ behavior</p></th>
+<th class="head"><p>Python target</p></th>
+<th class="head"><p>Parity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>5.1</p></td>
+<td><p>Median filter on <code class="docutils literal notranslate"><span class="pre">dx</span></code>, <code class="docutils literal notranslate"><span class="pre">dy</span></code> with radius 1 (3×3 kernel, ITK MedianImageFilter, zero-flux Neumann = replicate edges); <code class="docutils literal notranslate"><span class="pre">db</span></code> NOT filtered (L55–60)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">scipy.ndimage.median_filter(size=3,</span> <span class="pre">mode='nearest')</span></code></p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>5.2</p></td>
+<td><p>Gap fill for vertices with <code class="docutils literal notranslate"><span class="pre">db==0</span></code>: sample ring of radius 1 (the loop’s <code class="docutils literal notranslate"><span class="pre">max_r</span> <span class="pre">=</span> <span class="pre">min(1,</span> <span class="pre">...)</span></code> caps the “expanding” radius at exactly 1), average measured neighbors from the median-filtered <code class="docutils literal notranslate"><span class="pre">dx/dy</span></code>, write into blurred copies, set <code class="docutils literal notranslate"><span class="pre">db_blurred=1</span></code> if any sample found (L62–149). Ring sampling uses the C++ offset pattern (left col offset +1 down, bottom row offset +1 right)</p></td>
+<td><p>faithful port including the radius-1 cap and offset pattern</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>5.3</p></td>
+<td><p>Gaussian blur on the entire <code class="docutils literal notranslate"><span class="pre">dx/dy</span></code> fields: ITK DiscreteGaussianImageFilter with <code class="docutils literal notranslate"><span class="pre">SetVariance(sigma²)</span></code>, <code class="docutils literal notranslate"><span class="pre">sigma=1.0</span></code>, <code class="docutils literal notranslate"><span class="pre">UseImageSpacing=false</span></code>, <code class="docutils literal notranslate"><span class="pre">MaximumError=0.1</span></code> (common.hxx L1166–1189; cxx L152–153). Applied to measured vertices too. <code class="docutils literal notranslate"><span class="pre">db</span></code> NOT blurred</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">scipy.ndimage.gaussian_filter(sigma=1.0,</span> <span class="pre">mode='nearest',</span> <span class="pre">truncate≈2.5)</span></code></p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>5.4</p></td>
+<td><p>Output: <code class="docutils literal notranslate"><span class="pre">xy_shift[i]</span> <span class="pre">=</span> <span class="pre">(dx,</span> <span class="pre">dy)</span></code> for every vertex; <code class="docutils literal notranslate"><span class="pre">mass[i]</span> <span class="pre">+=</span> <span class="pre">db[i]</span></code> where <code class="docutils literal notranslate"><span class="pre">db</span> <span class="pre">∈</span> <span class="pre">{0,</span> <span class="pre">1}</span></code> after gap fill (L160–170)</p></td>
+<td><p>per-vertex <code class="docutils literal notranslate"><span class="pre">(dy,</span> <span class="pre">dx)</span></code> shifts + measured flag</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>5.5</p></td>
+<td><p>NOT <code class="docutils literal notranslate"><span class="pre">estimate_cutoff</span></code>: the C++ pipeline has no weight-percentile gating</p></td>
+<td><p>remove <code class="docutils literal notranslate"><span class="pre">_filter_weighted_point_pair_updates</span></code> from the mosaic refine path (keep for STOS refine)</p></td>
+<td><p><strong>Port</strong></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="removed-retired-python-behaviors-mosaic-refine-path">
+<h2>6. Removed/retired Python behaviors (mosaic refine path)<a class="headerlink" href="#removed-retired-python-behaviors-mosaic-refine-path" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Overlap-subcell FFT measurement grid (<code class="docutils literal notranslate"><span class="pre">grid_dim</span> <span class="pre">×</span> <span class="pre">subregion_shape</span></code> cells over the
+padded overlap ROI) — replaced by per-mesh-vertex measurement (3.1/3.2).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SplitDisplacements</span></code> d/2 convention — replaced by <code class="docutils literal notranslate"><span class="pre">1/(1+mass)</span></code> blending (2.4).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_filter_weighted_point_pair_updates</span></code> (<code class="docutils literal notranslate"><span class="pre">estimate_cutoff</span></code>) — no C++ equivalent (5.5).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_merge_weighted_point_pairs</span></code> / <code class="docutils literal notranslate"><span class="pre">_apply_point_pair_updates_to_grid_transform</span></code>
+nearest-node incremental deltas — replaced by full-mesh vertex update (2.5).</p></li>
+<li><p>Final <code class="docutils literal notranslate"><span class="pre">_resample_transform_to_output_grid</span></code> in <code class="docutils literal notranslate"><span class="pre">RefineGridMosaic</span></code> — C++ never
+resamples; tiles are already on the output lattice after pass 0 (2.8).</p></li>
+</ul>
+<p>These functions remain available for unit tests and the STOS refine path.</p>
+</section>
+<section id="coordinate-unit-conventions">
+<h2>7. Coordinate/unit conventions<a class="headerlink" href="#coordinate-unit-conventions" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Quantity</p></th>
+<th class="head"><p>C++</p></th>
+<th class="head"><p>Python</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Axis order</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(y,</span> <span class="pre">x)</span></code> = <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Mesh vertex source lattice</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vertex.uv_</span></code> (normalized tile space)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grid.SourcePoints</span></code> (full-res source pixels)</p></td>
+</tr>
+<tr class="row-even"><td><p>Mesh vertex mosaic position</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vertex.xy_</span></code> (working-res mosaic space)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grid.TargetPoints</span></code> (full-res mosaic space)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Measured shift</p></td>
+<td><p>working-res mosaic pixels</p></td>
+<td><p>scaled peak → divide by <code class="docutils literal notranslate"><span class="pre">imageScale</span></code> before adding to <code class="docutils literal notranslate"><span class="pre">TargetPoints</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Convergence <code class="docutils literal notranslate"><span class="pre">avg</span></code></p></td>
+<td><p>working-res pixels</p></td>
+<td><p>working-res pixels (compute before unit conversion)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">displacement_threshold</span></code></p></td>
+<td><p>working-res pixels (golden run: 0.5)</p></td>
+<td><p>same units</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

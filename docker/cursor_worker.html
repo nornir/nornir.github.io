@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cursor self-hosted cloud agent worker &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Standard D:\ layout for nornir-cursor-worker" href="windows_cursor_layout.html" />
+    <link rel="prev" title="Cursor / local agent dev shell" href="cursor_dev.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Docker images</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="images.html">Image catalogue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html">Remote build appliance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (co-located)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annotation_gallery.html">Annotation overlay gallery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html">Cursor / local agent dev shell</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cursor self-hosted cloud agent worker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#components">Components</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-strategies-nornir-workspace-strategy">Workspace strategies (<code class="docutils literal notranslate"><span class="pre">NORNIR_WORKSPACE_STRATEGY</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#secrets">Secrets</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dev-container-mount-parity-opt-in">Dev-container mount parity (opt-in)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#powershell-launcher-start-cursor-worker-ps1">PowerShell launcher <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cleanup-script-cleanup-cursorworkerclones-ps1">Cleanup script <code class="docutils literal notranslate"><span class="pre">Cleanup-CursorWorkerClones.ps1</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html">Standard <code class="docutils literal notranslate"><span class="pre">D:\</span></code> layout for nornir-cursor-worker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Docker images</a></li>
+      <li class="breadcrumb-item active">Cursor self-hosted cloud agent worker</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/docker/cursor_worker.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cursor-self-hosted-cloud-agent-worker">
+<h1>Cursor self-hosted cloud agent worker<a class="headerlink" href="#cursor-self-hosted-cloud-agent-worker" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">nornir:cursor-worker</span></code> image is for Cursor’s <strong>self-hosted cloud agent</strong> process. It differs from the <code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code> dev shell: it connects <strong>outbound</strong> to Cursor and runs <code class="docutils literal notranslate"><span class="pre">agent</span> <span class="pre">worker</span> <span class="pre">start</span></code> after preparing <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>.</p>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Dockerfile.cursor-worker</span></code> — <code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">nornir:dev-cursor-base</span></code> (venv + CuPy, no monorepo snapshot). Adds <code class="docutils literal notranslate"><span class="pre">git</span></code>, <code class="docutils literal notranslate"><span class="pre">curl</span></code>, and the Cursor lab <code class="docutils literal notranslate"><span class="pre">agent-cli-package</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cursor-worker-entry.sh</span></code> — Entrypoint. Requires <code class="docutils literal notranslate"><span class="pre">CURSOR_API_KEY</span></code>.</p></li>
+</ul>
+<section id="workspace-strategies-nornir-workspace-strategy">
+<h3>Workspace strategies (<code class="docutils literal notranslate"><span class="pre">NORNIR_WORKSPACE_STRATEGY</span></code>)<a class="headerlink" href="#workspace-strategies-nornir-workspace-strategy" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">clone</span></code> (default)</dt><dd><p>Empty <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> → clone from <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_URL</span></code> (default <code class="docutils literal notranslate"><span class="pre">https://github.com/jamesra/nornir.git</span></code>) branch <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code> (default <code class="docutils literal notranslate"><span class="pre">dev</span></code>). Existing <code class="docutils literal notranslate"><span class="pre">.git</span></code> → fetch/checkout/pull. <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_REFRESH=1</span></code> wipes <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mounted</span></code></dt><dd><p>Host bind-mount at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> with an existing checkout. Empty mount → same clone flow. Existing repo → <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code>; <code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE=1</span></code> does <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--ff-only</span></code>.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="secrets">
+<h2>Secrets<a class="headerlink" href="#secrets" title="Link to this heading"></a></h2>
+<p>Copy <code class="docutils literal notranslate"><span class="pre">nornir-docker/example.nornir-cursor-worker.run.env</span></code> to <strong>``D:DockerRunnornir-cursor-workernornir-cursor-worker.run.env``</strong> (recommended) or <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env.cursor-worker</span></code> (dev/compose fallback). Set at minimum:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CURSOR_API_KEY</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> (optional; for private submodules or rate limits)</p></li>
+</ul>
+<p>On Windows, run <code class="docutils literal notranslate"><span class="pre">Initialize-NornirCursorWorkerLayout.ps1</span></code> once to create the <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> tree from examples. See <a class="reference internal" href="windows_cursor_layout.html"><span class="doc">Standard D:\ layout for nornir-cursor-worker</span></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Never commit real tokens. The <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> / <code class="docutils literal notranslate"><span class="pre">GH_TOKEN</span></code> variables are passed into the container only via <code class="docutils literal notranslate"><span class="pre">--env-file</span></code>; they are never loaded onto the host process by the launcher scripts.</p>
+</div>
+<section id="dev-container-mount-parity-opt-in">
+<h3>Dev-container mount parity (opt-in)<a class="headerlink" href="#dev-container-mount-parity-opt-in" title="Link to this heading"></a></h3>
+<p>By default the worker only bind-mounts <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>. To mirror <strong>cursor-dev</strong> data paths
+(<code class="docutils literal notranslate"><span class="pre">/nornir-testdata</span></code>, <code class="docutils literal notranslate"><span class="pre">/data</span></code>, test output, and in-container CIFS from <code class="docutils literal notranslate"><span class="pre">nas-mounts.tsv</span></code>),
+configure <code class="docutils literal notranslate"><span class="pre">Run\nornir-net-mounts</span></code> (or legacy <code class="docutils literal notranslate"><span class="pre">Run\nornir-dev</span></code>) first
+(see <code class="docutils literal notranslate"><span class="pre">nornir-docker/windows-docker-layout/NORNIR_DEV_VOLUMES.md</span></code>), then either:</p>
+<ul class="simple">
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">NORNIR_WORKER_DEV_PARITY_MOUNTS=1</span></code> in the worker run env, or</p></li>
+<li><p>Pass <code class="docutils literal notranslate"><span class="pre">-DevParityMounts</span></code> to <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code>.</p></li>
+</ul>
+<p>Host paths are read from <code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/.run.nornir-net-mounts.env</span></code> (preferred),
+<code class="docutils literal notranslate"><span class="pre">Run/nornir-dev/.run.nornir-dev.env</span></code>, and <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code>. NAS data uses path-B
+in-container CIFS (<code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_*</span></code>), not a host bind of the share.</p>
+<p>Build:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">Dockerfile</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">arg</span> <span class="n">INSTALL_MONOREPO_EDITABLES</span><span class="o">=</span><span class="mi">0</span> <span class="o">-</span><span class="n">t</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">base</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">Dockerfile</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span> <span class="o">-</span><span class="n">t</span> <span class="n">nornir</span><span class="p">:</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Compose (build then run):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span><span class="o">.</span><span class="n">yaml</span> <span class="n">build</span> <span class="n">nornir</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">base</span> <span class="n">nornir</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span><span class="o">.</span><span class="n">yaml</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="n">nornir</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span>
+</pre></div>
+</div>
+<p>Containers set <code class="docutils literal notranslate"><span class="pre">nofile</span></code> <strong>65536</strong> (same as production and cursor-dev) for long builds on NAS mounts. Check with <code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span></code> inside the running container.</p>
+</section>
+</section>
+<section id="powershell-launcher-start-cursor-worker-ps1">
+<h2>PowerShell launcher <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code><a class="headerlink" href="#powershell-launcher-start-cursor-worker-ps1" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code> has several modes:</p>
+<ul class="simple">
+<li><p><strong>Default:</strong> host <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> into a unique directory under <code class="docutils literal notranslate"><span class="pre">D:\agents</span></code> (override with <code class="docutils literal notranslate"><span class="pre">-AgentCloneParent</span></code>), bind-mount at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, pass <code class="docutils literal notranslate"><span class="pre">NORNIR_WORKSPACE_STRATEGY=mounted</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-LiveMount</span></code>: bind-mount <code class="docutils literal notranslate"><span class="pre">WorkspaceMountPath</span></code> or <code class="docutils literal notranslate"><span class="pre">RepoRoot</span></code> at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, <code class="docutils literal notranslate"><span class="pre">mounted</span></code> strategy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-LiveMount</span> <span class="pre">-UseUniqueWorkspaceFolder</span></code>: empty unique folder per run under <code class="docutils literal notranslate"><span class="pre">WorkspaceRunParent</span></code> (default <code class="docutils literal notranslate"><span class="pre">D:\Docker\mounted-configs\nornir-cursor-worker</span></code>), mount at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, <code class="docutils literal notranslate"><span class="pre">clone</span></code> strategy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-UseNamedDockerVolume</span></code>: named Docker volume at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, <code class="docutils literal notranslate"><span class="pre">clone</span></code> strategy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-RemoveCloneAfter</span></code>: delete isolated host clone or per-run folder after exit (skipped if <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span> <span class="pre">--porcelain</span></code> is non-empty; see <code class="docutils literal notranslate"><span class="pre">CursorWorkerWorkspaceGit.ps1</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-Rebuild</span></code>: builds <code class="docutils literal notranslate"><span class="pre">nornir:dev-cursor-base</span></code> then <code class="docutils literal notranslate"><span class="pre">nornir:cursor-worker</span></code> (or <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">D:\Docker\Builds\nornir</span></code> and <code class="docutils literal notranslate"><span class="pre">.\build-nornir-images.ps1</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-Gpu</span></code>, <code class="docutils literal notranslate"><span class="pre">-SmokeTest</span></code>, <code class="docutils literal notranslate"><span class="pre">-CloneUrl</span></code>, <code class="docutils literal notranslate"><span class="pre">-CloneBranch</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-DevParityMounts</span></code> or <code class="docutils literal notranslate"><span class="pre">NORNIR_WORKER_DEV_PARITY_MOUNTS=1</span></code>: same NAS/testdata mounts as cursor-dev (see above).</p></li>
+</ul>
+<p>For the <strong>standard Windows ``D:`` layout</strong>, see <a class="reference internal" href="windows_cursor_layout.html"><span class="doc">Standard D:\ layout for nornir-cursor-worker</span></a>.</p>
+<section id="cleanup-script-cleanup-cursorworkerclones-ps1">
+<h3>Cleanup script <code class="docutils literal notranslate"><span class="pre">Cleanup-CursorWorkerClones.ps1</span></code><a class="headerlink" href="#cleanup-script-cleanup-cursorworkerclones-ps1" title="Link to this heading"></a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">nornir-docker/Cleanup-CursorWorkerClones.ps1</span></code> on the <strong>host</strong> to remove leftover disposable workspace folders when:</p>
+<ul class="simple">
+<li><p><strong>Docker:</strong> <code class="docutils literal notranslate"><span class="pre">docker</span></code> must be on <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. The script scans <strong>all</strong> containers (running and stopped), collects each bind mount <code class="docutils literal notranslate"><span class="pre">Source</span></code>, and <strong>never</strong> deletes a directory whose normalized path is still a bind source.</p></li>
+<li><p><strong>Git:</strong> Same rules as <code class="docutils literal notranslate"><span class="pre">-RemoveCloneAfter</span></code>, implemented in <code class="docutils literal notranslate"><span class="pre">CursorWorkerWorkspaceGit.ps1</span></code> (<code class="docutils literal notranslate"><span class="pre">Get-CursorWorkerRemoveCloneAfterDisposition</span></code>): delete if there is no <code class="docutils literal notranslate"><span class="pre">.git</span></code>, or if <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span> <span class="pre">--porcelain</span></code> is empty; otherwise skip.</p></li>
+</ul>
+<p><strong>Scope (name patterns):</strong> under <code class="docutils literal notranslate"><span class="pre">WorkspaceRunParent</span></code> (default <code class="docutils literal notranslate"><span class="pre">D:\Docker\mounted-configs\nornir-cursor-worker</span></code>), only directories named <code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker-*</span></code>; under <code class="docutils literal notranslate"><span class="pre">AgentCloneParent</span></code> (default <code class="docutils literal notranslate"><span class="pre">D:\agents</span></code>), only <code class="docutils literal notranslate"><span class="pre">nornir-agent-*</span></code>. Override parents with <code class="docutils literal notranslate"><span class="pre">-WorkspaceRunParent</span></code> and <code class="docutils literal notranslate"><span class="pre">-AgentCloneParent</span></code>.</p>
+<p><strong>Safety:</strong> Use <code class="docutils literal notranslate"><span class="pre">-WhatIf</span></code> to list removals without deleting. Confirmation uses <code class="docutils literal notranslate"><span class="pre">ShouldProcess</span></code> (<code class="docutils literal notranslate"><span class="pre">-Confirm:$false</span></code> to skip prompts).</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cursor_dev.html" class="btn btn-neutral float-left" title="Cursor / local agent dev shell" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="windows_cursor_layout.html" class="btn btn-neutral float-right" title="Standard D:\ layout for nornir-cursor-worker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

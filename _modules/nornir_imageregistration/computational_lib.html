@@ -1,0 +1,475 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_imageregistration.computational_lib &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_imageregistration.computational_lib</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_imageregistration.computational_lib</h1><div class="highlight"><pre>
+<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'ComputationLib'</span><span class="p">,</span>
+    <span class="s1">'HasCupy'</span><span class="p">,</span>
+    <span class="s1">'HasCuVS'</span><span class="p">,</span>
+    <span class="s1">'UsingCupy'</span><span class="p">,</span>
+    <span class="s1">'GetActiveComputationLib'</span><span class="p">,</span>
+    <span class="s1">'SetActiveComputationLib'</span><span class="p">,</span>
+    <span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY_ENV'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># One-time setup so CUDA DLLs (e.g. curand64_*.dll) are found when CUDA_PATH is set.</span>
+<span class="c1"># Windows does not search CUDA_PATH\bin or \bin\x64 by default; add them to the DLL search path.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_cuda_bin_to_dll_path</span><span class="p">():</span>
+    <span class="n">cuda_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"CUDA_PATH"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cuda_path</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cuda_path</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">add_dll</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">add_dll_directory</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">for</span> <span class="n">subdir</span> <span class="ow">in</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"bin"</span><span class="p">,</span> <span class="s2">"x64"</span><span class="p">),</span> <span class="s2">"bin"</span><span class="p">):</span>
+        <span class="n">bin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cuda_path</span><span class="p">,</span> <span class="n">subdir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">bin_dir</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">add_dll</span><span class="p">(</span><span class="n">bin_dir</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Process-local effective backend (``numpy`` / ``cupy``). Owned by Nornir; never mutates</span>
+<span class="c1"># ``CUDA_VISIBLE_DEVICES`` (container / orchestrator may pin GPUs there).</span>
+<span class="n">NORNIR_COMPUTATIONAL_LIBRARY_ENV</span> <span class="o">=</span> <span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY'</span>
+<span class="n">NORNIR_COMPUTATIONAL_LIBRARY_REQUESTED_ENV</span> <span class="o">=</span> <span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY_REQUESTED'</span>
+<span class="n">NORNIR_POOL_WORKER_ENV</span> <span class="o">=</span> <span class="s1">'NORNIR_POOL_WORKER'</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_set_effective_computational_library_env</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">NORNIR_COMPUTATIONAL_LIBRARY_ENV</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_cuda_toolkit_env</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Point CuPy's pathfinder at the container CUDA toolkit when unset.</span>
+
+<span class="sd">    Avoids the canary subprocess (``python -m cuda.pathfinder...``) that can fail</span>
+<span class="sd">    when fork-pool workers are starting or when the debugger wraps ``sys.executable``.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_PATH'</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_HOME'</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'/usr/local/cuda'</span><span class="p">,</span> <span class="s1">'/usr/local/cuda-13'</span><span class="p">,</span> <span class="s1">'/usr/local/cuda-13.1'</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'CUDA_PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidate</span>
+                <span class="k">break</span>
+    <span class="n">cuda_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_PATH'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_HOME'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cuda_path</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cuda_path</span><span class="p">):</span>
+        <span class="n">lib64</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cuda_path</span><span class="p">,</span> <span class="s1">'lib64'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">lib64</span><span class="p">):</span>
+            <span class="n">prev</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'LD_LIBRARY_PATH'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lib64</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">prev</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">':'</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'LD_LIBRARY_PATH'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">lib64</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">prev</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">prev</span> <span class="k">else</span> <span class="n">lib64</span>
+                <span class="p">)</span>
+    <span class="n">_add_cuda_bin_to_dll_path</span><span class="p">()</span>
+    <span class="n">_patch_pathfinder_canary_subprocess</span><span class="p">()</span>
+    <span class="n">_preload_cuda_runtime_libs</span><span class="p">()</span>
+
+
+<span class="n">_cuda_runtime_preloaded</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># type: bool</span>
+<span class="n">_pathfinder_canary_patched</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># type: bool</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_patch_pathfinder_canary_subprocess</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Replace cuda-pathfinder's canary subprocess with in-process library lookup.</span>
+
+<span class="sd">    The canary runs ``python -m cuda.pathfinder...`` which often returns empty</span>
+<span class="sd">    stdout under debugpy or when the debugger wraps ``sys.executable``.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">_pathfinder_canary_patched</span>
+    <span class="k">if</span> <span class="n">_pathfinder_canary_patched</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">parent_process</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">cuda.pathfinder._dynamic_libs</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_nvidia_dynamic_lib</span> <span class="k">as</span> <span class="n">pf_mod</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">cuda.pathfinder._dynamic_libs.lib_descriptor</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIB_DESCRIPTORS</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">cuda.pathfinder._dynamic_libs.platform_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOADER</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">cuda.pathfinder._dynamic_libs.search_steps</span><span class="w"> </span><span class="kn">import</span> <span class="n">SearchContext</span><span class="p">,</span> <span class="n">find_via_ctk_root</span>
+
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">cache</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_inprocess</span><span class="p">(</span><span class="n">libname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="n">LIB_DESCRIPTORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">loaded</span> <span class="o">=</span> <span class="n">LOADER</span><span class="o">.</span><span class="n">check_if_already_loaded_from_elsewhere</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">loaded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">loaded</span><span class="o">.</span><span class="n">abs_path</span><span class="p">)</span>
+            <span class="n">ctk_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_PATH'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_HOME'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ctk_root</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">ctk_root</span><span class="p">):</span>
+                <span class="n">find</span> <span class="o">=</span> <span class="n">find_via_ctk_root</span><span class="p">(</span><span class="n">SearchContext</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span> <span class="n">ctk_root</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">find</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">find</span><span class="o">.</span><span class="n">abs_path</span><span class="p">)</span>
+            <span class="n">loaded</span> <span class="o">=</span> <span class="n">LOADER</span><span class="o">.</span><span class="n">load_with_system_search</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">loaded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">loaded</span><span class="o">.</span><span class="n">abs_path</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">pf_mod</span><span class="o">.</span><span class="n">_resolve_system_loaded_abs_path_in_subprocess</span><span class="o">.</span><span class="n">cache_clear</span><span class="p">()</span>
+        <span class="n">pf_mod</span><span class="o">.</span><span class="n">_resolve_system_loaded_abs_path_in_subprocess</span> <span class="o">=</span> <span class="n">_resolve_inprocess</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">cuda.pathfinder._headers.find_nvidia_headers</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_hdr_mod</span>
+            <span class="n">_hdr_mod</span><span class="o">.</span><span class="n">_resolve_system_loaded_abs_path_in_subprocess</span> <span class="o">=</span> <span class="n">_resolve_inprocess</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">_pathfinder_canary_patched</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_preload_cuda_runtime_libs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Load ``cudart``/``curand`` in-process via ``CUDA_PATH`` (no canary subprocess).</span>
+
+<span class="sd">    cuda-pathfinder's canary probe (``python -m cuda.pathfinder...``) can return empty</span>
+<span class="sd">    stdout under debugpy or when fork-pool workers are starting. Preloading here</span>
+<span class="sd">    satisfies CuPy's dynamic-library search without that subprocess.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">_cuda_runtime_preloaded</span>
+    <span class="k">if</span> <span class="n">_cuda_runtime_preloaded</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">parent_process</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_PATH'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_HOME'</span><span class="p">)):</span>
+        <span class="k">return</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">cuda.pathfinder._dynamic_libs.load_nvidia_dynamic_lib</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">load_nvidia_dynamic_lib</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">load_nvidia_dynamic_lib</span><span class="p">(</span><span class="s1">'cudart'</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">libname</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'curand'</span><span class="p">,</span> <span class="s1">'cublas'</span><span class="p">,</span> <span class="s1">'cusparse'</span><span class="p">,</span> <span class="s1">'nvrtc'</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">load_nvidia_dynamic_lib</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="n">_cuda_runtime_preloaded</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ComputationLib</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">numpy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cupy</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">_has_cupy</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># type: bool</span>
+<span class="n">_has_cuvs</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># type: bool</span>
+<span class="n">_cupy_runtime_probed</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># type: bool</span>
+
+<span class="c1"># If we are in a child process, we use numpy, GPU processing currently runs on a single process</span>
+<span class="n">_active_lib</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">parent_process</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span> <span class="c1"># type: ComputationLib | None</span>
+
+<span class="n">_env_lib</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NORNIR_COMPUTATIONAL_LIBRARY_ENV</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">_env_lib</span> <span class="o">==</span> <span class="s1">'numpy'</span><span class="p">:</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span> <span class="k">if</span> <span class="n">_active_lib</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_active_lib</span>
+<span class="k">elif</span> <span class="n">_env_lib</span> <span class="o">==</span> <span class="s1">'cupy'</span> <span class="ow">and</span> <span class="n">_active_lib</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span>
+
+<span class="k">if</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">parent_process</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span>
+
+<span class="n">_ensure_cuda_toolkit_env</span><span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cupy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+    <span class="n">_has_cupy</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span> <span class="k">if</span> <span class="n">_active_lib</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_active_lib</span>
+    <span class="c1"># cupyx.scipy.spatial.distance.cdist checks the same imports (cuvs.distance.pairwise_distance</span>
+    <span class="c1"># or legacy pylibraft.distance). Neighbors-only cuvs (e.g. brute_force) is not enough.</span>
+    <span class="c1"># Import-only probe; does not touch the CUDA runtime (fork-safe until GPU ops run).</span>
+    <span class="k">if</span> <span class="n">_has_cupy</span> <span class="ow">and</span> <span class="n">_active_lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span><span class="p">:</span>
+        <span class="n">_has_cuvs</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">cuvs.distance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_cuvs_distance</span>  <span class="c1"># type: ignore[reportMissingImports]</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="n">_cuvs_distance</span><span class="p">,</span> <span class="s2">"pairwise_distance"</span><span class="p">)</span>
+            <span class="n">_has_cuvs</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">pylibraft.distance</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_pylibraft_distance</span>  <span class="c1"># type: ignore[reportMissingImports]</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">_pylibraft_distance</span><span class="p">,</span> <span class="s2">"pairwise_distance"</span><span class="p">)</span>
+                <span class="n">_has_cuvs</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                <span class="n">_has_cuvs</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">cp</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_has_cupy</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span> <span class="k">if</span> <span class="n">_active_lib</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_active_lib</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">cp</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_has_cupy</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span> <span class="k">if</span> <span class="n">_active_lib</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_active_lib</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_probe_cupy_runtime</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Exercise required CUDA libs once; fall back to NumPy on failure.</span>
+
+<span class="sd">    Deferred until CuPy is explicitly selected so fork-based CPU pools do not</span>
+<span class="sd">    inherit a parent CUDA context initialized at import time.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">_active_lib</span><span class="p">,</span> <span class="n">_cupy_runtime_probed</span><span class="p">,</span> <span class="n">_cuda_runtime_preloaded</span><span class="p">,</span> <span class="n">_pathfinder_canary_patched</span>
+
+    <span class="k">if</span> <span class="n">_cupy_runtime_probed</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_active_lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span>
+
+    <span class="n">_cupy_runtime_probed</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_has_cupy</span> <span class="ow">or</span> <span class="n">cp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">_ensure_cuda_toolkit_env</span><span class="p">()</span>
+
+    <span class="n">last_exc</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">_preload_cuda_runtime_libs</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">device_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">getDeviceCount</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">device_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"CuPy probe found zero CUDA devices"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_cuda_runtime_preloaded</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"CuPy probe array sum unexpected"</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">last_exc</span> <span class="o">=</span> <span class="n">exc</span>
+            <span class="k">if</span> <span class="n">attempt</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">_pathfinder_canary_patched</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">_cuda_runtime_preloaded</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">continue</span>
+            <span class="k">break</span>
+
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ConfigureForkPoolWorker</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Force NumPy backend in fork-based pool workers.</span>
+
+<span class="sd">    Fork-server workers inherit the server's ``_active_lib`` (often CuPy) without</span>
+<span class="sd">    re-running module import. Call from ``nornir_pools.init_pool_process`` so</span>
+<span class="sd">    tile/transform work never triggers CUDA in a forked worker.</span>
+
+<span class="sd">    Does not modify ``NORNIR_COMPUTATIONAL_LIBRARY`` (the build's requested</span>
+<span class="sd">    backend); marks the worker with ``NORNIR_POOL_WORKER=1`` instead.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">_active_lib</span>
+    <span class="k">if</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">parent_process</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">NORNIR_POOL_WORKER_ENV</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'1'</span>
+
+
+<div class="viewcode-block" id="HasCuVS">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.HasCuVS">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">HasCuVS</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True if the GPU distance stack needed by cupyx ``cdist`` is available.</span>
+
+<span class="sd">    Matches ``cupyx.scipy.spatial.distance`` soft dependencies: ``cuvs.distance``</span>
+<span class="sd">    or legacy ``pylibraft.distance``. CuPy must be active.</span>
+
+<span class="sd">    GPU ``cdist`` uses this stack whenever inputs are CuPy. Nearest-neighbor</span>
+<span class="sd">    search is gated separately in ``nearest_neighbor`` (``cKDTree`` below 4096</span>
+<span class="sd">    points) because CuVS brute-force is O(N²) in 2D.</span>
+
+<span class="sd">    :return: True if pairwise distance primitives are importable, False otherwise.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_has_cupy</span> <span class="ow">and</span> <span class="n">_has_cuvs</span></div>
+
+
+<div class="viewcode-block" id="HasCupy">
+<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.HasCupy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">HasCupy</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True if the cupy package is available on this system.</span>
+
+<span class="sd">    :return: True if cupy can be imported, False otherwise.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_has_cupy</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">UsingCupy</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return True if the active computation library is cupy.</span>
+
+<span class="sd">    :return: True when active lib is cupy, False when numpy.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">_active_lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">TryInitCupyContext</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Initialize the CuPy GPU context so later calls do not block on first use.</span>
+
+<span class="sd">    Useful to avoid timeouts in tests. No-op when not using CuPy.</span>
+
+<span class="sd">    :return: True if CuPy is active and context was used, False otherwise.</span>
+<span class="sd">    :raises Exception: Propagated from CuPy/CUDA if GPU initialization or allocations fail.</span>
+<span class="sd">    """</span>
+
+    <span class="k">if</span> <span class="n">UsingCupy</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">cp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_probe_cupy_runtime</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">SetActiveComputationLib</span><span class="p">(</span><span class="n">lib</span><span class="p">:</span> <span class="n">ComputationLib</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Set the active computation backend (numpy or cupy).</span>
+
+<span class="sd">    Updates ``NORNIR_COMPUTATIONAL_LIBRARY`` for this process only. Does not</span>
+<span class="sd">    modify ``CUDA_VISIBLE_DEVICES``; GPU visibility remains under container /</span>
+<span class="sd">    orchestrator control.</span>
+
+<span class="sd">    :param lib: ComputationLib.numpy or ComputationLib.cupy.</span>
+<span class="sd">    :raises ModuleNotFoundError: If cupy is requested but not available.</span>
+<span class="sd">    :raises RuntimeError: If cupy is requested from a child process.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">_active_lib</span><span class="p">,</span> <span class="n">_cupy_runtime_probed</span>
+
+    <span class="k">if</span> <span class="n">lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_has_cupy</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s2">"Cupy is not available"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span> <span class="ow">and</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">parent_process</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Cupy untested in a child process"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_cupy_runtime_probed</span> <span class="ow">and</span> <span class="n">_active_lib</span> <span class="o">==</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span><span class="p">:</span>
+            <span class="n">_set_effective_computational_library_env</span><span class="p">(</span><span class="s1">'cupy'</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">_ensure_cuda_toolkit_env</span><span class="p">()</span>
+        <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_probe_cupy_runtime</span><span class="p">():</span>
+            <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span>
+            <span class="n">_set_effective_computational_library_env</span><span class="p">(</span><span class="s1">'numpy'</span><span class="p">)</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"CuPy runtime probe failed; using NumPy backend "</span>
+                <span class="s2">"(NORNIR_COMPUTATIONAL_LIBRARY=</span><span class="si">%r</span><span class="s2">, CUDA_VISIBLE_DEVICES=</span><span class="si">%r</span><span class="s2">). "</span>
+                <span class="s2">"Assemble will use TilesToImageParallel (CPU) instead of GPU TilesToImage. "</span>
+                <span class="s2">"Nornir does not modify CUDA_VISIBLE_DEVICES; fix GPU visibility in the "</span>
+                <span class="s2">"container or shell if CuPy was requested."</span><span class="p">,</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">NORNIR_COMPUTATIONAL_LIBRARY_ENV</span><span class="p">),</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CUDA_VISIBLE_DEVICES'</span><span class="p">))</span>
+            <span class="k">return</span>
+        <span class="n">_set_effective_computational_library_env</span><span class="p">(</span><span class="s1">'cupy'</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">lib</span>
+    <span class="n">_set_effective_computational_library_env</span><span class="p">(</span><span class="s1">'numpy'</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GetActiveComputationLib</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ComputationLib</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Return the currently active computation library (numpy or cupy).</span>
+
+<span class="sd">    :return: ComputationLib.numpy or ComputationLib.cupy.</span>
+<span class="sd">    """</span>
+    <span class="k">global</span> <span class="n">_active_lib</span>
+    <span class="k">return</span> <span class="n">_active_lib</span> <span class="c1"># type: ignore</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

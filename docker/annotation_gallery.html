@@ -1,0 +1,169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annotation overlay gallery &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cursor / local agent dev shell" href="cursor_dev.html" />
+    <link rel="prev" title="Build dashboard (co-located)" href="dashboard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Docker images</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="images.html">Image catalogue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html">Remote build appliance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (co-located)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Annotation overlay gallery</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#registry">Registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#permissions">Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weekly-export">Weekly export</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html">Cursor / local agent dev shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor_worker.html">Cursor self-hosted cloud agent worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html">Standard <code class="docutils literal notranslate"><span class="pre">D:\</span></code> layout for nornir-cursor-worker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Docker images</a></li>
+      <li class="breadcrumb-item active">Annotation overlay gallery</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/docker/annotation_gallery.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="annotation-overlay-gallery">
+<h1>Annotation overlay gallery<a class="headerlink" href="#annotation-overlay-gallery" title="Link to this heading"></a></h1>
+<p>Slim HTTP + SPA for per-volume <code class="docutils literal notranslate"><span class="pre">AnnotationCrops</span></code> PNG + 1-bit mask review.
+The <strong>gallery image does not install Nornir</strong> (no <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code>,
+imageregistration, CuPy, or torch). Export, SAM2 scoring, and weekly refresh
+run on <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> / cursor-dev against the same registry.</p>
+<p>Start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">start</span><span class="o">-</span><span class="n">annotation</span><span class="o">-</span><span class="n">gallery</span><span class="o">.</span><span class="n">ps1</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">annotation</span><span class="o">-</span><span class="n">gallery</span><span class="o">.</span><span class="n">yaml</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span> <span class="o">--</span><span class="n">build</span>
+</pre></div>
+</div>
+<p>Then open <a class="reference external" href="http://127.0.0.1:8090">http://127.0.0.1:8090</a></p>
+<p>Run env template: <code class="docutils literal notranslate"><span class="pre">nornir-docker/example.annotation-gallery.run.env</span></code> →
+<code class="docutils literal notranslate"><span class="pre">&lt;NORNIR_DOCKER_USER_ROOT&gt;\Run\nornir-annotation-gallery\annotation-gallery.run.env</span></code>.</p>
+<section id="registry">
+<h2>Registry<a class="headerlink" href="#registry" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">GALLERY_VOLUME_DIR</span></code> (in-container <code class="docutils literal notranslate"><span class="pre">/gallery-volumes</span></code>) is a folder of
+<strong>volume-root</strong> links. The child <strong>name</strong> is the Identity volume name; the
+child <strong>target</strong> is the volume root (<code class="docutils literal notranslate"><span class="pre">/storage4/RC2</span></code>), not <code class="docutils literal notranslate"><span class="pre">AnnotationCrops</span></code>.
+The gallery reads <code class="docutils literal notranslate"><span class="pre">{name}/AnnotationCrops/</span></code>. Identity never stores filesystem
+paths.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">storage4</span><span class="o">/</span><span class="n">RC2</span> <span class="o">/</span><span class="n">gallery</span><span class="o">-</span><span class="n">volumes</span><span class="o">/</span><span class="n">RC2</span>
+</pre></div>
+</div>
+<p>Bind the registry <strong>and</strong> the storage root so those links resolve.
+<code class="docutils literal notranslate"><span class="pre">GALLERY_VOLUME_DIR_HOST</span></code> and <code class="docutils literal notranslate"><span class="pre">GALLERY_STORAGE_HOST</span></code> are compose bind sources.</p>
+</section>
+<section id="permissions">
+<h2>Permissions<a class="headerlink" href="#permissions" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">GALLERY_IDENTITY_MODE=stub</span></code> (default) uses <code class="docutils literal notranslate"><span class="pre">GALLERY_STUB_ROLE=read|review</span></code>.
+<code class="docutils literal notranslate"><span class="pre">oidc</span></code> talks to <code class="docutils literal notranslate"><span class="pre">https://identity.codepharm.net:5001</span></code> (auth) and
+<code class="docutils literal notranslate"><span class="pre">https://identity.codepharm.net:6001</span></code> (API). App mapping is Read vs Review
+per volume; names are probed from Identity (<code class="docutils literal notranslate"><span class="pre">GALLERY_READ_PERMISSION</span></code> /
+<code class="docutils literal notranslate"><span class="pre">GALLERY_REVIEW_PERMISSION</span></code>).</p>
+</section>
+<section id="weekly-export">
+<h2>Weekly export<a class="headerlink" href="#weekly-export" title="Link to this heading"></a></h2>
+<p>Do <strong>not</strong> spawn <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> from a gallery HTTP request. Use
+<code class="docutils literal notranslate"><span class="pre">nornir-docker/annotation-gallery/refresh-export.sh</span></code> on <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> cron
+with the same registry.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dashboard.html" class="btn btn-neutral float-left" title="Build dashboard (co-located)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cursor_dev.html" class="btn btn-neutral float-right" title="Cursor / local agent dev shell" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pyre development &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Markdown in the monodoc" href="markdown_in_sphinx.html" />
+    <link rel="prev" title="Release process" href="release.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="publishing_documentation.html">Publishing the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_pages.html">GitHub Pages hosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pyre development</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#monorepo-layout">Monorepo layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-development-environment">Local development environment</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#editable-install-bom-order">Editable install (BOM order)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-and-debug">Run and debug</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings-and-logs">Settings and logs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gpu-optional">GPU (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#windows-packaging-and-release">Windows packaging and release</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-steps">Build steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyinstaller-notes">PyInstaller notes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging-frozen-builds">Debugging frozen builds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ci-and-releases">CI and releases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vm-validation-checklist">VM validation checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Development</a></li>
+      <li class="breadcrumb-item active">Pyre development</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/development/pyre_development.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pyre-development">
+<h1>Pyre development<a class="headerlink" href="#pyre-development" title="Link to this heading"></a></h1>
+<p>Pyre (<code class="docutils literal notranslate"><span class="pre">nornir-pyre</span></code>) is the PyQt6 / OpenGL desktop application for interactive
+image registration in the Nornir umbrella. This page covers local development,
+testing, and building the Windows installer.</p>
+<section id="monorepo-layout">
+<h2>Monorepo layout<a class="headerlink" href="#monorepo-layout" title="Link to this heading"></a></h2>
+<p>Prefer an <strong>umbrella checkout</strong> of the Nornir monorepo so sibling packages resolve
+from local trees. Pyre depends on:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-shared</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-pools</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-imageregistration</span></code> (CPU-only for UI work; optional <code class="docutils literal notranslate"><span class="pre">[gpu]</span></code> extra)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code></p></li>
+</ul>
+<p>Pyre is <strong>not</strong> shipped in Docker images (<code class="docutils literal notranslate"><span class="pre">docker:</span> <span class="pre">false</span></code> in
+<code class="docutils literal notranslate"><span class="pre">release/package-versions.yaml</span></code>). Use a host virtual environment for UI development.</p>
+</section>
+<section id="local-development-environment">
+<h2>Local development environment<a class="headerlink" href="#local-development-environment" title="Link to this heading"></a></h2>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Python <strong>3.13+</strong></p></li>
+<li><p>Windows, Linux, or macOS host with OpenGL</p></li>
+<li><p>Monorepo checkout with submodules initialized</p></li>
+</ul>
+<p>Recommended venv (this machine): <code class="docutils literal notranslate"><span class="pre">venv/pyre314</span></code> — see <a class="reference internal" href="../developer_notes.html"><span class="doc">Developer notes</span></a>.</p>
+</section>
+<section id="editable-install-bom-order">
+<h3>Editable install (BOM order)<a class="headerlink" href="#editable-install-bom-order" title="Link to this heading"></a></h3>
+<p>Install siblings with <code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> so git URL pins in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> do not
+override local sources (same pattern as <a class="reference internal" href="../docker/cursor_dev.html"><span class="doc">Cursor / local agent dev shell</span></a>):</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="n">venv</span><span class="p">\</span><span class="n">pyre314</span>
+<span class="n">venv</span><span class="p">\</span><span class="n">pyre314</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">activate</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="n">nornir-shared</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="n">nornir-pools</span> <span class="p">-</span><span class="n">-no-deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="n">nornir-imageregistration</span> <span class="p">-</span><span class="n">-no-deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">scipy</span> <span class="n">Pillow</span> <span class="n">pydantic</span> <span class="n">scikit-image</span> <span class="n">hypothesis</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="n">nornir-buildmanager</span> <span class="p">-</span><span class="n">-no-deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">validators</span> <span class="n">python-dotenv</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="n">nornir-pyre</span> <span class="p">-</span><span class="n">-no-deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">PyQt6</span> <span class="n">PyOpenGL</span> <span class="n">matplotlib</span> <span class="n">rtree</span> <span class="n">PyYAML</span> <span class="n">dependency-injector</span> <span class="n">six</span>
+</pre></div>
+</div>
+<p>Or use <code class="docutils literal notranslate"><span class="pre">nornir-pyre/requirements-qt.txt</span></code> as a baseline after editable siblings
+are installed.</p>
+</section>
+<section id="run-and-debug">
+<h3>Run and debug<a class="headerlink" href="#run-and-debug" title="Link to this heading"></a></h3>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">pyre</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">pyre</span>
+<span class="n">python</span> <span class="n">-m</span> <span class="n">pyre</span> <span class="n">-stos</span> <span class="n">D</span><span class="p">:\</span><span class="n">data</span><span class="p">\</span><span class="n">section</span><span class="p">.</span><span class="n">stos</span>
+</pre></div>
+</div>
+<p>VS Code launch configurations live in <code class="docutils literal notranslate"><span class="pre">.vscode/launch.json</span></code> at the monorepo root.</p>
+</section>
+<section id="settings-and-logs">
+<h3>Settings and logs<a class="headerlink" href="#settings-and-logs" title="Link to this heading"></a></h3>
+<p>Set <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> in development to follow the unified logging convention
+(<a class="reference internal" href="logging.html"><span class="doc">Logging convention</span></a>).</p>
+</section>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Link to this heading"></a></h3>
+<p>From <code class="docutils literal notranslate"><span class="pre">nornir-pyre/</span></code>:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span>
+</pre></div>
+</div>
+<p>Graphical tests use <code class="docutils literal notranslate"><span class="pre">&#64;pytest.mark.graphical</span></code> and require a display. Headless CI
+uses <code class="docutils literal notranslate"><span class="pre">NORNIR_HEADLESS=1</span></code> where applicable (see imageregistration headless test
+conventions).</p>
+</section>
+<section id="gpu-optional">
+<h3>GPU (optional)<a class="headerlink" href="#gpu-optional" title="Link to this heading"></a></h3>
+<p>UI development does not require CuPy. For GPU-backed registration:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="s2">"nornir-imageregistration[gpu]"</span> <span class="p">-</span><span class="n">-no-deps</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="windows-packaging-and-release">
+<h2>Windows packaging and release<a class="headerlink" href="#windows-packaging-and-release" title="Link to this heading"></a></h2>
+<p>End users install <code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code> from GitHub Releases
+(<a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>). Maintainers build it from
+<code class="docutils literal notranslate"><span class="pre">nornir-pyre/packaging/windows/</span></code>.</p>
+<section id="id1">
+<h3>Prerequisites<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Windows 10/11 x64</p></li>
+<li><p>Python 3.13+</p></li>
+<li><p>Inno Setup 6</p></li>
+<li><p>Monorepo checkout at the release tag</p></li>
+<li><p>Submodules initialized</p></li>
+</ul>
+</section>
+<section id="build-steps">
+<h3>Build steps<a class="headerlink" href="#build-steps" title="Link to this heading"></a></h3>
+<p>From a terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">nornir</span><span class="o">-</span><span class="n">pyre</span>\<span class="n">packaging</span>\<span class="n">windows</span>
+<span class="o">.</span>\<span class="n">build</span><span class="o">-</span><span class="n">freeze</span><span class="o">.</span><span class="n">ps1</span>
+<span class="o">.</span>\<span class="n">validate</span><span class="o">-</span><span class="n">frozen</span><span class="o">.</span><span class="n">ps1</span>
+<span class="o">.</span>\<span class="n">build</span><span class="o">-</span><span class="n">installer</span><span class="o">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+<p>Or from VS Code / Cursor: <strong>Terminal → Run Task…</strong> and choose one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pyre:</span> <span class="pre">freeze</span> <span class="pre">bundle</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyre:</span> <span class="pre">validate</span> <span class="pre">frozen</span> <span class="pre">bundle</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyre:</span> <span class="pre">build</span> <span class="pre">installer</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyre:</span> <span class="pre">build</span> <span class="pre">Windows</span> <span class="pre">installer</span> <span class="pre">(full)</span></code> — runs all three in sequence</p></li>
+</ul>
+<p>Tasks are defined in <code class="docutils literal notranslate"><span class="pre">.vscode/tasks.json</span></code>. Use <strong>launch.json</strong> for debugging
+<code class="docutils literal notranslate"><span class="pre">pyre</span></code> or pytest, not for packaging scripts.</p>
+<p>Output:</p>
+<ul class="simple">
+<li><p>Frozen bundle: <code class="docutils literal notranslate"><span class="pre">dist/pyre/pyre.exe</span></code> (one-folder layout)</p></li>
+<li><p>Installer: <code class="docutils literal notranslate"><span class="pre">dist/installer/Pyre-&lt;version&gt;-Setup.exe</span></code>
+(version from <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyproject.toml</span></code> via <code class="docutils literal notranslate"><span class="pre">build-installer.ps1</span></code>)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">build-freeze.ps1</span></code> generates <code class="docutils literal notranslate"><span class="pre">release/pyre-windows-constraints.txt</span></code> (local
+<code class="docutils literal notranslate"><span class="pre">file://</span></code> URLs from <code class="docutils literal notranslate"><span class="pre">release/package-versions.yaml</span></code>), installs CPU-only
+monorepo packages, and runs PyInstaller via <code class="docutils literal notranslate"><span class="pre">pyre.spec</span></code>.</p>
+</section>
+<section id="pyinstaller-notes">
+<h3>PyInstaller notes<a class="headerlink" href="#pyinstaller-notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Entry point: <code class="docutils literal notranslate"><span class="pre">pyre.__main__:main</span></code> (console script <code class="docutils literal notranslate"><span class="pre">pyre</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">console=False</span></code> (GUI)</p></li>
+<li><p>Collects PyQt6 plugins, SciPy, scikit-image, and Nornir packages</p></li>
+<li><p>Excludes <code class="docutils literal notranslate"><span class="pre">cupy</span></code> / <code class="docutils literal notranslate"><span class="pre">cupyx</span></code> from the default bundle</p></li>
+<li><p>Package data: <code class="docutils literal notranslate"><span class="pre">pyre/resources/*.png</span></code>, bundled <code class="docutils literal notranslate"><span class="pre">README.rst</span></code></p></li>
+</ul>
+</section>
+<section id="debugging-frozen-builds">
+<h3>Debugging frozen builds<a class="headerlink" href="#debugging-frozen-builds" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sys.frozen</span></code> is set by PyInstaller; <code class="docutils literal notranslate"><span class="pre">pyre.frozen_paths</span></code> centralizes AppData paths.</p></li>
+<li><p>Missing modules: add hidden imports in <code class="docutils literal notranslate"><span class="pre">pyre.spec</span></code> or <code class="docutils literal notranslate"><span class="pre">hook-pyre.py</span></code>.</p></li>
+<li><p>Smoke test without GUI: <code class="docutils literal notranslate"><span class="pre">pyre.exe</span> <span class="pre">--smoke-test</span></code></p></li>
+</ul>
+</section>
+<section id="ci-and-releases">
+<h3>CI and releases<a class="headerlink" href="#ci-and-releases" title="Link to this heading"></a></h3>
+<p>On push of a <code class="docutils literal notranslate"><span class="pre">v*</span></code> tag, <code class="docutils literal notranslate"><span class="pre">.github/workflows/pyre-windows-release.yml</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Verifies <code class="docutils literal notranslate"><span class="pre">release/package-versions.yaml</span></code></p></li>
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">build-freeze.ps1</span></code> and <code class="docutils literal notranslate"><span class="pre">validate-frozen.ps1</span></code></p></li>
+<li><p>Compiles Inno Setup</p></li>
+<li><p>Uploads <code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code> to the GitHub Release</p></li>
+</ol>
+<p>See <a class="reference internal" href="release.html"><span class="doc">Release process</span></a> for the full monorepo release checklist.</p>
+<p>Optional: Authenticode-sign the installer to reduce SmartScreen warnings.</p>
+</section>
+<section id="vm-validation-checklist">
+<h3>VM validation checklist<a class="headerlink" href="#vm-validation-checklist" title="Link to this heading"></a></h3>
+<p>Before declaring a release ready, test on a <strong>clean Windows VM</strong> (no Python/Git):</p>
+<ol class="arabic simple">
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">Pyre-&lt;version&gt;-Setup.exe</span></code></p></li>
+<li><p>Launch from Start Menu; confirm the main window opens</p></li>
+<li><p>Open a sample STOS or mosaic from test fixtures</p></li>
+<li><p>Confirm logs under <code class="docutils literal notranslate"><span class="pre">%LOCALAPPDATA%\Nornir\Pyre\logs</span></code></p></li>
+<li><p>Uninstall from Settings → Apps</p></li>
+</ol>
+</section>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>End-user install: <a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a></p></li>
+<li><p>Packaging cheat sheet: <code class="docutils literal notranslate"><span class="pre">nornir-pyre/packaging/windows/README.md</span></code></p></li>
+<li><p>Release process: <a class="reference internal" href="release.html"><span class="doc">Release process</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="release.html" class="btn btn-neutral float-left" title="Release process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="markdown_in_sphinx.html" class="btn btn-neutral float-right" title="Markdown in the monodoc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

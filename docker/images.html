@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image catalogue &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nd-build — run nornir-build inside Docker" href="nd_build.html" />
+    <link rel="prev" title="Docker images" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Docker images</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Image catalogue</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#monorepo-version-and-package-map">Monorepo version and package map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-commands">Build commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oci-image-labels">OCI image labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-nornir-dev-interactively-bind-mounts">Running <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> interactively (bind mounts)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gpu-runtime">GPU runtime</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html">Remote build appliance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (co-located)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="annotation_gallery.html">Annotation overlay gallery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html">Cursor / local agent dev shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor_worker.html">Cursor self-hosted cloud agent worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html">Standard <code class="docutils literal notranslate"><span class="pre">D:\</span></code> layout for nornir-cursor-worker</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Docker images</a></li>
+      <li class="breadcrumb-item active">Image catalogue</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/docker/images.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="image-catalogue">
+<h1>Image catalogue<a class="headerlink" href="#image-catalogue" title="Link to this heading"></a></h1>
+<p>All images are built from the monorepo root (context <code class="docutils literal notranslate"><span class="pre">.</span></code>).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 30.0%" />
+<col style="width: 45.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Image tag</p></th>
+<th class="head"><p>Dockerfile</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dev/Dockerfile</span></code></p></td>
+<td><p>CuPy (<code class="docutils literal notranslate"><span class="pre">cupy-cuda13x</span></code>) + cuVS (<code class="docutils literal notranslate"><span class="pre">cuvs-cu13</span></code>) + pytest. Use <code class="docutils literal notranslate"><span class="pre">--gpus</span> <span class="pre">all</span></code> / <code class="docutils literal notranslate"><span class="pre">nd-build</span> <span class="pre">-Gpu</span></code> for GPU.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">prod/Dockerfile</span></code></p></td>
+<td><p>CPU-only production (<code class="docutils literal notranslate"><span class="pre">INSTALL_CUPY=0</span></code>, default).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">prod/Dockerfile</span></code> with <code class="docutils literal notranslate"><span class="pre">--build-arg</span> <span class="pre">INSTALL_CUPY=1</span></code></p></td>
+<td><p>Production + CuPy + cuVS.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nornir:dev-cursor-base</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dev/Dockerfile</span></code> with <code class="docutils literal notranslate"><span class="pre">INSTALL_MONOREPO_EDITABLES=0</span></code></p></td>
+<td><p>CuPy + cuVS + pytest + venv <strong>without</strong> baking the monorepo; base for <code class="docutils literal notranslate"><span class="pre">cursor-worker</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir:cursor-worker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Dockerfile.cursor-worker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dev-cursor-base</span></code> + Cursor lab agent CLI; packages come from <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> at start.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Packages baked into <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code>, and <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> (from the monorepo at build time):
+<code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir_imageregistration</span></code>, <code class="docutils literal notranslate"><span class="pre">dm4</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir_buildmanager</span></code>.
+<code class="docutils literal notranslate"><span class="pre">nornir:cursor-worker</span></code> and <code class="docutils literal notranslate"><span class="pre">nornir:dev-cursor-base</span></code> do <strong>not</strong> bake those; they install editables from <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> at container start.</p>
+<p>The annotation overlay gallery (<code class="docutils literal notranslate"><span class="pre">nornir-annotation-gallery</span></code>) is a <strong>Compose stack</strong>, not one of the five <code class="docutils literal notranslate"><span class="pre">docker-build.ps1</span></code> tags. It is a stdlib-only image under <code class="docutils literal notranslate"><span class="pre">nornir-docker/annotation-gallery/</span></code> and must not install <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code>. See <a class="reference internal" href="annotation_gallery.html"><span class="doc">Annotation overlay gallery</span></a>.</p>
+<section id="monorepo-version-and-package-map">
+<h2>Monorepo version and package map<a class="headerlink" href="#monorepo-version-and-package-map" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">VERSION</span></code> at the monorepo root — single-line release id (e.g. <code class="docutils literal notranslate"><span class="pre">1.7.0</span></code>). Release tags use <code class="docutils literal notranslate"><span class="pre">v</span></code> + that value (<code class="docutils literal notranslate"><span class="pre">v1.7.0</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release/package-versions.yaml</span></code> — bill of materials (each distribution version, <code class="docutils literal notranslate"><span class="pre">docker:</span> <span class="pre">true/false</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">release/README.md</span></code> — release checklist.</p></li>
+</ul>
+</section>
+<section id="build-commands">
+<h2>Build commands<a class="headerlink" href="#build-commands" title="Link to this heading"></a></h2>
+<p>Recommended (OCI labels + BOM JSON) — run from <code class="docutils literal notranslate"><span class="pre">nornir-docker/</span></code> (or any directory; the script captures the current directory before changing to the monorepo root):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">docker</span><span class="o">-</span><span class="n">build</span><span class="o">.</span><span class="n">ps1</span>     <span class="c1"># PowerShell</span>
+<span class="n">build</span><span class="o">.</span><span class="n">cmd</span>              <span class="c1"># cmd</span>
+</pre></div>
+</div>
+<p>Build only selected tags with <code class="docutils literal notranslate"><span class="pre">-Images</span></code> (catalogue order; skips everything else).
+Names may be short (<code class="docutils literal notranslate"><span class="pre">prod</span></code>), <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code>, or <code class="docutils literal notranslate"><span class="pre">nornir-prod</span></code>. Selecting
+<code class="docutils literal notranslate"><span class="pre">cursor-worker</span></code> also builds <code class="docutils literal notranslate"><span class="pre">dev-cursor-base</span></code> first. <code class="docutils literal notranslate"><span class="pre">prod</span></code> / <code class="docutils literal notranslate"><span class="pre">cupy</span></code> do
+<strong>not</strong> require <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">docker</span><span class="o">-</span><span class="n">build</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Images</span> <span class="n">prod</span><span class="p">,</span><span class="n">cupy</span>
+</pre></div>
+</div>
+<p>Force a clean rebuild of those tags:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">docker</span><span class="o">-</span><span class="n">build</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Images</span> <span class="n">prod</span><span class="p">,</span><span class="n">cupy</span> <span class="o">-</span><span class="n">NoCache</span>
+</pre></div>
+</div>
+<p>After each successful image, the script prints <code class="docutils literal notranslate"><span class="pre">Id</span></code> / <code class="docutils literal notranslate"><span class="pre">Created</span></code> / OCI labels and also tags
+<code class="docutils literal notranslate"><span class="pre">nornir:&lt;name&gt;-&lt;VERSION&gt;</span></code> (from the monorepo <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> file). <code class="docutils literal notranslate"><span class="pre">docker-push.ps1</span></code> prints the
+same local metadata before push and warns if the floating tag looks stale.</p>
+<p>Optional build-arg overrides: place <code class="docutils literal notranslate"><span class="pre">build.env</span></code> (shared) and <code class="docutils literal notranslate"><span class="pre">.build.&lt;id&gt;.env</span></code> per image (<code class="docutils literal notranslate"><span class="pre">&lt;id&gt;</span></code> is the tag with <code class="docutils literal notranslate"><span class="pre">:</span></code> replaced by <code class="docutils literal notranslate"><span class="pre">-</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">.build.nornir-dev.env</span></code>) in that <strong>invocation</strong> directory. The script does not read committed <code class="docutils literal notranslate"><span class="pre">example.*.build.env</span></code> files; use those files in the repo only as templates.</p>
+<p>Minimal samples (Compose / same builds from repo root):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">start</span><span class="o">-</span><span class="n">sample</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Sample</span> <span class="n">List</span>
+</pre></div>
+</div>
+<p>This reads <code class="docutils literal notranslate"><span class="pre">VERSION</span></code>, git SHA, build time, and embeds a base64-encoded JSON bill of materials.</p>
+<p>Manual <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">build</span></code> (from monorepo root):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">Dockerfile</span> <span class="o">-</span><span class="n">t</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">prod</span><span class="o">/</span><span class="n">Dockerfile</span> <span class="o">-</span><span class="n">t</span> <span class="n">nornir</span><span class="p">:</span><span class="n">prod</span> <span class="o">.</span>
+<span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">prod</span><span class="o">/</span><span class="n">Dockerfile</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">arg</span> <span class="n">INSTALL_CUPY</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span><span class="n">t</span> <span class="n">nornir</span><span class="p">:</span><span class="n">cupy</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Override the CuPy wheel (default <code class="docutils literal notranslate"><span class="pre">cupy-cuda13x</span></code>). Match cuVS to the same CUDA major
+(<code class="docutils literal notranslate"><span class="pre">cuvs-cu12</span></code> with <code class="docutils literal notranslate"><span class="pre">cupy-cuda12x</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">Dockerfile</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">arg</span> <span class="n">CUPY_PACKAGE</span><span class="o">=</span><span class="n">cupy</span><span class="o">-</span><span class="n">cuda12x</span> <span class="o">--</span><span class="n">build</span><span class="o">-</span><span class="n">arg</span> <span class="n">CUVS_PACKAGE</span><span class="o">=</span><span class="n">cuvs</span><span class="o">-</span><span class="n">cu12</span> <span class="o">-</span><span class="n">t</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="oci-image-labels">
+<h2>OCI image labels<a class="headerlink" href="#oci-image-labels" title="Link to this heading"></a></h2>
+<p>Images declare <a class="reference external" href="https://github.com/opencontainers/image-spec/blob/main/annotations.md">OCI annotations</a>
+including <code class="docutils literal notranslate"><span class="pre">org.opencontainers.image.version</span></code>, <code class="docutils literal notranslate"><span class="pre">org.opencontainers.image.revision</span></code>,
+<code class="docutils literal notranslate"><span class="pre">org.opencontainers.image.source</span></code>, <code class="docutils literal notranslate"><span class="pre">org.opencontainers.image.created</span></code>,
+<code class="docutils literal notranslate"><span class="pre">org.nornir.variant</span></code>, and <code class="docutils literal notranslate"><span class="pre">org.nornir.package_versions.json.base64</span></code>
+(base64-encoded JSON map of docker-included packages).</p>
+<p>Inspect (PowerShell):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">'{{json .Config.Labels}}'</span>
+</pre></div>
+</div>
+<p>Decode the BOM:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format '{{index .Config.Labels "org.nornir.package_versions.json.base64"}}')
+[System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b64))
+</pre></div>
+</div>
+</section>
+<section id="running-nornir-dev-interactively-bind-mounts">
+<h2>Running <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> interactively (bind mounts)<a class="headerlink" href="#running-nornir-dev-interactively-bind-mounts" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> image <strong>bakes</strong> the monorepo packages under <code class="docutils literal notranslate"><span class="pre">/opt/nornir</span></code> at <strong>build</strong> time.
+It does <strong>not</strong> clone sources into <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> on start: the default command is <code class="docutils literal notranslate"><span class="pre">bash</span></code> only,
+so <code class="docutils literal notranslate"><span class="pre">WORKDIR</span> <span class="pre">/workspace</span></code> is usually an <strong>empty</strong> directory unless you mount something there.</p>
+<ul>
+<li><p><strong>Empty ``/workspace``</strong> — If you bind-mount an empty host folder at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, the
+container shell will show an empty tree. Mount your <strong>actual monorepo checkout</strong> instead
+(same layout as the build context), e.g. <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">D:\src\git\nornir:/workspace</span></code>, then work or
+re-run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span></code> on packages from <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> if you need editables against the
+mount.</p></li>
+<li><p><strong>Clone into an empty mount</strong> — The image ships <code class="docutils literal notranslate"><span class="pre">/usr/local/bin/cursor-dev-entry.sh</span></code> (same
+script used by the Cursor dev compose flow). It is <strong>not</strong> the default <code class="docutils literal notranslate"><span class="pre">CMD</span></code>; run it
+explicitly so an empty <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> is populated by <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> (requires network and
+<code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code> if you override defaults), then drops into
+your shell, for example (one line, or use <code class="docutils literal notranslate"><span class="pre">^</span></code> continuation in <code class="docutils literal notranslate"><span class="pre">cmd</span></code> / backtick in PowerShell):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="n">secrets</span><span class="o">.</span><span class="n">env</span> <span class="o">--</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">nornir</span><span class="o">-</span><span class="n">dev</span> <span class="o">-</span><span class="n">v</span> <span class="s2">"D:\Docker\mounted-configs</span><span class="se">\n</span><span class="s2">ornir-dev:/workspace"</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">workspace</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">entry</span><span class="o">.</span><span class="n">sh</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>If the mount is <strong>non-empty</strong> and not a git repo, the script refuses to clone (see script
+error text); use an empty directory or a real checkout.</p>
+</li>
+<li><p><strong>``/nornir-testdata``</strong> — Nothing in <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> creates this path. For tests that need
+<code class="docutils literal notranslate"><span class="pre">TESTINPUTPATH</span></code> (often <code class="docutils literal notranslate"><span class="pre">/nornir-testdata</span></code>), add a <strong>second</strong> read-only bind mount from
+the host (WSL Linux paths are recommended on Docker Desktop) and set the env vars, e.g. in
+your env file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TESTINPUTPATH</span><span class="o">=/</span><span class="n">nornir</span><span class="o">-</span><span class="n">testdata</span>
+<span class="n">TESTOUTPUTPATH</span><span class="o">=/</span><span class="n">tmp</span><span class="o">/</span><span class="n">nornir</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">output</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">compose.cursor-dev.yaml</span></code> bind-mounts <code class="docutils literal notranslate"><span class="pre">NORNIR_TESTOUTPUT_HOST</span></code> (default <code class="docutils literal notranslate"><span class="pre">D:/nornir-test-output</span></code>) to that path.</p>
+<p>and:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">v</span> <span class="s2">"//wsl$/Ubuntu/home/you/nornir-testdata:/nornir-testdata:ro"</span>
+</pre></div>
+</div>
+<p>Or use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">-f</span> <span class="pre">nornir-docker/compose.cursor-dev.yaml</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">cursor-dev</span></code>, which
+wires <code class="docutils literal notranslate"><span class="pre">NORNIR_TESTDATA_HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">TESTINPUTPATH</span></code>, and <code class="docutils literal notranslate"><span class="pre">cursor-dev-entry.sh</span></code> for bind-mounted sources (service <strong>cursor-dev</strong>), or use <code class="docutils literal notranslate"><span class="pre">cursor-dev-clone</span></code> for a named-volume clone (see
+<a class="reference internal" href="cursor_dev.html"><span class="doc">Cursor / local agent dev shell</span></a>).</p>
+</li>
+</ul>
+</section>
+<section id="gpu-runtime">
+<h2>GPU runtime<a class="headerlink" href="#gpu-runtime" title="Link to this heading"></a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">nd-build</span> <span class="pre">-Gpu</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_GPU=1</span></code> or <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--gpus</span> <span class="pre">all</span></code> to expose NVIDIA
+devices. A GPU is <strong>not</strong> required at image build time.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Docker images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nd_build.html" class="btn btn-neutral float-right" title="nd-build — run nornir-build inside Docker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

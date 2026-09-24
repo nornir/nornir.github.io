@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nornir_buildmanager.pipeline_exceptions &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nornir_buildmanager.pipeline_exceptions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nornir_buildmanager.pipeline_exceptions</h1><div class="highlight"><pre>
+<span></span><span class="sd">'''</span>
+<span class="sd">Created on Jan 9, 2019</span>
+
+<span class="sd">@author: u0490822</span>
+<span class="sd">'''</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xml.etree</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementTree</span> <span class="k">as</span> <span class="n">ElementTree</span>
+
+
+<span class="c1"># from nornir_buildmanager.Data import Volumes</span>
+<span class="c1"># from nornir_buildmanager.Data import Pipelines</span>
+<div class="viewcode-block" id="PipelineError">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''An expected node did not exist'''</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">PipelineNode</span> <span class="o">=</span> <span class="n">PipelineNode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VolumeElem</span> <span class="o">=</span> <span class="n">VolumeElem</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__ErrorHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span> <span class="o">+</span> <span class="s2">"*"</span> <span class="o">*</span> <span class="mi">80</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__ErrorFooter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span> <span class="o">+</span> <span class="s2">"*"</span> <span class="o">*</span> <span class="mi">80</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">'''return a list of error strings'''</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">PipelineNode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Pipeline Element: </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">VolumeElem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Volume Element: </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VolumeElem</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<div class="viewcode-block" id="PipelineError.ErrorList">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineError.ErrorList">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__ErrorHeader</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">])</span>
+
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__ErrorFooter</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ErrorList</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="PipelineArgumentNotFound">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineArgumentNotFound">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineArgumentNotFound</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''A select statement could not find the requested node'''</span>
+    <span class="n">argname</span> <span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineArgumentNotFound</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">argname</span> <span class="o">=</span> <span class="n">argname</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Argument Name: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">argname</span><span class="p">]</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">PipelineArgumentNotFound</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="PipelineSearchRootNotFound">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineSearchRootNotFound">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineSearchRootNotFound</span><span class="p">(</span><span class="n">PipelineArgumentNotFound</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''A select statement could not find the requested node'''</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineSearchRootNotFound</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">argname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">argname</span> <span class="o">=</span> <span class="n">argname</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Rootname specified in nornir_buildmanager is not available: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">argname</span><span class="p">]</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">PipelineSearchRootNotFound</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="PipelineRegExSearchFailed">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineRegExSearchFailed</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''A regular expression search could not match any nodes'''</span>
+    <span class="n">regex</span> <span class="p">:</span> <span class="nb">str</span>
+    <span class="n">attribValue</span><span class="p">:</span> <span class="n">Any</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">regex</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attribValue</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineRegExSearchFailed</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">regex</span> <span class="o">=</span> <span class="n">regex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attribValue</span> <span class="o">=</span> <span class="n">attribValue</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"A search has failed"</span><span class="p">,</span> <span class="s2">"Regular Expression: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">regex</span><span class="p">,</span> <span class="s2">"Attrib value: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">attribValue</span><span class="p">]</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="PipelineListIntersectionFailed">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineListIntersectionFailed">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineListIntersectionFailed</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''A regular expression search could not match any nodes'''</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listOfValid</span><span class="p">,</span> <span class="n">attribValue</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">"message"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">'message'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">PipelineListIntersectionFailed</span><span class="o">.</span><span class="n">GenErrorMessage</span><span class="p">(</span><span class="n">list_of_valid</span><span class="o">=</span><span class="n">listOfValid</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">attribValue</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineListIntersectionFailed</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">listOfValid</span> <span class="o">=</span> <span class="n">listOfValid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attribValue</span> <span class="o">=</span> <span class="n">attribValue</span>
+
+<div class="viewcode-block" id="PipelineListIntersectionFailed.GenErrorMessage">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineListIntersectionFailed.GenErrorMessage">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GenErrorMessage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">list_of_valid</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Value was not in list"</span><span class="p">,</span> <span class="s2">"  List: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">list_of_valid</span><span class="p">),</span> <span class="s2">"  Value: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">PipelineListIntersectionFailed</span><span class="o">.</span><span class="n">GenErrorMessage</span><span class="p">(</span><span class="n">list_of_valid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">listOfValid</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">attribValue</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="PipelineSearchFailed">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineSearchFailed">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineSearchFailed</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''A find statement could not match any nodes'''</span>
+    <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineSearchFailed</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xpath</span> <span class="o">=</span> <span class="n">xpath</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"A search has failed"</span><span class="p">,</span> <span class="s2">"XPath: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath</span><span class="p">]</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="PipelineSelectFailed">
+<a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineSelectFailed">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineSelectFailed</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''A select statement could not find the requested node.</span>
+<span class="sd">       This means a variable was not populated and the remaining statements</span>
+<span class="sd">       in an iteration should not execute or they may use stale data'''</span>
+    <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PipelineSelectFailed</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">xpath</span> <span class="o">=</span> <span class="n">xpath</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__CoreErrorList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"A select statement has failed"</span><span class="p">,</span> <span class="s2">"XPath: "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">xpath</span><span class="p">]</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">PipelineError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__CoreErrorList</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
