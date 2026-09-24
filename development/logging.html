@@ -105,7 +105,7 @@ extension for pool-based workloads.</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code></dt><dd><p>Root directory for all file logs.  If unset, logging falls back to <strong>console only</strong> and a
 warning is emitted.  Set this to a stable path before starting any Nornir process:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$env:NORNIR_LOG_ROOT = 'D:\logs\nornir'   # PowerShell
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$env:NORNIR_LOG_ROOT = &#39;D:\logs\nornir&#39;   # PowerShell
 export NORNIR_LOG_ROOT=/var/log/nornir      # bash
 </pre></div>
 </div>
@@ -151,7 +151,7 @@ heavy load.  Use the queue-listener pattern provided by <code class="docutils li
     <span class="n">nornir_shared</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">ConfigureWorkerQueueLogging</span><span class="p">(</span><span class="n">log_queue</span><span class="p">)</span>
     <span class="c1"># ... do work; logging calls go through the queue to the parent listener</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"worker log line"</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;worker log line&quot;</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">initializer</span><span class="o">=</span><span class="n">worker_fn</span><span class="p">,</span>
                           <span class="n">initargs</span><span class="o">=</span><span class="p">(</span><span class="n">queue</span><span class="p">,))</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>

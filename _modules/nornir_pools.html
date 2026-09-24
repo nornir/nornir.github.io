@@ -74,7 +74,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_pools</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">nornir_pools aims to provide a consistent interface around four different multi-threading and clustering libraries</span>
 <span class="sd">available to Python.</span>
@@ -98,7 +98,7 @@
 
 <span class="sd">   Return a pool of X type, listed below.  Repeated calls using the same name returns the same pool</span>
 
-<span class="sd">   :param str Poolname: Name of the pool to get or create.  Passing "None" returns the global pool</span>
+<span class="sd">   :param str Poolname: Name of the pool to get or create.  Passing &quot;None&quot; returns the global pool</span>
 <span class="sd">   :param int num_threads: Number of tasks allowed to execute concurrently.  Not honored by all pools at this time</span>
 
 <span class="sd">   :returns: object derived from PoolBase</span>
@@ -205,7 +205,7 @@
 <span class="sd">pickle overrides to objects being marshalled.  I also removed as many global initializations as I could from modules</span>
 <span class="sd">loaded by the tasks.</span>
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
@@ -242,7 +242,7 @@
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools.parallelpythonpool</span>
 
-    <span class="c1"># The module imports whether or not 'pp' is installed, so importing it proved</span>
+    <span class="c1"># The module imports whether or not &#39;pp&#39; is installed, so importing it proved</span>
     <span class="c1"># nothing and this flag was left False unconditionally. Ask the module whether it</span>
     <span class="c1"># actually has a cluster backend.</span>
     <span class="n">__ParallelPythonAvailable</span> <span class="o">=</span> <span class="n">nornir_pools</span><span class="o">.</span><span class="n">parallelpythonpool</span><span class="o">.</span><span class="n">ParallelPythonAvailable</span>
@@ -269,16 +269,16 @@
 <div class="viewcode-block" id="init_pool_process">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.init_pool_process">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">init_pool_process</span><span class="p">(</span><span class="n">logging_queue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">logging_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">the_lock</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Worker initializer: configure queue logging and force the NumPy backend in workers.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Worker initializer: configure queue logging and force the NumPy backend in workers.</span>
 
 <span class="sd">    Optional ``the_lock`` sets ``shared_lock`` (legacy API).</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">shared_lock</span>
     <span class="n">shared_lock</span> <span class="o">=</span> <span class="n">the_lock</span>
     <span class="k">if</span> <span class="n">logging_queue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">nornir_logging_misc</span><span class="o">.</span><span class="n">ConfigureWorkerQueueLogging</span><span class="p">(</span><span class="n">log_queue</span><span class="o">=</span><span class="n">logging_queue</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging_level</span><span class="p">)</span>
 
-    <span class="c1"># Forked workers inherit the parent's active backend without re-running module</span>
+    <span class="c1"># Forked workers inherit the parent&#39;s active backend without re-running module</span>
     <span class="c1"># import, so a GPU parent leaves them on CuPy and tile work would initialize CUDA</span>
     <span class="c1"># inside a forked child. Imported here rather than at module scope because</span>
     <span class="c1"># nornir_pools sits below nornir_imageregistration and must keep working when it is</span>
@@ -295,35 +295,35 @@
 <div class="viewcode-block" id="ApplyOSThreadLimit">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.ApplyOSThreadLimit">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ApplyOSThreadLimit</span><span class="p">(</span><span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :return The minimum of the maximum number of threads on the OS, the </span>
 <span class="sd">    MAX_PYTHON_THREADS environment variable, or the requested num_threads</span>
 <span class="sd">    parameter </span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">max_windows_threads</span>
 
     <span class="k">if</span> <span class="n">num_threads</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="s1">'MAX_PYTHON_THREADS'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">environ_max_threads</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'MAX_PYTHON_THREADS'</span><span class="p">])</span>
+    <span class="k">if</span> <span class="s1">&#39;MAX_PYTHON_THREADS&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">environ_max_threads</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MAX_PYTHON_THREADS&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">environ_max_threads</span> <span class="o">&gt;</span> <span class="n">num_threads</span><span class="p">:</span>
             <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Number of threads in pool limited to MAX_PYTHON_THREADS environment variable, (=</span><span class="si">{</span><span class="n">num_threads</span><span class="si">}</span><span class="s2"> threads))"</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s2">&quot;Number of threads in pool limited to MAX_PYTHON_THREADS environment variable, (=</span><span class="si">{</span><span class="n">num_threads</span><span class="si">}</span><span class="s2"> threads))&quot;</span><span class="p">)</span>
 
         <span class="n">num_threads</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">environ_max_threads</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">'nt'</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
         <span class="n">release</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="n">release</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'11'</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">release</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">num_threads</span>  <span class="c1"># There is no limit on Windows 11 on Python 13 and later (May have taken effect earlier, but this is close and earlier versions are untested)</span>
         <span class="k">elif</span> <span class="n">num_threads</span> <span class="o">&gt;</span> <span class="n">max_windows_threads</span><span class="p">:</span>
             <span class="n">num_threads</span> <span class="o">=</span> <span class="n">max_windows_threads</span>
 
             <span class="k">global</span> <span class="n">__thread_limit_warning_shown</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">__thread_limit_warning_shown</span><span class="p">:</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Number of threads in pool limited to windows handle limit of </span><span class="si">{</span><span class="n">max_windows_threads</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of threads in pool limited to windows handle limit of </span><span class="si">{</span><span class="n">max_windows_threads</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">__thread_limit_warning_shown</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="c1"># Limit the maximum number of threads to 63 due to Windows limit</span>
             <span class="c1"># to waitall</span>
@@ -334,21 +334,21 @@
 
 
 <span class="n">__pool_management_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
-<span class="n">_PoolFactoryParams</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">"_PoolFactoryParams"</span><span class="p">)</span>
+<span class="n">_PoolFactoryParams</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">&quot;_PoolFactoryParams&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="PoolKind">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.PoolKind">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PoolKind</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Whether a pool uses in-process workers or separate OS worker processes.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether a pool uses in-process workers or separate OS worker processes.</span>
 
 <span class="sd">    Used by selective wait/shutdown helpers.  ``THREAD`` includes vanilla</span>
 <span class="sd">    ``ThreadPool``, subprocess ``ProcessPool``, and ``SerialPool``.  ``PROCESS``</span>
 <span class="sd">    includes ``MultiprocessThreadPool``, ``LocalMachinePool``, and cluster backends.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">THREAD</span> <span class="o">=</span> <span class="s2">"thread"</span>
-    <span class="n">PROCESS</span> <span class="o">=</span> <span class="s2">"process"</span></div>
+    <span class="n">THREAD</span> <span class="o">=</span> <span class="s2">&quot;thread&quot;</span>
+    <span class="n">PROCESS</span> <span class="o">=</span> <span class="s2">&quot;process&quot;</span></div>
 
 
 
@@ -360,42 +360,42 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_factory_pool_kind</span><span class="p">(</span><span class="n">pool_factory</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PoolKind</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Classify a pool factory for selective wait/shutdown helpers."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Classify a pool factory for selective wait/shutdown helpers.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">pool_factory</span> <span class="ow">in</span> <span class="n">_THREAD_POOL_FACTORIES</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">PoolKind</span><span class="o">.</span><span class="n">THREAD</span>
     <span class="k">return</span> <span class="n">PoolKind</span><span class="o">.</span><span class="n">PROCESS</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pool_kind</span><span class="p">(</span><span class="n">pool</span><span class="p">:</span> <span class="n">IPool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PoolKind</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return the pool kind recorded at creation time."""</span>
-    <span class="n">kind</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">"_nornir_pool_kind"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the pool kind recorded at creation time.&quot;&quot;&quot;</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">&quot;_nornir_pool_kind&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">PoolKind</span><span class="o">.</span><span class="n">THREAD</span>
     <span class="k">return</span> <span class="n">kind</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pool_diag_enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return True when NORNIR_POOL_DIAG requests pool lifecycle logging."""</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"NORNIR_POOL_DIAG"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"on"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when NORNIR_POOL_DIAG requests pool lifecycle logging.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NORNIR_POOL_DIAG&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_keep_process_pools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return True when process pools should stay open across pipeline stage boundaries."""</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"NORNIR_KEEP_PROCESS_POOLS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"on"</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when process pools should stay open across pipeline stage boundaries.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NORNIR_KEEP_PROCESS_POOLS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_log_pool_diag</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Log pool names, kinds, and active task counts when diagnostics are enabled."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log pool names, kinds, and active task counts when diagnostics are enabled.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_pool_diag_enabled</span><span class="p">():</span>
         <span class="k">return</span>
-    <span class="n">gil_enabled</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s2">"_is_gil_enabled"</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">"unknown"</span><span class="p">)()</span>
+    <span class="n">gil_enabled</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s2">&quot;_is_gil_enabled&quot;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)()</span>
     <span class="k">with</span> <span class="n">__pool_management_lock</span><span class="p">:</span>
         <span class="n">pool_summary</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_pool_kind</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pool</span><span class="o">.</span><span class="n">num_active_tasks</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">pool</span> <span class="ow">in</span> <span class="n">dictKnownPools</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">]</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">"NORNIR_POOL_DIAG </span><span class="si">%s</span><span class="s2"> gil=</span><span class="si">%s</span><span class="s2"> active_threads=</span><span class="si">%s</span><span class="s2"> pools=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">&quot;NORNIR_POOL_DIAG </span><span class="si">%s</span><span class="s2"> gil=</span><span class="si">%s</span><span class="s2"> active_threads=</span><span class="si">%s</span><span class="s2"> pools=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="n">event</span><span class="p">,</span>
         <span class="n">gil_enabled</span><span class="p">,</span>
         <span class="n">threading</span><span class="o">.</span><span class="n">active_count</span><span class="p">(),</span>
@@ -404,33 +404,33 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_snapshot_pools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IPool</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""Return a consistent copy of the known pool map."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a consistent copy of the known pool map.&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">__pool_management_lock</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">dictKnownPools</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_wait_pools</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="n">PoolKind</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Block until active tasks complete on pools of the given kind (or all pools).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block until active tasks complete on pools of the given kind (or all pools).</span>
 
 <span class="sd">    :param timeout: Seconds to wait per pool before giving up. ``None`` waits</span>
 <span class="sd">        indefinitely. Forwarded only to pools whose ``wait_completion`` accepts a</span>
 <span class="sd">        ``timeout`` keyword; other pools keep their unbounded wait.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">pool</span> <span class="ow">in</span> <span class="n">_snapshot_pools</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_pool_kind</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span> <span class="o">!=</span> <span class="n">kind</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">pool</span><span class="o">.</span><span class="n">num_active_tasks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">_sprint</span><span class="p">(</span><span class="s2">"Waiting on pool: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pool</span><span class="p">)))</span>
+            <span class="n">_sprint</span><span class="p">(</span><span class="s2">&quot;Waiting on pool: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">pool</span><span class="p">)))</span>
         <span class="n">wait</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">wait_completion</span>
-        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"timeout"</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;timeout&quot;</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
             <span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">wait</span><span class="p">()</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_shutdown_pools</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="n">PoolKind</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Shut down pools of the given kind (or all pools) after waiting for tasks."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shut down pools of the given kind (or all pools) after waiting for tasks.&quot;&quot;&quot;</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">pool_items</span> <span class="o">=</span> <span class="n">_snapshot_pools</span><span class="p">()</span>
         <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span>
@@ -448,7 +448,7 @@
             <span class="k">if</span> <span class="n">live_pool</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">live_pool</span><span class="o">.</span><span class="n">num_active_tasks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">_sprint</span><span class="p">(</span><span class="s2">"Waiting on pool: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">live_pool</span><span class="p">)))</span>
+                <span class="n">_sprint</span><span class="p">(</span><span class="s2">&quot;Waiting on pool: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">live_pool</span><span class="p">)))</span>
             <span class="n">live_pool</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
             <span class="k">with</span> <span class="n">__pool_management_lock</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dictKnownPools</span><span class="p">:</span>
@@ -478,7 +478,7 @@
 
             <span class="k">return</span> <span class="n">dictKnownPools</span><span class="p">[</span><span class="n">Poolname</span><span class="p">]</span>
 
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Creating </span><span class="si">{</span><span class="n">Poolname</span><span class="si">}</span><span class="s2"> pool of type </span><span class="si">{</span><span class="n">pool_factory</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">Poolname</span><span class="si">}</span><span class="s2"> pool of type </span><span class="si">{</span><span class="n">pool_factory</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">pool</span> <span class="o">=</span> <span class="n">pool_factory</span><span class="p">(</span><span class="n">Poolname</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">pool</span><span class="o">.</span><span class="n">_nornir_pool_kind</span> <span class="o">=</span> <span class="n">_factory_pool_kind</span><span class="p">(</span><span class="n">pool_factory</span><span class="p">)</span>
@@ -491,13 +491,13 @@
 <div class="viewcode-block" id="WaitOnAllPools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.WaitOnAllPools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WaitOnAllPools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Block until all known pools finish queued work without shutting them down.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block until all known pools finish queued work without shutting them down.</span>
 
 <span class="sd">    Use when later code on the same thread will enqueue more tasks and you do not</span>
 <span class="sd">    need to release idle thread-pool workers.  Pipeline stage boundaries should</span>
 <span class="sd">    prefer :func:`ReleaseStagePools` instead.</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"WaitOnAllPools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;WaitOnAllPools&quot;</span><span class="p">)</span>
     <span class="n">_wait_pools</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
 
 
@@ -505,12 +505,12 @@
 <div class="viewcode-block" id="WaitOnThreadPools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.WaitOnThreadPools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WaitOnThreadPools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Block until thread-kind pools finish without shutting them down.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block until thread-kind pools finish without shutting them down.</span>
 
 <span class="sd">    Thread-kind pools are in-process (see :class:`PoolKind`).  This does not wait on</span>
 <span class="sd">    multiprocessing worker pools.</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"WaitOnThreadPools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;WaitOnThreadPools&quot;</span><span class="p">)</span>
     <span class="n">_wait_pools</span><span class="p">(</span><span class="n">PoolKind</span><span class="o">.</span><span class="n">THREAD</span><span class="p">)</span></div>
 
 
@@ -518,12 +518,12 @@
 <div class="viewcode-block" id="WaitOnProcessPools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.WaitOnProcessPools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WaitOnProcessPools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Block until process-kind pools finish without shutting them down.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Block until process-kind pools finish without shutting them down.</span>
 
 <span class="sd">    Process-kind pools use OS worker processes (see :class:`PoolKind`).  Waiting does</span>
 <span class="sd">    not destroy workers; they remain available for new tasks.</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"WaitOnProcessPools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;WaitOnProcessPools&quot;</span><span class="p">)</span>
     <span class="n">_wait_pools</span><span class="p">(</span><span class="n">PoolKind</span><span class="o">.</span><span class="n">PROCESS</span><span class="p">)</span></div>
 
 
@@ -531,12 +531,12 @@
 <div class="viewcode-block" id="CloseThreadPools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.CloseThreadPools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CloseThreadPools</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">skip_wait</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Shut down thread-kind pools after optionally waiting for their tasks.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shut down thread-kind pools after optionally waiting for their tasks.</span>
 
 <span class="sd">    :param skip_wait: When ``True``, assume callers already waited (as</span>
 <span class="sd">        :func:`ReleaseStagePools` does via :func:`WaitOnAllPools`).</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"CloseThreadPools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;CloseThreadPools&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_wait</span><span class="p">:</span>
         <span class="n">_wait_pools</span><span class="p">(</span><span class="n">PoolKind</span><span class="o">.</span><span class="n">THREAD</span><span class="p">)</span>
     <span class="n">_shutdown_pools</span><span class="p">(</span><span class="n">PoolKind</span><span class="o">.</span><span class="n">THREAD</span><span class="p">)</span></div>
@@ -546,13 +546,13 @@
 <div class="viewcode-block" id="CloseProcessPools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.CloseProcessPools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CloseProcessPools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Shut down process-kind pools after waiting for their tasks.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shut down process-kind pools after waiting for their tasks.</span>
 
 <span class="sd">    No-op when ``NORNIR_KEEP_PROCESS_POOLS`` is set.  Production pipelines normally</span>
 <span class="sd">    call :func:`ReleaseStagePools` at stage boundaries instead, which leaves process</span>
 <span class="sd">    pools registered.</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"CloseProcessPools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;CloseProcessPools&quot;</span><span class="p">)</span>
     <span class="n">_wait_pools</span><span class="p">(</span><span class="n">PoolKind</span><span class="o">.</span><span class="n">PROCESS</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">_keep_process_pools</span><span class="p">():</span>
         <span class="k">return</span>
@@ -563,7 +563,7 @@
 <div class="viewcode-block" id="ReleaseStagePools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.ReleaseStagePools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ReleaseStagePools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Synchronize a pipeline stage and release in-process pool workers.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Synchronize a pipeline stage and release in-process pool workers.</span>
 
 <span class="sd">    Waits for all thread- and process-pool tasks to complete, then shuts down</span>
 <span class="sd">    thread-kind pools only.  Process-kind pools stay registered so later stages reuse</span>
@@ -572,23 +572,23 @@
 <span class="sd">    Call at production stage boundaries (import complete, registration transform</span>
 <span class="sd">    saved, stos overlay assembly done, pipeline ``Execute`` finished).  Full pool</span>
 <span class="sd">    teardown belongs in :func:`ClosePools` at process or test exit.</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"ReleaseStagePools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;ReleaseStagePools&quot;</span><span class="p">)</span>
     <span class="n">WaitOnAllPools</span><span class="p">()</span>
     <span class="n">CloseThreadPools</span><span class="p">(</span><span class="n">skip_wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_terminate_process_pool_workers</span><span class="p">(</span><span class="n">pool</span><span class="p">:</span> <span class="n">IPool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Force-terminate multiprocessing workers when a pool supports it."""</span>
-    <span class="n">terminate</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">"terminate_workers"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Force-terminate multiprocessing workers when a pool supports it.&quot;&quot;&quot;</span>
+    <span class="n">terminate</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">&quot;terminate_workers&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">terminate</span><span class="p">):</span>
         <span class="n">terminate</span><span class="p">()</span>
         <span class="k">return</span>
-    <span class="n">nested_mt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">"_mtpool"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">nested_mt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">&quot;_mtpool&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">nested_mt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_terminate_process_pool_workers</span><span class="p">(</span><span class="n">nested_mt</span><span class="p">)</span>
-    <span class="n">nested_pp</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">"_ppool"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">nested_pp</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span> <span class="s2">&quot;_ppool&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">nested_pp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">nested_pp</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 
@@ -596,13 +596,13 @@
 <div class="viewcode-block" id="FastClosePools">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.FastClosePools">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">FastClosePools</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Shut down all pools, force-terminating process workers when supported.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shut down all pools, force-terminating process workers when supported.</span>
 
 <span class="sd">    Intended for faster test teardown when graceful multiprocessing ``join`` is too</span>
 <span class="sd">    slow.  Production pipelines should use :func:`ReleaseStagePools` between stages</span>
 <span class="sd">    and :func:`ClosePools` at exit instead.</span>
-<span class="sd">    """</span>
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"FastClosePools"</span><span class="p">)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;FastClosePools&quot;</span><span class="p">)</span>
     <span class="n">WaitOnAllPools</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">pool</span> <span class="ow">in</span> <span class="n">_snapshot_pools</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">_pool_kind</span><span class="p">(</span><span class="n">pool</span><span class="p">)</span> <span class="o">==</span> <span class="n">PoolKind</span><span class="o">.</span><span class="n">PROCESS</span><span class="p">:</span>
@@ -612,7 +612,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_remove_pool</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">IPool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Called from pool shutdown implementations to remove the pool from the map of existing pools"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Called from pool shutdown implementations to remove the pool from the map of existing pools&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">dictKnownPools</span>
     <span class="k">global</span> <span class="n">__pool_management_lock</span>
 
@@ -629,7 +629,7 @@
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.ClosePools">[docs]</a>
 <span class="nd">@atexit</span><span class="o">.</span><span class="n">register</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">ClosePools</span><span class="p">(</span><span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Shut down all known pools (wait for tasks, then destroy all workers).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shut down all known pools (wait for tasks, then destroy all workers).</span>
 
 <span class="sd">    Registered as an ``atexit`` handler.  Tests and short scripts should also call</span>
 <span class="sd">    this explicitly at teardown.  Long pipelines should use :func:`ReleaseStagePools`</span>
@@ -638,18 +638,18 @@
 <span class="sd">    :param timeout: Seconds to wait per pool before giving up. ``None`` (the default)</span>
 <span class="sd">        waits indefinitely, matching historical behaviour. Tests should pass a bound</span>
 <span class="sd">        so a leaked worker becomes a ``TimeoutError`` of that test rather than hanging</span>
-<span class="sd">        the whole suite. When a timeout is given it is also applied to each pool's</span>
+<span class="sd">        the whole suite. When a timeout is given it is also applied to each pool&#39;s</span>
 <span class="sd">        shutdown drain (via ``NORNIR_POOL_SHUTDOWN_TIMEOUT``), so a stuck worker is</span>
 <span class="sd">        terminated rather than blocking teardown a second time. Pools are shut down</span>
 <span class="sd">        even when the wait times out, so a later caller is not left facing the same</span>
 <span class="sd">        stuck registry entry.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">profiler</span>
 
-    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">"ClosePools"</span><span class="p">)</span>
-    <span class="n">previous_shutdown_timeout</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_POOL_SHUTDOWN_TIMEOUT'</span><span class="p">)</span>
+    <span class="n">_log_pool_diag</span><span class="p">(</span><span class="s2">&quot;ClosePools&quot;</span><span class="p">)</span>
+    <span class="n">previous_shutdown_timeout</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NORNIR_POOL_SHUTDOWN_TIMEOUT&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'NORNIR_POOL_SHUTDOWN_TIMEOUT'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NORNIR_POOL_SHUTDOWN_TIMEOUT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
     <span class="n">wait_error</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -660,9 +660,9 @@
     <span class="k">finally</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">previous_shutdown_timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'NORNIR_POOL_SHUTDOWN_TIMEOUT'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;NORNIR_POOL_SHUTDOWN_TIMEOUT&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'NORNIR_POOL_SHUTDOWN_TIMEOUT'</span><span class="p">]</span> <span class="o">=</span> <span class="n">previous_shutdown_timeout</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NORNIR_POOL_SHUTDOWN_TIMEOUT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">previous_shutdown_timeout</span>
     <span class="k">if</span> <span class="n">wait_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">wait_error</span></div>
 
@@ -671,9 +671,9 @@
 <div class="viewcode-block" id="GetThreadPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetThreadPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetThreadPool</span><span class="p">(</span><span class="n">Poolname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get or create a specific thread pool using vanilla python threads</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">Poolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">GetGlobalThreadPool</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">__CreatePoolFromFactory</span><span class="p">(</span><span class="n">nornir_pools</span><span class="o">.</span><span class="n">threadpool</span><span class="o">.</span><span class="n">ThreadPool</span><span class="p">,</span> <span class="n">Poolname</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span></div>
@@ -692,9 +692,9 @@
 <div class="viewcode-block" id="GetMultithreadingPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetMultithreadingPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetMultithreadingPool</span><span class="p">(</span><span class="n">Poolname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Get or create a specific thread pool to execute threads in other processes on the same computer using the</span>
-<span class="sd">    multiprocessing library """</span>
-    <span class="c1"># warnings.warn(DeprecationWarning("GetMultithreadingPool is deprecated.  Use GetLocalMachinePool instead"))</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get or create a specific thread pool to execute threads in other processes on the same computer using the</span>
+<span class="sd">    multiprocessing library &quot;&quot;&quot;</span>
+    <span class="c1"># warnings.warn(DeprecationWarning(&quot;GetMultithreadingPool is deprecated.  Use GetLocalMachinePool instead&quot;))</span>
     <span class="k">if</span> <span class="n">Poolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">GetGlobalMultithreadingPool</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">__CreatePoolFromFactory</span><span class="p">(</span><span class="n">nornir_pools</span><span class="o">.</span><span class="n">multiprocessthreadpool</span><span class="o">.</span><span class="n">MultiprocessThreadPool</span><span class="p">,</span> <span class="n">Poolname</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span></div>
@@ -704,9 +704,9 @@
 <div class="viewcode-block" id="GetProcessPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetProcessPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetProcessPool</span><span class="p">(</span><span class="n">Poolname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Get or create a specific pool to invoke shell command processes on the same computer using the subprocess</span>
-<span class="sd">    module """</span>
-    <span class="c1"># warnings.warn(DeprecationWarning("GetProcessPool is deprecated.  Use GetLocalMachinePool instead"))</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get or create a specific pool to invoke shell command processes on the same computer using the subprocess</span>
+<span class="sd">    module &quot;&quot;&quot;</span>
+    <span class="c1"># warnings.warn(DeprecationWarning(&quot;GetProcessPool is deprecated.  Use GetLocalMachinePool instead&quot;))</span>
     <span class="k">if</span> <span class="n">Poolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">GetGlobalProcessPool</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">__CreatePoolFromFactory</span><span class="p">(</span><span class="n">nornir_pools</span><span class="o">.</span><span class="n">processpool</span><span class="o">.</span><span class="n">ProcessPool</span><span class="p">,</span> <span class="n">Poolname</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span></div>
@@ -716,8 +716,8 @@
 <div class="viewcode-block" id="GetParallelPythonPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetParallelPythonPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetParallelPythonPool</span><span class="p">(</span><span class="n">Poolname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Get or create a specific pool to invoke functions or shell command processes on a cluster using parallel</span>
-<span class="sd">    python """</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get or create a specific pool to invoke functions or shell command processes on a cluster using parallel</span>
+<span class="sd">    python &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">Poolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">GetGlobalClusterPool</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">__CreatePoolFromFactory</span><span class="p">(</span><span class="n">nornir_pools</span><span class="o">.</span><span class="n">parallelpythonpool</span><span class="o">.</span><span class="n">ParallelPythonProcess_Pool</span><span class="p">,</span> <span class="n">Poolname</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span></div>
@@ -727,11 +727,11 @@
 <div class="viewcode-block" id="GetSerialPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetSerialPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetSerialPool</span><span class="p">(</span><span class="n">Poolname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get or create a specific thread pool using vanilla python threads</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">Poolname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Must supply a pool name"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must supply a pool name&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">__CreatePoolFromFactory</span><span class="p">(</span><span class="n">nornir_pools</span><span class="o">.</span><span class="n">serialpool</span><span class="o">.</span><span class="n">SerialPool</span><span class="p">,</span> <span class="n">Poolname</span><span class="p">,</span> <span class="n">num_threads</span><span class="p">)</span></div>
 
 
@@ -739,70 +739,70 @@
 <div class="viewcode-block" id="GetGlobalSerialPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetGlobalSerialPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetGlobalSerialPool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Common pool for processes on the local machine</span>
-<span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">GetSerialPool</span><span class="p">(</span><span class="n">Poolname</span><span class="o">=</span><span class="s2">"Global"</span><span class="p">)</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">GetSerialPool</span><span class="p">(</span><span class="n">Poolname</span><span class="o">=</span><span class="s2">&quot;Global&quot;</span><span class="p">)</span></div>
 
-    <span class="c1"># return GetProcessPool("Global local process pool")</span>
+    <span class="c1"># return GetProcessPool(&quot;Global local process pool&quot;)</span>
 
 
 <div class="viewcode-block" id="GetGlobalProcessPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetGlobalProcessPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetGlobalProcessPool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Common pool for processes on the local machine</span>
-<span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">GetProcessPool</span><span class="p">(</span><span class="n">Poolname</span><span class="o">=</span><span class="s2">"Global process pool"</span><span class="p">)</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">GetProcessPool</span><span class="p">(</span><span class="n">Poolname</span><span class="o">=</span><span class="s2">&quot;Global process pool&quot;</span><span class="p">)</span></div>
 
-    <span class="c1"># return GetProcessPool("Global local process pool")</span>
+    <span class="c1"># return GetProcessPool(&quot;Global local process pool&quot;)</span>
 
 
 <div class="viewcode-block" id="GetGlobalLocalMachinePool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetGlobalLocalMachinePool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetGlobalLocalMachinePool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Common pool for launching other processes for threads or executables.  Combines multithreading and process pool</span>
 <span class="sd">    interface.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">GetLocalMachinePool</span><span class="p">(</span><span class="n">Poolname</span><span class="o">=</span><span class="s2">"Global local machine pool"</span><span class="p">,</span> <span class="n">is_global</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">GetLocalMachinePool</span><span class="p">(</span><span class="n">Poolname</span><span class="o">=</span><span class="s2">&quot;Global local machine pool&quot;</span><span class="p">,</span> <span class="n">is_global</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="GetGlobalClusterPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetGlobalClusterPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetGlobalClusterPool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the common pool for placing tasks on the cluster</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">__ParallelPythonAvailable</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">GetGlobalLocalMachinePool</span><span class="p">()</span>
-        <span class="c1"># raise Exception("Parallel python is not available")</span>
+        <span class="c1"># raise Exception(&quot;Parallel python is not available&quot;)</span>
 
-    <span class="k">return</span> <span class="n">GetParallelPythonPool</span><span class="p">(</span><span class="s2">"Global cluster pool"</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">GetParallelPythonPool</span><span class="p">(</span><span class="s2">&quot;Global cluster pool&quot;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="GetGlobalThreadPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetGlobalThreadPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetGlobalThreadPool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Common pool for thread based tasks</span>
-<span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">GetThreadPool</span><span class="p">(</span><span class="s2">"Global local thread pool"</span><span class="p">)</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">GetThreadPool</span><span class="p">(</span><span class="s2">&quot;Global local thread pool&quot;</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="GetGlobalMultithreadingPool">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetGlobalMultithreadingPool">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetGlobalMultithreadingPool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">IPool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Common pool for multithreading module tasks, threads run in different python processes to work around the global</span>
 <span class="sd">    interpreter lock</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># return GetGlobalLocalMachinePool()</span>
-    <span class="k">return</span> <span class="n">GetMultithreadingPool</span><span class="p">(</span><span class="s2">"Global multithreading pool"</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">GetMultithreadingPool</span><span class="p">(</span><span class="s2">&quot;Global multithreading pool&quot;</span><span class="p">)</span></div>
 
 
 
@@ -811,8 +811,8 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__CleanOutputForEclipse</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1">'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\b</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">s</span>
@@ -821,7 +821,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">__EclipseConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">newline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">es</span> <span class="o">=</span> <span class="n">__CleanOutputForEclipse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">newline</span><span class="p">:</span>
-        <span class="n">es</span> <span class="o">+=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
+        <span class="n">es</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">es</span><span class="p">)</span>
 
@@ -829,7 +829,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">__EclipseConsoleWriteError</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">newline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">es</span> <span class="o">=</span> <span class="n">__CleanOutputForEclipse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">newline</span><span class="p">:</span>
-        <span class="n">es</span> <span class="o">+=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
+        <span class="n">es</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">es</span><span class="p">)</span>
 
@@ -849,20 +849,20 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__ConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">newline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">newline</span><span class="p">:</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__ConsoleWriteError</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">newline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">newline</span><span class="p">:</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_PrintError</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">'ECLIPSE'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;ECLIPSE&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="n">__EclipseConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -870,7 +870,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_PrintWarning</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">'ECLIPSE'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;ECLIPSE&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="n">__PrintProgressUpdateEclipse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -878,7 +878,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_PrintProgressUpdate</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">'ECLIPSE'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;ECLIPSE&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="n">__PrintProgressUpdateEclipse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -886,21 +886,21 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sprint</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">""" Thread-safe print fucntion """</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Thread-safe print fucntion &quot;&quot;&quot;</span>
     <span class="c1"># Eclipse copies test output to the unit test window and this copy has</span>
     <span class="c1"># problems if the output has non-alphanumeric characters</span>
-    <span class="k">if</span> <span class="s1">'ECLIPSE'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;ECLIPSE&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="n">__EclipseConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">__ConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pprint</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">""" Thread-safe print fucntion, no newline """</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Thread-safe print fucntion, no newline &quot;&quot;&quot;</span>
 
     <span class="c1"># Eclipse copies test output to the unit test window and this copy has</span>
     <span class="c1"># problems if the output has non-alphanumeric characters</span>
-    <span class="k">if</span> <span class="s1">'ECLIPSE'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;ECLIPSE&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
         <span class="n">__EclipseConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">__ConsoleWrite</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -913,8 +913,8 @@
 <div class="viewcode-block" id="GetAndCreateProfileDataPath">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.GetAndCreateProfileDataPath">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetAndCreateProfileDataPath</span><span class="p">():</span>
-    <span class="n">profile_data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">'pool_profiles'</span><span class="p">)</span>
-    <span class="c1"># profile_data_path = os.path.join("C:\\Temp\\Testoutput\\PoolTestBase\\", 'pool_profiles')</span>
+    <span class="n">profile_data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;pool_profiles&#39;</span><span class="p">)</span>
+    <span class="c1"># profile_data_path = os.path.join(&quot;C:\\Temp\\Testoutput\\PoolTestBase\\&quot;, &#39;pool_profiles&#39;)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">profile_data_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">profile_data_path</span></div>
@@ -927,7 +927,7 @@
     <span class="n">profile_data_path</span> <span class="o">=</span> <span class="n">GetAndCreateProfileDataPath</span><span class="p">()</span>
 
     <span class="n">thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">_</span><span class="si">%d</span><span class="s2">.profile"</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">thread</span><span class="o">.</span><span class="n">ident</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">_</span><span class="si">%d</span><span class="s2">.profile&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">(),</span> <span class="n">thread</span><span class="o">.</span><span class="n">ident</span><span class="p">)</span>
     <span class="n">profile_data_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">profile_data_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">profile_data_file</span></div>
 
@@ -943,7 +943,7 @@
 <span class="c1">#     global profiler</span>
 <span class="c1">#     </span>
 <span class="c1">#     if not profiler is None:</span>
-<span class="c1">#         #print("Profiler already initialized for pool")</span>
+<span class="c1">#         #print(&quot;Profiler already initialized for pool&quot;)</span>
 <span class="c1">#         return </span>
 <span class="c1">#     </span>
 <span class="c1">#     profiler = cProfile.Profile()</span>
@@ -966,7 +966,7 @@
 <div class="viewcode-block" id="invoke_with_profiler">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.invoke_with_profiler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">invoke_with_profiler</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1">#    '''Launch a profiler for our function</span>
+    <span class="c1">#    &#39;&#39;&#39;Launch a profiler for our function</span>
 
     <span class="n">func_args</span> <span class="o">=</span> <span class="n">args</span>
 
@@ -983,7 +983,7 @@
 
 
 <span class="c1">#     profile_data_path = GetAndCreateProfileDataPath()</span>
-<span class="c1">#     files = glob.glob(os.path.join(profile_data_path, "*.profile"))</span>
+<span class="c1">#     files = glob.glob(os.path.join(profile_data_path, &quot;*.profile&quot;))</span>
 <span class="c1">#     </span>
 <span class="c1">#     if len(files) == 0:</span>
 <span class="c1">#         return </span>
@@ -997,7 +997,7 @@
 <span class="c1">#                     profile_stats.add(files[i])</span>
 <span class="c1">#                     </span>
 <span class="c1">#                 except EOFError:</span>
-<span class="c1">#                     print("Could not include profile file %s" % f)</span>
+<span class="c1">#                     print(&quot;Could not include profile file %s&quot; % f)</span>
 <span class="c1">#                     pass</span>
 <span class="c1">#     else:</span>
 <span class="c1">#         profile_stats = pstats.Stats()</span>
@@ -1005,7 +1005,7 @@
 <span class="c1">#             try:</span>
 <span class="c1">#                 profile_stats.add(f)</span>
 <span class="c1">#             except  EOFError:</span>
-<span class="c1">#                 print("Could not include profile file %s" % f)</span>
+<span class="c1">#                 print(&quot;Could not include profile file %s&quot; % f)</span>
 <span class="c1">#                 pass</span>
 <span class="c1">#         </span>
 <span class="c1">#     profile_stats.dump_stats(output_path)</span>
@@ -1018,8 +1018,8 @@
 <div class="viewcode-block" id="MergeProfilerStats">
 <a class="viewcode-back" href="../api/nornir_pools.html#nornir_pools.MergeProfilerStats">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">MergeProfilerStats</span><span class="p">(</span><span class="n">root_output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">profile_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pool_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Called by atexit.  Merges all *.profile files in the profile_dir into a single .profile file"""</span>
-    <span class="n">profile_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">profile_dir</span><span class="p">,</span> <span class="s2">"**"</span><span class="p">,</span> <span class="s2">"*.pstats"</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Called by atexit.  Merges all *.profile files in the profile_dir into a single .profile file&quot;&quot;&quot;</span>
+    <span class="n">profile_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">profile_dir</span><span class="p">,</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span> <span class="s2">&quot;*.pstats&quot;</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">profile_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span>
@@ -1027,7 +1027,7 @@
     <span class="n">agg</span> <span class="o">=</span> <span class="n">pstats</span><span class="o">.</span><span class="n">Stats</span><span class="p">()</span>
     <span class="n">agg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="o">*</span><span class="n">profile_files</span><span class="p">)</span>
 
-    <span class="n">output_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_output_dir</span><span class="p">,</span> <span class="n">pool_name</span> <span class="o">+</span> <span class="s1">'_aggregate.pstats'</span><span class="p">)</span>
+    <span class="n">output_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_output_dir</span><span class="p">,</span> <span class="n">pool_name</span> <span class="o">+</span> <span class="s1">&#39;_aggregate.pstats&#39;</span><span class="p">)</span>
     <span class="n">agg</span><span class="o">.</span><span class="n">dump_stats</span><span class="p">(</span><span class="n">output_full_path</span><span class="p">)</span>
 
     <span class="c1"># Remove the individual .profile files</span>
@@ -1036,7 +1036,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">start_profiling</span><span class="p">()</span>
 </pre></div>
 

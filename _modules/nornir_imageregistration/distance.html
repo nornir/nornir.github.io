@@ -82,13 +82,13 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">CreateDistanceImageBruteForce</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a distance image where the value at each pixel is the distance from the center of the image.</span>
 <span class="sd">    This method is not intended to be used for more than testing as it is inefficient.</span>
 <span class="sd">    :param shape:</span>
 <span class="sd">    :param dtype:</span>
 <span class="sd">    :return:</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_depth_image_dtype</span><span class="p">()</span>
 
@@ -113,10 +113,10 @@
 <div class="viewcode-block" id="CreateDistanceImage">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.CreateDistanceImage">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CreateDistanceImage</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DTypeLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Create a distance image where the value at each pixel is the distance from the center of the image.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a distance image where the value at each pixel is the distance from the center of the image.</span>
 <span class="sd">    Distances are measured in pixels, and the distance is zero at the center pixel.  Distances are measured</span>
 <span class="sd">    to the center of each pixel.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO, this has some obvious optimizations available</span>
     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_depth_image_dtype</span><span class="p">()</span>

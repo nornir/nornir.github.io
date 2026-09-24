@@ -90,70 +90,70 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XResourceElementWrapper">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">XResourceElementWrapper</span><span class="p">(</span><span class="n">lockable</span><span class="o">.</span><span class="n">Lockable</span><span class="p">,</span>
                               <span class="n">xelementwrapper</span><span class="o">.</span><span class="n">XElementWrapper</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Wrapper for an XML element that refers to a file or directory"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper for an XML element that refers to a file or directory&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
     <span class="nd">@Path</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Path'</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'__fullpath'</span><span class="p">):</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'__fullpath'</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;__fullpath&#39;</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">FullPath</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
-        <span class="n">FullPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'__fullpath'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">FullPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">FullPathStr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">FullPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Path</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">FullPathStr</span>
 
             <span class="n">IterElem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span>
 
             <span class="k">while</span> <span class="n">IterElem</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">'FullPath'</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">&#39;FullPath&#39;</span><span class="p">):</span>
                     <span class="n">FullPathStr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">IterElem</span><span class="o">.</span><span class="n">FullPath</span><span class="p">,</span> <span class="n">FullPathStr</span><span class="p">)</span>
                     <span class="n">IterElem</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="k">break</span>
 
-                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">):</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">):</span>
                     <span class="n">IterElem</span> <span class="o">=</span> <span class="n">IterElem</span><span class="o">.</span><span class="n">_Parent</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"FullPath could not be generated for resource"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;FullPath could not be generated for resource&quot;</span><span class="p">)</span>
             <span class="c1">#</span>
-            <span class="c1">#             if os.path.isdir(FullPathStr):  # Don't create a directory for files</span>
+            <span class="c1">#             if os.path.isdir(FullPathStr):  # Don&#39;t create a directory for files</span>
             <span class="c1">#                 if not os.path.exists(FullPathStr):</span>
-            <span class="c1">#                     prettyoutput.Log("Creating missing directory for FullPath: " + FullPathStr)</span>
+            <span class="c1">#                     prettyoutput.Log(&quot;Creating missing directory for FullPath: &quot; + FullPathStr)</span>
             <span class="c1">#                     os.makedirs(FullPathStr)</span>
 
-            <span class="c1">#            if not os.path.isdir(FullPathStr): #Don't create a directory for files</span>
+            <span class="c1">#            if not os.path.isdir(FullPathStr): #Don&#39;t create a directory for files</span>
             <span class="c1">#                if not os.path.exists(FullPathStr):</span>
-            <span class="c1">#                    prettyoutput.Log("Creating missing directory for FullPath: " + FullPathStr)</span>
+            <span class="c1">#                    prettyoutput.Log(&quot;Creating missing directory for FullPath: &quot; + FullPathStr)</span>
             <span class="c1">#                    os.makedirs(FullPathStr)</span>
             <span class="c1">#            else:</span>
             <span class="c1">#                dirname = os.path.dirname(FullPathStr)</span>
             <span class="c1">#                if not os.path.exists(dirname):</span>
-            <span class="c1">#                    prettyoutput.Log("Creating missing directory for FullPath: " + FullPathStr)</span>
+            <span class="c1">#                    prettyoutput.Log(&quot;Creating missing directory for FullPath: &quot; + FullPathStr)</span>
             <span class="c1">#                    os.makedirs(dirname)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'__fullpath'</span><span class="p">]</span> <span class="o">=</span> <span class="n">FullPathStr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FullPathStr</span>
 
         <span class="k">return</span> <span class="n">FullPathStr</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ValidationTime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An optional attribute to record the last time we validated the state</span>
 <span class="sd">        of the file or directory this element represents.</span>
 <span class="sd">        :return: Returns datetime.min if the attribute has not been set</span>
-<span class="sd">        """</span>
-        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'ValidationTime'</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ValidationTime&#39;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -163,7 +163,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_as_utc_aware</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Normalize a datetime for comparison with UTC filesystem timestamps."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize a datetime for comparison with UTC filesystem timestamps.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
@@ -171,18 +171,18 @@
     <span class="nd">@ValidationTime</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ValidationTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s1">'ValidationTime'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'ValidationTime'</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;ValidationTime&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;ValidationTime&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'ValidationTime'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;ValidationTime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XResourceElementWrapper.UpdateValidationTime">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XResourceElementWrapper.UpdateValidationTime">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">UpdateValidationTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets ValidationTime to the LastModified time on the file or directory</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ValidationTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LastFileSystemModificationTime</span>
@@ -192,9 +192,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ChangesSinceLastValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        :return: True if the modification time on the directory is later than our last validation time, or None if the path doesn't exist</span>
-<span class="sd">        """</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: True if the modification time on the directory is later than our last validation time, or None if the path doesn&#39;t exist</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">dir_mod_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LastFileSystemModificationTime</span>
             <span class="k">if</span> <span class="n">dir_mod_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -206,12 +206,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">LastFileSystemModificationTime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""</span>
-<span class="sd">        :return: The most recent time the resource's file or directory was</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: The most recent time the resource&#39;s file or directory was</span>
 <span class="sd">        modified. Used to indicate that a verification needs to be repeated.</span>
 <span class="sd">        None is returned if the file or directory does not exist</span>
 <span class="sd">        :rtype: datetime.datetime</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">level_stats</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
             <span class="n">level_last_filesystem_modification</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">level_stats</span><span class="o">.</span><span class="n">st_mtime</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">UTC</span><span class="p">)</span>
@@ -225,7 +225,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">XContainerElementWrapper</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="s2">"Container elements (</span><span class="si">{0}</span><span class="s2">) that save as links must not use directory modification time to check for changes because the meta-data saves in the same directory"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;Container elements (</span><span class="si">{0}</span><span class="s2">) that save as links must not use directory modification time to check for changes because the meta-data saves in the same directory&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FileSystemModifiedSinceLastValidation</span>
@@ -248,24 +248,24 @@
 <div class="viewcode-block" id="XResourceElementWrapper.Clean">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XResourceElementWrapper.Clean">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">Clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Remove the file or directory referred to by this node, then remove the node.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the file or directory referred to by this node, then remove the node.</span>
 
 <span class="sd">        Under no-delete mode, logs what would have been deleted and returns</span>
 <span class="sd">        without touching the filesystem or the XML tree.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Locked</span><span class="p">:</span>
-            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="s1">'Clean'</span><span class="p">)</span>
-            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'Could not delete resource with locked flag set: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
+            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="s1">&#39;Clean&#39;</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Could not delete resource with locked flag set: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">reason</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'Reason for attempt: </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">reason</span><span class="p">)</span>
+                <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Reason for attempt: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">reason</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">is_no_delete</span><span class="p">():</span>
-            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="s1">'Clean'</span><span class="p">)</span>
+            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="s1">&#39;Clean&#39;</span><span class="p">)</span>
             <span class="n">Logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s1">'NO-DELETE: Would remove </span><span class="si">%s%s</span><span class="s1">; keeping.'</span><span class="p">,</span>
+                <span class="s1">&#39;NO-DELETE: Would remove </span><span class="si">%s%s</span><span class="s1">; keeping.&#39;</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s1">' (</span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s1">)'</span> <span class="k">if</span> <span class="n">reason</span> <span class="k">else</span> <span class="s1">''</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39; (</span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s1">)&#39;</span> <span class="k">if</span> <span class="n">reason</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
@@ -279,8 +279,8 @@
         <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="s1">'Clean'</span><span class="p">)</span>
-            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Could not delete cleaned directory: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="s1">&#39;Clean&#39;</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Could not delete cleaned directory: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">raise</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">XResourceElementWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">Clean</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">)</span></div>

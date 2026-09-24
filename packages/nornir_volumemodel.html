@@ -102,7 +102,7 @@
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Volume
 └── Block (one or more)
     └── Section (one per physical slice / Z-level)
-        └── Channel (e.g. "TEM", "Leveled")
+        └── Channel (e.g. &quot;TEM&quot;, &quot;Leveled&quot;)
             ├── Filter (image processing filter applied to the channel)
             │   └── TilePyramid → Level → Image tiles
             └── Transform (spatial registration transforms)
@@ -133,7 +133,7 @@
 <p>Load a volume from XML:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel</span>
 
-<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">'/path/to/volume.xml'</span><span class="p">)</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">&#39;/path/to/volume.xml&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">vol</span><span class="o">.</span><span class="n">Blocks</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">Sections</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">Number</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">Channels</span><span class="p">))</span>

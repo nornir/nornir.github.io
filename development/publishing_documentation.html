@@ -128,7 +128,7 @@ Manual <strong>workflow_dispatch</strong> on those branches also builds and depl
 <li><p>Runs <code class="docutils literal notranslate"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs</span> <span class="pre">docs/_build/html</span></code>.</p></li>
 <li><p>On <strong>push</strong> or <strong>workflow_dispatch</strong> to the default branch, deploys the contents of
 <code class="docutils literal notranslate"><span class="pre">docs/_build/html</span></code> to the external repository <strong>``nornir/nornir.github.io``</strong>
-(option A: push built HTML).</p></li>
+on branch <strong>``master``</strong> (the branch GitHub Pages serves; option A: push built HTML).</p></li>
 </ul>
 <p>See the workflow file for the exact triggers and action versions.</p>
 </section>
@@ -138,7 +138,7 @@ Manual <strong>workflow_dispatch</strong> on those branches also builds and depl
 <ul class="simple">
 <li><p><strong>Secret (placeholder name):</strong> <code class="docutils literal notranslate"><span class="pre">NORNIR_GITHUB_IO_DEPLOY_TOKEN</span></code> — a fine-grained or classic PAT with <code class="docutils literal notranslate"><span class="pre">contents:</span> <span class="pre">write</span></code> on <code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code>, stored in this monorepo’s <strong>Settings → Secrets and variables → Actions</strong>.</p></li>
 </ul>
-<p><strong>Do not</strong> commit real tokens into the repository. If the secret is missing, the build job may still succeed while the deploy step fails—add the secret or disable the deploy step for forks.</p>
+<p>Without that secret, the HTML <strong>build</strong> can succeed while <strong>Publish to nornir.github.io</strong> fails with <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">found</span> <span class="pre">deploy</span> <span class="pre">key</span> <span class="pre">or</span> <span class="pre">tokens</span></code>.</p>
 </section>
 <section id="version-banner">
 <h2>Version banner<a class="headerlink" href="#version-banner" title="Link to this heading"></a></h2>

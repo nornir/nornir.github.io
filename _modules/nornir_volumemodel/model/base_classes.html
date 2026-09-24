@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nornir_volumemodel.model.base_classes &mdash; Nornir 1.7.6 documentation</title>
+  <title>nornir_volumemodel.model.base_classes &mdash; Nornir 1.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -41,7 +41,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../overview_alignment_theory.html">Overview of volume building</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Packages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
@@ -74,18 +73,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_volumemodel.model.base_classes</h1><div class="highlight"><pre>
-<span></span><span class="sd">'''</span>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Created on Apr 11, 2014</span>
 
 <span class="sd">@author: u0490822</span>
-<span class="sd">'''</span>
+<span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <div class="viewcode-block" id="ModelBase">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.ModelBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ModelBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''Properties common to all volume objects'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Properties common to all volume objects&#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -104,7 +103,7 @@
 <div class="viewcode-block" id="ExternalResource">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.ExternalResource">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ExternalResource</span><span class="p">(</span><span class="n">ModelBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''Properties of objects whose data is stored outside the object file structure, such as on a file system'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Properties of objects whose data is stored outside the object file structure, such as on a file system&#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Parent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -122,36 +121,36 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">Path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_Path</span> <span class="o">=</span> <span class="n">val</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'__fullpath'</span><span class="p">):</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'__fullpath'</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;__fullpath&#39;</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">RelativePath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">'''Relative path from volume root'''</span>
-        <span class="n">RelPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'__relpath'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Relative path from volume root&#39;&#39;&#39;</span>
+        <span class="n">RelPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__relpath&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">''</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span>
 
         <span class="k">if</span> <span class="n">RelPathStr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">RelPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Path</span>
 
-            <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"FullPath could not be generated for resource"</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;FullPath could not be generated for resource&quot;</span><span class="p">)</span>
 
             <span class="n">IterElem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span>
 
             <span class="k">while</span> <span class="ow">not</span> <span class="n">IterElem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">'RelativePath'</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">&#39;RelativePath&#39;</span><span class="p">):</span>
                     <span class="n">RelPathStr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">IterElem</span><span class="o">.</span><span class="n">RelativePath</span><span class="p">,</span> <span class="n">RelPathStr</span><span class="p">)</span>
                     <span class="n">IterElem</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="k">break</span>
-                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">):</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">):</span>
                     <span class="n">IterElem</span> <span class="o">=</span> <span class="n">IterElem</span><span class="o">.</span><span class="n">_Parent</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"FullPath could not be generated for resource"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;FullPath could not be generated for resource&quot;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'__relpath'</span><span class="p">]</span> <span class="o">=</span> <span class="n">RelPathStr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__relpath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">RelPathStr</span>
 
 
         <span class="k">return</span> <span class="n">RelPathStr</span>
@@ -159,27 +158,27 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">FullPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 
-        <span class="n">FullPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'__fullpath'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">FullPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">FullPathStr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">FullPathStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Path</span>
 
-            <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"FullPath could not be generated for resource"</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;FullPath could not be generated for resource&quot;</span><span class="p">)</span>
 
             <span class="n">IterElem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span>
 
             <span class="k">while</span> <span class="ow">not</span> <span class="n">IterElem</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">'FullPath'</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">&#39;FullPath&#39;</span><span class="p">):</span>
                     <span class="n">FullPathStr</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">IterElem</span><span class="o">.</span><span class="n">FullPath</span><span class="p">,</span> <span class="n">FullPathStr</span><span class="p">)</span>
                     <span class="n">IterElem</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="k">break</span>
-                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">):</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">IterElem</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">):</span>
                     <span class="n">IterElem</span> <span class="o">=</span> <span class="n">IterElem</span><span class="o">.</span><span class="n">_Parent</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"FullPath could not be generated for resource"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;FullPath could not be generated for resource&quot;</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'__fullpath'</span><span class="p">]</span> <span class="o">=</span> <span class="n">FullPathStr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FullPathStr</span>
 
 
         <span class="k">return</span> <span class="n">FullPathStr</span>
@@ -198,7 +197,7 @@
 <div class="viewcode-block" id="Named">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.Named">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Named</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">'''Object that contains other objects.  Path always refers to a directory'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Object that contains other objects.  Path always refers to a directory&#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -219,7 +218,7 @@
 <div class="viewcode-block" id="Numbered">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.Numbered">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Numbered</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">'''Object that contains other objects.  Path always refers to a directory'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Object that contains other objects.  Path always refers to a directory&#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -233,14 +232,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_Number</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">Number</span></div>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">Number</span></div>
 
 
 
 <div class="viewcode-block" id="FileResource">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.FileResource">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">FileResource</span><span class="p">(</span><span class="n">ExternalResource</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''Represents a file'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Represents a file&#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

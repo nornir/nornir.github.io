@@ -123,6 +123,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#nornir_pools.MergeProfilerStats"><code class="docutils literal notranslate"><span class="pre">MergeProfilerStats()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#nornir_pools.ParamSpec"><code class="docutils literal notranslate"><span class="pre">ParamSpec</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.args"><code class="docutils literal notranslate"><span class="pre">ParamSpec.args</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.evaluate_default"><code class="docutils literal notranslate"><span class="pre">ParamSpec.evaluate_default</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.has_default"><code class="docutils literal notranslate"><span class="pre">ParamSpec.has_default()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_pools.ParamSpec.kwargs"><code class="docutils literal notranslate"><span class="pre">ParamSpec.kwargs</span></code></a></li>
 </ul>
@@ -861,7 +862,7 @@ pools registered.</p>
 </div>
 </li>
 <li><p>name lookup:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Color</span><span class="p">[</span><span class="s1">'RED'</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Color</span><span class="p">[</span><span class="s1">&#39;RED&#39;</span><span class="p">]</span>
 <span class="go">&lt;Color.RED: 1&gt;</span>
 </pre></div>
 </div>
@@ -1055,9 +1056,8 @@ so ad hoc executors appear in the dashboard Pools section alongside
 <dt class="sig sig-object py" id="nornir_pools.InstrumentedThreadPoolExecutor.submit">
 <span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.Future" title="concurrent.futures._base.Future"><span class="pre">Future</span></a></span></span><a class="reference internal" href="../_modules/nornir_pools/instrumented_executor.html#InstrumentedThreadPoolExecutor.submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_pools.InstrumentedThreadPoolExecutor.submit" title="Link to this definition"></a></dt>
 <dd><p>Submits a callable to be executed with the given arguments.</p>
-<p>Schedules the callable to be executed as fn(<a href="#id12"><span class="problematic" id="id13">*</span></a>args, <a href="#id14"><span class="problematic" id="id15">**</span></a>kwargs) and
-returns a Future instance representing the execution of the
-callable.</p>
+<p>Schedules the callable to be executed as fn(<a href="#id12"><span class="problematic" id="id13">*</span></a>args, <a href="#id14"><span class="problematic" id="id15">**</span></a>kwargs) and returns
+a Future instance representing the execution of the callable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A Future representing the given call.</p>
@@ -1097,8 +1097,8 @@ and str:</p>
 </div></blockquote>
 <p>For compatibility with Python 3.11 and earlier, ParamSpec objects
 can also be created as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s1">'P'</span><span class="p">)</span>
-<span class="n">DefaultP</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s1">'DefaultP'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+<span class="n">DefaultP</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s1">&#39;DefaultP&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Parameter specification variables exist primarily for the benefit of
@@ -1110,22 +1110,22 @@ parameters for user-defined Generics. See class Generic for more
 information on generic types.</p>
 <p>An example for annotating a decorator:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_logging</span><span class="p">[</span><span class="o">**</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">](</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">'''A type-safe decorator to add logging to a function.'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;A type-safe decorator to add logging to a function.&#39;&#39;&#39;</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">P</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> was called'</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> was called&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">inner</span>
 
 <span class="nd">@add_logging</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_two</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">'''Add two numbers together.'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Add two numbers together.&#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 </pre></div>
 </div>
 <p>Parameter specification variables can be introspected. e.g.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">"P"</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">P</span><span class="o">.</span><span class="vm">__name__</span>
-<span class="go">'P'</span>
+<span class="go">&#39;P&#39;</span>
 </pre></div>
 </div>
 <p>Note that only parameter specification variables defined in the global
@@ -1135,6 +1135,11 @@ scope can be pickled.</p>
 <span class="sig-name descname"><span class="pre">args</span></span><a class="headerlink" href="#nornir_pools.ParamSpec.args" title="Link to this definition"></a></dt>
 <dd><p>Represents positional arguments.</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_pools.ParamSpec.evaluate_default">
+<span class="sig-name descname"><span class="pre">evaluate_default</span></span><a class="headerlink" href="#nornir_pools.ParamSpec.evaluate_default" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="nornir_pools.ParamSpec.has_default">

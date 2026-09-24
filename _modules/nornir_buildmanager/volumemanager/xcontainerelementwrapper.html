@@ -93,7 +93,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_save_link_element</span><span class="p">(</span><span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Build a transient link without wrapper bookkeeping when attributes are valid."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a transient link without wrapper bookkeeping when attributes are valid.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attrib</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="k">return</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">attrib</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">XElementWrapper</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="n">attrib</span><span class="p">)</span>
@@ -102,28 +102,28 @@
 <div class="viewcode-block" id="XContainerElementWrapper">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XContainerElementWrapper">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">XContainerElementWrapper</span><span class="p">(</span><span class="n">XResourceElementWrapper</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""XML meta-data for a container whose sub-elements are contained within a directory on the file system.  The directories container will always be the same, such as TilePyramid"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;XML meta-data for a container whose sub-elements are contained within a directory on the file system.  The directories container will always be the same, such as TilePyramid&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">SaveAsLinkedElement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""True when this container owns its own VolumeData.xml under FullPath.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when this container owns its own VolumeData.xml under FullPath.</span>
 
 <span class="sd">        Linked containers (default True) are referenced from the parent as a</span>
 <span class="sd">        ``*_Link`` stub and persist independently: each owns its dirty flags</span>
 <span class="sd">        (``AttributesChanged`` / ``ChildrenChanged``). Nested linked dirtiness</span>
 <span class="sd">        does not bubble to the parent. When False, meta-data remains embedded in</span>
-<span class="sd">        the parent's XML so parent save consults nested non-linked dirty flags.</span>
-<span class="sd">        """</span>
+<span class="sd">        the parent&#39;s XML so parent save consults nested non-linked dirty flags.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">SortKey</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""The default key used for sorting elements"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The default key used for sorting elements&quot;&quot;&quot;</span>
 
         <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>
-        <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_Link"</span><span class="p">):</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s2">"_Link"</span><span class="p">)]</span>
-            <span class="n">tag</span> <span class="o">+=</span> <span class="s2">"Node"</span>
+        <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_Link&quot;</span><span class="p">):</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;_Link&quot;</span><span class="p">)]</span>
+            <span class="n">tag</span> <span class="o">+=</span> <span class="s2">&quot;Node&quot;</span>
 
             <span class="n">current_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">current_module</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
@@ -131,14 +131,14 @@
                 <span class="c1"># nornir_shared.Reflection.get_class(tag)</span>
 
                 <span class="k">if</span> <span class="n">tagClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tagClass</span><span class="p">,</span> <span class="s2">"ClassSortKey"</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tagClass</span><span class="p">,</span> <span class="s2">&quot;ClassSortKey&quot;</span><span class="p">):</span>
                         <span class="k">return</span> <span class="n">tagClass</span><span class="o">.</span><span class="n">ClassSortKey</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
     <span class="nd">@Path</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -150,7 +150,7 @@
         <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">"</span><span class="si">{0}</span><span class="s2">.Path property was set to an existing file or non-directory file system object </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.Path property was set to an existing file or non-directory file system object </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
         <span class="k">return</span>
@@ -160,12 +160,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">IsValid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="n">ResourcePath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Don't check for validity if our node has not been added to the tree yet</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Don&#39;t check for validity if our node has not been added to the tree yet</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">files_found</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="k">with</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="n">ResourcePath</span><span class="p">)</span> <span class="k">as</span> <span class="n">pathscan</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pathscan</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'.'</span><span class="p">:</span>  <span class="c1"># Avoid the .desktop_ini files of the world</span>
+                        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">:</span>  <span class="c1"># Avoid the .desktop_ini files of the world</span>
                             <span class="k">continue</span>
 
                         <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
@@ -173,13 +173,13 @@
                             <span class="k">break</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">files_found</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'Directory is empty: </span><span class="si">{</span><span class="n">ResourcePath</span><span class="si">}</span><span class="s1">'</span>
+                    <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Directory is empty: </span><span class="si">{</span><span class="n">ResourcePath</span><span class="si">}</span><span class="s1">&#39;</span>
 
             <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">ResourcePath</span><span class="si">}</span><span class="s1"> does not exist'</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ResourcePath</span><span class="si">}</span><span class="s1"> does not exist&#39;</span>
 
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">ResourcePath</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">'Directory does not exist'</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Directory does not exist&#39;</span>
 
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">XContainerElementWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">IsValid</span><span class="p">()</span></div>
 
@@ -187,22 +187,22 @@
 <div class="viewcode-block" id="XContainerElementWrapper.RepairMissingLinkElements">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XContainerElementWrapper.RepairMissingLinkElements">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">RepairMissingLinkElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Searches all subdirectories under the element.  Any VolumeData.xml files</span>
 <span class="sd">        found are loaded and a link is created for the top level element.  Written</span>
 <span class="sd">        to repair the case where a VolumeData.xml is deleted and we want to recover</span>
 <span class="sd">        at least some of the data.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
             <span class="k">return</span>  <span class="c1"># This element is not saved as a linked element</span>
 
         <span class="k">with</span> <span class="n">os</span><span class="o">.</span><span class="n">scandir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span> <span class="k">as</span> <span class="n">pathscan</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'.'</span><span class="p">,</span> <span class="n">pathscan</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">pathscan</span><span class="p">):</span>
 
-                <span class="c1"># possible_meta_data_path = os.path.join(path, 'VolumeData.XML')</span>
+                <span class="c1"># possible_meta_data_path = os.path.join(path, &#39;VolumeData.XML&#39;)</span>
 
-                <span class="c1"># prettyoutput.Log("Found potential linked element: {0}".format(item.path))</span>
+                <span class="c1"># prettyoutput.Log(&quot;Found potential linked element: {0}&quot;.format(item.path))</span>
 
                 <span class="n">dirname</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span>
 
@@ -210,7 +210,7 @@
 
                 <span class="c1"># Check to be sure that this is a new node</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">existingChild</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">"*[@Path='</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">']"</span><span class="p">)</span>
+                    <span class="n">existingChild</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;*[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;]&quot;</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">DuplicateElementError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="k">continue</span>
 
@@ -222,29 +222,29 @@
                     <span class="n">loadedElement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_wrap_setparent_link_element</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">loadedElement</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loadedElement</span><span class="p">)</span>
-                        <span class="c1"># prettyoutput.Log("\tAdded: {0}".format(loadedElement))</span>
+                        <span class="c1"># prettyoutput.Log(&quot;\tAdded: {0}&quot;.format(loadedElement))</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">ChildrenChanged</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found missing linked container </span><span class="si">{</span><span class="n">dirname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found missing linked container </span><span class="si">{</span><span class="n">dirname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Could not open </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dirname</span><span class="p">))</span>
+                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Could not open </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dirname</span><span class="p">))</span>
                     <span class="k">continue</span>
 
             <span class="k">if</span> <span class="n">recurse</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s2">"RepairMissingLinkElements"</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;RepairMissingLinkElements&quot;</span><span class="p">):</span>
                         <span class="n">child</span><span class="o">.</span><span class="n">RepairMissingLinkElements</span><span class="p">(</span><span class="n">recurse</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span></div>
 
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Loads an XML file from the file system and returns the root element"""</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="s2">"VolumeData.xml"</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads an XML file from the file system and returns the root element&quot;&quot;&quot;</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="s2">&quot;VolumeData.xml&quot;</span><span class="p">)</span>
         <span class="n">xml_tree</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">xml_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_wrap_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Loads an xml file containing a subset of our meta-data referred to by a LINK element.  Wraps the loaded XML in the correct meta-data class"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads an xml file containing a subset of our meta-data referred to by a LINK element.  Wraps the loaded XML in the correct meta-data class&quot;&quot;&quot;</span>
 
         <span class="n">XMLElement</span> <span class="o">=</span> <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">_load_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
         <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">NewElement</span><span class="p">)</span> <span class="o">=</span> <span class="n">WrapElement</span><span class="p">(</span><span class="n">XMLElement</span><span class="p">)</span>
@@ -253,7 +253,7 @@
         <span class="k">return</span> <span class="n">wrapped</span><span class="p">,</span> <span class="n">NewElement</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_wrap_setparent_link_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Loads an xml file containing a subset of our meta-data referred to by a LINK element.  Wraps the loaded XML in the correct meta-data class"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads an xml file containing a subset of our meta-data referred to by a LINK element.  Wraps the loaded XML in the correct meta-data class&quot;&quot;&quot;</span>
 
         <span class="n">XMLElement</span> <span class="o">=</span> <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">_load_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
         <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">NewElement</span><span class="p">)</span> <span class="o">=</span> <span class="n">WrapElement</span><span class="p">(</span><span class="n">XMLElement</span><span class="p">)</span>
@@ -265,29 +265,29 @@
         <span class="k">return</span> <span class="n">NewElement</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_replace_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link_node</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Load the linked node.  Remove link node and replace with loaded node.  Checks that the loaded node is valid"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the linked node.  Remove link node and replace with loaded node.  Checks that the loaded node is valid&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">fullpath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fullpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span>
 
-        <span class="n">SubContainerPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">link_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">"Path"</span><span class="p">])</span>
+        <span class="n">SubContainerPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">link_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;Path&quot;</span><span class="p">])</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">loaded_element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_wrap_setparent_link_element</span><span class="p">(</span><span class="n">SubContainerPath</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">link_node</span><span class="p">)</span>
-            <span class="c1"># logger = logging.getLogger(__name__ + '.' + '_load_link_element')</span>
+            <span class="c1"># logger = logging.getLogger(__name__ + &#39;.&#39; + &#39;_load_link_element&#39;)</span>
             <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                <span class="s2">"Removing link node after IOError loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+                <span class="s2">&quot;Removing link node after IOError loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">ParseError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># logger = logging.getLogger(__name__ + '.' + '_load_link_element')</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Parse error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+            <span class="c1"># logger = logging.getLogger(__name__ + &#39;.&#39; + &#39;_load_link_element&#39;)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;Parse error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">link_node</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># logger = logging.getLogger(__name__ + '.' + '_load_link_element')</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Unexpected error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+            <span class="c1"># logger = logging.getLogger(__name__ + &#39;.&#39; + &#39;_load_link_element&#39;)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;Unexpected error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
             <span class="k">raise</span> <span class="n">e</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_ReplaceChildElementInPlace</span><span class="p">(</span><span class="n">old</span><span class="o">=</span><span class="n">link_node</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">loaded_element</span><span class="p">)</span>
@@ -301,7 +301,7 @@
         <span class="k">return</span> <span class="n">loaded_element</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_replace_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link_nodes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">],</span> <span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Load the linked nodes.  Remove link node and replace with loaded node.  Checks that the loaded node is valid"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the linked nodes.  Remove link node and replace with loaded node.  Checks that the loaded node is valid&quot;&quot;&quot;</span>
 
         <span class="c1"># Ensure we are actually working on a list</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -312,13 +312,13 @@
         <span class="k">if</span> <span class="n">fullpath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fullpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span>
 
-        <span class="n">SubContainerPaths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">link_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">"Path"</span><span class="p">])</span> <span class="k">for</span> <span class="n">link_node</span> <span class="ow">in</span> <span class="n">link_nodes</span><span class="p">]</span>
+        <span class="n">SubContainerPaths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">link_node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;Path&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">link_node</span> <span class="ow">in</span> <span class="n">link_nodes</span><span class="p">]</span>
 
         <span class="n">loaded_elements</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># Use a different threadpool so that if callars are already on a thread we don't create deadlocks where they are waiting for load tasks to be returned from the Queue</span>
+        <span class="c1"># Use a different threadpool so that if callars are already on a thread we don&#39;t create deadlocks where they are waiting for load tasks to be returned from the Queue</span>
         <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
-            <span class="c1"># pool = nornir_pools.GetThreadPool('ReplaceLinks')</span>
+            <span class="c1"># pool = nornir_pools.GetThreadPool(&#39;ReplaceLinks&#39;)</span>
 
             <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sub_container_path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">SubContainerPaths</span><span class="p">):</span>
@@ -339,20 +339,20 @@
                     <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">wrapped_loaded_element</span><span class="p">)</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
                 <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">link_node</span><span class="p">)</span>
-                    <span class="c1"># logger = logging.getLogger(__name__ + '.' + '_load_link_element')</span>
+                    <span class="c1"># logger = logging.getLogger(__name__ + &#39;.&#39; + &#39;_load_link_element&#39;)</span>
                     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                        <span class="s2">"Removing link node after IOError loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task_fullpath</span><span class="p">,</span>
+                        <span class="s2">&quot;Removing link node after IOError loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task_fullpath</span><span class="p">,</span>
                                                                                                    <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
                     <span class="k">continue</span>
                 <span class="k">except</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">ParseError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="c1"># logger = logging.getLogger(__name__ + '.' + '_load_link_element')</span>
-                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Parse error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task_fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+                    <span class="c1"># logger = logging.getLogger(__name__ + &#39;.&#39; + &#39;_load_link_element&#39;)</span>
+                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;Parse error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task_fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">link_node</span><span class="p">)</span>
                     <span class="k">continue</span>
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="c1"># logger = logging.getLogger(__name__ + '.' + '_load_link_element')</span>
+                    <span class="c1"># logger = logging.getLogger(__name__ + &#39;.&#39; + &#39;_load_link_element&#39;)</span>
                     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                        <span class="s2">"Unexpected error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task_fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+                        <span class="s2">&quot;Unexpected error loading linked XML file: </span><span class="si">{0}</span><span class="se">\n</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task_fullpath</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
                     <span class="c1"># Match the single-link path: unexpected errors must not leave an</span>
                     <span class="c1"># unresolved *_Link stub while the caller believes loading succeeded (#137).</span>
                     <span class="k">raise</span>
@@ -367,7 +367,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">_ReplaceChildElementInPlace</span><span class="p">(</span><span class="n">old</span><span class="o">=</span><span class="n">link_node</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">wrapped_loaded_element</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">MissingElementError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="c1"># TODO: Check if the replaced element we expect exists in the tree</span>
-                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing element when replacing link: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">, it may have already been replaced"</span><span class="p">)</span>
+                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing element when replacing link: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">, it may have already been replaced&quot;</span><span class="p">)</span>
                     <span class="k">continue</span>
 
                 <span class="c1"># Check to ensure the newly loaded element is valid</span>
@@ -415,54 +415,54 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">XContainerElementWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="n">attrib</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">)</span>
 
         <span class="c1"># if Path is None:</span>
-        <span class="k">assert</span> <span class="p">(</span><span class="s1">'Path'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="s1">&#39;Path&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
 
         <span class="c1"># else:</span>
-        <span class="c1"># self.attrib['Path'] = Path</span>
+        <span class="c1"># self.attrib[&#39;Path&#39;] = Path</span>
 
 <div class="viewcode-block" id="XContainerElementWrapper.RaiseOnDuplicateLink">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XContainerElementWrapper.RaiseOnDuplicateLink">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">RaiseOnDuplicateLink</span><span class="p">(</span><span class="n">child</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">SaveElement</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-        <span class="n">link_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link'</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-        <span class="n">find_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">link_tag</span><span class="si">}</span><span class="s2">[@Path='</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">']"</span>
+        <span class="n">link_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link&#39;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">find_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">link_tag</span><span class="si">}</span><span class="s2">[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;]&quot;</span>
         <span class="n">existingNode</span> <span class="o">=</span> <span class="n">SaveElement</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">find_str</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">existingNode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">DuplicateElementError</span><span class="p">(</span><span class="n">child</span><span class="p">,</span>
-                                        <span class="sa">f</span><span class="s2">"Found duplicate element when saving </span><span class="si">{</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">Duplicate: </span><span class="si">{</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">existingNode</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+                                        <span class="sa">f</span><span class="s2">&quot;Found duplicate element when saving </span><span class="si">{</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">Duplicate: </span><span class="si">{</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">existingNode</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_link_path_xpath</span><span class="p">(</span><span class="n">link_tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">link_tag</span><span class="si">}</span><span class="s2">[@Path='</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">']"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">link_tag</span><span class="si">}</span><span class="s2">[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;]&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_cleanup_duplicate_linked_container</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">child</span><span class="p">:</span> <span class="n">XContainerElementWrapper</span><span class="p">,</span>
             <span class="n">SaveElement</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Drop same-Path duplicates from the in-memory tree when a link collides.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Drop same-Path duplicates from the in-memory tree when a link collides.</span>
 
 <span class="sd">        Prefers a loaded container over a bare ``*_Link`` stub. Otherwise keeps</span>
 <span class="sd">        the link already present in *SaveElement* and removes *child*.</span>
 
 <span class="sd">        :return: True if the caller should append a link for *child*.</span>
-<span class="sd">        """</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
-        <span class="n">link_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link'</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">link_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link&#39;</span>
 
         <span class="n">stubs</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">sibling</span> <span class="k">for</span> <span class="n">sibling</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">sibling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">child</span>
             <span class="ow">and</span> <span class="n">sibling</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="n">link_tag</span>
-            <span class="ow">and</span> <span class="n">sibling</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="o">==</span> <span class="n">path</span>
+            <span class="ow">and</span> <span class="n">sibling</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">path</span>
         <span class="p">]</span>
 
         <span class="k">if</span> <span class="n">stubs</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">stub</span> <span class="ow">in</span> <span class="n">stubs</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Removing duplicate link stub </span><span class="si">{</span><span class="n">stub</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">[@Path='</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">'] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">; "</span>
-                    <span class="sa">f</span><span class="s2">"keeping loaded </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;Removing duplicate link stub </span><span class="si">{</span><span class="n">stub</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;keeping loaded </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="c1"># Stubs are appended to SaveElement by reference; drop them there too.</span>
                 <span class="k">if</span> <span class="n">stub</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">):</span>
                     <span class="n">SaveElement</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">stub</span><span class="p">)</span>
@@ -471,15 +471,15 @@
             <span class="k">if</span> <span class="n">SaveElement</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_link_path_xpath</span><span class="p">(</span><span class="n">link_tag</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Another full container already contributed a link; drop this child.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"Removing duplicate loaded </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">[@Path='</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">'] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;Removing duplicate loaded </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Removing duplicate loaded </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">[@Path='</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">'] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">; "</span>
-            <span class="sa">f</span><span class="s2">"keeping existing link already queued for save"</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;Removing duplicate loaded </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s2">[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;keeping existing link already queued for save&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -488,21 +488,21 @@
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">stub</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span>
             <span class="n">SaveElement</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Drop a ``*_Link`` stub when SaveElement already has that Path.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Drop a ``*_Link`` stub when SaveElement already has that Path.</span>
 
 <span class="sd">        Prefers whatever is already queued (often from a loaded container).</span>
 
 <span class="sd">        :return: True if the caller should append *stub* to *SaveElement*.</span>
-<span class="sd">        """</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="n">link_tag</span> <span class="o">=</span> <span class="n">stub</span><span class="o">.</span><span class="n">tag</span>
         <span class="n">existing</span> <span class="o">=</span> <span class="n">SaveElement</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_link_path_xpath</span><span class="p">(</span><span class="n">link_tag</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">existing</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Removing duplicate link stub </span><span class="si">{</span><span class="n">link_tag</span><span class="si">}</span><span class="s2">[@Path='</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">'] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">; "</span>
-            <span class="sa">f</span><span class="s2">"keeping existing link already queued for save"</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;Removing duplicate link stub </span><span class="si">{</span><span class="n">link_tag</span><span class="si">}</span><span class="s2">[@Path=&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;] under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;keeping existing link already queued for save&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">stub</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">stub</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -510,10 +510,10 @@
 <div class="viewcode-block" id="XContainerElementWrapper.Save">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XContainerElementWrapper.Save">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">Save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tabLevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">recurse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Public version of Save, if this element is not flagged SaveAsLinkedElement</span>
 <span class="sd">        then we need to save the parent to ensure our data is retained</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Save</span><span class="p">(</span><span class="n">tabLevel</span><span class="o">=</span><span class="n">tabLevel</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span>
@@ -521,16 +521,16 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">tabLevel</span><span class="o">=</span><span class="n">tabLevel</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Cannot save a container node that is not linked without a parent node to save it under"</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Cannot save a container node that is not linked without a parent node to save it under&quot;</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_Save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tabLevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">recurse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Called by another Save function.  This function is either called by a</span>
 <span class="sd">        parent element or by ourselves if SaveAsLinkedElement is True.</span>
 
 <span class="sd">        If recurse = False we only save this element, no child elements are saved</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Lock when child meta-data is not in the child directory (e.g. concurrent</span>
             <span class="c1"># pyramid level validation may save the same parent concurrently).</span>
@@ -546,13 +546,13 @@
                 <span class="n">seen_link_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
                 <span class="n">can_skip_serialization</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children_snapshot</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">):</span>
-                        <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">):</span>
+                        <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
                     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">XContainerElementWrapper</span><span class="p">)</span> <span class="ow">and</span> <span class="n">child</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">AttributesChanged</span><span class="p">:</span>
                             <span class="n">can_skip_serialization</span> <span class="o">=</span> <span class="kc">False</span>
                             <span class="k">break</span>
-                        <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link'</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">))</span>
+                        <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link&#39;</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="n">link_key</span> <span class="ow">in</span> <span class="n">seen_link_keys</span><span class="p">:</span>
@@ -566,8 +566,8 @@
                             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">XContainerElementWrapper</span><span class="p">):</span>
                                 <span class="n">child</span><span class="o">.</span><span class="n">_Save</span><span class="p">(</span><span class="n">tabLevel</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s1">'Skipping VolumeData.xml under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1"> '</span>
-                        <span class="sa">f</span><span class="s1">'(no dirty flags on this container; nested linked containers may still have written)'</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s1">&#39;Skipping VolumeData.xml under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1"> &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;(no dirty flags on this container; nested linked containers may still have written)&#39;</span><span class="p">)</span>
                     <span class="k">return</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChildrenChanged</span><span class="p">:</span>
@@ -577,7 +577,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AttributesChanged</span><span class="p">:</span>
                 <span class="n">ValidateAttributesAreStrings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-            <span class="n">xmlfilename</span> <span class="o">=</span> <span class="s1">'VolumeData.xml'</span>
+            <span class="n">xmlfilename</span> <span class="o">=</span> <span class="s1">&#39;VolumeData.xml&#39;</span>
 
             <span class="c1"># Shallow copy for serialization so we do not mutate the live tree mid-pipeline.</span>
             <span class="n">SaveElement</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
@@ -594,8 +594,8 @@
             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children_snapshot</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">live_child_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">id</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">live_child_ids</span><span class="p">:</span>
                     <span class="k">continue</span>
-                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">):</span>
-                    <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">):</span>
+                    <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
                     <span class="k">if</span> <span class="n">link_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">queued_link_keys</span><span class="p">:</span>
                         <span class="n">SaveElement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
                         <span class="n">queued_link_keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">link_key</span><span class="p">)</span>
@@ -612,8 +612,8 @@
                         <span class="n">child</span><span class="o">.</span><span class="n">_Save</span><span class="p">(</span><span class="n">tabLevel</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
-                        <span class="n">linktag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link'</span>
-                        <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">linktag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">))</span>
+                        <span class="n">linktag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">_Link&#39;</span>
+                        <span class="n">link_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">linktag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
 
                         <span class="c1"># Sanity check to prevent duplicate link bugs; clean the</span>
                         <span class="c1"># in-memory tree when Path collides (prefer loaded over stub).</span>
@@ -623,7 +623,7 @@
                             <span class="n">queued_link_keys</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">link_key</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">"Duplicate link element found when saving </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">SaveElement</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                                <span class="sa">f</span><span class="s2">&quot;Duplicate link element found when saving </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">SaveElement</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup_duplicate_linked_container</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">SaveElement</span><span class="p">):</span>
                                 <span class="n">LinkElement</span> <span class="o">=</span> <span class="n">_save_link_element</span><span class="p">(</span><span class="n">linktag</span><span class="p">,</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
                                 <span class="n">SaveElement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LinkElement</span><span class="p">)</span>
@@ -651,43 +651,43 @@
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">AnyChangesFound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
                 <span class="c1"># Clean linked containers are a routine no-op; keep out of info/prettyoutput spam.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">'Skipping </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1"> '</span>
-                    <span class="sa">f</span><span class="s1">'(no dirty flags on this container; nested linked containers may still have written)'</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s1">&#39;Skipping </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1"> &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;(no dirty flags on this container; nested linked containers may still have written)&#39;</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_save_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__ensure_container_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Create ``self.FullPath`` if needed; return it.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create ``self.FullPath`` if needed; return it.</span>
 
 <span class="sd">        Uses CIFS/NFS-tolerant creation (see :func:`nornir_shared.files.ensure_directory`).</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ensure_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__SaveXML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlfilename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">SaveElement</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Intended to be called on a thread from the save function"""</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'Writing </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1">'</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Intended to be called on a thread from the save function&quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Writing </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">ElementTree</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'  '</span><span class="p">)</span>
+            <span class="n">ElementTree</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">&#39;  &#39;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot encode output XML:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot encode output XML:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">raise</span>
 
         <span class="n">container_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ensure_container_directory</span><span class="p">()</span>
 
-        <span class="c1"># prettyoutput.Log("Saving %s" % xmlfilename)</span>
-        <span class="n">BackupXMLFilename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">xmlfilename</span><span class="p">)</span><span class="si">}</span><span class="s2">.backup.xml"</span>
+        <span class="c1"># prettyoutput.Log(&quot;Saving %s&quot; % xmlfilename)</span>
+        <span class="n">BackupXMLFilename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">xmlfilename</span><span class="p">)</span><span class="si">}</span><span class="s2">.backup.xml&quot;</span>
         <span class="n">BackupXMLFullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">container_dir</span><span class="p">,</span> <span class="n">BackupXMLFilename</span><span class="p">)</span>
         <span class="n">XMLFilename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">container_dir</span><span class="p">,</span> <span class="n">xmlfilename</span><span class="p">)</span>
-        <span class="n">TmpFilename</span> <span class="o">=</span> <span class="n">XMLFilename</span> <span class="o">+</span> <span class="s2">".tmp"</span>
+        <span class="n">TmpFilename</span> <span class="o">=</span> <span class="n">XMLFilename</span> <span class="o">+</span> <span class="s2">&quot;.tmp&quot;</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">write_temp_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
                     <span class="n">ElementTree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
                         <span class="n">hFile</span><span class="p">,</span>
-                        <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">,</span>
+                        <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span>
                         <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">short_empty_elements</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -698,12 +698,12 @@
                     <span class="k">pass</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
                     <span class="k">raise</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot encode output XML:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot encode output XML:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="k">raise</span>
 
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"No meta data produced for XML element </span><span class="si">{</span><span class="n">SaveElement</span><span class="si">}</span><span class="s2"> writing to </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;No meta data produced for XML element </span><span class="si">{</span><span class="n">SaveElement</span><span class="si">}</span><span class="s2"> writing to </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">last_open_error</span><span class="p">:</span> <span class="ne">OSError</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
@@ -718,13 +718,13 @@
                 <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
                         <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">,</span>
-                        <span class="s2">"Too many open files; raise ulimit -n or reduce tile I/O concurrency"</span><span class="p">,</span>
+                        <span class="s2">&quot;Too many open files; raise ulimit -n or reduce tile I/O concurrency&quot;</span><span class="p">,</span>
                         <span class="n">XMLFilename</span><span class="p">,</span>
                     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
                 <span class="k">raise</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Unable to write </span><span class="si">{</span><span class="n">TmpFilename</span><span class="si">}</span><span class="s2"> after retries; last error: </span><span class="si">{</span><span class="n">last_open_error</span><span class="si">}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">&quot;Unable to write </span><span class="si">{</span><span class="n">TmpFilename</span><span class="si">}</span><span class="s2"> after retries; last error: </span><span class="si">{</span><span class="n">last_open_error</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">last_open_error</span>
 
         <span class="c1"># If the current VolumeData.xml has data, then create a backup copy</span>
@@ -741,7 +741,7 @@
                     <span class="c1"># It is OK if a backup file does not exist</span>
                     <span class="k">pass</span>
                 <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
-                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Permission error removing backup of </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> before write"</span><span class="p">)</span>
+                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Permission error removing backup of </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> before write&quot;</span><span class="p">)</span>
                     <span class="k">raise</span>
 
                 <span class="c1"># Move the current file to the backup location, write the new data</span>
@@ -754,34 +754,34 @@
                         <span class="k">break</span>
                     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                         <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">"Could not backup </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">BackupXMLFullPath</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">); continuing without backup"</span><span class="p">)</span>
+                            <span class="sa">f</span><span class="s2">&quot;Could not backup </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">BackupXMLFullPath</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">); continuing without backup&quot;</span><span class="p">)</span>
                         <span class="k">break</span>
                     <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
                         <span class="n">backup_blocked</span> <span class="o">=</span> <span class="kc">True</span>
                         <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">"XML backup retry </span><span class="si">{</span><span class="n">backup_attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/8, file in use: </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                            <span class="sa">f</span><span class="s2">&quot;XML backup retry </span><span class="si">{</span><span class="n">backup_attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/8, file in use: </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">backup_attempt</span><span class="p">)))</span>
                     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">:</span>
                             <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">"Too many open files backing up </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">; continuing without backup. "</span>
-                                <span class="s2">"Raise ulimit -n or reduce tile I/O concurrency."</span><span class="p">)</span>
+                                <span class="sa">f</span><span class="s2">&quot;Too many open files backing up </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">; continuing without backup. &quot;</span>
+                                <span class="s2">&quot;Raise ulimit -n or reduce tile I/O concurrency.&quot;</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">"Could not backup </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">BackupXMLFullPath</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">); continuing without backup"</span><span class="p">)</span>
+                                <span class="sa">f</span><span class="s2">&quot;Could not backup </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">BackupXMLFullPath</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">); continuing without backup&quot;</span><span class="p">)</span>
                         <span class="k">break</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">backup_ok</span> <span class="ow">and</span> <span class="n">backup_blocked</span><span class="p">:</span>
                     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Permission error backing up </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> before write; continuing without backup"</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s2">&quot;Permission error backing up </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> before write; continuing without backup&quot;</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># This is a rare issue where I'd write a file but have zero bytes on disk.</span>
+                <span class="c1"># This is a rare issue where I&#39;d write a file but have zero bytes on disk.</span>
                 <span class="c1"># If this error occurs check into replacing the zero byte file with the backup if it exists</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> had zero size, did not backup on write"</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> had zero size, did not backup on write&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
             <span class="k">pass</span>
 
-        <span class="c1"># prettyoutput.Log("Saving %s" % XMLFilename)</span>
+        <span class="c1"># prettyoutput.Log(&quot;Saving %s&quot; % XMLFilename)</span>
         <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">,</span> <span class="n">XMLFilename</span><span class="p">)</span>
@@ -797,20 +797,20 @@
                 <span class="c1"># (WinError 32). Back off and retry the replace.</span>
                 <span class="n">last_open_error</span> <span class="o">=</span> <span class="n">e</span>
                 <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"XML replace retry </span><span class="si">{</span><span class="n">attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/8, file in use: </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;XML replace retry </span><span class="si">{</span><span class="n">attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/8, file in use: </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">attempt</span><span class="p">)))</span>
             <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
                         <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">,</span>
-                        <span class="s2">"Too many open files; raise ulimit -n or reduce tile I/O concurrency"</span><span class="p">,</span>
+                        <span class="s2">&quot;Too many open files; raise ulimit -n or reduce tile I/O concurrency&quot;</span><span class="p">,</span>
                         <span class="n">XMLFilename</span><span class="p">,</span>
                     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
                 <span class="k">raise</span>
 
         <span class="k">if</span> <span class="n">last_open_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">last_open_error</span>
-        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unable to write </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> after retries"</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to write </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> after retries&quot;</span><span class="p">)</span></div>
 
 </pre></div>
 

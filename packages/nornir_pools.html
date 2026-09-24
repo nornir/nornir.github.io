@@ -144,7 +144,7 @@ different execution backends:</p>
     <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 
 <span class="n">pool</span> <span class="o">=</span> <span class="n">pools</span><span class="o">.</span><span class="n">GetGlobalThreadPool</span><span class="p">()</span>      <span class="c1"># swap for any backend</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -173,7 +173,7 @@ different execution backends:</p>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pools</span>
 <span class="n">thread_pool</span> <span class="o">=</span> <span class="n">pools</span><span class="o">.</span><span class="n">GetGlobalThreadPool</span><span class="p">()</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">thread_pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">"Add 3 + 5"</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">thread_pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;Add 3 + 5&quot;</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
@@ -184,7 +184,7 @@ different execution backends:</p>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pools</span>
 <span class="n">cluster_pool</span> <span class="o">=</span> <span class="n">pools</span><span class="o">.</span><span class="n">GetGlobalClusterPool</span><span class="p">()</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">cluster_pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">"Add 3 + 5"</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">cluster_pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;Add 3 + 5&quot;</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>

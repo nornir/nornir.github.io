@@ -91,13 +91,13 @@
 <div class="viewcode-block" id="PoolBase">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.PoolBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PoolBase</span><span class="p">(</span><span class="n">IPool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Pool objects provide the interface to create tasks on the pool.</span>
-<span class="sd">    '''</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="s2">""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -108,37 +108,37 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">queued_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Tasks waiting to start. Override in subclasses with a queue."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tasks waiting to start. Override in subclasses with a queue.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">0</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">active_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Tasks currently executing. Override when in-flight is tracked."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tasks currently executing. Override when in-flight is tracked.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">0</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">max_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Worker capacity when known."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Worker capacity when known.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">"Pool </span><span class="si">{0}</span><span class="s2"> with </span><span class="si">{1}</span><span class="s2"> active tasks"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_active_tasks</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;Pool </span><span class="si">{0}</span><span class="s2"> with </span><span class="si">{1}</span><span class="s2"> active tasks&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_active_tasks</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># self.logger = logging.getLogger(__name__)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_last_job_report_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">job_report_interval_in_seconds</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"job_report_interval"</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">job_report_interval_in_seconds</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;job_report_interval&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_last_num_active_tasks</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_mqtt_report_interval_in_seconds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"mqtt_job_report_interval"</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mqtt_report_interval_in_seconds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mqtt_job_report_interval&quot;</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">))</span>
 
 <div class="viewcode-block" id="PoolBase.TryReportActiveTaskCount">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.PoolBase.TryReportActiveTaskCount">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">TryReportActiveTaskCount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">'''</span>
-<span class="sd">        Report the current job count if we haven't reported it recently</span>
-<span class="sd">        '''</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Report the current job count if we haven&#39;t reported it recently</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">TryReportPoolLoad</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_active_tasks</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_num_active_tasks</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -155,7 +155,7 @@
 <div class="viewcode-block" id="PoolBase.TryReportPoolLoad">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.PoolBase.TryReportPoolLoad">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">TryReportPoolLoad</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Publish dashboard ``pool_load`` for this pool (throttled in shared helper)."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Publish dashboard ``pool_load`` for this pool (throttled in shared helper).&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_shared.pool_load</span><span class="w"> </span><span class="kn">import</span> <span class="n">report_pool_load</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -172,8 +172,8 @@
 <div class="viewcode-block" id="PoolBase.PrintActiveTaskCount">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.PoolBase.PrintActiveTaskCount">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">PrintActiveTaskCount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">JobQText</span> <span class="o">=</span> <span class="s2">"Jobs Queued: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_active_tasks</span><span class="p">)</span>
-        <span class="n">JobQText</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'</span><span class="se">\b</span><span class="s1">'</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span> <span class="o">+</span> <span class="n">JobQText</span> <span class="o">+</span> <span class="p">(</span><span class="s1">'.'</span> <span class="o">*</span> <span class="p">(</span><span class="mi">40</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">JobQText</span><span class="p">)))</span>
+        <span class="n">JobQText</span> <span class="o">=</span> <span class="s2">&quot;Jobs Queued: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_active_tasks</span><span class="p">)</span>
+        <span class="n">JobQText</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="se">\b</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span> <span class="o">+</span> <span class="n">JobQText</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">40</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">JobQText</span><span class="p">)))</span>
         <span class="n">nornir_pools</span><span class="o">.</span><span class="n">_PrintProgressUpdate</span><span class="p">(</span><span class="n">JobQText</span><span class="p">)</span>
         <span class="k">return</span></div>
 </div>
@@ -201,7 +201,7 @@
 <div class="viewcode-block" id="LocalThreadPoolBase">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LocalThreadPoolBase</span><span class="p">(</span><span class="n">PoolBase</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''Base class for pools that rely on local threads and a queue to dispatch jobs'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Base class for pools that rely on local threads and a queue to dispatch jobs&#39;&#39;&#39;</span>
 
     <span class="n">WorkerCheckInterval</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># How often workers check for events to end themselves if there are no queue events</span>
     <span class="n">AtExitRegisteredWaitTime</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># How long we will wait atexit to ensure threads have time to shutdown.  Should be the max WorkerCheckInterval of any Threadpool started.</span>
@@ -227,7 +227,7 @@
 <div class="viewcode-block" id="LocalThreadPoolBase.mark_task_started">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.mark_task_started">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">mark_task_started</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Called by a worker when it dequeues a task to run."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called by a worker when it dequeues a task to run.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inflight_lock</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_inflight</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -244,7 +244,7 @@
 <div class="viewcode-block" id="LocalThreadPoolBase.mark_task_finished">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.mark_task_finished">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">mark_task_finished</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Called by a worker when a dequeued task finishes."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called by a worker when a dequeued task finishes.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inflight_lock</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inflight</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_inflight</span> <span class="o">-=</span> <span class="mi">1</span>
@@ -255,7 +255,7 @@
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.TryRegisterAtExit">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">TryRegisterAtExit</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">wait_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Register a wait atexit so we don't leave threads alive when the program exits and get an error message"""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a wait atexit so we don&#39;t leave threads alive when the program exits and get an error message&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">AtExitRegisteredWaitTime</span> <span class="o">&gt;=</span> <span class="n">wait_time</span><span class="p">:</span>
             <span class="k">return</span>
 
@@ -271,9 +271,9 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">'''</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        :param int num_threads: number of threads, defaults to number of cores installed on system</span>
-<span class="sd">        '''</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">LocalThreadPoolBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">deadthreadqueue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>  <span class="c1"># Threads put themselves here when they die</span>
@@ -284,13 +284,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_inflight</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_inflight_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">WorkerCheckInterval</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'WorkerCheckInterval'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">WorkerCheckInterval</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;WorkerCheckInterval&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">WorkerCheckInterval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">WorkerCheckInterval</span> <span class="o">=</span> <span class="n">LocalThreadPoolBase</span><span class="o">.</span><span class="n">WorkerCheckInterval</span>
 
         <span class="n">LocalThreadPoolBase</span><span class="o">.</span><span class="n">TryRegisterAtExit</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">WorkerCheckInterval</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.25</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_max_threads</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'num_threads'</span><span class="p">,</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_threads</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_threads&#39;</span><span class="p">,</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_threads</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_max_threads</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">1</span>
@@ -299,7 +299,7 @@
 
         <span class="c1"># The queue itself is unbounded; capacity is applied in enqueue_task, and only</span>
         <span class="c1"># to producers outside the pool. A bounded queue with a blocking put deadlocks</span>
-        <span class="c1"># unrecoverably when the producer is one of this pool's own workers: it blocks</span>
+        <span class="c1"># unrecoverably when the producer is one of this pool&#39;s own workers: it blocks</span>
         <span class="c1"># holding the very thread needed to drain the queue, and once every worker is</span>
         <span class="c1"># blocked that way nothing can ever drain it.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tasks</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>  <span class="c1"># Queue for tasks yet to be completed by a thread</span>
@@ -314,19 +314,19 @@
 <div class="viewcode-block" id="LocalThreadPoolBase.called_from_pool_worker">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.called_from_pool_worker">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">called_from_pool_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""True when the calling thread is one of this pool's own workers.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True when the calling thread is one of this pool&#39;s own workers.</span>
 
 <span class="sd">        Worker threads record the pool they serve, so this is exact rather than a guess</span>
 <span class="sd">        based on thread names or identity reuse.</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">(),</span> <span class="s1">'pool'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">self</span></div>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">(),</span> <span class="s1">&#39;pool&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">self</span></div>
 
 
 <div class="viewcode-block" id="LocalThreadPoolBase.nested_wait_guard">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.nested_wait_guard">[docs]</a>
     <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">nested_wait_guard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Report a worker of this pool blocking on a task belonging to this same pool.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Report a worker of this pool blocking on a task belonging to this same pool.</span>
 
 <span class="sd">        #85 removed the queue-capacity half of this hazard, so a worker submitting onto</span>
 <span class="sd">        its own pool is no longer throttled. Submitting is only half the pattern: a worker</span>
@@ -341,9 +341,9 @@
 <span class="sd">        visible instead: a warning while it is merely wasteful, and an error once it is</span>
 <span class="sd">        provably a deadlock, naming the pool so the report points at the fix.</span>
 
-<span class="sd">        A no-op unless the caller really is one of this pool's workers, so the ordinary</span>
+<span class="sd">        A no-op unless the caller really is one of this pool&#39;s workers, so the ordinary</span>
 <span class="sd">        outside-caller wait pays only one attribute lookup.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">called_from_pool_worker</span><span class="p">():</span>
             <span class="k">yield</span>
             <span class="k">return</span>
@@ -368,10 +368,10 @@
         <span class="c1"># them can reach. This is not a risk any more, it has happened.</span>
         <span class="k">if</span> <span class="n">waiters</span> <span class="o">&gt;=</span> <span class="n">capacity</span> <span class="ow">and</span> <span class="n">queued</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s1">'Pool </span><span class="si">%s</span><span class="s1"> is deadlocked: all </span><span class="si">%d</span><span class="s1"> worker thread(s) are blocked waiting on '</span>
-                <span class="s1">'tasks from this same pool, and </span><span class="si">%d</span><span class="s1"> task(s) are queued with no worker left '</span>
-                <span class="s1">'to run them. Waiting on: </span><span class="si">%s</span><span class="s1">. Submit the nested work to a different pool, '</span>
-                <span class="s1">'or wait for it from a thread that is not one of this pool</span><span class="se">\'</span><span class="s1">s workers.'</span><span class="p">,</span>
+                <span class="s1">&#39;Pool </span><span class="si">%s</span><span class="s1"> is deadlocked: all </span><span class="si">%d</span><span class="s1"> worker thread(s) are blocked waiting on &#39;</span>
+                <span class="s1">&#39;tasks from this same pool, and </span><span class="si">%d</span><span class="s1"> task(s) are queued with no worker left &#39;</span>
+                <span class="s1">&#39;to run them. Waiting on: </span><span class="si">%s</span><span class="s1">. Submit the nested work to a different pool, &#39;</span>
+                <span class="s1">&#39;or wait for it from a thread that is not one of this pool</span><span class="se">\&#39;</span><span class="s1">s workers.&#39;</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">queued</span><span class="p">,</span> <span class="n">task_name</span><span class="p">)</span>
             <span class="k">return</span>
 
@@ -381,15 +381,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_last_nested_wait_warning</span> <span class="o">=</span> <span class="n">now</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s1">'Pool </span><span class="si">%s</span><span class="s1"> has a worker blocked waiting on a task from its own pool (</span><span class="si">%s</span><span class="s1">). '</span>
-            <span class="s1">'</span><span class="si">%d</span><span class="s1"> of </span><span class="si">%d</span><span class="s1"> worker(s) are waiting this way, </span><span class="si">%d</span><span class="s1"> task(s) queued. This wastes a '</span>
-            <span class="s1">'worker and deadlocks the pool if every worker does it.'</span><span class="p">,</span>
+            <span class="s1">&#39;Pool </span><span class="si">%s</span><span class="s1"> has a worker blocked waiting on a task from its own pool (</span><span class="si">%s</span><span class="s1">). &#39;</span>
+            <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> of </span><span class="si">%d</span><span class="s1"> worker(s) are waiting this way, </span><span class="si">%d</span><span class="s1"> task(s) queued. This wastes a &#39;</span>
+            <span class="s1">&#39;worker and deadlocks the pool if every worker does it.&#39;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">waiters</span><span class="p">,</span> <span class="n">capacity</span><span class="p">,</span> <span class="n">queued</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LocalThreadPoolBase.enqueue_task">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.enqueue_task">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">enqueue_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Queue a task, applying capacity only to producers outside the pool.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Queue a task, applying capacity only to producers outside the pool.</span>
 
 <span class="sd">        A worker submitting onto its own pool is never made to wait. Throttling it would</span>
 <span class="sd">        block the thread that has to drain the queue for the wait to end, which is a</span>
@@ -399,7 +399,7 @@
 <span class="sd">        The room check and the put are deliberately not atomic, so concurrent producers</span>
 <span class="sd">        can overshoot the capacity slightly. It is a backpressure threshold, not an</span>
 <span class="sd">        invariant, and making it exact would reintroduce a lock held across a put.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Fast path. Below capacity there is nothing to decide, so neither the worker</span>
         <span class="c1"># check nor the condition lock is touched; submitting is hot enough that paying</span>
         <span class="c1"># for them on every call cost 13.0 -&gt; 14.7 us per add_task.</span>
@@ -414,7 +414,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_wait_for_queue_room</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Block an outside producer until the queue is below capacity."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Block an outside producer until the queue is below capacity.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_room</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_producers_waiting</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">try</span><span class="p">:</span>
@@ -431,9 +431,9 @@
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">warned</span> <span class="ow">and</span> <span class="n">waited</span> <span class="o">&gt;=</span> <span class="n">_QUEUE_FULL_WARN_SECONDS</span><span class="p">:</span>
                         <span class="n">warned</span> <span class="o">=</span> <span class="kc">True</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s1">'Pool </span><span class="si">%s</span><span class="s1"> has been full for </span><span class="si">%.0f</span><span class="s1"> seconds: </span><span class="si">%d</span><span class="s1"> queued against '</span>
-                            <span class="s1">'a capacity of </span><span class="si">%d</span><span class="s1">, </span><span class="si">%d</span><span class="s1"> running, </span><span class="si">%d</span><span class="s1"> worker threads. The '</span>
-                            <span class="s1">'caller is blocked waiting for room.'</span><span class="p">,</span>
+                            <span class="s1">&#39;Pool </span><span class="si">%s</span><span class="s1"> has been full for </span><span class="si">%.0f</span><span class="s1"> seconds: </span><span class="si">%d</span><span class="s1"> queued against &#39;</span>
+                            <span class="s1">&#39;a capacity of </span><span class="si">%d</span><span class="s1">, </span><span class="si">%d</span><span class="s1"> running, </span><span class="si">%d</span><span class="s1"> worker threads. The &#39;</span>
+                            <span class="s1">&#39;caller is blocked waiting for room.&#39;</span><span class="p">,</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">waited</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">qsize</span><span class="p">(),</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_queue_capacity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_tasks</span><span class="p">,</span>
                             <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_threads</span><span class="p">))</span>
@@ -463,13 +463,13 @@
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.add_worker_thread">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_worker_thread</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"add_worker_thread must be implemented by derived class and return a thread object"</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;add_worker_thread must be implemented by derived class and return a thread object&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LocalThreadPoolBase.add_threads_if_needed">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.add_threads_if_needed">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_threads_if_needed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Grow the pool towards one thread per outstanding task, capped at ``num_threads``.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Grow the pool towards one thread per outstanding task, capped at ``num_threads``.</span>
 
 <span class="sd">        Outstanding work is ``queued + inflight``, and that choice is what makes this</span>
 <span class="sd">        race-free. The previous version sized against ``qsize() + 1`` and then re-checked</span>
@@ -491,7 +491,7 @@
 <span class="sd">        exists for, and ``min`` with ``max_t`` keeps the ``num_threads`` contract intact</span>
 <span class="sd">        regardless. Idle threads are not over-created either: a pool of N idle workers</span>
 <span class="sd">        receiving one task computes a target of 1 and creates nothing.</span>
-<span class="sd">        """</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">assert</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shutdown_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span>
 
@@ -535,10 +535,10 @@
 <div class="viewcode-block" id="LocalThreadPoolBase.wait_completion">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.poolbase.LocalThreadPoolBase.wait_completion">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">wait_completion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Wait for completion of all the tasks in the queue.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for completion of all the tasks in the queue.</span>
 <span class="sd">           Note that wait or wait_return must be called on </span>
 <span class="sd">           each task to detect exceptions if there were any</span>
-<span class="sd">           """</span>
+<span class="sd">           &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tasks</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_finished_threads</span><span class="p">()</span></div>

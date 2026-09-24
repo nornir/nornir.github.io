@@ -74,11 +74,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_imageregistration.assemble</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Created on Apr 22, 2013</span>
 
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
@@ -130,23 +130,23 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_max_assemble_buffer_bytes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return the maximum allowed assemble output buffer size in bytes."""</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_MAX_ASSEMBLE_BUFFER_BYTES'</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">''</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the maximum allowed assemble output buffer size in bytes.&quot;&quot;&quot;</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NORNIR_MAX_ASSEMBLE_BUFFER_BYTES&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_DEFAULT_MAX_ASSEMBLE_BUFFER_BYTES</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_raise_if_assemble_buffer_too_large</span><span class="p">(</span><span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DTypeLike</span><span class="p">,</span>
                                         <span class="n">include_zbuffer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Fail fast before allocating an unreasonably large assemble canvas.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fail fast before allocating an unreasonably large assemble canvas.</span>
 
 <span class="sd">    ``include_zbuffer`` accounts for the companion float16 distance buffer that the</span>
 <span class="sd">    tile-compositing path allocates alongside the image. Callers that only allocate an</span>
 <span class="sd">    image, such as ``TransformImage``, pass False so the limit means what it says.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">height</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Assemble output dimensions must be positive, got </span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Assemble output dimensions must be positive, got </span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">image_bytes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">)</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)</span>
     <span class="n">total_bytes</span> <span class="o">=</span> <span class="n">image_bytes</span>
@@ -155,19 +155,19 @@
     <span class="n">limit_bytes</span> <span class="o">=</span> <span class="n">_max_assemble_buffer_bytes</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">total_bytes</span> <span class="o">&gt;</span> <span class="n">limit_bytes</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Refusing to allocate </span><span class="si">{</span><span class="n">total_bytes</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> bytes for assemble output "</span>
-            <span class="sa">f</span><span class="s2">"(</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">, image dtype=</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="si">}</span><span class="s2">, limit=</span><span class="si">{</span><span class="n">limit_bytes</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> from "</span>
-            <span class="s2">"NORNIR_MAX_ASSEMBLE_BUFFER_BYTES). This usually indicates invalid mosaic transforms "</span>
-            <span class="s2">"with exploded target-space control points; regenerate the grid transform or inspect "</span>
-            <span class="s2">"per-tile target bounding boxes before assembling."</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">&quot;Refusing to allocate </span><span class="si">{</span><span class="n">total_bytes</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> bytes for assemble output &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">, image dtype=</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="si">}</span><span class="s2">, limit=</span><span class="si">{</span><span class="n">limit_bytes</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> from &quot;</span>
+            <span class="s2">&quot;NORNIR_MAX_ASSEMBLE_BUFFER_BYTES). This usually indicates invalid mosaic transforms &quot;</span>
+            <span class="s2">&quot;with exploded target-space control points; regenerate the grid transform or inspect &quot;</span>
+            <span class="s2">&quot;per-tile target bounding boxes before assembling.&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_on_array_module</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return *array* on *xp* without copying when already resident there.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return *array* on *xp* without copying when already resident there.</span>
 
 <span class="sd">    Accepts NumPy or CuPy; ``np.asarray`` is never used on a CuPy input because</span>
 <span class="sd">    CuPy refuses the implicit host conversion.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="ow">is</span> <span class="n">xp</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">array</span>
     <span class="k">if</span> <span class="n">xp</span> <span class="ow">is</span> <span class="n">np</span><span class="p">:</span>
@@ -176,7 +176,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_distance_warp_order</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Spline order for the distance z-buffer warp (image warp unchanged).</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spline order for the distance z-buffer warp (image warp unchanged).</span>
 
 <span class="sd">    Production default (unset ``NORNIR_ASSEMBLE_DISTANCE_WARP_ORDER``): **cubic** — same as the</span>
 <span class="sd">    image warp (``interpolation_order=None`` → order 3 for float images). Set ``=0`` or ``=1`` for</span>
@@ -184,11 +184,11 @@
 
 <span class="sd">    **Pixel effect (order 0/1 vs cubic):** only affects the distance plane used for compositing,</span>
 <span class="sd">    not image ``map_coordinates`` interpolation.</span>
-<span class="sd">    """</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_ASSEMBLE_DISTANCE_WARP_ORDER'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">raw</span> <span class="o">==</span> <span class="s1">''</span><span class="p">:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NORNIR_ASSEMBLE_DISTANCE_WARP_ORDER&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">raw</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'default'</span><span class="p">,</span> <span class="s1">'image'</span><span class="p">,</span> <span class="s1">'none'</span><span class="p">,</span> <span class="s1">'cubic'</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;cubic&#39;</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
 
@@ -197,10 +197,10 @@
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.GetROICoords">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GetROICoords</span><span class="p">(</span><span class="n">botleft</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">area</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span>
                  <span class="o">*</span><span class="p">,</span> <span class="n">xp</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Integer YX meshgrid for a rectangle origin and area.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integer YX meshgrid for a rectangle origin and area.</span>
 
 <span class="sd">    Accepts NumPy or CuPy via the *xp* argument (defaults to ``GetComputationModule``).</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">xp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">xp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetComputationModule</span><span class="p">()</span>
     <span class="n">use_cp</span> <span class="o">=</span> <span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span>
@@ -223,7 +223,7 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">area</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
         <span class="n">y_range</span> <span class="o">=</span> <span class="n">y_range</span><span class="p">[:</span><span class="nb">int</span><span class="p">(</span><span class="n">area</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 
-    <span class="n">i_y</span><span class="p">,</span> <span class="n">i_x</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">'ij'</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+    <span class="n">i_y</span><span class="p">,</span> <span class="n">i_x</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
 
     <span class="k">if</span> <span class="n">use_cp</span><span class="p">:</span>
         <span class="n">coordArray</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">i_y</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">i_x</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
@@ -245,7 +245,7 @@
                                <span class="n">botleft</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span>
                                <span class="n">area</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span>
                                <span class="n">extrapolate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function is used to generate coordinates to transform image data in target space backwards into source space.</span>
 
 
@@ -258,7 +258,7 @@
 <span class="sd">    :param botleft: The (Y,X) coordinates of the bottom left corner in source space</span>
 <span class="sd">    :param area: The (Height, Width) of the region of interest coordinates.</span>
 <span class="sd">    :return: (read_space_coords, write_space_coords)</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">write_space_coords</span> <span class="o">=</span> <span class="n">GetROICoords</span><span class="p">(</span><span class="n">botleft</span><span class="p">,</span> <span class="n">area</span><span class="p">)</span>
 
@@ -280,7 +280,7 @@
                                <span class="n">botleft</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span>
                                <span class="n">area</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">,</span>
                                <span class="n">extrapolate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function is used to generate coordinates to transform image data in source space forward into target space.</span>
 
 <span class="sd">    Given a transform and a region in target space, create uniform integer coordinates over the region of interest in source</span>
@@ -294,7 +294,7 @@
 <span class="sd">    :param area: The (Height, Width) of the region of interest</span>
 <span class="sd">e coordinates.</span>
 <span class="sd">    :return: (read_space_coords, write_space_coords)</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.transforms.gridtransform</span><span class="w"> </span><span class="kn">import</span> <span class="n">_assemble_inverse_use_scipy</span>
 
     <span class="n">use_gpu_assemble</span> <span class="o">=</span> <span class="p">(</span>
@@ -313,21 +313,21 @@
     <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># IRigidTransform.InverseTransform (translation/rigid/similarity) is a closed-form</span>
-    <span class="c1"># affine op on finite input and can never produce NaN rows. Skip InvalidIndices'</span>
+    <span class="c1"># affine op on finite input and can never produce NaN rows. Skip InvalidIndices&#39;</span>
     <span class="c1"># xp.flatnonzero calls entirely for this transform class: on CuPy those calls force a</span>
-    <span class="c1"># device sync whose result is always "nothing to remove" here, so the sync is pure</span>
+    <span class="c1"># device sync whose result is always &quot;nothing to remove&quot; here, so the sync is pure</span>
     <span class="c1"># overhead in hot per-cell loops (e.g. STOS grid-refine ROI extraction).</span>
     <span class="c1">#</span>
-    <span class="c1"># NOTE: IRigidTransform is not the only NaN-safe (globally-defined/"continuous")</span>
+    <span class="c1"># NOTE: IRigidTransform is not the only NaN-safe (globally-defined/&quot;continuous&quot;)</span>
     <span class="c1"># transform -- RBF-based transforms (OneWayRBFWithLinearCorrection,</span>
     <span class="c1"># TwoWayRBFWithLinearCorrection) are also defined everywhere and should never emit</span>
-    <span class="c1"># NaN from finite input, but there is no shared "continuous transform" marker</span>
+    <span class="c1"># NaN from finite input, but there is no shared &quot;continuous transform&quot; marker</span>
     <span class="c1"># interface in transforms/base.py to check against (IDiscreteTransform captures the</span>
     <span class="c1"># opposite idea -- bounding boxes for control-point/triangulation transforms that can</span>
     <span class="c1"># be undefined outside their hull). This fast path is scoped to IRigidTransform</span>
     <span class="c1"># because that is what the STOS grid-refine per-cell path actually constructs</span>
     <span class="c1"># (ApproximateRigidTransformBySourcePoints). If RBF transforms are ever routed</span>
-    <span class="c1"># through this function's hot path, they will correctly but more slowly fall through</span>
+    <span class="c1"># through this function&#39;s hot path, they will correctly but more slowly fall through</span>
     <span class="c1"># to the InvalidIndices path below -- revisit then.</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">IRigidTransform</span><span class="p">):</span>
         <span class="n">valid_read_space_coords</span> <span class="o">=</span> <span class="n">read_space_coords</span>
@@ -363,7 +363,7 @@
         <span class="n">source_image_shape</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">extrapolate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Return True at fixed pixels whose inverse transform lands inside the source image."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True at fixed pixels whose inverse transform lands inside the source image.&quot;&quot;&quot;</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="n">transform_for_host_assembly</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span>
     <span class="n">fixed_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fixed_image_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
     <span class="n">source_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">source_image_shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
@@ -400,14 +400,14 @@
 <div class="viewcode-block" id="get_valid_coords">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.get_valid_coords">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_valid_coords</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">area</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Given an Nx2 array off image coordinates, remove the coordinates that</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given an Nx2 array off image coordinates, remove the coordinates that</span>
 <span class="sd">    fall outside the image_shape boundaries.</span>
 <span class="sd">    :param coords: Nx2 array of image coordinates</span>
 <span class="sd">    :param image_shape: 1x2 array of image dimensions</span>
 <span class="sd">    :param origin: 1x2 array with minimum valid coordinate</span>
 <span class="sd">    :parm area: 1x2 array of expected area, which may exceed image_shape.  coords will be cropped to whatever is less</span>
 <span class="sd">    :return: The coordinates greater than or equal to origin and less than origin + area and a mask indicating (== True) which coordinates met the criteria</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
     <span class="n">use_cp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetActiveComputationLib</span><span class="p">()</span> <span class="o">==</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span>
@@ -419,7 +419,7 @@
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">adjusted_origin</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unexpected type passed to origin"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unexpected type passed to origin&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">adjusted_area</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">area</span><span class="p">,</span> <span class="n">area</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
@@ -430,7 +430,7 @@
     <span class="k">elif</span> <span class="n">area</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">adjusted_area</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">image_shape</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unexpected type passed to area"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unexpected type passed to area&quot;</span><span class="p">)</span>
 
     <span class="n">origin</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> <span class="k">if</span> <span class="n">use_cp</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">origin</span>
     <span class="n">image_shape</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image_shape</span><span class="p">)</span> <span class="k">if</span> <span class="n">use_cp</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_shape</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">image_shape</span>
@@ -457,14 +457,14 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_CropImageToFitCoords</span><span class="p">(</span><span class="n">input_image</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">padding</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
     <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">"""For large images we only need a specific range of coordinates from the image.  However Scipy calls such as map_coordinates will</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;For large images we only need a specific range of coordinates from the image.  However Scipy calls such as map_coordinates will</span>
 <span class="sd">       send the entire image through a spline_filter first.  To avoid this we crop the image with a padding of one and adjust the</span>
 <span class="sd">       coordinates appropriately</span>
 <span class="sd">       :param ndarray input_image: image we will be extracting data from at the specified coordinates</span>
 <span class="sd">       :param ndarray coordinates: Nx2 array of points indexing into the image</span>
 <span class="sd">       :param float cval: Value to use for regions outside the existing image when padding</span>
 <span class="sd">       :return: (cropped_image, translated_coordinates, coordinate_mask) Returns the cropped image, the coordinates translated into the cropped image, and a mask set to False for any coordinates that did not fit within the image boundaries</span>
-<span class="sd">       """</span>
+<span class="sd">       &quot;&quot;&quot;</span>
 
     <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">input_image</span><span class="p">)</span>
     <span class="n">coordinates</span> <span class="o">=</span> <span class="n">_ensure_on_array_module</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
@@ -515,7 +515,7 @@
 <div class="viewcode-block" id="my_cheesy_map_coordinates">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.my_cheesy_map_coordinates">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">my_cheesy_map_coordinates</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">coords</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Sample image at integer floor of coords; returns image values at those indices."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample image at integer floor of coords; returns image values at those indices.&quot;&quot;&quot;</span>
     <span class="n">floor_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">floor_coords</span><span class="p">]</span></div>
 
@@ -531,7 +531,7 @@
                                <span class="n">interpolation_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                                <span class="n">return_valid_mask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                                <span class="n">clamp_source_coords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Use the passed coordinates to create a warped image</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use the passed coordinates to create a warped image</span>
 <span class="sd">    :Param fixed_coords: 2D coordinates in fixed space</span>
 <span class="sd">    :Param warped_coords: 2D coordinates in warped space</span>
 <span class="sd">    :Param FixedImageArea: Dimensions of fixed space</span>
@@ -548,16 +548,16 @@
 <span class="sd">        targets). This is the true coverage of the warp, derived for free from</span>
 <span class="sd">        the scatter indices, avoiding a second warp of a ones-image. Not</span>
 <span class="sd">        supported together with ``return_shared_memory``.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">return_valid_mask</span> <span class="ow">and</span> <span class="n">return_shared_memory</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"return_valid_mask is not supported with return_shared_memory"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;return_valid_mask is not supported with return_shared_memory&quot;</span><span class="p">)</span>
 
     <span class="n">use_cp</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetActiveComputationLib</span><span class="p">()</span> <span class="o">==</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span>
     <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span> <span class="k">if</span> <span class="n">use_cp</span> <span class="k">else</span> <span class="n">np</span>
     <span class="n">sp</span> <span class="o">=</span> <span class="n">cupyx</span><span class="o">.</span><span class="n">scipy</span> <span class="k">if</span> <span class="n">use_cp</span> <span class="k">else</span> <span class="n">scipy</span>
 
-    <span class="c1"># cupyx.scipy.ndimage.map_coordinates (and xp.full) must not receive Python bool: NVRTC sees "False"/"True".</span>
+    <span class="c1"># cupyx.scipy.ndimage.map_coordinates (and xp.full) must not receive Python bool: NVRTC sees &quot;False&quot;/&quot;True&quot;.</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cval</span><span class="p">,</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)):</span>
         <span class="n">cval</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cval</span><span class="p">)</span>
 
@@ -596,7 +596,7 @@
     <span class="c1"># Convert to a type the interpolation.map_coordinates supports</span>
     <span class="n">original_dtype</span> <span class="o">=</span> <span class="n">source_image</span><span class="o">.</span><span class="n">dtype</span>
 
-    <span class="n">inbounds_target_coords</span> <span class="o">=</span> <span class="n">target_coords</span> <span class="o">-</span> <span class="n">output_origin</span>  <span class="c1"># If tempted to use target_coords -= output_origin, don't.  It modifies input parameter and if called in a loop the next iteration will fail</span>
+    <span class="n">inbounds_target_coords</span> <span class="o">=</span> <span class="n">target_coords</span> <span class="o">-</span> <span class="n">output_origin</span>  <span class="c1"># If tempted to use target_coords -= output_origin, don&#39;t.  It modifies input parameter and if called in a loop the next iteration will fail</span>
     <span class="k">del</span> <span class="n">target_coords</span>
     <span class="c1"># Remove coordinates that fall outside the output region</span>
     <span class="c1"># inbounds_target_coords, inbounds_target_coord_mask = get_valid_coords(target_coords, output_area)</span>
@@ -693,26 +693,26 @@
         <span class="n">mean_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">subroi_warpedImage</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
         <span class="n">std_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">subroi_warpedImage</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">"Underflow error assembling image.  min_val=</span><span class="si">{</span><span class="n">min_val</span><span class="si">}</span><span class="s2"> max_val=</span><span class="si">{</span><span class="n">max_val</span><span class="si">}</span><span class="s2"> "</span>
-            <span class="sa">f</span><span class="s2">"mean=</span><span class="si">{</span><span class="n">mean_val</span><span class="si">}</span><span class="s2"> standardDev=</span><span class="si">{</span><span class="n">std_val</span><span class="si">}</span><span class="s2">"</span>
+            <span class="sa">f</span><span class="s2">&quot;Underflow error assembling image.  min_val=</span><span class="si">{</span><span class="n">min_val</span><span class="si">}</span><span class="s2"> max_val=</span><span class="si">{</span><span class="n">max_val</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;mean=</span><span class="si">{</span><span class="n">mean_val</span><span class="si">}</span><span class="s2"> standardDev=</span><span class="si">{</span><span class="n">std_val</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
     <span class="k">with</span> <span class="n">IgnoreUnderflow</span><span class="p">(</span><span class="n">_underflow_assemble_log_msg</span><span class="p">):</span>
         <span class="n">outputValues</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">map_coordinates</span><span class="p">(</span><span class="n">subroi_warpedImage</span><span class="p">,</span>  <span class="c1"># type: ignore[union-attr]</span>
                                                   <span class="n">filtered_source_coords</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
-                                                  <span class="n">mode</span><span class="o">=</span><span class="s1">'constant'</span><span class="p">,</span>
+                                                  <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
                                                   <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
                                                   <span class="n">cval</span><span class="o">=</span><span class="n">cval</span><span class="p">,</span>
                                                   <span class="n">prefilter</span><span class="o">=</span><span class="n">prefilter</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">original_dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">del</span> <span class="n">filtered_source_coords</span>
 
-    <span class="c1"># Scipy's interpolation can infer values slightly outside the source data's range.</span>
+    <span class="c1"># Scipy&#39;s interpolation can infer values slightly outside the source data&#39;s range.</span>
     <span class="n">cval_float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cval</span><span class="p">)</span> <span class="k">if</span> <span class="n">cval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mf">0.0</span>
     <span class="n">preserve_cval_sentinel</span> <span class="o">=</span> <span class="n">cval_float</span> <span class="o">&gt;</span> <span class="mf">1.0</span>
     <span class="c1"># Do not be tempted to skip this for order &lt;= 1 on the grounds that linear and nearest</span>
     <span class="c1"># interpolation cannot overshoot the source range. They cannot, but that is not all this</span>
-    <span class="c1"># clip does: with mode='constant' the samples near the source border blend toward cval, so</span>
+    <span class="c1"># clip does: with mode=&#39;constant&#39; the samples near the source border blend toward cval, so</span>
     <span class="c1"># they land outside the source range even at order 1. Gating on order changed the border</span>
     <span class="c1"># pixels of every fractional-offset warp. (#110)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">preserve_cval_sentinel</span><span class="p">:</span>
@@ -749,7 +749,7 @@
         <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># del filtered_target_coords</span>
 
-    <span class="c1"># Note - Clement: flat assignment doesn't work with cupy</span>
+    <span class="c1"># Note - Clement: flat assignment doesn&#39;t work with cupy</span>
     <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">outputImage</span><span class="p">)</span> <span class="o">==</span> <span class="n">cp</span><span class="p">:</span>  <span class="c1"># type: ignore[comparison-overlap]</span>
         <span class="n">start_shape</span> <span class="o">=</span> <span class="n">outputImage</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">outputImage</span> <span class="o">=</span> <span class="n">outputImage</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
@@ -797,7 +797,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_ReplaceFilesWithImages</span><span class="p">(</span><span class="n">listImages</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Replace any filepath strings in the passed parameter with loaded images."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace any filepath strings in the passed parameter with loaded images.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">listImages</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">listImages</span><span class="p">):</span>
@@ -812,7 +812,7 @@
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.FixedImageToWarpedSpace">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">FixedImageToWarpedSpace</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span> <span class="n">DataToTransform</span><span class="p">,</span> <span class="n">botleft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">extrapolate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"FixedImageToWarpedSpace should be replaced with TargetImageToSourceSpace"</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;FixedImageToWarpedSpace should be replaced with TargetImageToSourceSpace&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">TargetImageToSourceSpace</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">DataToTransform</span><span class="p">,</span> <span class="n">output_botleft</span><span class="o">=</span><span class="n">botleft</span><span class="p">,</span> <span class="n">output_area</span><span class="o">=</span><span class="n">area</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="n">cval</span><span class="p">,</span>
                                     <span class="n">extrapolate</span><span class="o">=</span><span class="n">extrapolate</span><span class="p">)</span></div>
 
@@ -825,14 +825,14 @@
                              <span class="n">output_botleft</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                              <span class="n">output_area</span><span class="p">:</span> <span class="n">NDArray</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                              <span class="n">cval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extrapolate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">return_shared_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Warps every image in the DataToTransform list using the provided transform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Warps every image in the DataToTransform list using the provided transform.</span>
 <span class="sd">    :param transform: transform to pass fixed space coordinates through to obtain warped space coordinates</span>
 <span class="sd">    :param DataToTransform: Images to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.  A list may contain filename strings or numpy.ndarrays</span>
 <span class="sd">    :param output_botleft: Origin of region to map data into, in source Space coordinates</span>
 <span class="sd">    :param output_area: Area of region to map data into, in source space coordinates</span>
 <span class="sd">    :param cval: Value to place in unmappable regions, defaults to zero.</span>
 <span class="sd">    :param bool extrapolate: If true map points that fall outside the bounding box of the transform</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ImagesToTransform</span> <span class="o">=</span> <span class="n">_ReplaceFilesWithImages</span><span class="p">(</span><span class="n">DataToTransform</span><span class="p">)</span>
 
@@ -843,7 +843,7 @@
         <span class="n">firstImage</span> <span class="o">=</span> <span class="n">ImagesToTransform</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">firstImage</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">firstImage</span> <span class="o">=</span> <span class="n">firstImage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Area calculation is not implemented for lists of transforms, but could be"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Area calculation is not implemented for lists of transforms, but could be&quot;</span><span class="p">)</span>
 
         <span class="n">bounds</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">CreateFromPointAndArea</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">firstImage</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">source_corners</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">InverseTransform</span><span class="p">(</span><span class="n">bounds</span><span class="o">.</span><span class="n">Corners</span><span class="p">)</span>
@@ -884,7 +884,7 @@
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.WarpedImageToFixedSpace">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WarpedImageToFixedSpace</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span> <span class="n">DataToTransform</span><span class="p">,</span> <span class="n">botleft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">extrapolate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"WarpedImageToFixedSpace should be replaced with SourceImageToTargetSpace"</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;WarpedImageToFixedSpace should be replaced with SourceImageToTargetSpace&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">SourceImageToTargetSpace</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">DataToTransform</span><span class="p">,</span> <span class="n">output_botleft</span><span class="o">=</span><span class="n">botleft</span><span class="p">,</span> <span class="n">output_area</span><span class="o">=</span><span class="n">area</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="n">cval</span><span class="p">,</span>
                                     <span class="n">extrapolate</span><span class="o">=</span><span class="n">extrapolate</span><span class="p">)</span></div>
 
@@ -899,7 +899,7 @@
                              <span class="n">cval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extrapolate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_shared_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                              <span class="n">return_valid_mask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">clamp_source_coords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                              <span class="n">interpolation_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Warps every image in the DataToTransform list using the provided transform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Warps every image in the DataToTransform list using the provided transform.</span>
 <span class="sd">    :param transform: transform to pass warped space coordinates through to obtain fixed space coordinates</span>
 <span class="sd">    :param output_shape: shape of the output image</span>
 <span class="sd">    :param DataToTransform: Images to read pixel values from while creating fixed space images.  A list of images can be passed to map multiple images using the same coordinates.  A list may contain filename strings or numpy.ndarrays</span>
@@ -913,7 +913,7 @@
 <span class="sd">    :Param area: Expected dimensions of output</span>
 <span class="sd">    :Param cval: Value to place in unmappable regions, defaults to zero.</span>
 <span class="sd">    :param bool extrapolate: If true map points that fall outside the bounding box of the transform</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ImagesToTransform</span> <span class="o">=</span> <span class="n">_ReplaceFilesWithImages</span><span class="p">(</span><span class="n">DataToTransform</span><span class="p">)</span>
 
@@ -924,7 +924,7 @@
         <span class="n">firstImage</span> <span class="o">=</span> <span class="n">ImagesToTransform</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">firstImage</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">firstImage</span> <span class="o">=</span> <span class="n">firstImage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Area calculation is not implemented for lists of transforms, but could be"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Area calculation is not implemented for lists of transforms, but could be&quot;</span><span class="p">)</span>
 
         <span class="n">bounds</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">CreateFromPointAndArea</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">firstImage</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="n">target_corners</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">bounds</span><span class="o">.</span><span class="n">Corners</span><span class="p">)</span>
@@ -945,12 +945,12 @@
     <span class="c1"># values for, then determining the Source space coordinates for each pixel in the target image.  Then we map values</span>
     <span class="c1"># to each pixel using the source space coordinates</span>
 
-    <span class="c1"># timer.Start('write_to_target_roi_coords')</span>
+    <span class="c1"># timer.Start(&#39;write_to_target_roi_coords&#39;)</span>
 
     <span class="p">(</span><span class="n">roi_read_coords</span><span class="p">,</span> <span class="n">roi_write_coords</span><span class="p">)</span> <span class="o">=</span> <span class="n">write_to_target_roi_coords</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">output_botleft</span><span class="p">,</span> <span class="n">output_area</span><span class="p">,</span>
                                                                      <span class="n">extrapolate</span><span class="o">=</span><span class="n">extrapolate</span><span class="p">)</span>
 
-    <span class="c1"># Serialise GPU map_coordinates only when this warp's coordinates are on-device.</span>
+    <span class="c1"># Serialise GPU map_coordinates only when this warp&#39;s coordinates are on-device.</span>
     <span class="c1"># Do not key off GetActiveComputationLib() — coords follow GetROICoords / transform output type.</span>
     <span class="n">_use_gpu_warp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">roi_write_coords</span><span class="p">)</span> <span class="ow">is</span> <span class="n">cp</span>
     <span class="n">_lock</span> <span class="o">=</span> <span class="n">_gpu_warp_lock</span> <span class="k">if</span> <span class="n">_use_gpu_warp</span> <span class="k">else</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">nullcontext</span><span class="p">()</span>
@@ -989,17 +989,17 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_ParameterToStosTransformAndFile</span><span class="p">(</span>
         <span class="n">transformData</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ITransform</span> <span class="o">|</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span> <span class="o">|</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITransform</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ITransform</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">"""Resolve *transformData* to a transform and, when one exists, its stos file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve *transformData* to a transform and, when one exists, its stos file.</span>
 
-<span class="sd">    Callers that need the stos file's image paths cannot recover them from the</span>
+<span class="sd">    Callers that need the stos file&#39;s image paths cannot recover them from the</span>
 <span class="sd">    transform alone, so both are returned together.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stos</span><span class="p">:</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">stostransform</span><span class="p">:</span> <span class="n">ITransform</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformData</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">transformData</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"transformData is not a valid path to a .stos file </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">transformData</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;transformData is not a valid path to a .stos file </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">transformData</span><span class="p">)</span>
         <span class="n">stos</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">transformData</span><span class="p">)</span>
         <span class="n">stostransform</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">LoadTransform</span><span class="p">(</span><span class="n">stos</span><span class="o">.</span><span class="n">Transform</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transformData</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span><span class="p">):</span>
@@ -1016,10 +1016,10 @@
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.ParameterToStosTransform">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ParameterToStosTransform</span><span class="p">(</span>
         <span class="n">transformData</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ITransform</span> <span class="o">|</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">StosFile</span> <span class="o">|</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITransform</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param object transformData: Either a full path to a .stos file, a stosfile, or a transform object</span>
 <span class="sd">    :return: A transform</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stostransform</span><span class="p">,</span> <span class="n">_stos</span> <span class="o">=</span> <span class="n">_ParameterToStosTransformAndFile</span><span class="p">(</span><span class="n">transformData</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">stostransform</span></div>
 
@@ -1031,18 +1031,18 @@
                   <span class="n">OutputFilename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fixedImage</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                   <span class="n">warpedImage</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                   <span class="n">scalar</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">CropUndefined</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Assembles an image based on the passed transform.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assembles an image based on the passed transform.</span>
 <span class="sd">    :param transformData:</span>
 <span class="sd">    :param OutputFilename:</span>
 <span class="sd">    :param str fixedImage: Image describing the size we want the warped image to fill, either a string or ndarray</span>
 <span class="sd">    :param str warpedImage: Image we will warp into fixed space, either a string or ndarray</span>
 <span class="sd">    :param float scalar: Amount to scale the transform before passing the image through</span>
 <span class="sd">    :param bool CropUndefined: If true exclude areas outside the convex hull of the transform, if it exists</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">stostransform</span><span class="p">,</span> <span class="n">stos</span> <span class="o">=</span> <span class="n">_ParameterToStosTransformAndFile</span><span class="p">(</span><span class="n">transformData</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">stostransform</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"transformData is not a valid transform or stos file"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;transformData is not a valid transform or stos file&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">fixedImage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">stos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1061,7 +1061,7 @@
     <span class="n">warpedImage</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ImageParamToImageArray</span><span class="p">(</span><span class="n">warpedImage</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stostransform</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ITransformScaling</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot scale transform that does not implement ITransformScaling </span><span class="si">{</span><span class="n">transformData</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot scale transform that does not implement ITransformScaling </span><span class="si">{</span><span class="n">transformData</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">stostransform</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="n">scalar</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
@@ -1070,14 +1070,14 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">OutputFilename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">SaveImage</span><span class="p">(</span><span class="n">OutputFilename</span><span class="p">,</span>
                                            <span class="n">warpedImage</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">warpedImage</span><span class="p">)</span> <span class="o">==</span> <span class="n">cp</span> <span class="k">else</span> <span class="n">warpedImage</span><span class="p">,</span>  <span class="c1"># type: ignore[union-attr, comparison-overlap]</span>
-                                           <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">bpp</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+                                           <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">bpp</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">warpedImage</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_grayscale_host_array</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Host NumPy 2D grayscale array suitable for overlay/diff combine."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Host NumPy 2D grayscale array suitable for overlay/diff combine.&quot;&quot;&quot;</span>
     <span class="n">host</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">host</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">host</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ForceGrayscale</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
@@ -1085,7 +1085,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_resize_image_to_shape</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">target_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Resize a 2D image to ``target_shape`` (height, width) when sizes differ."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resize a 2D image to ``target_shape`` (height, width) when sizes differ.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">target_shape</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">image</span>
     <span class="n">factors</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -1093,11 +1093,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_save_rgb_png</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rgb</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Write an HxWx3 uint8 array as an RGB PNG."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write an HxWx3 uint8 array as an RGB PNG.&quot;&quot;&quot;</span>
     <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dirname</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">im</span> <span class="o">=</span> <span class="n">PILImage</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'RGB'</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">PILImage</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;RGB&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
@@ -1115,7 +1115,7 @@
                            <span class="n">warpedImage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">scalar</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
                            <span class="n">CropUndefined</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Warp mapped→control and optionally write overlay, difference, and warped PNGs.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Warp mapped→control and optionally write overlay, difference, and warped PNGs.</span>
 
 <span class="sd">    Overlay uses Pyre ChannelDodge colors: mapped/source → magenta (R+B),</span>
 <span class="sd">    control/target → green (G). Diff is ``|control − warped|`` as grayscale.</span>
@@ -1124,14 +1124,14 @@
 <span class="sd">    are requested.</span>
 
 <span class="sd">    :returns: Host NumPy warped image array (control/target space).</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">stos</span> <span class="o">=</span> <span class="n">_ParameterToStosTransformAndFile</span><span class="p">(</span><span class="n">transformData</span><span class="p">)</span>
 
     <span class="n">control_param</span> <span class="o">=</span> <span class="n">fixedImage</span>
     <span class="k">if</span> <span class="n">control_param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">stos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">"fixedImage is required when transformData does not provide a .stos control path"</span><span class="p">)</span>
+                <span class="s2">&quot;fixedImage is required when transformData does not provide a .stos control path&quot;</span><span class="p">)</span>
         <span class="n">control_param</span> <span class="o">=</span> <span class="n">stos</span><span class="o">.</span><span class="n">ControlImageFullPath</span>
 
     <span class="n">warped</span> <span class="o">=</span> <span class="n">TransformStos</span><span class="p">(</span><span class="n">transformData</span><span class="p">,</span>
@@ -1141,7 +1141,7 @@
                            <span class="n">scalar</span><span class="o">=</span><span class="n">scalar</span><span class="p">,</span>
                            <span class="n">CropUndefined</span><span class="o">=</span><span class="n">CropUndefined</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">warped</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TransformStos produced no image for </span><span class="si">{</span><span class="n">transformData</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TransformStos produced no image for </span><span class="si">{</span><span class="n">transformData</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">warped_host</span> <span class="o">=</span> <span class="n">_grayscale_host_array</span><span class="p">(</span><span class="n">warped</span><span class="p">)</span>
     <span class="n">target_shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">warped_host</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">warped_host</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
@@ -1154,7 +1154,7 @@
         <span class="n">control_host</span> <span class="o">=</span> <span class="n">_resize_image_to_shape</span><span class="p">(</span><span class="n">control_host</span><span class="p">,</span> <span class="n">target_shape</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">warped_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">SaveImage</span><span class="p">(</span><span class="n">warped_path</span><span class="p">,</span> <span class="n">warped_host</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">bpp</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">SaveImage</span><span class="p">(</span><span class="n">warped_path</span><span class="p">,</span> <span class="n">warped_host</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">bpp</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">overlay_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">control_host</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -1177,7 +1177,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_host_grid_division_from_grid</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITKGridDivision</span><span class="p">,</span>
                                   <span class="n">target_points</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITKGridDivision</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Clone a grid division with host NumPy target points for CPU assembly."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clone a grid division with host NumPy target points for CPU assembly.&quot;&quot;&quot;</span>
     <span class="n">host_grid</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITKGridDivision</span><span class="p">(</span>
         <span class="n">source_shape</span><span class="o">=</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">source_shape</span><span class="p">),</span>
         <span class="n">cell_size</span><span class="o">=</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">cell_size</span><span class="p">),</span>
@@ -1190,7 +1190,7 @@
 <div class="viewcode-block" id="transform_for_host_assembly">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.transform_for_host_assembly">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">transform_for_host_assembly</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Return a CPU/pickle-safe transform for tiled host assembly and image export."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a CPU/pickle-safe transform for tiled host assembly and image export.&quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.transforms.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">IControlPoints</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.transforms.gridtransform</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridTransform</span><span class="p">,</span> <span class="n">GridTransform_GPUComponent</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.transforms.gridwithrbffallback</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -1217,7 +1217,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">Triangulation_GPUComponent</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Triangulation</span><span class="p">(</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">points</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_GPUComponent'</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">IControlPoints</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_GPUComponent&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">IControlPoints</span><span class="p">):</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Triangulation</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
 
@@ -1233,7 +1233,7 @@
                    <span class="n">interpolation_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">extrapolate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">enforce_background_cval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cut image into tiles, assemble small chunks</span>
 <span class="sd">    :param transform: Transform to apply to point to map from warped image to fixed space</span>
 <span class="sd">    :param fixedImageShape: Width and Height of the image to create</span>
@@ -1244,7 +1244,7 @@
 <span class="sd">    :param enforce_background_cval: When set (typically ``0`` for export), only scatter samples whose</span>
 <span class="sd">        inverse map lands inside the source image; all other output pixels are set to this value.</span>
 <span class="sd">    :return: An ndimage array of the transformed image</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">CropUndefined</span><span class="p">:</span>
         <span class="n">transform</span> <span class="o">=</span> <span class="n">triangulation</span><span class="o">.</span><span class="n">Triangulation</span><span class="p">(</span><span class="n">pointpairs</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -1269,16 +1269,16 @@
         <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">_assembly_output_dtype</span><span class="p">(</span><span class="n">warpedImage</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="ow">or</span> <span class="n">warpedImage</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
         <span class="n">include_zbuffer</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="c1"># print('\nConverting image to ' + str(self.NumCols) + "x" + str(self.NumRows) + ' grid of OpenGL textures')</span>
+    <span class="c1"># print(&#39;\nConverting image to &#39; + str(self.NumCols) + &quot;x&quot; + str(self.NumRows) + &#39; grid of OpenGL textures&#39;)</span>
 
     <span class="n">grid_shape</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">TileGridShape</span><span class="p">(</span><span class="n">warpedImage</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">tilesize</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
     <span class="n">warp_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">'extrapolate'</span><span class="p">:</span> <span class="n">extrapolate_flag</span><span class="p">,</span>
-        <span class="s1">'interpolation_order'</span><span class="p">:</span> <span class="n">interpolation_order</span><span class="p">,</span>
+        <span class="s1">&#39;extrapolate&#39;</span><span class="p">:</span> <span class="n">extrapolate_flag</span><span class="p">,</span>
+        <span class="s1">&#39;interpolation_order&#39;</span><span class="p">:</span> <span class="n">interpolation_order</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">enforce_background_cval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">warp_kwargs</span><span class="p">[</span><span class="s1">'cval'</span><span class="p">]</span> <span class="o">=</span> <span class="n">enforce_background_cval</span>
-        <span class="n">warp_kwargs</span><span class="p">[</span><span class="s1">'return_valid_mask'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">warp_kwargs</span><span class="p">[</span><span class="s1">&#39;cval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">enforce_background_cval</span>
+        <span class="n">warp_kwargs</span><span class="p">[</span><span class="s1">&#39;return_valid_mask&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">grid_shape</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])):</span>
         <span class="c1"># Single threaded</span>
@@ -1312,7 +1312,7 @@
                 <span class="p">)</span>
             <span class="n">sample_mask</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">EnsureNumpyArray</span><span class="p">(</span><span class="n">sample_mask</span><span class="p">)</span>
             <span class="c1"># No copy: SourceImageToTargetSpace allocates its own warp output, so</span>
-            <span class="c1"># this buffer is never the caller's warpedImage. Copying here doubled</span>
+            <span class="c1"># this buffer is never the caller&#39;s warpedImage. Copying here doubled</span>
             <span class="c1"># peak memory for a full section.</span>
             <span class="n">output</span><span class="p">[</span><span class="o">~</span><span class="n">sample_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">enforce_background_cval</span>
         <span class="k">return</span> <span class="n">output</span>  <span class="c1"># type: ignore[return-value]</span>
@@ -1352,12 +1352,12 @@
                 <span class="c1"># works parent-&gt;worker (sharedwarpedimage_metadata above) but</span>
                 <span class="c1"># not worker-&gt;parent: the segment is registered in the</span>
                 <span class="c1"># creating process, so on Windows it is destroyed when the</span>
-                <span class="c1"># worker task returns and the parent's attach fails with</span>
+                <span class="c1"># worker task returns and the parent&#39;s attach fails with</span>
                 <span class="c1"># FileNotFoundError. unlink_shared_memory would also no-op,</span>
                 <span class="c1"># since it only unlinks names this process allocated.</span>
-                <span class="c1"># Pickling the tile back costs ~1% of the tile's own warp</span>
+                <span class="c1"># Pickling the tile back costs ~1% of the tile&#39;s own warp</span>
                 <span class="c1"># (5.5 ms transfer vs 569 ms warp for 2048x2048 float32).</span>
-                <span class="n">task</span> <span class="o">=</span> <span class="n">mpool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">iX</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"x_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">iY</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"y"</span><span class="p">,</span> <span class="n">SourceImageToTargetSpace</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span>
+                <span class="n">task</span> <span class="o">=</span> <span class="n">mpool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">iX</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;x_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">iY</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">SourceImageToTargetSpace</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span>
                                       <span class="n">sharedwarpedimage_metadata</span><span class="p">,</span> <span class="n">output_botleft</span><span class="o">=</span><span class="p">[</span><span class="n">iY</span><span class="p">,</span> <span class="n">iX</span><span class="p">],</span>
                                       <span class="n">output_area</span><span class="o">=</span><span class="p">[</span><span class="n">end_iY</span> <span class="o">-</span> <span class="n">iY</span><span class="p">,</span> <span class="n">end_iX</span> <span class="o">-</span> <span class="n">iX</span><span class="p">],</span>
                                       <span class="n">return_shared_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1376,11 +1376,11 @@
             <span class="c1"># instead of the worker count: 16 of 16 tiles alive on a 4x4 canvas, at</span>
             <span class="c1"># ~16 MiB per 2048x2048 float32 tile. Each tile is pickled back as a</span>
             <span class="c1"># plain array (shared memory cannot travel worker-&gt;parent, see above),</span>
-            <span class="c1"># so the parent's copy is the cost being bounded. Roughly one queued</span>
+            <span class="c1"># so the parent&#39;s copy is the cost being bounded. Roughly one queued</span>
             <span class="c1"># tile per worker still keeps the pool saturated, and collection stays</span>
             <span class="c1"># in submission order, so the output is unchanged.</span>
             <span class="n">tile_regions</span> <span class="o">=</span> <span class="n">_tile_regions</span><span class="p">()</span>
-            <span class="n">pool_workers</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mpool</span><span class="p">,</span> <span class="s1">'max_workers'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">4</span>
+            <span class="n">pool_workers</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mpool</span><span class="p">,</span> <span class="s1">&#39;max_workers&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">4</span>
             <span class="n">max_in_flight</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pool_workers</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
             <span class="n">pending</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">()</span>
 
@@ -1394,7 +1394,7 @@
                 <span class="n">_submit_next</span><span class="p">()</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Multiprocess tile assembly failed for task </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Multiprocess tile assembly failed for task </span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">tile_mask</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
                     <span class="n">tile_mask</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1437,14 +1437,14 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_assembly_working_dtype</span><span class="p">(</span><span class="n">source_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Use float32 scratch buffers when source tiles are float16."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use float32 scratch buffers when source tiles are float16.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">source_dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
     <span class="k">return</span> <span class="n">source_dtype</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_assembly_output_dtype</span><span class="p">(</span><span class="n">source_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Pick a host dtype for assembled export; float16 is promoted to float32 for save/interop."""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pick a host dtype for assembled export; float16 is promoted to float32 for save/interop.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">source_dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
     <span class="k">return</span> <span class="kc">None</span>

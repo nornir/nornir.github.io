@@ -74,15 +74,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_buildmanager.exceptions</h1><div class="highlight"><pre>
-<span></span><span class="sd">'''</span>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">Exceptions raised by pipeline functions which could possibly by addressed by end-user intervention</span>
 
-<span class="sd">'''</span>
+<span class="sd">&#39;&#39;&#39;</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">NornirUserException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''An exception which should be displayed to the user to enable a specific user intervention'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;An exception which should be displayed to the user to enable a specific user intervention&#39;&#39;&#39;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NornirUserException</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -95,7 +95,7 @@
 <div class="viewcode-block" id="NornirMissingDependencyException">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.NornirMissingDependencyException">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NornirMissingDependencyException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">'''A dependency required for the pipeline is missing.  This halts execution and displays the message the user'''</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;A dependency required for the pipeline is missing.  This halts execution and displays the message the user&#39;&#39;&#39;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NornirMissingDependencyException</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -109,12 +109,12 @@
 <div class="viewcode-block" id="NornirRethrownException">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.NornirRethrownException">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NornirRethrownException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An exception for rethrowing an exception where output for the original exception already been provided</span>
 <span class="sd">    and we do not want it rehandled by a recursive try/except block.</span>
 <span class="sd">    Ensure context is preserved by using this syntax:</span>
 <span class="sd">    raise NornirRethrownException from e</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">NornirRethrownException</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 

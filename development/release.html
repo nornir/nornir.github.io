@@ -112,11 +112,11 @@ monorepo release, plus the package’s subdirectory and whether it is included i
 Docker images.  Example entry:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">packages</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">nornir_shared</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"1.5.3"</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.5.3&quot;</span>
 <span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nornir-shared</span>
 <span class="w">    </span><span class="nt">docker</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">pyre</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"1.5.2"</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.5.2&quot;</span>
 <span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nornir-pyre</span>
 <span class="w">    </span><span class="nt">docker</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </pre></div>
@@ -186,11 +186,11 @@ record the UTC build time, and embed a base64-encoded JSON BOM into the image as
 </tbody>
 </table>
 <p>Inspect labels:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">'{{json .Config.Labels}}'</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">&#39;{{json .Config.Labels}}&#39;</span>
 </pre></div>
 </div>
 <p>Decode the BOM (PowerShell):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format '{{index .Config.Labels "org.nornir.package_versions.json.base64"}}')
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format &#39;{{index .Config.Labels &quot;org.nornir.package_versions.json.base64&quot;}}&#39;)
 [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b64))
 </pre></div>
 </div>

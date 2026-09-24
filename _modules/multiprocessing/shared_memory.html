@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>multiprocessing.shared_memory &mdash; Nornir 1.7.6 documentation</title>
+  <title>multiprocessing.shared_memory &mdash; Nornir 1.7.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../../_static/documentation_options.js?v=030dc6f6"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -41,9 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
@@ -74,14 +72,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for multiprocessing.shared_memory</h1><div class="highlight"><pre>
-<span></span><span class="sd">"""Provides shared memory for direct access across processes.</span>
+<span></span><span class="sd">&quot;&quot;&quot;Provides shared memory for direct access across processes.</span>
 
 <span class="sd">The API of this package is currently provisional. Refer to the</span>
 <span class="sd">documentation for details.</span>
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">'SharedMemory'</span><span class="p">,</span> <span class="s1">'ShareableList'</span> <span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;SharedMemory&#39;</span><span class="p">,</span> <span class="s1">&#39;ShareableList&#39;</span> <span class="p">]</span>
 
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
@@ -92,7 +90,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">secrets</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
 
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"nt"</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;nt&quot;</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">_winapi</span>
     <span class="n">_USE_POSIX</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">else</span><span class="p">:</span>
@@ -108,16 +106,16 @@
 
 <span class="c1"># Shared memory block name prefix</span>
 <span class="k">if</span> <span class="n">_USE_POSIX</span><span class="p">:</span>
-    <span class="n">_SHM_NAME_PREFIX</span> <span class="o">=</span> <span class="s1">'/psm_'</span>
+    <span class="n">_SHM_NAME_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;/psm_&#39;</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="n">_SHM_NAME_PREFIX</span> <span class="o">=</span> <span class="s1">'wnsm_'</span>
+    <span class="n">_SHM_NAME_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;wnsm_&#39;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_make_filename</span><span class="p">():</span>
-    <span class="s2">"Create a random filename for the shared memory object."</span>
+    <span class="s2">&quot;Create a random filename for the shared memory object.&quot;</span>
     <span class="c1"># number of random bytes to use for name</span>
     <span class="n">nbytes</span> <span class="o">=</span> <span class="p">(</span><span class="n">_SHM_SAFE_NAME_LENGTH</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">_SHM_NAME_PREFIX</span><span class="p">))</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="k">assert</span> <span class="n">nbytes</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'_SHM_NAME_PREFIX too long'</span>
+    <span class="k">assert</span> <span class="n">nbytes</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;_SHM_NAME_PREFIX too long&#39;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">_SHM_NAME_PREFIX</span> <span class="o">+</span> <span class="n">secrets</span><span class="o">.</span><span class="n">token_hex</span><span class="p">(</span><span class="n">nbytes</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">_SHM_SAFE_NAME_LENGTH</span>
     <span class="k">return</span> <span class="n">name</span>
@@ -126,7 +124,7 @@
 <div class="viewcode-block" id="SharedMemory">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.core.SharedMemory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SharedMemory</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Creates a new shared memory block or attaches to an existing</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new shared memory block or attaches to an existing</span>
 <span class="sd">    shared memory block.</span>
 
 <span class="sd">    Every shared memory block is assigned a unique name.  This enables</span>
@@ -139,7 +137,7 @@
 <span class="sd">    no longer needs access to a shared memory block that might still be</span>
 <span class="sd">    needed by other processes, the close() method should be called.</span>
 <span class="sd">    When a shared memory block is no longer needed by any process, the</span>
-<span class="sd">    unlink() method should be called to ensure proper cleanup."""</span>
+<span class="sd">    unlink() method should be called to ensure proper cleanup.&quot;&quot;&quot;</span>
 
     <span class="c1"># Defaults; enables close() and unlink() to run without errors.</span>
     <span class="n">_name</span> <span class="o">=</span> <span class="kc">None</span>
@@ -153,13 +151,13 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">track</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'size' must be a positive integer"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;size&#39; must be a positive integer&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">create</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span> <span class="o">=</span> <span class="n">_O_CREX</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span>
             <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'size' must be a positive number different from zero"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;size&#39; must be a positive number different from zero&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span> <span class="o">&amp;</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'name' can only be None if create=True"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;name&#39; can only be None if create=True&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_track</span> <span class="o">=</span> <span class="n">track</span>
         <span class="k">if</span> <span class="n">_USE_POSIX</span><span class="p">:</span>
@@ -180,7 +178,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
                     <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">name</span> <span class="o">=</span> <span class="s2">"/"</span> <span class="o">+</span> <span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepend_leading_slash</span> <span class="k">else</span> <span class="n">name</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepend_leading_slash</span> <span class="k">else</span> <span class="n">name</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="n">_posixshmem</span><span class="o">.</span><span class="n">shm_open</span><span class="p">(</span>
                     <span class="n">name</span><span class="p">,</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_flags</span><span class="p">,</span>
@@ -197,7 +195,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
                 <span class="k">raise</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track</span><span class="p">:</span>
-                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">"shared_memory"</span><span class="p">)</span>
+                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">&quot;shared_memory&quot;</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
 
@@ -237,7 +235,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
                 <span class="c1"># Dynamically determine the existing named shared memory</span>
-                <span class="c1"># block's size which is likely a multiple of mmap.PAGESIZE.</span>
+                <span class="c1"># block&#39;s size which is likely a multiple of mmap.PAGESIZE.</span>
                 <span class="n">h_map</span> <span class="o">=</span> <span class="n">_winapi</span><span class="o">.</span><span class="n">OpenFileMapping</span><span class="p">(</span>
                     <span class="n">_winapi</span><span class="o">.</span><span class="n">FILE_MAP_READ</span><span class="p">,</span>
                     <span class="kc">False</span><span class="p">,</span>
@@ -279,32 +277,32 @@
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s1">, size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s1">)'</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s1">, size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s1">)&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">buf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"A memoryview of contents of the shared memory block."</span>
+        <span class="s2">&quot;A memoryview of contents of the shared memory block.&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buf</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"Unique name that identifies the shared memory block."</span>
+        <span class="s2">&quot;Unique name that identifies the shared memory block.&quot;</span>
         <span class="n">reported_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
         <span class="k">if</span> <span class="n">_USE_POSIX</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepend_leading_slash</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"/"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
                 <span class="n">reported_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="k">return</span> <span class="n">reported_name</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"Size in bytes."</span>
+        <span class="s2">&quot;Size in bytes.&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
 
 <div class="viewcode-block" id="SharedMemory.close">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.core.SharedMemory.close">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Closes access to the shared memory from this instance but does</span>
-<span class="sd">        not destroy the shared memory block."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes access to the shared memory from this instance but does</span>
+<span class="sd">        not destroy the shared memory block.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_buf</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_buf</span> <span class="o">=</span> <span class="kc">None</span>
@@ -319,7 +317,7 @@
 <div class="viewcode-block" id="SharedMemory.unlink">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.core.SharedMemory.unlink">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">unlink</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Requests that the underlying shared memory block be destroyed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Requests that the underlying shared memory block be destroyed.</span>
 
 <span class="sd">        Unlink should be called once (and only once) across all handles</span>
 <span class="sd">        which have access to the shared memory block, even if these</span>
@@ -329,27 +327,27 @@
 <span class="sd">        depending on platform.</span>
 
 <span class="sd">        This method has no effect on Windows, where the only way to</span>
-<span class="sd">        delete a shared memory block is to close all handles."""</span>
+<span class="sd">        delete a shared memory block is to close all handles.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">_USE_POSIX</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span>
             <span class="n">_posixshmem</span><span class="o">.</span><span class="n">shm_unlink</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track</span><span class="p">:</span>
-                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">"shared_memory"</span><span class="p">)</span></div>
+                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s2">&quot;shared_memory&quot;</span><span class="p">)</span></div>
 </div>
 
 
 
-<span class="n">_encoding</span> <span class="o">=</span> <span class="s2">"utf8"</span>
+<span class="n">_encoding</span> <span class="o">=</span> <span class="s2">&quot;utf8&quot;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ShareableList</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Pattern for a mutable list-like object shareable via a shared</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pattern for a mutable list-like object shareable via a shared</span>
 <span class="sd">    memory block.  It differs from the built-in list type in that these</span>
 <span class="sd">    lists can not change their overall length (i.e. no append, insert,</span>
 <span class="sd">    etc.)</span>
 
 <span class="sd">    Because values are packed into a memoryview as bytes, the struct</span>
 <span class="sd">    packing format for any storable value must require no more than 8</span>
-<span class="sd">    characters to describe its format."""</span>
+<span class="sd">    characters to describe its format.&quot;&quot;&quot;</span>
 
     <span class="c1"># The shared memory area is organized as follows:</span>
     <span class="c1"># - 8 bytes: number of items (N) as a 64-bit integer</span>
@@ -361,26 +359,26 @@
     <span class="c1"># - N bytes: index into _back_transforms_mapping for each element</span>
     <span class="c1">#            (for reconstructing the corresponding Python value)</span>
     <span class="n">_types_mapping</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="nb">int</span><span class="p">:</span> <span class="s2">"q"</span><span class="p">,</span>
-        <span class="nb">float</span><span class="p">:</span> <span class="s2">"d"</span><span class="p">,</span>
-        <span class="nb">bool</span><span class="p">:</span> <span class="s2">"xxxxxxx?"</span><span class="p">,</span>
-        <span class="nb">str</span><span class="p">:</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">s"</span><span class="p">,</span>
-        <span class="nb">bytes</span><span class="p">:</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">s"</span><span class="p">,</span>
-        <span class="kc">None</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span> <span class="s2">"xxxxxx?x"</span><span class="p">,</span>
+        <span class="nb">int</span><span class="p">:</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span>
+        <span class="nb">float</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+        <span class="nb">bool</span><span class="p">:</span> <span class="s2">&quot;xxxxxxx?&quot;</span><span class="p">,</span>
+        <span class="nb">str</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">s&quot;</span><span class="p">,</span>
+        <span class="nb">bytes</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">s&quot;</span><span class="p">,</span>
+        <span class="kc">None</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span> <span class="s2">&quot;xxxxxx?x&quot;</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">_alignment</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="n">_back_transforms_mapping</span> <span class="o">=</span> <span class="p">{</span>
         <span class="mi">0</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>                   <span class="c1"># int, float, bool</span>
-        <span class="mi">1</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">_encoding</span><span class="p">),</span>  <span class="c1"># str</span>
-        <span class="mi">2</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span><span class="p">),</span>   <span class="c1"># bytes</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">_encoding</span><span class="p">),</span>  <span class="c1"># str</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">),</span>   <span class="c1"># bytes</span>
         <span class="mi">3</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">_value</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>                   <span class="c1"># None</span>
     <span class="p">}</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_extract_recreation_code</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Used in concert with _back_transforms_mapping to convert values</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Used in concert with _back_transforms_mapping to convert values</span>
 <span class="sd">        into the appropriate Python objects when retrieving them from</span>
-<span class="sd">        the list as well as when storing them."""</span>
+<span class="sd">        the list as well as when storing them.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="kc">None</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)):</span>
             <span class="k">return</span> <span class="mi">0</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -404,19 +402,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_formats</span><span class="p">)</span>
             <span class="k">assert</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">8</span> <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">_formats</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span>
             <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="c1"># The offsets of each list element into the shared memory's</span>
+            <span class="c1"># The offsets of each list element into the shared memory&#39;s</span>
             <span class="c1"># data area (0 meaning the start of the data area, not the start</span>
             <span class="c1"># of the shared memory area).</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_allocated_offsets</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="n">_formats</span><span class="p">:</span>
-                <span class="n">offset</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alignment</span> <span class="k">if</span> <span class="n">fmt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"s"</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">offset</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alignment</span> <span class="k">if</span> <span class="n">fmt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;s&quot;</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">fmt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_allocated_offsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
             <span class="n">_recreation_codes</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_extract_recreation_code</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sequence</span>
             <span class="p">]</span>
             <span class="n">requested_size</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">calcsize</span><span class="p">(</span>
-                <span class="s2">"q"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_size_metainfo</span> <span class="o">+</span>
-                <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_formats</span><span class="p">)</span> <span class="o">+</span>
+                <span class="s2">&quot;q&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_size_metainfo</span> <span class="o">+</span>
+                <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_formats</span><span class="p">)</span> <span class="o">+</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_format_packing_metainfo</span> <span class="o">+</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_format_back_transform_codes</span>
             <span class="p">)</span>
@@ -428,14 +426,14 @@
         <span class="k">if</span> <span class="n">sequence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_enc</span> <span class="o">=</span> <span class="n">_encoding</span>
             <span class="n">struct</span><span class="o">.</span><span class="n">pack_into</span><span class="p">(</span>
-                <span class="s2">"q"</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_size_metainfo</span><span class="p">,</span>
+                <span class="s2">&quot;q&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_size_metainfo</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span>
                 <span class="mi">0</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span><span class="p">,</span>
                 <span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_allocated_offsets</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">struct</span><span class="o">.</span><span class="n">pack_into</span><span class="p">(</span>
-                <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_formats</span><span class="p">),</span>
+                <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_formats</span><span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_offset_data_start</span><span class="p">,</span>
                 <span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">_enc</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sequence</span><span class="p">)</span>
@@ -464,29 +462,29 @@
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_packing_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
-        <span class="s2">"Gets the packing format for a single value stored in the list."</span>
+        <span class="s2">&quot;Gets the packing format for a single value stored in the list.&quot;</span>
         <span class="n">position</span> <span class="o">=</span> <span class="n">position</span> <span class="k">if</span> <span class="n">position</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">position</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">position</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">"Requested position out of range."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Requested position out of range.&quot;</span><span class="p">)</span>
 
         <span class="n">v</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span>
-            <span class="s2">"8s"</span><span class="p">,</span>
+            <span class="s2">&quot;8s&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_offset_packing_formats</span> <span class="o">+</span> <span class="n">position</span> <span class="o">*</span> <span class="mi">8</span>
         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">'</span><span class="se">\x00</span><span class="s1">'</span><span class="p">)</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">fmt_as_str</span> <span class="o">=</span> <span class="n">fmt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">_encoding</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">fmt_as_str</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_back_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
-        <span class="s2">"Gets the back transformation function for a single value."</span>
+        <span class="s2">&quot;Gets the back transformation function for a single value.&quot;</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">position</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">"Requested position out of range."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Requested position out of range.&quot;</span><span class="p">)</span>
 
         <span class="n">transform_code</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span>
-            <span class="s2">"b"</span><span class="p">,</span>
+            <span class="s2">&quot;b&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_offset_back_transform_codes</span> <span class="o">+</span> <span class="n">position</span>
         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -495,14 +493,14 @@
         <span class="k">return</span> <span class="n">transform_function</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_packing_format_and_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">fmt_as_str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Sets the packing format and back transformation code for a</span>
-<span class="sd">        single value in the list at the specified position."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the packing format and back transformation code for a</span>
+<span class="sd">        single value in the list at the specified position.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">position</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">"Requested position out of range."</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Requested position out of range.&quot;</span><span class="p">)</span>
 
         <span class="n">struct</span><span class="o">.</span><span class="n">pack_into</span><span class="p">(</span>
-            <span class="s2">"8s"</span><span class="p">,</span>
+            <span class="s2">&quot;8s&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_offset_packing_formats</span> <span class="o">+</span> <span class="n">position</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span>
             <span class="n">fmt_as_str</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">_encoding</span><span class="p">)</span>
@@ -510,7 +508,7 @@
 
         <span class="n">transform_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_recreation_code</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="n">struct</span><span class="o">.</span><span class="n">pack_into</span><span class="p">(</span>
-            <span class="s2">"b"</span><span class="p">,</span>
+            <span class="s2">&quot;b&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_offset_back_transform_codes</span> <span class="o">+</span> <span class="n">position</span><span class="p">,</span>
             <span class="n">transform_code</span>
@@ -526,7 +524,7 @@
                 <span class="n">offset</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">"index out of range"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;index out of range&quot;</span><span class="p">)</span>
 
         <span class="n">back_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_back_transform</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">back_transform</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -540,7 +538,7 @@
             <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset_data_start</span> <span class="o">+</span> <span class="n">item_offset</span>
             <span class="n">current_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_packing_format</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">"assignment index out of range"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;assignment index out of range&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)):</span>
             <span class="n">new_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_types_mapping</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)]</span>
@@ -551,8 +549,8 @@
             <span class="n">encoded_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">_encoding</span><span class="p">)</span>
                              <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">value</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoded_value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">allocated_length</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"bytes/str item exceeds available storage"</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">current_format</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;bytes/str item exceeds available storage&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">current_format</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span>
                 <span class="n">new_format</span> <span class="o">=</span> <span class="n">current_format</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">new_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_types_mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">%</span> <span class="p">(</span>
@@ -570,32 +568,32 @@
         <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">"q"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack_from</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">buf</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s1">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s1">)'</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s1">, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shm</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s1">)&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"The struct packing format used by all currently stored items."</span>
-        <span class="k">return</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="s2">&quot;The struct packing format used by all currently stored items.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_get_packing_format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_format_size_metainfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"The struct packing format used for the items' storage offsets."</span>
-        <span class="k">return</span> <span class="s2">"q"</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="s2">&quot;The struct packing format used for the items&#39; storage offsets.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;q&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_format_packing_metainfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"The struct packing format used for the items' packing formats."</span>
-        <span class="k">return</span> <span class="s2">"8s"</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span>
+        <span class="s2">&quot;The struct packing format used for the items&#39; packing formats.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;8s&quot;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_format_back_transform_codes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="s2">"The struct packing format used for the items' back transforms."</span>
-        <span class="k">return</span> <span class="s2">"b"</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span>
+        <span class="s2">&quot;The struct packing format used for the items&#39; back transforms.&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;b&quot;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_offset_data_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -612,19 +610,19 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset_packing_formats</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_len</span> <span class="o">*</span> <span class="mi">8</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="s2">"L.count(value) -&gt; integer -- return number of occurrences of value."</span>
+        <span class="s2">&quot;L.count(value) -&gt; integer -- return number of occurrences of value.&quot;</span>
 
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="n">entry</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""L.index(value) -&gt; integer -- return first index of value.</span>
-<span class="sd">        Raises ValueError if the value is not present."""</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;L.index(value) -&gt; integer -- return first index of value.</span>
+<span class="sd">        Raises ValueError if the value is not present.&quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">entry</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">position</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> not in this container"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ShareableList.index(x): x not in list&quot;</span><span class="p">)</span>
 
     <span class="n">__class_getitem__</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">GenericAlias</span><span class="p">)</span>
 </pre></div>

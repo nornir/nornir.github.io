@@ -51,6 +51,7 @@
 <li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Remote build appliance</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#quickstart-new-production-box">Quickstart: new production box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#environment-variables">Environment variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#open-file-limits">Open file limits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#roles-do-not-collapse">Roles (do not collapse)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shared-nornir-net-mounts-path-b">Shared <code class="docutils literal notranslate"><span class="pre">nornir-net-mounts</span></code> (path B)</a></li>
@@ -125,7 +126,7 @@ Container (<code class="docutils literal notranslate"><span class="pre">run-curs
 </li>
 </ol>
 <p><strong>Every session (1 step)</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span> <span class="s2">"$env:NORNIR_DOCKER_USER_ROOT\Builds</span><span class="se">\n</span><span class="s2">ornir-build\start-nornir-build.ps1"</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span> <span class="s2">&quot;$env:NORNIR_DOCKER_USER_ROOT\Builds</span><span class="se">\n</span><span class="s2">ornir-build\start-nornir-build.ps1&quot;</span>
 <span class="c1"># GPU probe picks nornir:cupy vs nornir:prod; path-B CIFS; interactive shell</span>
 </pre></div>
 </div>
@@ -135,6 +136,105 @@ Container (<code class="docutils literal notranslate"><span class="pre">run-curs
 </pre></div>
 </div>
 <p>Dashboard UI: <a class="reference external" href="http://127.0.0.1:8087">http://127.0.0.1:8087</a> — see <a class="reference internal" href="dashboard.html"><span class="doc">Build dashboard (co-located)</span></a>.</p>
+</section>
+<section id="environment-variables">
+<h2>Environment variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h2>
+<p>Host variables and the shared run-env file configure layout, GHCR, NAS mounts, and
+MQTT. <code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code> loads
+<code class="docutils literal notranslate"><span class="pre">&lt;ROOT&gt;\Run\nornir-net-mounts\.run.nornir-net-mounts.env</span></code> when present (template:
+<code class="docutils literal notranslate"><span class="pre">nornir-docker/example.nornir-net-mounts.run.env</span></code>). Dashboard-only keys live in
+<code class="docutils literal notranslate"><span class="pre">Run\nornir-dashboard\dashboard.run.env</span></code> (see <a class="reference internal" href="dashboard.html"><span class="doc">Build dashboard (co-located)</span></a>).</p>
+<p><strong>Host / run-env (set before launch or in ``.run.nornir-net-mounts.env``)</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32.0%" />
+<col style="width: 68.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Expected value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code></p></td>
+<td><p>Machine-local Docker root for Builds / Run / mounted-configs. Default
+<code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code> (often <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>). Set as a user or system env var.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_GHCR_OWNER</span></code></p></td>
+<td><p>GHCR namespace for pull/push (<code class="docutils literal notranslate"><span class="pre">docker-pull.ps1</span></code>, initialize). Default
+<code class="docutils literal notranslate"><span class="pre">jamesra</span></code>. Example: <code class="docutils literal notranslate"><span class="pre">nornir</span></code> for org packages.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_DIR_HOST</span></code></p></td>
+<td><p>Host directory that contains <code class="docutils literal notranslate"><span class="pre">nas-mounts.tsv</span></code>. Optional when the default
+<code class="docutils literal notranslate"><span class="pre">&lt;ROOT&gt;\Run\nornir-net-mounts\net-mounts</span></code> is correct. Use a Windows path,
+WSL UNC (<code class="docutils literal notranslate"><span class="pre">\\wsl.localhost\&lt;Distro&gt;\...</span></code>), or <code class="docutils literal notranslate"><span class="pre">/mnt/c/...</span></code> from a WSL shell.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_DIR_HOST</span></code></p></td>
+<td><p>Host directory of per-share <code class="docutils literal notranslate"><span class="pre">*.cred</span></code> files mounted read-only at
+<code class="docutils literal notranslate"><span class="pre">/run/secrets/net-creds</span></code>. Must be set together with
+<code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_DIR_HOST</span></code> when overriding defaults.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code></p></td>
+<td><p>MQTT broker hostname as seen from the build container. Appliance default
+<code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code> (co-located dashboard). Leave unset to get that
+default from <code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_PORT</span></code></p></td>
+<td><p>MQTT port. Default <code class="docutils literal notranslate"><span class="pre">1883</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_ENABLE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> to enable MQTT telemetry publishers in Nornir tools; omit or unset to
+leave publishing off unless the process enables it another way.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_GPU</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when <code class="docutils literal notranslate"><span class="pre">Test-NornirGpu.ps1</span></code> (or <code class="docutils literal notranslate"><span class="pre">-Gpu</span></code>) succeeds; selects
+<code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> if <code class="docutils literal notranslate"><span class="pre">-Image</span></code> is omitted. Set by the launcher; usually do not
+set by hand.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_NOFILE_SOFT</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_NOFILE_HARD</span></code></p></td>
+<td><p>Soft/hard <code class="docutils literal notranslate"><span class="pre">nofile</span></code> ulimits for <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code>. Default <code class="docutils literal notranslate"><span class="pre">65536</span></code> /
+<code class="docutils literal notranslate"><span class="pre">65536</span></code>. Raise only if tile I/O still hits <code class="docutils literal notranslate"><span class="pre">EMFILE</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_EXTRA_ARGS</span></code></p></td>
+<td><p>Optional extra <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> tokens (space-separated) appended by the
+launcher helpers.</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Inside the appliance container</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 32.0%" />
+<col style="width: 68.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Expected value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when path-B CIFS is enabled (set by <code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code>).
+<code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">&quot;$NORNIR_NET_MOUNTS&quot;</span></code> should print <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_MANIFEST</span></code></p></td>
+<td><p>Path to the mount table inside the container. Default
+<code class="docutils literal notranslate"><span class="pre">/etc/nornir-net-mounts/nas-mounts.tsv</span></code> (from the host mounts dir).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_SRC</span></code></p></td>
+<td><p>Read-only credentials dir. Default <code class="docutils literal notranslate"><span class="pre">/run/secrets/net-creds</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_PORT</span></code></p></td>
+<td><p>Passed through from the host so <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> can publish to the
+co-located dashboard.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code></p></td>
+<td><p>Optional root for persistent Nornir session logs (unified logging
+convention). Not required for mounts; set if you want file logs under a
+known host-visible path.</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="open-file-limits">
 <h2>Open file limits<a class="headerlink" href="#open-file-limits" title="Link to this heading"></a></h2>
@@ -165,7 +265,7 @@ per container start.</p>
 <section id="verify-checklist">
 <h2>Verify checklist<a class="headerlink" href="#verify-checklist" title="Link to this heading"></a></h2>
 <p>Inside the appliance shell:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">"$NORNIR_NET_MOUNTS"</span>   <span class="c1"># expect 1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">&quot;$NORNIR_NET_MOUNTS&quot;</span>   <span class="c1"># expect 1</span>
 <span class="n">findmnt</span> <span class="o">-</span><span class="n">t</span> <span class="n">cifs</span>
 <span class="c1"># expect shares from nas-mounts.tsv (e.g. /storage4)</span>
 <span class="c1"># CAP_SYS_ADMIN should be dropped after entry when setpriv/capsh are present</span>
