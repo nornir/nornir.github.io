@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -87,10 +109,10 @@
 <div class="viewcode-block" id="Task">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.task.Task">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Task</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Represents a task assigned to a pool.  Responsible for allowing the caller to wait for task completion, raising any exceptions, and returning data from the call.</span>
 <span class="sd">    Task objects are created by adding tasks or processes to the pools.  They are not intended to be created directly by callers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">__next_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">__task_id__</span><span class="p">:</span> <span class="nb">int</span>
@@ -104,14 +126,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">task_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unique ID of task&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Unique ID of task"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__task_id__</span>
 
 <div class="viewcode-block" id="Task.generate_id">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.task.Task.generate_id">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the next unique ID for a task.  Thread safe.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Returns the next unique ID for a task.  Thread safe."""</span>
         <span class="k">with</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__id_lock</span><span class="p">:</span>
             <span class="n">_id</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__next_id</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">__next_id</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -120,24 +142,24 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">elapsed_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;If the task is completed, returns the time to completion.  If the task is still running,</span>
-<span class="sd">        returns the time from the start of the task to the current time&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""If the task is completed, returns the time to completion.  If the task is still running,</span>
+<span class="sd">        returns the time from the start of the task to the current time"""</span>
         <span class="n">endtime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_end_time</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_end_time</span>
         <span class="k">return</span> <span class="n">endtime</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_start_time</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">elapsed_time_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Formats the elapsed time as a string in the format HH:MM:SS.ssss&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Formats the elapsed time as a string in the format HH:MM:SS.ssss"""</span>
         <span class="n">t_delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time</span>
 
         <span class="n">seconds</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fmod</span><span class="p">(</span><span class="n">t_delta</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
-        <span class="n">seconds_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%02.5g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">seconds</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">t_delta</span><span class="p">)))</span> <span class="o">+</span> <span class="n">seconds_str</span>
+        <span class="n">seconds_str</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%02.5g</span><span class="s2">"</span> <span class="o">%</span> <span class="n">seconds</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%H:%M:'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">t_delta</span><span class="p">)))</span> <span class="o">+</span> <span class="n">seconds_str</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        :param str name: friendly name of the task. Does not need to be unique</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__task_id__</span> <span class="o">=</span> <span class="n">Task</span><span class="o">.</span><span class="n">generate_id</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
@@ -148,15 +170,15 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The pool that created this task, or None if it did not record itself.</span>
+<span class="w">        </span><span class="sd">"""The pool that created this task, or None if it did not record itself.</span>
 
 <span class="sd">        Held weakly: a task object outliving its pool must not keep the pool, and its</span>
 <span class="sd">        worker threads, alive. Set by the creating pool rather than passed to __init__,</span>
-<span class="sd">        because *args/**kwargs there belong to the task&#39;s function.</span>
+<span class="sd">        because *args/**kwargs there belong to the task's function.</span>
 
 <span class="sd">        Knowing the owning pool is what lets a blocking wait notice that it is running on</span>
-<span class="sd">        one of that same pool&#39;s workers, which starves the worker the awaited task needs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        one of that same pool's workers, which starves the worker the awaited task needs.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool_ref</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pool_ref</span><span class="p">()</span>
 
     <span class="nd">@pool</span><span class="o">.</span><span class="n">setter</span>
@@ -166,7 +188,7 @@
 <div class="viewcode-block" id="Task.set_completion_time">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.task.Task.set_completion_time">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_completion_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Marks the current time as the task completion time.  Will only set completion time on the first call.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Marks the current time as the task completion time.  Will only set completion time on the first call."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_end_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">task_end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span></div>
 
@@ -174,10 +196,10 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">time_position</span> <span class="o">=</span> <span class="mi">70</span>
         <span class="n">time_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">elapsed_time_str</span>
-        <span class="n">out_string</span> <span class="o">=</span> <span class="s2">&quot;--- </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">out_string</span> <span class="o">=</span> <span class="s2">"--- </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">pad</span> <span class="o">=</span> <span class="n">time_position</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">out_string</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pad</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">pad</span>
+            <span class="n">out_string</span> <span class="o">+=</span> <span class="s2">" "</span> <span class="o">*</span> <span class="n">pad</span>
         <span class="n">out_string</span> <span class="o">+=</span> <span class="n">time_str</span>
         <span class="k">return</span> <span class="n">out_string</span>
 
@@ -185,11 +207,11 @@
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.task.Task.wait">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Wait for task to complete, does not return a value</span>
 
 <span class="sd">        :raises Exception: Exceptions raised during task execution are re-raised on the thread calling wait</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
@@ -198,13 +220,13 @@
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.task.Task.wait_return">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wait_return</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Wait for task to complete and return the value</span>
 
 <span class="sd">        :return: The output of the task function or the stdout text of a called process</span>
 
 <span class="sd">        :raises Exception: Exceptions raised during task execution are re-raised on the thread calling wait_return</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 
@@ -212,12 +234,12 @@
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.task.Task.iscompleted">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">iscompleted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Non-blocking test to determine if task has completed.  No exception is raised if the task raised an exception during execution until wait or wait_return is called.</span>
 
 <span class="sd">        :return: True if the task is completed, otherwise False</span>
 <span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 
@@ -233,9 +255,9 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskWithEvent</span><span class="p">(</span><span class="n">Task</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Task object with built-in event for completion</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">returncode</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># The return code from the process or function</span>
     <span class="n">completed</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span>  <span class="c1"># The event that task creators can look at to know if the task is completed</span>
 
@@ -246,12 +268,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">iscompleted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Non-blocking test to determine if task has completed.  No exception is raised if the task raised an exception during execution until wait or wait_return is called.</span>
 
 <span class="sd">        :return: True if the task is completed, otherwise False</span>
 <span class="sd">        :rtype: bool</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">completed</span><span class="o">.</span><span class="n">is_set</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -259,7 +281,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SerialTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used for debugging and profiling.  Returns a task object but the function has been run serially.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Used for debugging and profiling.  Returns a task object but the function has been run serially."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">retval</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SerialTask</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

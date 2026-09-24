@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nornir_volumemodel.model.block &mdash; Nornir 1.7.0 documentation</title>
+  <title>nornir_volumemodel.model.block &mdash; Nornir 1.7.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../../_static/documentation_options.js?v=6cfcd222"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -39,13 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -73,11 +96,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_volumemodel.model.block</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span></span><span class="sd">'''</span>
 <span class="sd">Created on Apr 11, 2014</span>
 
 <span class="sd">@author: u0490822</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">'''</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">DirectoryResource</span><span class="p">,</span> <span class="n">Named</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">section</span>
@@ -86,7 +109,7 @@
 <div class="viewcode-block" id="Block">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.Block">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Block</span><span class="p">(</span><span class="n">DirectoryResource</span><span class="p">,</span> <span class="n">Named</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A grouping of contiguous Z-sections within a volume.</span>
+<span class="w">    </span><span class="sd">"""A grouping of contiguous Z-sections within a volume.</span>
 
 <span class="sd">    A ``Block`` is the second level of the volume hierarchy (``Volume → Block →</span>
 <span class="sd">    Section → Channel …``).  In a typical Nornir experiment one block spans all</span>
@@ -97,21 +120,21 @@
 
 <span class="sd">    * A list of :class:`~nornir_volumemodel.model.section.Section` objects.</span>
 <span class="sd">    * Optional section-to-section (STOS) alignment groups and maps.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Sections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of :class:`~nornir_volumemodel.model.section.Section` objects in this block.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""List of :class:`~nornir_volumemodel.model.section.Section` objects in this block."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span>
 
 <div class="viewcode-block" id="Block.AddSection">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.Block.AddSection">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">AddSection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a section to this block.</span>
+<span class="w">        </span><span class="sd">"""Append a section to this block.</span>
 
 <span class="sd">        :param section.Section val: Section to add; must not already be present.</span>
 <span class="sd">        :raises AssertionError: if ``val`` is not a ``Section`` or is a duplicate.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">section</span><span class="o">.</span><span class="n">Section</span><span class="p">))</span>
         <span class="k">assert</span><span class="p">(</span><span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div>
@@ -120,14 +143,14 @@
 <div class="viewcode-block" id="Block.StosGroups">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.Block.StosGroups">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">StosGroups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the dictionary of section-to-section alignment groups keyed by group name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the dictionary of section-to-section alignment groups keyed by group name."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stos_groups</span></div>
 
 
 <div class="viewcode-block" id="Block.StosMaps">
 <a class="viewcode-back" href="../../../api/nornir_volumemodel.html#nornir_volumemodel.Block.StosMaps">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">StosMaps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the dictionary of STOS alignment maps keyed by map name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the dictionary of STOS alignment maps keyed by map name."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stos_maps</span></div>
 
 

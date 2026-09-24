@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -82,13 +104,13 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">CreateDistanceImageBruteForce</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create a distance image where the value at each pixel is the distance from the center of the image.</span>
 <span class="sd">    This method is not intended to be used for more than testing as it is inefficient.</span>
 <span class="sd">    :param shape:</span>
 <span class="sd">    :param dtype:</span>
 <span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_depth_image_dtype</span><span class="p">()</span>
 
@@ -113,10 +135,10 @@
 <div class="viewcode-block" id="CreateDistanceImage">
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.CreateDistanceImage">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CreateDistanceImage</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">ShapeLike</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">DTypeLike</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a distance image where the value at each pixel is the distance from the center of the image.</span>
+<span class="w">    </span><span class="sd">"""Create a distance image where the value at each pixel is the distance from the center of the image.</span>
 <span class="sd">    Distances are measured in pixels, and the distance is zero at the center pixel.  Distances are measured</span>
 <span class="sd">    to the center of each pixel.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># TODO, this has some obvious optimizations available</span>
     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_depth_image_dtype</span><span class="p">()</span>

@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>nornir_volumecontroller.spatial &mdash; Nornir 1.7.0 documentation</title>
+  <title>nornir_volumecontroller.spatial &mdash; Nornir 1.7.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=030dc6f6"></script>
+      <script src="../../_static/documentation_options.js?v=6cfcd222"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -81,19 +103,19 @@
 <div class="viewcode-block" id="BuildSectionChannelMap">
 <a class="viewcode-back" href="../../api/nornir_volumecontroller.html#nornir_volumecontroller.spatial.BuildSectionChannelMap">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BuildSectionChannelMap</span><span class="p">(</span><span class="n">section</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a mapping from channel name to :class:`VolumeRegisteredChannel` for one section.</span>
+<span class="w">    </span><span class="sd">"""Build a mapping from channel name to :class:`VolumeRegisteredChannel` for one section.</span>
 
 <span class="sd">    Only channels that have a ``ChannelToVolume`` transform are included.</span>
 
 <span class="sd">    :param section: A :class:`~nornir_volumemodel.model.section.Section` model object.</span>
 <span class="sd">    :returns: ``{channel_name: VolumeRegisteredChannel}``</span>
 <span class="sd">    :rtype: dict</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">SectionToChannelTransforms</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">Channels</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">&#39;ChannelToVolume&#39;</span> <span class="ow">in</span> <span class="n">channel</span><span class="o">.</span><span class="n">Transforms</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">'ChannelToVolume'</span> <span class="ow">in</span> <span class="n">channel</span><span class="o">.</span><span class="n">Transforms</span><span class="p">:</span>
             <span class="n">SectionToChannelTransforms</span><span class="p">[</span><span class="n">channel</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span> <span class="o">=</span> <span class="n">nornir_volumecontroller</span><span class="o">.</span><span class="n">base_objects</span><span class="o">.</span><span class="n">VolumeRegisteredChannel</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">SectionToChannelTransforms</span></div>
@@ -103,7 +125,7 @@
 <div class="viewcode-block" id="BuildVolumeTransformMap">
 <a class="viewcode-back" href="../../api/nornir_volumecontroller.html#nornir_volumecontroller.spatial.BuildVolumeTransformMap">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BuildVolumeTransformMap</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a two-level map from section number → channel name → :class:`VolumeRegisteredChannel`.</span>
+<span class="w">    </span><span class="sd">"""Build a two-level map from section number → channel name → :class:`VolumeRegisteredChannel`.</span>
 
 <span class="sd">    Only sections that contain at least one channel with a ``ChannelToVolume`` transform are</span>
 <span class="sd">    included.</span>
@@ -111,7 +133,7 @@
 <span class="sd">    :param volume: A :class:`~nornir_volumemodel.model.volume.Volume` model object.</span>
 <span class="sd">    :returns: ``{section_number: {channel_name: VolumeRegisteredChannel}}``</span>
 <span class="sd">    :rtype: dict</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">Sections</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -128,12 +150,12 @@
 <div class="viewcode-block" id="SectionsInBoundingBox">
 <a class="viewcode-back" href="../../api/nornir_volumecontroller.html#nornir_volumecontroller.spatial.SectionsInBoundingBox">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">SectionsInBoundingBox</span><span class="p">(</span><span class="n">boundingbox</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield every integer section number whose Z-coordinate falls within *boundingbox*.</span>
+<span class="w">    </span><span class="sd">"""Yield every integer section number whose Z-coordinate falls within *boundingbox*.</span>
 
 <span class="sd">    :param boundingbox: A bounding-box object with a ``BoundingBox`` attribute indexed</span>
 <span class="sd">        by :data:`nornir_imageregistration.iBox` constants.</span>
 <span class="sd">    :yields: int — section numbers from ``MinZ`` to ``MaxZ`` inclusive.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">StartSection</span> <span class="o">=</span> <span class="n">boundingbox</span><span class="o">.</span><span class="n">BoundingBox</span><span class="p">[</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">iBox</span><span class="o">.</span><span class="n">MinZ</span><span class="p">]</span>
     <span class="n">EndSection</span> <span class="o">=</span> <span class="n">boundingbox</span><span class="o">.</span><span class="n">BoundingBox</span><span class="p">[</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">iBox</span><span class="o">.</span><span class="n">MaxZ</span><span class="p">]</span>
 

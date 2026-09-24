@@ -42,21 +42,34 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Packages</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="nornir_shared.html">nornir-shared</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">nornir-pools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pool-backends">Pool backends</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#profiling-output-path">Profiling output path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usage-sketch">Usage sketch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#pool-lifecycle-and-stage-boundaries">Pool lifecycle and stage boundaries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#which-pool-for-which-work">Which pool for which work</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#parallel-python-callback-timeout">Parallel Python callback timeout</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">nornir-pools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_imageregistration.html">nornir-imageregistration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_buildmanager.html">nornir-buildmanager</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_volumecontroller.html">nornir-volumecontroller</a></li>
@@ -67,10 +80,10 @@
 <li class="toctree-l2"><a class="reference internal" href="other_packages.html">Other repositories in the umbrella</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -100,156 +113,16 @@
              
   <section id="nornir-pools">
 <h1>nornir-pools<a class="headerlink" href="#nornir-pools" title="Link to this heading"></a></h1>
-<p>Thread, process, subprocess, and cluster <strong>pool</strong> abstractions so the same task code can run
-locally on threads or processes, or remotely on a cluster, with minimal code changes.</p>
-<p>This section consolidates the former standalone <strong>Nornir Pools</strong> doc tree.</p>
-<section id="pool-backends">
-<h2>Pool backends<a class="headerlink" href="#pool-backends" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code> provides a consistent <code class="docutils literal notranslate"><span class="pre">add_task</span></code> / <code class="docutils literal notranslate"><span class="pre">wait_return</span></code> interface over four
-different execution backends:</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 25.0%" />
-<col style="width: 30.0%" />
-<col style="width: 45.0%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Backend</p></th>
-<th class="head"><p>Entry point</p></th>
-<th class="head"><p>Notes</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><strong>threading</strong></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GetGlobalThreadPool()</span></code></p></td>
-<td><p>Python threads; subject to the GIL for CPU-bound work but lightweight for I/O.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>multiprocessing</strong></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GetGlobalMultiprocessPool()</span></code></p></td>
-<td><p>Separate OS processes; bypasses the GIL; uses <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> module.</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>subprocess</strong></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GetGlobalSerialPool()</span></code> / subprocess variants</p></td>
-<td><p>Runs tasks as child processes via <code class="docutils literal notranslate"><span class="pre">subprocess</span></code>; useful for calling external tools.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Parallel Python (pp)</strong></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">GetGlobalClusterPool()</span></code></p></td>
-<td><p>Distributes tasks to a <code class="docutils literal notranslate"><span class="pre">pp</span></code> cluster; intended for multi-machine workloads.</p></td>
-</tr>
-</tbody>
-</table>
-<p>All backends share the same API so task code is backend-agnostic:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pools</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-
-<span class="n">pool</span> <span class="o">=</span> <span class="n">pools</span><span class="o">.</span><span class="n">GetGlobalThreadPool</span><span class="p">()</span>      <span class="c1"># swap for any backend</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
-</pre></div>
-</div>
-</section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>Thread, process, subprocess, and cluster <strong>pool</strong> abstractions so the same task code can run locally or on a cluster.</p>
+<ul class="simple">
+<li><p><strong>Python import:</strong> <code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code></p></li>
+<li><p><strong>Which pool to call, and stage shutdown:</strong> <a class="reference internal" href="../performance/pools.html"><span class="doc">Pools</span></a></p></li>
+</ul>
 <p>Install from Git (see also the package <code class="docutils literal notranslate"><span class="pre">README.md</span></code>):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">nornir</span><span class="o">/</span><span class="n">nornir</span><span class="o">-</span><span class="n">pools</span><span class="o">.</span><span class="n">git</span> <span class="o">--</span><span class="n">upgrade</span>
 </pre></div>
 </div>
-</section>
-<section id="profiling-output-path">
-<h2>Profiling output path<a class="headerlink" href="#profiling-output-path" title="Link to this heading"></a></h2>
-<p>Set <code class="docutils literal notranslate"><span class="pre">NORNIR_PROFILE</span></code> to enable multiprocess profiling output:</p>
-<ul class="simple">
-<li><p>If <code class="docutils literal notranslate"><span class="pre">NORNIR_PROFILE</span></code> is a valid filesystem path (or can be created), that directory is used.</p></li>
-<li><p>If it is set but invalid, the library may fall back to a default temporary directory.</p></li>
-<li><p>If unset, profiling output for this mechanism is not enabled.</p></li>
-</ul>
-</section>
-<section id="usage-sketch">
-<h2>Usage sketch<a class="headerlink" href="#usage-sketch" title="Link to this heading"></a></h2>
-<p>Example: run a function on a thread pool:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pools</span>
-<span class="n">thread_pool</span> <span class="o">=</span> <span class="n">pools</span><span class="o">.</span><span class="n">GetGlobalThreadPool</span><span class="p">()</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">thread_pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;Add 3 + 5&quot;</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Cluster pool usage follows the same pattern with <code class="docutils literal notranslate"><span class="pre">GetGlobalClusterPool()</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pools</span>
-<span class="n">cluster_pool</span> <span class="o">=</span> <span class="n">pools</span><span class="o">.</span><span class="n">GetGlobalClusterPool</span><span class="p">()</span>
-<span class="n">task</span> <span class="o">=</span> <span class="n">cluster_pool</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="s2">&quot;Add 3 + 5&quot;</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">wait_return</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>API reference</strong></p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../api/nornir_pools.html"><span class="doc">nornir_pools</span></a></p></li>
-</ul>
-</section>
-<section id="pool-lifecycle-and-stage-boundaries">
-<h2>Pool lifecycle and stage boundaries<a class="headerlink" href="#pool-lifecycle-and-stage-boundaries" title="Link to this heading"></a></h2>
-<p>Pipelines enqueue work on global thread- and process-backed pools across many stages.
-<strong>Waiting</strong> for tasks and <strong>closing</strong> pools are separate:</p>
-<ul class="simple">
-<li><p><strong>Wait</strong> — block until queued tasks finish; pools stay registered.</p></li>
-<li><p><strong>Close</strong> — shut down workers and unregister the pool.</p></li>
-</ul>
-<p>Thread-kind pools (<code class="docutils literal notranslate"><span class="pre">GetGlobalThreadPool</span></code>, subprocess <code class="docutils literal notranslate"><span class="pre">GetGlobalProcessPool</span></code>,
-<code class="docutils literal notranslate"><span class="pre">GetGlobalSerialPool</span></code>) run inside the parent process.  Process-kind pools
-(<code class="docutils literal notranslate"><span class="pre">GetGlobalMultithreadingPool</span></code> / <code class="docutils literal notranslate"><span class="pre">GetLocalMachinePool</span></code>,
-<code class="docutils literal notranslate"><span class="pre">GetGlobalClusterPool</span></code>) keep OS worker processes alive.  Spawning workers is
-expensive, so production code keeps process pools warm between stages and recycles
-thread pools at stage boundaries.</p>
-<p>Recommended pattern at the end of each pipeline stage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span>
-
-<span class="n">nornir_pools</span><span class="o">.</span><span class="n">ReleaseStagePools</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">ReleaseStagePools</span></code>:</p>
-<ol class="arabic simple">
-<li><p>Waits for <strong>all</strong> pool tasks (thread and process) so stage outputs are safe.</p></li>
-<li><p>Shuts down <strong>thread-kind</strong> pools only.</p></li>
-<li><p>Leaves <strong>process-kind</strong> pools registered for the next stage.</p></li>
-</ol>
-<p>Use <code class="docutils literal notranslate"><span class="pre">WaitOnAllPools()</span></code> when you only need synchronization and will enqueue more
-work immediately.  Use <code class="docutils literal notranslate"><span class="pre">ClosePools()</span></code> once at process exit or test teardown for
-full shutdown.  Finer-grained helpers (<code class="docutils literal notranslate"><span class="pre">WaitOnThreadPools</span></code>,
-<code class="docutils literal notranslate"><span class="pre">WaitOnProcessPools</span></code>, <code class="docutils literal notranslate"><span class="pre">CloseThreadPools</span></code>, <code class="docutils literal notranslate"><span class="pre">CloseProcessPools</span></code>) exist for
-custom orchestration; see the API reference.</p>
-<p>Set <code class="docutils literal notranslate"><span class="pre">NORNIR_POOL_DIAG=1</span></code> to log pool names, kinds, and active task counts on each
-lifecycle call.  <code class="docutils literal notranslate"><span class="pre">NORNIR_KEEP_PROCESS_POOLS=1</span></code> skips process-pool shutdown in
-<code class="docutils literal notranslate"><span class="pre">CloseProcessPools</span></code> (normally unnecessary when using <code class="docutils literal notranslate"><span class="pre">ReleaseStagePools</span></code>).</p>
-</section>
-<section id="which-pool-for-which-work">
-<h2>Which pool for which work<a class="headerlink" href="#which-pool-for-which-work" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><strong>Python callables (CPU):</strong> <code class="docutils literal notranslate"><span class="pre">GetGlobalMultiprocessPool</span></code> / local machine pool.</p></li>
-<li><p><strong>Python callables (I/O / light):</strong> <code class="docutils literal notranslate"><span class="pre">GetGlobalThreadPool</span></code>.</p></li>
-<li><p><strong>Shell / external binaries:</strong> subprocess <code class="docutils literal notranslate"><span class="pre">GetGlobalProcessPool</span></code> —
-<code class="docutils literal notranslate"><span class="pre">add_task</span></code> expects a command string (or process args), not a Python callable.</p></li>
-<li><p><strong>Remote cluster callables:</strong> <code class="docutils literal notranslate"><span class="pre">GetGlobalClusterPool</span></code> (Parallel Python).</p></li>
-</ul>
-<p>Every <code class="docutils literal notranslate"><span class="pre">add_*</span></code> returns a Task; shutdown and stage boundaries must drain waits
-(<code class="docutils literal notranslate"><span class="pre">ReleaseStagePools</span></code> / <code class="docutils literal notranslate"><span class="pre">WaitOnAllPools</span></code> / <code class="docutils literal notranslate"><span class="pre">ClosePools</span></code>).</p>
-</section>
-<section id="parallel-python-callback-timeout">
-<h2>Parallel Python callback timeout<a class="headerlink" href="#parallel-python-callback-timeout" title="Link to this heading"></a></h2>
-<p>If the remote callback never fires after <code class="docutils literal notranslate"><span class="pre">server.wait</span></code>, <code class="docutils literal notranslate"><span class="pre">CTask.wait</span></code> uses a
-bounded secondary timeout (default 60s after the 300s primary wait), then
-<strong>unwinds</strong> <code class="docutils literal notranslate"><span class="pre">ActiveJobCount</span></code> once and raises <code class="docutils literal notranslate"><span class="pre">RuntimeError</span></code> instead of
-blocking forever. See the package <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and
-<code class="docutils literal notranslate"><span class="pre">tests/test_parallelpython_callback_timeout.py</span></code>.</p>
-</section>
+<p><strong>API reference:</strong> <a class="reference internal" href="../api/nornir_pools.html"><span class="doc">nornir_pools</span></a></p>
 </section>
 
 

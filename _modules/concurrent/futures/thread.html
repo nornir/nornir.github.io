@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -77,9 +99,9 @@
 <span></span><span class="c1"># Copyright 2009 Brian Quinlan. All Rights Reserved.</span>
 <span class="c1"># Licensed to PSF under a Contributor Agreement.</span>
 
-<span class="sd">&quot;&quot;&quot;Implements ThreadPoolExecutor.&quot;&quot;&quot;</span>
+<span class="sd">"""Implements ThreadPoolExecutor."""</span>
 
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Brian Quinlan (brian@sweetapp.com)&#39;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">'Brian Quinlan (brian@sweetapp.com)'</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">_base</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
@@ -113,56 +135,29 @@
 <span class="n">threading</span><span class="o">.</span><span class="n">_register_atexit</span><span class="p">(</span><span class="n">_python_exit</span><span class="p">)</span>
 
 <span class="c1"># At fork, reinitialize the `_global_shutdown_lock` lock in the child process</span>
-<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;register_at_fork&#39;</span><span class="p">):</span>
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">'register_at_fork'</span><span class="p">):</span>
     <span class="n">os</span><span class="o">.</span><span class="n">register_at_fork</span><span class="p">(</span><span class="n">before</span><span class="o">=</span><span class="n">_global_shutdown_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">,</span>
                         <span class="n">after_in_child</span><span class="o">=</span><span class="n">_global_shutdown_lock</span><span class="o">.</span><span class="n">_at_fork_reinit</span><span class="p">,</span>
                         <span class="n">after_in_parent</span><span class="o">=</span><span class="n">_global_shutdown_lock</span><span class="o">.</span><span class="n">release</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">register_at_fork</span><span class="p">(</span><span class="n">after_in_child</span><span class="o">=</span><span class="n">_threads_queues</span><span class="o">.</span><span class="n">clear</span><span class="p">)</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">WorkerContext</span><span class="p">:</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">initializer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">initializer</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;initializer must be a callable&quot;</span><span class="p">)</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">create_context</span><span class="p">():</span>
-            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">)</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">resolve_task</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">create_context</span><span class="p">,</span> <span class="n">resolve_task</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initializer</span> <span class="o">=</span> <span class="n">initializer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">initargs</span> <span class="o">=</span> <span class="n">initargs</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initializer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">initializer</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">initargs</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
-        <span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">task</span>
-        <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-
 <span class="k">class</span><span class="w"> </span><span class="nc">_WorkItem</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">future</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">future</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">future</span> <span class="o">=</span> <span class="n">future</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">task</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">=</span> <span class="n">fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">future</span><span class="o">.</span><span class="n">set_running_or_notify_cancel</span><span class="p">():</span>
             <span class="k">return</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">future</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
-            <span class="c1"># Break a reference cycle with the exception &#39;exc&#39;</span>
+            <span class="c1"># Break a reference cycle with the exception 'exc'</span>
             <span class="bp">self</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">future</span><span class="o">.</span><span class="n">set_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
@@ -170,15 +165,16 @@
     <span class="n">__class_getitem__</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">types</span><span class="o">.</span><span class="n">GenericAlias</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_worker</span><span class="p">(</span><span class="n">executor_reference</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">work_queue</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">ctx</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
-        <span class="n">_base</span><span class="o">.</span><span class="n">LOGGER</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">&#39;Exception in initializer:&#39;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">executor</span> <span class="o">=</span> <span class="n">executor_reference</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">executor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">executor</span><span class="o">.</span><span class="n">_initializer_failed</span><span class="p">()</span>
-        <span class="k">return</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_worker</span><span class="p">(</span><span class="n">executor_reference</span><span class="p">,</span> <span class="n">work_queue</span><span class="p">,</span> <span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">initializer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">initializer</span><span class="p">(</span><span class="o">*</span><span class="n">initargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+            <span class="n">_base</span><span class="o">.</span><span class="n">LOGGER</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">'Exception in initializer:'</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">executor</span> <span class="o">=</span> <span class="n">executor_reference</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">executor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">executor</span><span class="o">.</span><span class="n">_initializer_failed</span><span class="p">()</span>
+            <span class="k">return</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -192,7 +188,7 @@
                 <span class="n">work_item</span> <span class="o">=</span> <span class="n">work_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">work_item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">work_item</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ctx</span><span class="p">)</span>
+                <span class="n">work_item</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
                 <span class="c1"># Delete references to object. See GH-60488</span>
                 <span class="k">del</span> <span class="n">work_item</span>
                 <span class="k">continue</span>
@@ -212,36 +208,25 @@
                 <span class="k">return</span>
             <span class="k">del</span> <span class="n">executor</span>
     <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
-        <span class="n">_base</span><span class="o">.</span><span class="n">LOGGER</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">&#39;Exception in worker&#39;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="n">ctx</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+        <span class="n">_base</span><span class="o">.</span><span class="n">LOGGER</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">'Exception in worker'</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BrokenThreadPool</span><span class="p">(</span><span class="n">_base</span><span class="o">.</span><span class="n">BrokenExecutor</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Raised when a worker thread in a ThreadPoolExecutor failed initializing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 
 <div class="viewcode-block" id="ThreadPoolExecutor">
 <a class="viewcode-back" href="../../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.ThreadPoolExecutor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ThreadPoolExecutor</span><span class="p">(</span><span class="n">_base</span><span class="o">.</span><span class="n">Executor</span><span class="p">):</span>
 
-    <span class="n">BROKEN</span> <span class="o">=</span> <span class="n">BrokenThreadPool</span>
-
     <span class="c1"># Used to assign unique thread names when thread_name_prefix is not supplied.</span>
     <span class="n">_counter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="fm">__next__</span>
 
-<div class="viewcode-block" id="ThreadPoolExecutor.prepare_context">
-<a class="viewcode-back" href="../../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.ThreadPoolExecutor.prepare_context">[docs]</a>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">prepare_context</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">WorkerContext</span><span class="o">.</span><span class="n">prepare</span><span class="p">(</span><span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">)</span></div>
-
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thread_name_prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-                 <span class="n">initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initargs</span><span class="o">=</span><span class="p">(),</span> <span class="o">**</span><span class="n">ctxkwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes a new ThreadPoolExecutor instance.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">thread_name_prefix</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span>
+                 <span class="n">initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initargs</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">        </span><span class="sd">"""Initializes a new ThreadPoolExecutor instance.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            max_workers: The maximum number of threads that can be used to</span>
@@ -249,8 +234,7 @@
 <span class="sd">            thread_name_prefix: An optional name prefix to give our threads.</span>
 <span class="sd">            initializer: A callable used to initialize worker threads.</span>
 <span class="sd">            initargs: A tuple of arguments to pass to the initializer.</span>
-<span class="sd">            ctxkwargs: Additional arguments to cls.prepare_context().</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">max_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># ThreadPoolExecutor is often used to:</span>
             <span class="c1"># * CPU bound task which releases GIL</span>
@@ -261,11 +245,10 @@
             <span class="c1"># on many core machine.</span>
             <span class="n">max_workers</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">process_cpu_count</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">max_workers</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;max_workers must be greater than 0&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"max_workers must be greater than 0"</span><span class="p">)</span>
 
-        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_worker_context</span><span class="p">,</span>
-         <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_work_item_task</span><span class="p">,</span>
-         <span class="p">)</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">prepare_context</span><span class="p">(</span><span class="n">initializer</span><span class="p">,</span> <span class="n">initargs</span><span class="p">,</span> <span class="o">**</span><span class="n">ctxkwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">initializer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">initializer</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"initializer must be a callable"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_max_workers</span> <span class="o">=</span> <span class="n">max_workers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_work_queue</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">SimpleQueue</span><span class="p">()</span>
@@ -275,24 +258,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_thread_name_prefix</span> <span class="o">=</span> <span class="p">(</span><span class="n">thread_name_prefix</span> <span class="ow">or</span>
-                                    <span class="p">(</span><span class="s2">&quot;ThreadPoolExecutor-</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span><span class="p">()))</span>
+                                    <span class="p">(</span><span class="s2">"ThreadPoolExecutor-</span><span class="si">%d</span><span class="s2">"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counter</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initializer</span> <span class="o">=</span> <span class="n">initializer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initargs</span> <span class="o">=</span> <span class="n">initargs</span>
 
 <div class="viewcode-block" id="ThreadPoolExecutor.submit">
 <a class="viewcode-back" href="../../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.ThreadPoolExecutor.submit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_lock</span><span class="p">,</span> <span class="n">_global_shutdown_lock</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_broken</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">BROKEN</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_broken</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">BrokenThreadPool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_broken</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;cannot schedule new futures after shutdown&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">'cannot schedule new futures after shutdown'</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">_shutdown</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;cannot schedule new futures after &#39;</span>
-                                   <span class="s1">&#39;interpreter shutdown&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">'cannot schedule new futures after '</span>
+                                   <span class="s1">'interpreter shutdown'</span><span class="p">)</span>
 
             <span class="n">f</span> <span class="o">=</span> <span class="n">_base</span><span class="o">.</span><span class="n">Future</span><span class="p">()</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_work_item_task</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
-            <span class="n">w</span> <span class="o">=</span> <span class="n">_WorkItem</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">task</span><span class="p">)</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">_WorkItem</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_work_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_adjust_thread_count</span><span class="p">()</span>
@@ -301,7 +285,7 @@
     <span class="n">submit</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">_base</span><span class="o">.</span><span class="n">Executor</span><span class="o">.</span><span class="n">submit</span><span class="o">.</span><span class="vm">__doc__</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_adjust_thread_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># if idle threads are available, don&#39;t spin new threads</span>
+        <span class="c1"># if idle threads are available, don't spin new threads</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idle_semaphore</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
             <span class="k">return</span>
 
@@ -312,20 +296,21 @@
 
         <span class="n">num_threads</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_threads</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_threads</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_workers</span><span class="p">:</span>
-            <span class="n">thread_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">_</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_thread_name_prefix</span> <span class="ow">or</span> <span class="bp">self</span><span class="p">,</span>
+            <span class="n">thread_name</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%s</span><span class="s1">_</span><span class="si">%d</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_thread_name_prefix</span> <span class="ow">or</span> <span class="bp">self</span><span class="p">,</span>
                                      <span class="n">num_threads</span><span class="p">)</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">thread_name</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">_worker</span><span class="p">,</span>
                                  <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">weakref</span><span class="o">.</span><span class="n">ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weakref_cb</span><span class="p">),</span>
-                                       <span class="bp">self</span><span class="o">.</span><span class="n">_create_worker_context</span><span class="p">(),</span>
-                                       <span class="bp">self</span><span class="o">.</span><span class="n">_work_queue</span><span class="p">))</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">_work_queue</span><span class="p">,</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">_initializer</span><span class="p">,</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">_initargs</span><span class="p">))</span>
             <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_threads</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
             <span class="n">_threads_queues</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_work_queue</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_initializer_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_lock</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_broken</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;A thread initializer failed, the thread pool &#39;</span>
-                            <span class="s1">&#39;is not usable anymore&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_broken</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'A thread initializer failed, the thread pool '</span>
+                            <span class="s1">'is not usable anymore'</span><span class="p">)</span>
             <span class="c1"># Drain work queue and mark pending futures failed</span>
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -333,7 +318,7 @@
                 <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
                     <span class="k">break</span>
                 <span class="k">if</span> <span class="n">work_item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">work_item</span><span class="o">.</span><span class="n">future</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BROKEN</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_broken</span><span class="p">))</span>
+                    <span class="n">work_item</span><span class="o">.</span><span class="n">future</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">BrokenThreadPool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_broken</span><span class="p">))</span>
 
 <div class="viewcode-block" id="ThreadPoolExecutor.shutdown">
 <a class="viewcode-back" href="../../../api/nornir_imageregistration.html#nornir_imageregistration.assemble_tiles.ThreadPoolExecutor.shutdown">[docs]</a>

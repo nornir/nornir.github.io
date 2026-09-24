@@ -1,0 +1,167 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agents and contributors &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Performance" href="performance/index.html" />
+    <link rel="prev" title="Run the stack" href="guides/run_the_stack.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Agents and contributors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#layout">Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logging-and-tests">Logging and tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-the-code-lives">Where the code lives</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Agents and contributors</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/agents.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="agents-and-contributors">
+<h1>Agents and contributors<a class="headerlink" href="#agents-and-contributors" title="Link to this heading"></a></h1>
+<p>This page is the public map of the umbrella checkout. Coding standards stay in the repository’s <code class="docutils literal notranslate"><span class="pre">.cursor/rules</span></code> and <code class="docutils literal notranslate"><span class="pre">AGENTS.md</span></code>; they are not copied here.</p>
+<section id="layout">
+<h2>Layout<a class="headerlink" href="#layout" title="Link to this heading"></a></h2>
+<p>The repository root is an umbrella. Each <code class="docutils literal notranslate"><span class="pre">nornir-*</span></code> package (and <code class="docutils literal notranslate"><span class="pre">dm4</span></code>) is a git submodule. A commit in the parent records a submodule pointer. It does not contain the package’s file changes until that pointer is updated. Commit inside the package, then commit the pointer in the umbrella.</p>
+<p>Narrative documentation lives in <code class="docutils literal notranslate"><span class="pre">docs/</span></code> and is published to <a class="reference external" href="https://nornir.github.io/">https://nornir.github.io/</a>. Do not edit the <code class="docutils literal notranslate"><span class="pre">nornir.github.io</span></code> repository by hand. See <a class="reference internal" href="development/publishing_documentation.html"><span class="doc">Publishing the documentation</span></a>.</p>
+</section>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h2>
+<p>Host UI work uses Python 3.13+ and <code class="docutils literal notranslate"><span class="pre">venv/pyre314</span></code>. Editable install order, with <code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> so git URL pins do not replace the local trees, is in <a class="reference internal" href="development/pyre_development.html"><span class="doc">Pyre development</span></a>.</p>
+<p>Docker images are Python 3.14, headless, and do not include Pyre. The Dev Container is <a class="reference internal" href="docker/cursor_dev.html"><span class="doc">Cursor / local agent dev shell</span></a>. The self-hosted worker is <a class="reference internal" href="docker/cursor_worker.html"><span class="doc">Cursor self-hosted cloud agent worker</span></a>.</p>
+</section>
+<section id="logging-and-tests">
+<h2>Logging and tests<a class="headerlink" href="#logging-and-tests" title="Link to this heading"></a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">nornir_shared.misc.SetupLogging</span></code>. Persistent files use <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code>. Workers log through the parent queue listener. Details: <a class="reference internal" href="development/logging.html"><span class="doc">Logging convention</span></a>.</p>
+<p>Plotting tests need <code class="docutils literal notranslate"><span class="pre">NORNIR_HEADLESS=1</span></code>. Headless figure output goes under the test output directory, not the repository root.</p>
+</section>
+<section id="where-the-code-lives">
+<h2>Where the code lives<a class="headerlink" href="#where-the-code-lives" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Pipelines and <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> arguments: <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager/nornir_buildmanager/config/Pipelines.xml</span></code>. A grouped list is <a class="reference internal" href="pipelines.html"><span class="doc">Pipeline catalogue</span></a>.</p></li>
+<li><p>Registration math: <code class="docutils literal notranslate"><span class="pre">nornir-imageregistration</span></code>. Phase correlation, grid refine (<code class="docutils literal notranslate"><span class="pre">local_distortion_correction</span></code>), and the blob filter (<code class="docutils literal notranslate"><span class="pre">blob_filter</span></code>) are the modules behind mosaic and slice-to-slice stages. The generated API page documents the package entry points, not every submodule.</p></li>
+<li><p>Pools: <code class="docutils literal notranslate"><span class="pre">nornir-pools</span></code>. Which function to call is in <a class="reference internal" href="performance/pools.html"><span class="doc">Pools</span></a>.</p></li>
+<li><p>Volume XML model and the controller that reads registered regions: <code class="docutils literal notranslate"><span class="pre">nornir-volumemodel</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-volumecontroller</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guides/run_the_stack.html" class="btn btn-neutral float-left" title="Run the stack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="performance/index.html" class="btn btn-neutral float-right" title="Performance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

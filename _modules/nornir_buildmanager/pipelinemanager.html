@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -74,10 +96,10 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_buildmanager.pipelinemanager</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Created on Apr 2, 2012</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">collections.abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
@@ -119,29 +141,29 @@
     <span class="n">VolumeManager</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Nested Iterate→PythonCall stages that finish faster than this do not emit</span>
-<span class="c1"># dashboard/console &quot;Stage … completed&quot; status (skip-heavy Mapping walks).</span>
+<span class="c1"># dashboard/console "Stage … completed" status (skip-heavy Mapping walks).</span>
 <span class="n">_NESTED_STAGE_STATUS_MIN_SEC</span> <span class="o">=</span> <span class="mf">1.0</span>
 
 <span class="c1"># Per-iterate node dumps (``Iterate: Mapping``, ``MappingNodeObj = …``). Off</span>
 <span class="c1"># unless ``-verbose`` or this env is set so ``-debug`` logs stay readable.</span>
-<span class="n">_PIPELINE_PROGRESS_ENV</span> <span class="o">=</span> <span class="s2">&quot;NORNIR_LOG_PIPELINE_PROGRESS&quot;</span>
+<span class="n">_PIPELINE_PROGRESS_ENV</span> <span class="o">=</span> <span class="s2">"NORNIR_LOG_PIPELINE_PROGRESS"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_env_flag_enabled</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when *name* is a conventional truthy environment flag.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="sd">"""True when *name* is a conventional truthy environment flag."""</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"on"</span><span class="p">}</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_should_log_pipeline_progress</span><span class="p">(</span><span class="n">argset</span><span class="p">:</span> <span class="s2">&quot;ArgumentSet | None&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True when per-iterate pipeline progress should be written to the log.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_should_log_pipeline_progress</span><span class="p">(</span><span class="n">argset</span><span class="p">:</span> <span class="s2">"ArgumentSet | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""True when per-iterate pipeline progress should be written to the log."""</span>
     <span class="k">if</span> <span class="n">_env_flag_enabled</span><span class="p">(</span><span class="n">_PIPELINE_PROGRESS_ENV</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">if</span> <span class="n">argset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">argset</span><span class="o">.</span><span class="n">Arguments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;verbose&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">argset</span><span class="o">.</span><span class="n">Arguments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"verbose"</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="SupportsRead">
@@ -165,7 +187,7 @@
 <div class="viewcode-block" id="ArgumentSet">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ArgumentSet</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collection of arguments from each source&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Collection of arguments from each source"""</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -193,13 +215,13 @@
 <div class="viewcode-block" id="ArgumentSet.SubstituteStringVariables">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.SubstituteStringVariables">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">SubstituteStringVariables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace all instances of # in a string with the variable names&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Replace all instances of # in a string with the variable names"""</span>
 
-        <span class="n">iStart</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+        <span class="n">iStart</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"#"</span><span class="p">)</span>
         <span class="k">while</span> <span class="n">iStart</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">xpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ReplaceVariable</span><span class="p">(</span><span class="n">xpath</span><span class="p">,</span> <span class="n">iStart</span><span class="p">)</span>
 
-            <span class="n">iStart</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+            <span class="n">iStart</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"#"</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">xpath</span></div>
 
@@ -213,17 +235,17 @@
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Variables</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Variables</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; not found&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" not found"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ArgumentSet.ReplaceVariable">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.ReplaceVariable">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ReplaceVariable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">iStart</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace # variable names in an xpath with variable string values&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Replace # variable names in an xpath with variable string values"""</span>
 
         <span class="c1"># Find the next # if it exists</span>
         <span class="n">iStart</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Skip the # symbol</span>
-        <span class="n">iEndVar</span> <span class="o">=</span> <span class="n">xpath</span><span class="p">[</span><span class="n">iStart</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+        <span class="n">iEndVar</span> <span class="o">=</span> <span class="n">xpath</span><span class="p">[</span><span class="n">iStart</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'#'</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">iEndVar</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># OK, just check to the end of the string</span>
             <span class="n">iEndVar</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span>
@@ -242,27 +264,27 @@
 
             <span class="n">iEndVar</span> <span class="o">-=</span> <span class="mi">1</span>
 
-        <span class="c1"># logger = logging.getLogger(__name__ + &quot;.ReplaceVariable&quot;)</span>
-        <span class="c1"># logger.error(&quot;nornir_buildmanager XPath variable not defined.\nXPath: &quot; + xpath)</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;nornir_buildmanager XPath variable not defined.</span><span class="se">\n</span><span class="s2">XPath: &quot;</span> <span class="o">+</span> <span class="n">xpath</span><span class="p">)</span>
+        <span class="c1"># logger = logging.getLogger(__name__ + ".ReplaceVariable")</span>
+        <span class="c1"># logger.error("nornir_buildmanager XPath variable not defined.\nXPath: " + xpath)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"nornir_buildmanager XPath variable not defined.</span><span class="se">\n</span><span class="s2">XPath: "</span> <span class="o">+</span> <span class="n">xpath</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ArgumentSet.TryGetSubstituteObject">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.TryGetSubstituteObject">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">TryGetSubstituteObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Place an object directly into a dictionary.</span>
+<span class="w">        </span><span class="sd">"""Place an object directly into a dictionary.</span>
 <span class="sd">        :param str val: The key to lookup</span>
-<span class="sd">        :return: Tuple (bool, value) Returns true on success with the value or None for failure.  Not if the value is found and the value is None then (true, None) is returned.&quot;&quot;&quot;</span>
+<span class="sd">        :return: Tuple (bool, value) Returns true on success with the value or None for failure.  Not if the value is found and the value is None then (true, None) is returned."""</span>
         <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># If there are two &#39;#&#39; signs in the string it is a string not an object</span>
+        <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'#'</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'#'</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># If there are two '#' signs in the string it is a string not an object</span>
                 <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
 
             <span class="c1"># Find the existing entry in the dargs</span>
@@ -280,7 +302,7 @@
 <div class="viewcode-block" id="ArgumentSet.AddArguments">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.AddArguments">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">AddArguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments from the command line&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add arguments from the command line"""</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_Arguments</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -295,7 +317,7 @@
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Variables</span><span class="p">)</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Attribs</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parameters</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">'Parameters'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parameters</span>
 
         <span class="k">return</span> <span class="n">kwargs</span></div>
 
@@ -303,15 +325,15 @@
 <div class="viewcode-block" id="ArgumentSet.AddAttributes">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.AddAttributes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">AddAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add attributes from an element node to the dargs dictionary.</span>
-<span class="sd">           Parameter values preceeded by a &#39;#&#39; are keys to existing</span>
+<span class="w">        </span><span class="sd">"""Add attributes from an element node to the dargs dictionary.</span>
+<span class="sd">           Parameter values preceeded by a '#' are keys to existing</span>
 <span class="sd">           entries in the dictionary whose values are copied to the</span>
-<span class="sd">           entry for the attribute&quot;&quot;&quot;</span>
+<span class="sd">           entry for the attribute"""</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Node</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Attribs</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">=</span><span class="n">Node</span><span class="p">,</span>
-                                    <span class="n">message</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> attribute already present in arguments.  Remove duplicate use from pipelines.xml&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+                                    <span class="n">message</span><span class="o">=</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> attribute already present in arguments.  Remove duplicate use from pipelines.xml"</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -342,13 +364,13 @@
 <div class="viewcode-block" id="ArgumentSet.RemoveAttributes">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.RemoveAttributes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">RemoveAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove attributes present in the node from the attrib dictionary&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Remove attributes present in the node from the attrib dictionary"""</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Node</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Attribs</span><span class="p">:</span>
                 <span class="n">val</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
                 <span class="c1"># If we assign a variable to an attribute with the same name to ourselves do not overwrite</span>
-                <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'#'</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
                         <span class="k">continue</span>
 
@@ -364,22 +386,22 @@
 <div class="viewcode-block" id="ArgumentSet.AddParameters">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.AddParameters">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">AddParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">dargsKeyname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add entries from a dictionary node to the dargs dictionary.</span>
-<span class="sd">           Parameter values preceeded by a &#39;#&#39; are keys to existing</span>
+<span class="w">        </span><span class="sd">"""Add entries from a dictionary node to the dargs dictionary.</span>
+<span class="sd">           Parameter values preceeded by a '#' are keys to existing</span>
 <span class="sd">           entries in the dictionary whose values are copied to the</span>
 <span class="sd">           entry for the attribute.</span>
 <span class="sd">           If dargsKeyname is none all parameters are added directly</span>
 <span class="sd">           to dargs dictionary.  Otherwise they are added as a dictionary</span>
-<span class="sd">           under a key=dargsKeyname&quot;&quot;&quot;</span>
+<span class="sd">           under a key=dargsKeyname"""</span>
 
-        <span class="n">ParamNodes</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Parameters&#39;</span><span class="p">)</span>
+        <span class="n">ParamNodes</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">'Parameters'</span><span class="p">)</span>
         <span class="n">NewParameters</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">PN</span> <span class="ow">in</span> <span class="n">ParamNodes</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">entryNode</span> <span class="ow">in</span> <span class="n">PN</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Entry&#39;</span><span class="p">:</span>
-                    <span class="n">name</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>
-                    <span class="n">val</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'Entry'</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">]</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Value'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
 
                     <span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">subObj</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TryGetSubstituteObject</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
@@ -414,30 +436,30 @@
 <div class="viewcode-block" id="ArgumentSet.RemoveParameters">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.ArgumentSet.RemoveParameters">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">RemoveParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        :param Node:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        Remove entries from a dargs dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="c1"># print &quot;Remove Parameters&quot;</span>
+        <span class="c1"># print "Remove Parameters"</span>
 
-        <span class="n">ParamNodes</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Parameters&#39;</span><span class="p">)</span>
+        <span class="n">ParamNodes</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">'Parameters'</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">PN</span> <span class="ow">in</span> <span class="n">ParamNodes</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">entryNode</span> <span class="ow">in</span> <span class="n">PN</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Entry&#39;</span><span class="p">:</span>
-                    <span class="n">name</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="s1">&#39;Value&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'Entry'</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="s1">'Value'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                         <span class="k">continue</span>
 
-                    <span class="n">val</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Value&#39;</span><span class="p">]</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">entryNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">]</span>
                     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                        <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'#'</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
                                 <span class="k">continue</span>
 
-                        <span class="c1"># print &quot;Removing &quot; + name</span>
+                        <span class="c1"># print "Removing " + name</span>
                         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parameters</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
 
 
@@ -464,9 +486,9 @@
 <div class="viewcode-block" id="PipelineManager">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PipelineManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Responsible for the execution of a pipeline specified in an XML file following the buildscript.xsd specification&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Responsible for the execution of a pipeline specified in an XML file following the buildscript.xsd specification"""</span>
 
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;PipelineManager&#39;</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">'PipelineManager'</span><span class="p">)</span>
     <span class="n">_description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_help</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_epilog</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -481,27 +503,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_VolumePath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_iterate_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;Description&#39;</span> <span class="ow">in</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_help</span> <span class="o">=</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;Help&#39;</span> <span class="ow">in</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_epilog</span> <span class="o">=</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Epilog&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;Epilog&#39;</span> <span class="ow">in</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_description</span> <span class="o">=</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Description'</span><span class="p">]</span> <span class="k">if</span> <span class="s1">'Description'</span> <span class="ow">in</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_help</span> <span class="o">=</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Help'</span><span class="p">]</span> <span class="k">if</span> <span class="s1">'Help'</span> <span class="ow">in</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epilog</span> <span class="o">=</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Epilog'</span><span class="p">]</span> <span class="k">if</span> <span class="s1">'Epilog'</span> <span class="ow">in</span> <span class="n">pipelineData</span><span class="o">.</span><span class="n">attrib</span> <span class="k">else</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_description&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_description'</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_description</span>
 
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Help</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_help&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_help'</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_help</span>
 
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Epilog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_epilog&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_epilog'</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_epilog</span>
 
         <span class="k">return</span> <span class="kc">None</span>
@@ -510,14 +532,14 @@
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.ToElementString">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ToElementString</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Iterate&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;Iterate: &quot;</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;XPath&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'Iterate'</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">"Iterate: "</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'XPath'</span><span class="p">]</span>
 
-        <span class="n">outStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">strList</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;Utf-8&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostringlist</span><span class="p">(</span><span class="n">element</span><span class="p">)]</span>
+        <span class="n">outStr</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">strList</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'Utf-8'</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostringlist</span><span class="p">(</span><span class="n">element</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strList</span><span class="p">:</span>
-            <span class="n">outStr</span> <span class="o">=</span> <span class="n">outStr</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">s</span>
-            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+            <span class="n">outStr</span> <span class="o">=</span> <span class="n">outStr</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">s</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">'&gt;'</span><span class="p">:</span>
                 <span class="k">break</span>
 
         <span class="k">return</span> <span class="n">outStr</span></div>
@@ -525,7 +547,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_StageVolumeLabel</span><span class="p">(</span><span class="n">volume_elem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a filesystem path or descriptive label for stage timing keys.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a filesystem path or descriptive label for stage timing keys."""</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">volume_elem</span><span class="p">,</span> <span class="n">XResourceElementWrapper</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">volume_elem</span><span class="o">.</span><span class="n">FullPath</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">volume_elem</span><span class="p">)</span>
@@ -534,42 +556,42 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_ElementTelemetryFields</span><span class="p">(</span>
             <span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
             <span class="n">pipeline_node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return MQTT event fields describing *element* for dashboard progress.</span>
+<span class="w">        </span><span class="sd">"""Return MQTT event fields describing *element* for dashboard progress.</span>
 
 <span class="sd">        ``pipeline_node`` is accepted for call-site symmetry but does not override</span>
 <span class="sd">        the descriptive label derived from the volume element type.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">del</span> <span class="n">pipeline_node</span>  <span class="c1"># Label comes from the element, not VariableName.</span>
         <span class="n">fields</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">cls_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">element</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">number</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">&quot;Number&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">"Name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">"Number"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">&quot;SectionNode&quot;</span> <span class="ow">and</span> <span class="n">number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;section&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">number</span>
-            <span class="n">padded</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;section_node - </span><span class="si">{</span><span class="n">padded</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">&quot;ChannelNode&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">"SectionNode"</span> <span class="ow">and</span> <span class="n">number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"section"</span><span class="p">]</span> <span class="o">=</span> <span class="n">number</span>
+            <span class="n">padded</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">"</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"section_node - </span><span class="si">{</span><span class="n">padded</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">"ChannelNode"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;element&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ChannelNode - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">&quot;FilterNode&quot;</span><span class="p">:</span>
+                <span class="n">fields</span><span class="p">[</span><span class="s2">"element"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"ChannelNode - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">"FilterNode"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;element&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;filter node - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">&quot;MappingNode&quot;</span><span class="p">:</span>
+                <span class="n">fields</span><span class="p">[</span><span class="s2">"element"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"filter node - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">elif</span> <span class="n">cls_name</span> <span class="o">==</span> <span class="s2">"MappingNode"</span><span class="p">:</span>
             <span class="n">mapping_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;element&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapping_label</span>
-            <span class="n">control</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">&quot;Control&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"element"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapping_label</span>
+            <span class="n">control</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s2">"Control"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;section&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">control</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;MappingNode - </span><span class="si">{</span><span class="n">mapping_label</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">fields</span><span class="p">[</span><span class="s2">"section"</span><span class="p">]</span> <span class="o">=</span> <span class="n">control</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"MappingNode - </span><span class="si">{</span><span class="n">mapping_label</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;element&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+                <span class="n">fields</span><span class="p">[</span><span class="s2">"element"</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
             <span class="k">if</span> <span class="n">number</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;section&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">number</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">name</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">element</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">fields</span><span class="p">[</span><span class="s2">"section"</span><span class="p">]</span> <span class="o">=</span> <span class="n">number</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">name</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">element</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="k">return</span> <span class="n">fields</span>
 
@@ -579,12 +601,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">PrintPipelineEnumeration</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">PipelineXML</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">):</span>
         <span class="n">PipelineXML</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">LoadPipelineXML</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">)</span>
 
-        <span class="bp">cls</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Enumerating available pipelines&quot;</span><span class="p">)</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Enumerating available pipelines&quot;</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Enumerating available pipelines"</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Enumerating available pipelines"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pipeline</span> <span class="ow">in</span> <span class="n">PipelineXML</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span> <span class="ow">or</span> <span class="p">[]:</span>  <span class="c1"># type: ignore[union-attr]</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s1">&#39;    &#39;</span> <span class="o">+</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Description&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'  '</span> <span class="o">+</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s1">'  '</span> <span class="o">+</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s1">'    '</span> <span class="o">+</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Description'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PipelineManager.LoadPipelineXML">
@@ -605,14 +627,14 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">)</span>  <span class="c1"># type: ignore[return-value]</span>
             <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-                <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Provided pipeline filename does not exist: &quot;</span> <span class="o">+</span> <span class="n">PipelineXML</span><span class="p">)</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;Provided pipeline filename does not exist: &quot;</span> <span class="o">+</span> <span class="n">PipelineXML</span><span class="p">)</span>
+                <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">"Provided pipeline filename does not exist: "</span> <span class="o">+</span> <span class="n">PipelineXML</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Provided pipeline filename does not exist: "</span> <span class="o">+</span> <span class="n">PipelineXML</span><span class="p">)</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-            <span class="n">str_xml</span> <span class="o">=</span> <span class="n">PipelineXML</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">str_xml</span> <span class="o">=</span> <span class="n">PipelineXML</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">str_xml</span><span class="p">))</span>  <span class="c1"># type: ignore[return-value]</span>
 
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid argument: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Invalid argument: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="PipelineManager.ListPipelines">
@@ -622,9 +644,9 @@
 
         <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pipeline_tree</span><span class="p">,</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pipeline_tree</span><span class="p">,</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">))</span>
 
-        <span class="n">PipelineNodes</span> <span class="o">=</span> <span class="n">pipeline_tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;Pipeline&quot;</span><span class="p">)</span>
+        <span class="n">PipelineNodes</span> <span class="o">=</span> <span class="n">pipeline_tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"Pipeline"</span><span class="p">)</span>
 
-        <span class="n">PipelineNames</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PipelineNodes</span><span class="p">]</span>
+        <span class="n">PipelineNames</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Name'</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PipelineNodes</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">PipelineNames</span><span class="p">)</span></div>
 
 
@@ -639,15 +661,15 @@
         <span class="n">XMLDoc</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">LoadPipelineXML</span><span class="p">(</span><span class="n">PipelineXml</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">PipelineName</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No pipeline name specified.&quot;</span><span class="p">)</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;No pipeline name specified&quot;</span><span class="p">)</span>
+            <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No pipeline name specified."</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"No pipeline name specified"</span><span class="p">)</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">PrintPipelineEnumeration</span><span class="p">(</span><span class="n">XMLDoc</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">SelectedPipeline</span> <span class="o">=</span> <span class="n">XMLDoc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Pipeline[@Name=&#39;&quot;</span> <span class="o">+</span> <span class="n">PipelineName</span> <span class="o">+</span> <span class="s2">&quot;&#39;]&quot;</span><span class="p">)</span>
+            <span class="n">SelectedPipeline</span> <span class="o">=</span> <span class="n">XMLDoc</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"Pipeline[@Name='"</span> <span class="o">+</span> <span class="n">PipelineName</span> <span class="o">+</span> <span class="s2">"']"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">SelectedPipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;No pipeline found named &quot;</span> <span class="o">+</span> <span class="n">PipelineName</span><span class="p">)</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;No pipeline found named &quot;</span> <span class="o">+</span> <span class="n">PipelineName</span><span class="p">)</span>
+                <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">"No pipeline found named "</span> <span class="o">+</span> <span class="n">PipelineName</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"No pipeline found named "</span> <span class="o">+</span> <span class="n">PipelineName</span><span class="p">)</span>
                 <span class="bp">cls</span><span class="o">.</span><span class="n">PrintPipelineEnumeration</span><span class="p">(</span><span class="n">XMLDoc</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
@@ -669,16 +691,16 @@
 <div class="viewcode-block" id="PipelineManager.GetArgParser">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.GetArgParser">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">GetArgParser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">IncludeGlobals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the complete argument parser for the pipeline</span>
+<span class="w">        </span><span class="sd">"""Create the complete argument parser for the pipeline</span>
 <span class="sd">        :param parser:</span>
 <span class="sd">        :param bool IncludeGlobals: Arguments common to all pipelines are included if this flag is set to True.  True by default.  False is used to create documentation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">IncludeGlobals</span><span class="p">:</span>
-            <span class="n">parser</span> <span class="o">=</span> <span class="n">argparsexml</span><span class="o">.</span><span class="n">CreateOrExtendParserForArguments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PipelineRoot</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Arguments/Argument&#39;</span><span class="p">),</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">argparsexml</span><span class="o">.</span><span class="n">CreateOrExtendParserForArguments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PipelineRoot</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">'Arguments/Argument'</span><span class="p">),</span>
                                                                   <span class="n">parser</span><span class="p">)</span>
 
-        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparsexml</span><span class="o">.</span><span class="n">CreateOrExtendParserForArguments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PipelineData</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Arguments/Argument&#39;</span><span class="p">),</span> <span class="n">parser</span><span class="p">)</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparsexml</span><span class="o">.</span><span class="n">CreateOrExtendParserForArguments</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PipelineData</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">'Arguments/Argument'</span><span class="p">),</span> <span class="n">parser</span><span class="p">)</span>
 
         <span class="n">PipelineManager</span><span class="o">.</span><span class="n">_AddParserDescription</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PipelineData</span><span class="p">,</span> <span class="n">parser</span><span class="p">)</span>
 
@@ -693,20 +715,20 @@
 
         <span class="c1"># print str(PipelineNode.attrib)</span>
 
-        <span class="c1"># parser.prog = PipelineNode.attrib[&#39;Name&#39;];</span>
+        <span class="c1"># parser.prog = PipelineNode.attrib['Name'];</span>
 
-        <span class="k">if</span> <span class="s1">&#39;Help&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">help</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">'Help'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">help</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Help'</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="s1">&#39;Description&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">'Description'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Description'</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="s1">&#39;Epilog&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">epilog</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Epilog&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">'Epilog'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">epilog</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Epilog'</span><span class="p">]</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__extractXPathFromNode</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">):</span>
-        <span class="n">xpath</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;XPath&#39;</span><span class="p">]</span>
+        <span class="n">xpath</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'XPath'</span><span class="p">]</span>
         <span class="n">xpath</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">xpath</span>
 
@@ -714,7 +736,7 @@
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.GetSearchRoot">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">GetSearchRoot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">):</span>
-        <span class="n">RootIterNodeName</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Root&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">RootIterNodeName</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Root'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">RootForSearch</span> <span class="o">=</span> <span class="n">VolumeElem</span>
         <span class="k">if</span> <span class="n">RootIterNodeName</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">RootIterNodeName</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Variables</span><span class="p">:</span>
@@ -730,9 +752,9 @@
 <div class="viewcode-block" id="PipelineManager.Execute">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.Execute">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">Execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">volume_tree</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This executes the loaded pipeline on the specified volume of data.</span>
+<span class="w">        </span><span class="sd">"""This executes the loaded pipeline on the specified volume of data.</span>
 <span class="sd">           parser is an instance of the argparser class which should be</span>
-<span class="sd">           extended with any pipeline specific arguments args are the parameters from the command line&quot;&quot;&quot;</span>
+<span class="sd">           extended with any pipeline specific arguments args are the parameters from the command line"""</span>
 
         <span class="c1"># DOM = self.PipelineData.toDOM()</span>
         <span class="c1"># PipelineElement = DOM.firstChild</span>
@@ -740,7 +762,7 @@
 
         <span class="n">PipelineElement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PipelineData</span>
 
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Adding pipeline arguments&quot;</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Adding pipeline arguments"</span><span class="p">)</span>
         <span class="c1"># parser = self.GetArgParser(parser)</span>
         <span class="c1"># (args, unused) = parser.parse_known_args(passedArgs)</span>
 
@@ -753,43 +775,43 @@
         <span class="k">if</span> <span class="n">volume_tree</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span> <span class="o">=</span> <span class="n">volume_tree</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">volume_data_xml</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="s2">&quot;VolumeData.xml&quot;</span><span class="p">)</span>
-            <span class="n">legacy_volume_xml</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="s2">&quot;Volume.xml&quot;</span><span class="p">)</span>
+            <span class="n">volume_data_xml</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="s2">"VolumeData.xml"</span><span class="p">)</span>
+            <span class="n">legacy_volume_xml</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="s2">"Volume.xml"</span><span class="p">)</span>
             <span class="n">volume_xml_existed</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">volume_data_xml</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">legacy_volume_xml</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span> <span class="o">=</span> <span class="n">VolumeManager</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="n">Create</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Could not load or create volume.xml &quot;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">outputpath</span><span class="p">)</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">&quot;Could not load or create volume.xml &quot;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">outputpath</span><span class="p">)</span>
+            <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">"Could not load or create volume.xml "</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">outputpath</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="s2">"Could not load or create volume.xml "</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">outputpath</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_StageTimer</span> <span class="o">=</span> <span class="n">TaskTimer</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;PipelineName&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">PipelineData</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'PipelineName'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">PipelineData</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'unknown'</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_VolumePath</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">volumepath</span>
 
         <span class="c1"># Fail fast when Create=True invented an empty volume for a non-import pipeline.</span>
         <span class="c1"># Alignment/assemble stages select Block/Section and otherwise skip silently.</span>
         <span class="k">if</span> <span class="n">volume_tree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">block_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;Block&#39;</span><span class="p">)))</span>
-            <span class="n">pipeline_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">is_import_pipeline</span> <span class="o">=</span> <span class="n">pipeline_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Import&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pipeline_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Adopt&quot;</span><span class="p">)</span>
+            <span class="n">block_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">'Block'</span><span class="p">)))</span>
+            <span class="n">pipeline_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="ow">or</span> <span class="s2">""</span>
+            <span class="n">is_import_pipeline</span> <span class="o">=</span> <span class="n">pipeline_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Import"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pipeline_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Adopt"</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">volume_xml_existed</span> <span class="ow">or</span> <span class="n">block_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_import_pipeline</span><span class="p">:</span>
                 <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Volume at </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="si">}</span><span class="s2"> has no usable data &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(VolumeData.xml existed=</span><span class="si">{</span><span class="n">volume_xml_existed</span><span class="si">}</span><span class="s2">, Block count=</span><span class="si">{</span><span class="n">block_count</span><span class="si">}</span><span class="s2">). &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Pipeline &#39;</span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s2">&#39; cannot run — every Block/Section select will skip. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Set launch input nornirVolumesRoot to a host path that contains a real &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;TEM volume with VolumeData.xml after Import/Prune/Mosaic, then set nornirVolumeName.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Volume at </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="si">}</span><span class="s2"> has no usable data "</span>
+                    <span class="sa">f</span><span class="s2">"(VolumeData.xml existed=</span><span class="si">{</span><span class="n">volume_xml_existed</span><span class="si">}</span><span class="s2">, Block count=</span><span class="si">{</span><span class="n">block_count</span><span class="si">}</span><span class="s2">). "</span>
+                    <span class="sa">f</span><span class="s2">"Pipeline '</span><span class="si">{</span><span class="n">pipeline_name</span><span class="si">}</span><span class="s2">' cannot run — every Block/Section select will skip. "</span>
+                    <span class="sa">f</span><span class="s2">"Set launch input nornirVolumesRoot to a host path that contains a real "</span>
+                    <span class="sa">f</span><span class="s2">"TEM volume with VolumeData.xml after Import/Prune/Mosaic, then set nornirVolumeName."</span>
                 <span class="p">)</span>
                 <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
                 <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;debug&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'debug'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="c1"># dargs = copy.deepcopy(defaultDargs)</span>
 
-        <span class="n">no_delete</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;no_delete&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">no_delete</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'no_delete'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">set_no_delete</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">no_delete</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteChildPipelines</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span><span class="p">,</span> <span class="n">PipelineElement</span><span class="p">)</span>
@@ -802,55 +824,55 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_WriteStageTimings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append per-stage timing records for this pipeline execute to StageTimings.json.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Append per-stage timing records for this pipeline execute to StageTimings.json."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_StageTimer</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_VolumePath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s2">&quot;stage&quot;</span><span class="p">:</span> <span class="n">stage_name</span><span class="p">,</span> <span class="s2">&quot;seconds&quot;</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">}</span>
+            <span class="p">{</span><span class="s2">"stage"</span><span class="p">:</span> <span class="n">stage_name</span><span class="p">,</span> <span class="s2">"seconds"</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">}</span>
             <span class="k">for</span> <span class="n">stage_name</span><span class="p">,</span> <span class="n">elapsed</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_StageTimer</span><span class="o">.</span><span class="n">ElapsedTimes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">stages</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">record</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;pipeline&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;utc_timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-            <span class="s2">&quot;stages&quot;</span><span class="p">:</span> <span class="n">stages</span><span class="p">,</span>
-            <span class="s2">&quot;total_seconds&quot;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s2">&quot;seconds&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">),</span>
+            <span class="s2">"pipeline"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="ow">or</span> <span class="s2">"unknown"</span><span class="p">,</span>
+            <span class="s2">"utc_timestamp"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">"stages"</span><span class="p">:</span> <span class="n">stages</span><span class="p">,</span>
+            <span class="s2">"total_seconds"</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">stage</span><span class="p">[</span><span class="s2">"seconds"</span><span class="p">]</span> <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">),</span>
         <span class="p">}</span>
 
-        <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_VolumePath</span><span class="p">,</span> <span class="s2">&quot;StageTimings.json&quot;</span><span class="p">)</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_VolumePath</span><span class="p">,</span> <span class="s2">"StageTimings.json"</span><span class="p">)</span>
         <span class="n">existing</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_path</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
                     <span class="n">loaded</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loaded</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                     <span class="n">existing</span> <span class="o">=</span> <span class="n">loaded</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="s2">&quot;StageTimings.json is not a list; starting a fresh timing log at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"StageTimings.json is not a list; starting a fresh timing log at </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">output_path</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">UnicodeError</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="c1"># Called from Execute&#39;s finally; a truncated file from a killed run</span>
+                <span class="c1"># Called from Execute's finally; a truncated file from a killed run</span>
                 <span class="c1"># must not mask the original exception (#139).</span>
                 <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Ignoring unreadable StageTimings.json at </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">); starting a fresh timing log&quot;</span><span class="p">,</span>
+                    <span class="s2">"Ignoring unreadable StageTimings.json at </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">); starting a fresh timing log"</span><span class="p">,</span>
                     <span class="n">output_path</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 
         <span class="n">existing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">existing</span><span class="p">,</span> <span class="n">output_file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PipelineManager.ExecuteChildPipelines">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.ExecuteChildPipelines">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ExecuteChildPipelines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
                               <span class="n">PipelineNode</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run all of the child pipeline elements on the volume element&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run all of the child pipeline elements on the volume element"""</span>
 
-        <span class="k">if</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">!=</span> <span class="s2">&quot;Iterate&quot;</span> <span class="ow">or</span> <span class="n">_should_log_pipeline_progress</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">!=</span> <span class="s2">"Iterate"</span> <span class="ow">or</span> <span class="n">_should_log_pipeline_progress</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">):</span>
             <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">))</span>
 
         <span class="n">PipelinesRun</span> <span class="o">=</span> <span class="mi">0</span>
@@ -869,25 +891,25 @@
                     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
                     <span class="k">raise</span> <span class="n">NornirRethrownException</span><span class="p">()</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
                 <span class="k">except</span> <span class="n">PipelineSelectFailed</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Arguments</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Arguments</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">]:</span>
                         <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-                    <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Select statement did not match.  Skipping to next iteration</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Select statement did not match.  Skipping to next iteration</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
                     <span class="k">break</span>
                 <span class="k">except</span> <span class="n">PipelineSearchFailed</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-                    <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Search statement did not match.  Skipping to next iteration</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Search statement did not match.  Skipping to next iteration</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
                     <span class="k">break</span>
                 <span class="k">except</span> <span class="n">PipelineListIntersectionFailed</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;Node attribute was not in the list of desired values.  Skipping to next iteration.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>  <span class="c1"># type: ignore[operator]</span>
+                        <span class="s2">"Node attribute was not in the list of desired values.  Skipping to next iteration.</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>  <span class="c1"># type: ignore[operator]</span>
                     <span class="k">break</span>
                 <span class="k">except</span> <span class="n">PipelineRegExSearchFailed</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Regular expression did not match. regex </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">regex</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">attribValue</span><span class="si">}</span><span class="s2">. Skipping to next iteration.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">"Regular expression did not match. regex </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">regex</span><span class="si">}</span><span class="s2"> != </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">attribValue</span><span class="si">}</span><span class="s2">. Skipping to next iteration.</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
                             <span class="n">e</span><span class="o">.</span><span class="n">attribValue</span><span class="p">))</span>
                     <span class="k">break</span>
                 <span class="k">except</span> <span class="n">PipelineError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="n">errStr</span> <span class="o">=</span> <span class="s2">&quot;Unexpected error, exiting pipeline</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+                    <span class="n">errStr</span> <span class="o">=</span> <span class="s2">"Unexpected error, exiting pipeline</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
                     <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errStr</span><span class="p">)</span>
                     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="n">errStr</span><span class="p">)</span>
                     <span class="k">raise</span> <span class="n">NornirRethrownException</span><span class="p">()</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
@@ -907,55 +929,55 @@
                             <span class="n">ArgSet</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="c1"># outStr = PipelineManager.ToElementString(PipelineNode)</span>
-        <span class="c1"># prettyoutput.CurseString(&#39;Section&#39;, outStr)</span>
+        <span class="c1"># prettyoutput.CurseString('Section', outStr)</span>
 
-        <span class="c1"># prettyoutput.Log(&quot;Processing Stage Element: &quot; + outStr)</span>
+        <span class="c1"># prettyoutput.Log("Processing Stage Element: " + outStr)</span>
 
         <span class="c1"># Copy dargs so we do not modify what the parent passed us</span>
         <span class="c1"># dargs = copy.copy(dargs)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">,</span> <span class="n">XResourceElementWrapper</span><span class="p">):</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s2">&quot;Meta&quot;</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s2">"Meta"</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Select&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'Select'</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ProcessSelectNode</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Iterate&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'Iterate'</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ProcessIterateNode</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;RequireSetMembership&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'RequireSetMembership'</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">RequireSetMembership</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;RequireMatch&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'RequireMatch'</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ProcessRequireMatchNode</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;PythonCall&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'PythonCall'</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ProcessPythonCall</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;Arguments&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'Arguments'</span><span class="p">:</span>
             <span class="k">pass</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unexpected element name in Pipeline.XML: &quot;</span> <span class="o">+</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Unexpected element name in Pipeline.XML: "</span> <span class="o">+</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PipelineManager.RequireSetMembership">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.RequireSetMembership">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">RequireSetMembership</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;If the attribute value is not present in the provided list the element is skipped.</span>
-<span class="sd">           If the provided list is none we do not skip.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""If the attribute value is not present in the provided list the element is skipped.</span>
+<span class="sd">           If the provided list is none we do not skip."""</span>
 
         <span class="n">RootForMatch</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">GetSearchRoot</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">)</span>
 
-        <span class="n">AttribName</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attribute&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">)</span>
+        <span class="n">AttribName</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Attribute"</span><span class="p">,</span> <span class="s2">"Name"</span><span class="p">)</span>
         <span class="n">AttribName</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">AttribName</span><span class="p">)</span>
 
-        <span class="n">listVariable</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;List&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">listVariable</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"List"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">listVariable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">VolumeElem</span><span class="o">=</span><span class="n">VolumeElem</span><span class="p">,</span>
                                 <span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span>
-                                <span class="n">message</span><span class="o">=</span><span class="s2">&quot;List attribute missing on &lt;RequireSetMembership&gt; node&quot;</span><span class="p">)</span>
+                                <span class="n">message</span><span class="o">=</span><span class="s2">"List attribute missing on &lt;RequireSetMembership&gt; node"</span><span class="p">)</span>
 
         <span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="n">listOfValid</span><span class="p">)</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">TryGetSubstituteObject</span><span class="p">(</span><span class="n">listVariable</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
@@ -982,20 +1004,20 @@
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.ProcessRequireMatchNode">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ProcessRequireMatchNode</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;If the regular expression does not match the attribute an exception is raised.</span>
-<span class="sd">           This skips the current iteration of an enclosing &lt;iterate&gt; element&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""If the regular expression does not match the attribute an exception is raised.</span>
+<span class="sd">           This skips the current iteration of an enclosing &lt;iterate&gt; element"""</span>
 
         <span class="n">RootForMatch</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">GetSearchRoot</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">)</span>
-        <span class="n">AttribName</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Attribute&quot;</span><span class="p">,</span> <span class="s2">&quot;Name&quot;</span><span class="p">)</span>
+        <span class="n">AttribName</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Attribute"</span><span class="p">,</span> <span class="s2">"Name"</span><span class="p">)</span>
         <span class="n">AttribName</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">AttribName</span><span class="p">)</span>
-        <span class="n">RegExStr</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RegEx&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">RegExStr</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"RegEx"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">RegExStr</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">RegExStr</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">RegExStr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PipelineArgumentNotFound</span><span class="p">(</span><span class="n">VolumeElem</span><span class="o">=</span><span class="n">VolumeElem</span><span class="p">,</span>
                                            <span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span>
-                                           <span class="n">argname</span><span class="o">=</span><span class="s2">&quot;RegEx&quot;</span><span class="p">,</span>
-                                           <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Match node missing RegEx attribute&quot;</span><span class="p">)</span>
+                                           <span class="n">argname</span><span class="o">=</span><span class="s2">"RegEx"</span><span class="p">,</span>
+                                           <span class="n">message</span><span class="o">=</span><span class="s2">"Match node missing RegEx attribute"</span><span class="p">)</span>
 
         <span class="n">Attrib</span> <span class="o">=</span> <span class="n">RootForMatch</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">AttribName</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Attrib</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1003,7 +1025,7 @@
                                            <span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span>
                                            <span class="n">argname</span><span class="o">=</span><span class="n">AttribName</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">RegExStr</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">RegExStr</span> <span class="o">==</span> <span class="s1">'*'</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">RegExStr</span><span class="p">,</span> <span class="n">Attrib</span><span class="p">)</span>
@@ -1016,7 +1038,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_ElementNeedsValidation</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether an element supports and requests validation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return whether an element supports and requests validation."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">NeedsValidation</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">NotImplementedError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
@@ -1044,10 +1066,10 @@
                     <span class="p">(</span><span class="n">IsValid</span><span class="p">,</span> <span class="n">Reason</span><span class="p">)</span> <span class="o">=</span> <span class="n">SelectedVolumeElem</span><span class="o">.</span><span class="n">IsValid</span><span class="p">()</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">IsValid</span><span class="p">:</span>
                         <span class="c1"># Check if the node is locked, otherwise clean it and look for another node</span>
-                        <span class="k">if</span> <span class="s1">&#39;Locked&#39;</span> <span class="ow">in</span> <span class="n">SelectedVolumeElem</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="s1">'Locked'</span> <span class="ow">in</span> <span class="n">SelectedVolumeElem</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">SelectedVolumeElem</span><span class="o">.</span><span class="n">Locked</span><span class="p">:</span>
                                 <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                                    <span class="s2">&quot;Did not clean locked element </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SelectedVolumeElem</span><span class="o">.</span><span class="n">FullPath</span><span class="p">))</span>
+                                    <span class="s2">"Did not clean locked element </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SelectedVolumeElem</span><span class="o">.</span><span class="n">FullPath</span><span class="p">))</span>
                                 <span class="k">break</span>
 
                         <span class="k">if</span> <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">is_no_delete</span><span class="p">():</span>
@@ -1056,8 +1078,8 @@
                             <span class="c1"># re-searching would loop forever because Clean() is</span>
                             <span class="c1"># suppressed and the invalid element stays in the tree.</span>
                             <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                                <span class="s2">&quot;NO-DELETE: Would clean invalid element </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">); keeping for pipeline.&quot;</span><span class="p">,</span>
-                                <span class="nb">getattr</span><span class="p">(</span><span class="n">SelectedVolumeElem</span><span class="p">,</span> <span class="s1">&#39;FullPath&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">SelectedVolumeElem</span><span class="p">)),</span>
+                                <span class="s2">"NO-DELETE: Would clean invalid element </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">); keeping for pipeline."</span><span class="p">,</span>
+                                <span class="nb">getattr</span><span class="p">(</span><span class="n">SelectedVolumeElem</span><span class="p">,</span> <span class="s1">'FullPath'</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">SelectedVolumeElem</span><span class="p">)),</span>
                                 <span class="n">Reason</span><span class="p">,</span>
                             <span class="p">)</span>
                             <span class="k">break</span>
@@ -1081,20 +1103,20 @@
         <span class="n">candidates</span> <span class="o">=</span> <span class="n">resolve_iterate_candidates</span><span class="p">(</span>
             <span class="n">RootForSearch</span><span class="p">,</span> <span class="n">xpath</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">,</span>
             <span class="n">PipelineManager</span><span class="o">.</span><span class="n">GetSearchRoot</span><span class="p">)</span>
-        <span class="n">sort_attribute</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SortAttribute&quot;</span><span class="p">)</span>
+        <span class="n">sort_attribute</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"SortAttribute"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sort_attribute</span><span class="p">:</span>
             <span class="n">candidates</span> <span class="o">=</span> <span class="n">sort_iterate_candidates</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">sort_attribute</span><span class="p">)</span>
 
         <span class="n">validate</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="s1">&#39;Validate&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="n">validate_value</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Validate&#39;</span><span class="p">,</span> <span class="s1">&#39;True&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="n">validate</span> <span class="o">=</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span> <span class="ow">or</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span> <span class="ow">or</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="ow">or</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span>
+        <span class="k">if</span> <span class="s1">'Validate'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">validate_value</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Validate'</span><span class="p">,</span> <span class="s1">'True'</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">validate</span> <span class="o">=</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">'true'</span> <span class="ow">or</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">'1'</span> <span class="ow">or</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">'y'</span> <span class="ow">or</span> <span class="n">validate_value</span> <span class="o">==</span> <span class="s1">'yes'</span>
 
         <span class="c1"># Make sure downstream activities do not corrupt the dictionary for the caller</span>
         <span class="n">CopiedArgSet</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">)</span>
 
-        <span class="n">variable_name</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;VariableName&#39;</span><span class="p">,</span> <span class="s1">&#39;Iterate&#39;</span><span class="p">)</span>
-        <span class="n">track_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;iterate:</span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">variable_name</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'VariableName'</span><span class="p">,</span> <span class="s1">'Iterate'</span><span class="p">)</span>
+        <span class="n">track_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"iterate:</span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">"</span>
         <span class="c1"># Do not materialize candidates for len(); MQTT omits None totals</span>
         <span class="c1"># (publish_run_event) so streaming can start before the full set is known (#140).</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterate_depth</span>
@@ -1105,7 +1127,7 @@
         <span class="n">progress_current</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">publish_run_event</span><span class="p">(</span>
-                <span class="s2">&quot;iterate_progress&quot;</span><span class="p">,</span>
+                <span class="s2">"iterate_progress"</span><span class="p">,</span>
                 <span class="n">current</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
@@ -1116,16 +1138,16 @@
                 <span class="k">if</span> <span class="n">validate</span> <span class="ow">and</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">_ElementNeedsValidation</span><span class="p">(</span><span class="n">VolumeElemChild</span><span class="p">):</span>
                     <span class="p">(</span><span class="n">cleaned</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span> <span class="o">=</span> <span class="n">VolumeElemChild</span><span class="o">.</span><span class="n">CleanIfInvalid</span><span class="p">()</span>
                     <span class="k">if</span> <span class="n">cleaned</span><span class="p">:</span>
-                        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cleaned invalid element during search: </span><span class="si">{</span><span class="n">VolumeElemChild</span><span class="si">}</span><span class="se">\n</span><span class="s2">Reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cleaned invalid element during search: </span><span class="si">{</span><span class="n">VolumeElemChild</span><span class="si">}</span><span class="se">\n</span><span class="s2">Reason: </span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                         <span class="n">save_parent</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">VolumeElemChild</span><span class="o">.</span><span class="n">Parent</span><span class="p">)</span>
                         <span class="k">continue</span>
 
                 <span class="n">NumProcessed</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteChildPipelines</span><span class="p">(</span><span class="n">CopiedArgSet</span><span class="p">,</span> <span class="n">VolumeElemChild</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
                 <span class="n">progress_current</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="n">tele</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">_ElementTelemetryFields</span><span class="p">(</span><span class="n">VolumeElemChild</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
-                <span class="n">tele</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">tele</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"label"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="n">publish_run_event</span><span class="p">(</span>
-                    <span class="s2">&quot;iterate_progress&quot;</span><span class="p">,</span>
+                    <span class="s2">"iterate_progress"</span><span class="p">,</span>
                     <span class="n">current</span><span class="o">=</span><span class="n">progress_current</span><span class="p">,</span>
                     <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
@@ -1135,7 +1157,7 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_iterate_depth</span> <span class="o">-=</span> <span class="mi">1</span>
             <span class="n">publish_run_event</span><span class="p">(</span>
-                <span class="s2">&quot;iterate_progress_complete&quot;</span><span class="p">,</span>
+                <span class="s2">"iterate_progress_complete"</span><span class="p">,</span>
                 <span class="n">track_id</span><span class="o">=</span><span class="n">track_id</span><span class="p">,</span>
                 <span class="n">total</span><span class="o">=</span><span class="n">progress_current</span><span class="p">)</span>
 
@@ -1177,30 +1199,30 @@
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.ProcessPythonCall">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ProcessPythonCall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">):</span>
         <span class="c1"># Try to find a stage for the element we encounter in the pipeline.</span>
-        <span class="c1"># PipelineModule = &#39;nornir_buildmanager.operations&#39;  # This should match the default in the xsd file, but pyxb doesn&#39;t seem to emit the default valuef</span>
-        <span class="n">PipelineModule</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Module&quot;</span><span class="p">,</span> <span class="s2">&quot;nornir_buildmanager.operations&quot;</span><span class="p">)</span>
+        <span class="c1"># PipelineModule = 'nornir_buildmanager.operations'  # This should match the default in the xsd file, but pyxb doesn't seem to emit the default valuef</span>
+        <span class="n">PipelineModule</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Module"</span><span class="p">,</span> <span class="s2">"nornir_buildmanager.operations"</span><span class="p">)</span>
 
-        <span class="n">PipelineFunction</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Function&#39;</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
+        <span class="n">PipelineFunction</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Function'</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span>
 
         <span class="n">stageFunc</span> <span class="o">=</span> <span class="n">nornir_shared</span><span class="o">.</span><span class="n">reflection</span><span class="o">.</span><span class="n">get_module_class</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Arguments</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]:</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;CALL &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Arguments</span><span class="p">[</span><span class="s1">'verbose'</span><span class="p">]:</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"CALL "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">))</span>
 
-        <span class="c1"># PipelineManager.logger.info(&quot;CALL &quot; + str(PipelineModule) + &quot;.&quot; + str(PipelineFunction))</span>
+        <span class="c1"># PipelineManager.logger.info("CALL " + str(PipelineModule) + "." + str(PipelineFunction))</span>
 
         <span class="k">if</span> <span class="n">stageFunc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">errorStr</span> <span class="o">=</span> <span class="s2">&quot;Stage implementation not found: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span>
-            <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errorStr</span> <span class="o">+</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">errorStr</span> <span class="o">=</span> <span class="s2">"Stage implementation not found: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span>
+            <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errorStr</span> <span class="o">+</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">VolumeElem</span><span class="o">=</span><span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">errorStr</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">stage_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">PipelineModule</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">PipelineFunction</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">stage_label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PipelineModule</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">PipelineFunction</span><span class="si">}</span><span class="s2">"</span>
             <span class="c1"># Nested Iterate PythonCalls (e.g. StosGridRefine per Mapping) often</span>
             <span class="c1"># skip in milliseconds; keep stage_start/end events for current_stage</span>
             <span class="c1"># but do not flood dashboard/console Stage status lines for those.</span>
             <span class="n">nested_stage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterate_depth</span> <span class="o">&gt;</span> <span class="mi">0</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">nested_stage</span><span class="p">:</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">&#39;Stage&#39;</span><span class="p">,</span> <span class="n">stage_label</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">'Stage'</span><span class="p">,</span> <span class="n">stage_label</span><span class="p">)</span>
 
             <span class="c1"># TODO: Update args from the element</span>
 
@@ -1209,10 +1231,10 @@
             <span class="n">ArgSet</span><span class="o">.</span><span class="n">AddAttributes</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">)</span>
             <span class="n">ArgSet</span><span class="o">.</span><span class="n">AddParameters</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">)</span>
 
-            <span class="n">stage_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">PipelineModule</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">PipelineFunction</span><span class="si">}</span><span class="s2"> @ </span><span class="si">{</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">_StageVolumeLabel</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">stage_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PipelineModule</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">PipelineFunction</span><span class="si">}</span><span class="s2"> @ </span><span class="si">{</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">_StageVolumeLabel</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">tele</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">_ElementTelemetryFields</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">)</span>
             <span class="n">publish_run_event</span><span class="p">(</span>
-                <span class="s2">&quot;stage_start&quot;</span><span class="p">,</span>
+                <span class="s2">"stage_start"</span><span class="p">,</span>
                 <span class="n">module</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">),</span>
                 <span class="n">function</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">),</span>
                 <span class="o">**</span><span class="n">tele</span><span class="p">)</span>
@@ -1222,36 +1244,36 @@
                 <span class="c1"># PipelineManager.AddAttributes(dargs, PipelineNode)</span>
 
                 <span class="c1"># Check for parameters under the function node and load them into the dictionary</span>
-                <span class="c1"># PipelineManager.AddParameters(dargs, PipelineNode, dargsKeyname=&#39;Parameters&#39;)</span>
+                <span class="c1"># PipelineManager.AddParameters(dargs, PipelineNode, dargsKeyname='Parameters')</span>
 
                 <span class="n">kwargs</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">KeyWordArgs</span><span class="p">()</span>
 
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;Logger&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span>
-                <span class="c1"># kwargs[&quot;CallElement&quot;] = PipelineNode</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;VolumeElement&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VolumeElem</span>
-                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;VolumeNode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"Logger"</span><span class="p">]</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span>
+                <span class="c1"># kwargs["CallElement"] = PipelineNode</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"VolumeElement"</span><span class="p">]</span> <span class="o">=</span> <span class="n">VolumeElem</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">"VolumeNode"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span>
 
                 <span class="c1"># Add an empty dictionary if no parameters set</span>
-                <span class="k">if</span> <span class="s1">&#39;Parameters&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-                    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;Parameters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">if</span> <span class="s1">'Parameters'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s1">'Parameters'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_StageTimer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_StageTimer</span><span class="o">.</span><span class="n">Start</span><span class="p">(</span><span class="n">stage_key</span><span class="p">)</span>
 
                 <span class="c1"># NodesToSave = None</span>
 
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Arguments</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Arguments</span><span class="p">[</span><span class="s2">"debug"</span><span class="p">]:</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="n">NodesToSave</span> <span class="o">=</span> <span class="n">stageFunc</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                        <span class="n">errorStr</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-                        <span class="n">errorStr</span> <span class="o">=</span> <span class="n">errorStr</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Exception</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="n">errorStr</span> <span class="o">=</span> <span class="n">errorStr</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                        <span class="n">errorStr</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="s1">'-'</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
+                        <span class="n">errorStr</span> <span class="o">=</span> <span class="n">errorStr</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span> <span class="o">+</span> <span class="s2">" Exception</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="n">errorStr</span> <span class="o">=</span> <span class="n">errorStr</span> <span class="o">+</span> <span class="s1">'-'</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
                         <span class="n">errorStr</span> <span class="o">+=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
-                        <span class="n">errorStr</span> <span class="o">=</span> <span class="n">errorStr</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                        <span class="n">errorStr</span> <span class="o">=</span> <span class="n">errorStr</span> <span class="o">+</span> <span class="s1">'-'</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span>
                         <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">errorStr</span><span class="p">)</span>
                         <span class="n">publish_run_event</span><span class="p">(</span>
-                            <span class="s2">&quot;stage_failed&quot;</span><span class="p">,</span>
+                            <span class="s2">"stage_failed"</span><span class="p">,</span>
                             <span class="n">module</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">),</span>
                             <span class="n">function</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">),</span>
                             <span class="o">**</span><span class="n">tele</span><span class="p">)</span>
@@ -1264,13 +1286,13 @@
                     <span class="c1"># In debug mode we do not want to catch any exceptions</span>
                     <span class="c1"># stage functions can return None,True, or False to indicate they did work.</span>
                     <span class="c1"># if they return false we do not need to run the expensive save operation</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">))</span>
 
                     <span class="n">NodesToSave</span> <span class="o">=</span> <span class="n">stageFunc</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
                 <span class="n">PipelineManager</span><span class="o">.</span><span class="n">_SaveNodes</span><span class="p">(</span><span class="n">NodesToSave</span><span class="p">)</span>
                 <span class="n">publish_run_event</span><span class="p">(</span>
-                    <span class="s2">&quot;stage_end&quot;</span><span class="p">,</span>
+                    <span class="s2">"stage_end"</span><span class="p">,</span>
                     <span class="n">module</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineModule</span><span class="p">),</span>
                     <span class="n">function</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">),</span>
                     <span class="o">**</span><span class="n">tele</span><span class="p">)</span>
@@ -1283,9 +1305,9 @@
 
             <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">stage_started</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">nested_stage</span><span class="p">:</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">&#39;Stage&#39;</span><span class="p">,</span> <span class="n">stage_label</span> <span class="o">+</span> <span class="s2">&quot; completed&quot;</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">'Stage'</span><span class="p">,</span> <span class="n">stage_label</span> <span class="o">+</span> <span class="s2">" completed"</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">elapsed</span> <span class="o">&gt;=</span> <span class="n">_NESTED_STAGE_STATUS_MIN_SEC</span><span class="p">:</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">&#39;Stage&#39;</span><span class="p">,</span> <span class="n">stage_label</span> <span class="o">+</span> <span class="s2">&quot; completed&quot;</span><span class="p">)</span></div>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">'Stage'</span><span class="p">,</span> <span class="n">stage_label</span> <span class="o">+</span> <span class="s2">" completed"</span><span class="p">)</span></div>
 
 
     <span class="c1">#           PipelineManager.RemoveParameters(dargs, PipelineNode)</span>
@@ -1295,49 +1317,49 @@
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.AddPipelineNodeVariable">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">AddPipelineNodeVariable</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">ArgSet</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a variable to our dictionary passed to functions&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;VariableName&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;VariableName&#39;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""Adds a variable to our dictionary passed to functions"""</span>
+        <span class="k">if</span> <span class="s1">'VariableName'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'VariableName'</span><span class="p">]</span>
 
             <span class="c1"># if key in ArgSet.Variables:</span>
-            <span class="c1"># raise PipelineError(PipelineNode=PipelineNode, VolumeElem=VolumeElem, message=str(key) + &quot; is a duplicate variable name&quot;)</span>
+            <span class="c1"># raise PipelineError(PipelineNode=PipelineNode, VolumeElem=VolumeElem, message=str(key) + " is a duplicate variable name")</span>
 
             <span class="n">ArgSet</span><span class="o">.</span><span class="n">AddVariable</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">_should_log_pipeline_progress</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">):</span>
                 <span class="n">outStr</span> <span class="o">=</span> <span class="n">VolumeElem</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span>
-                <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;VariableName&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="n">outStr</span><span class="p">)</span>
+                <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'VariableName'</span><span class="p">]</span> <span class="o">+</span> <span class="s2">" = "</span> <span class="o">+</span> <span class="n">outStr</span><span class="p">)</span>
 
-        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Select&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;VariableName attribute required on Select Element&quot;</span><span class="p">)</span></div>
+        <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">"Select"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"VariableName attribute required on Select Element"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PipelineManager.RemovePipelineNodeVariable">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.PipelineManager.RemovePipelineNodeVariable">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">RemovePipelineNodeVariable</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="n">PipelineNode</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a variable to our dictionary passed to functions&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;VariableName&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="k">del</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Variables</span><span class="p">[</span><span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;VariableName&#39;</span><span class="p">]]</span></div>
+<span class="w">        </span><span class="sd">"""Adds a variable to our dictionary passed to functions"""</span>
+        <span class="k">if</span> <span class="s1">'VariableName'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">Variables</span><span class="p">[</span><span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'VariableName'</span><span class="p">]]</span></div>
 </div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_GetVariableName</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;VariableName&#39;</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;VariableName&#39;</span><span class="p">]</span>
-        <span class="c1"># self.Variables[PipelineNode.attrib[&#39;VariableName&#39;]] = VolumeElem</span>
+    <span class="k">if</span> <span class="s1">'VariableName'</span> <span class="ow">in</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'VariableName'</span><span class="p">]</span>
+        <span class="c1"># self.Variables[PipelineNode.attrib['VariableName']] = VolumeElem</span>
 
         <span class="c1"># outStr = VolumeElem.ToElementString()</span>
-        <span class="c1"># if(self.Parameters[&#39;verbose&#39;]):</span>
-        <span class="c1"># prettyoutput.Log(PipelineNode.attrib[&#39;VariableName&#39;] + &quot; = &quot; + outStr)</span>
-        <span class="c1"># PipelineManager.logger.info(PipelineNode.attrib[&#39;VariableName&#39;] + &quot; = &quot; + outStr)</span>
-    <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Select&quot;</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Variable name attribute required on Select Element&quot;</span><span class="p">)</span>
+        <span class="c1"># if(self.Parameters['verbose']):</span>
+        <span class="c1"># prettyoutput.Log(PipelineNode.attrib['VariableName'] + " = " + outStr)</span>
+        <span class="c1"># PipelineManager.logger.info(PipelineNode.attrib['VariableName'] + " = " + outStr)</span>
+    <span class="k">elif</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s2">"Select"</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PipelineError</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"Variable name attribute required on Select Element"</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">XmlFilename</span> <span class="o">=</span> <span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">Buildscript</span><span class="se">\\</span><span class="s1">Pipelines.xml&#39;</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">XmlFilename</span> <span class="o">=</span> <span class="s1">'D:</span><span class="se">\\</span><span class="s1">Buildscript</span><span class="se">\\</span><span class="s1">Pipelines.xml'</span>
     <span class="n">PipelineManager</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">XmlFilename</span><span class="p">)</span>
 </pre></div>
 

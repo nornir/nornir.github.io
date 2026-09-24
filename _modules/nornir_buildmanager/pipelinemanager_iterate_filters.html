@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -74,7 +96,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_buildmanager.pipelinemanager_iterate_filters</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Require*-aware iterate candidate resolution for PipelineManager.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Require*-aware iterate candidate resolution for PipelineManager."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -99,21 +121,21 @@
 <span class="n">POINT_LOOKUP_MAX</span> <span class="o">=</span> <span class="mi">32</span>
 <span class="n">OR_PREDICATE_MAX</span> <span class="o">=</span> <span class="mi">8</span>
 
-<span class="n">_STOS_TRANSFORM_XPATH</span> <span class="o">=</span> <span class="s1">&#39;Block/StosGroup/SectionMappings/Transform&#39;</span>
+<span class="n">_STOS_TRANSFORM_XPATH</span> <span class="o">=</span> <span class="s1">'Block/StosGroup/SectionMappings/Transform'</span>
 <span class="n">_DIRECT_XPATH_BASES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
-    <span class="s1">&#39;Block/Section&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Section&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Channel&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Filter&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Block&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Transform&#39;</span><span class="p">,</span>
+    <span class="s1">'Block/Section'</span><span class="p">,</span>
+    <span class="s1">'Section'</span><span class="p">,</span>
+    <span class="s1">'Channel'</span><span class="p">,</span>
+    <span class="s1">'Filter'</span><span class="p">,</span>
+    <span class="s1">'Block'</span><span class="p">,</span>
+    <span class="s1">'Transform'</span><span class="p">,</span>
     <span class="n">_STOS_TRANSFORM_XPATH</span><span class="p">,</span>
 <span class="p">})</span>
-<span class="n">_REGEX_METACHARACTERS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="s1">&#39;.^$*+?</span><span class="si">{}</span><span class="s1">[]</span><span class="se">\\</span><span class="s1">|()&#39;</span><span class="p">)</span>
+<span class="n">_REGEX_METACHARACTERS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="s1">'.^$*+?</span><span class="si">{}</span><span class="s1">[]</span><span class="se">\\</span><span class="s1">|()'</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MatchPatternKind</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Classification of a RequireMatch RegEx value.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Classification of a RequireMatch RegEx value."""</span>
 
     <span class="n">WILDCARD</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">auto</span><span class="p">()</span>
     <span class="n">LITERAL</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">auto</span><span class="p">()</span>
@@ -122,17 +144,17 @@
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MatchPattern</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compiled RequireMatch pattern.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Compiled RequireMatch pattern."""</span>
 
     <span class="n">kind</span><span class="p">:</span> <span class="n">MatchPatternKind</span>
     <span class="n">literal</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">regex</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">original</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">original</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span>
 
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SetMembershipFilter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;RequireSetMembership filter on the iterated element.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""RequireSetMembership filter on the iterated element."""</span>
 
     <span class="n">pipeline_node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span>
     <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span>
@@ -143,7 +165,7 @@
 
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">RequireMatchFilter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;RequireMatch filter on the iterated element.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""RequireMatch filter on the iterated element."""</span>
 
     <span class="n">pipeline_node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span>
     <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span>
@@ -155,20 +177,20 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">use_legacy_iterate_fetch</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when optimized iterate fetching is disabled.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NORNIR_ITERATE_LEGACY_FETCH&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Return True when optimized iterate fetching is disabled."""</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_ITERATE_LEGACY_FETCH'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'true'</span><span class="p">,</span> <span class="s1">'yes'</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">normalize_xpath_base</span><span class="p">(</span><span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the element path without predicate suffix.&quot;&quot;&quot;</span>
-    <span class="n">xp</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s1">&#39;[&#39;</span> <span class="ow">in</span> <span class="n">xp</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Return the element path without predicate suffix."""</span>
+    <span class="n">xp</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">'['</span> <span class="ow">in</span> <span class="n">xp</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xp</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'['</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">xp</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_direct_iterate_xpath</span><span class="p">(</span><span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when xpath is a v1 direct iterate path.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return True when xpath is a v1 direct iterate path."""</span>
     <span class="k">return</span> <span class="n">normalize_xpath_base</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_DIRECT_XPATH_BASES</span>
 
 
@@ -177,11 +199,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compile_match_pattern</span><span class="p">(</span><span class="n">regex_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatchPattern</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Classify and compile a RequireMatch RegEx string.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">regex_str</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Classify and compile a RequireMatch RegEx string."""</span>
+    <span class="k">if</span> <span class="n">regex_str</span> <span class="o">==</span> <span class="s1">'*'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">MatchPattern</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">MatchPatternKind</span><span class="o">.</span><span class="n">WILDCARD</span><span class="p">,</span> <span class="n">original</span><span class="o">=</span><span class="n">regex_str</span><span class="p">)</span>
 
-    <span class="n">anchored</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\^(.+)\$$&#39;</span><span class="p">,</span> <span class="n">regex_str</span><span class="p">)</span>
+    <span class="n">anchored</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\^(.+)\$$'</span><span class="p">,</span> <span class="n">regex_str</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">anchored</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">inner</span> <span class="o">=</span> <span class="n">anchored</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_has_regex_metacharacters</span><span class="p">(</span><span class="n">inner</span><span class="p">):</span>
@@ -232,7 +254,7 @@
         <span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">allowed</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when membership filter passes or is unrestricted.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return True when membership filter passes or is unrestricted."""</span>
     <span class="k">if</span> <span class="n">allowed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="n">attribute_value</span> <span class="o">=</span> <span class="n">_get_element_attribute</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span>
@@ -245,7 +267,7 @@
         <span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">pattern</span><span class="p">:</span> <span class="n">MatchPattern</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when RequireMatch filter passes.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return True when RequireMatch filter passes."""</span>
     <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">kind</span> <span class="ow">is</span> <span class="n">MatchPatternKind</span><span class="o">.</span><span class="n">WILDCARD</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
 
@@ -267,7 +289,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">element_passes_iterate_filters</span><span class="p">(</span>
         <span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">filters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IterateFilter</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True when the element satisfies all iterate filters.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return True when the element satisfies all iterate filters."""</span>
     <span class="k">for</span> <span class="n">iterate_filter</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iterate_filter</span><span class="p">,</span> <span class="n">SetMembershipFilter</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">element_passes_set_membership</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">iterate_filter</span><span class="o">.</span><span class="n">attribute</span><span class="p">,</span> <span class="n">iterate_filter</span><span class="o">.</span><span class="n">allowed</span><span class="p">):</span>
@@ -283,18 +305,18 @@
         <span class="n">arg_set</span><span class="p">:</span> <span class="n">ArgumentSet</span><span class="p">,</span>
         <span class="n">volume_elem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">get_search_root</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">IterateFilter</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse direct Require* children under an Iterate node.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parse direct Require* children under an Iterate node."""</span>
     <span class="k">del</span> <span class="n">volume_elem</span><span class="p">,</span> <span class="n">get_search_root</span>
     <span class="n">filters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IterateFilter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">iterate_node</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Require&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'Require'</span><span class="p">):</span>
             <span class="k">continue</span>
 
-        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;RequireSetMembership&#39;</span><span class="p">:</span>
-            <span class="n">attribute</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Attribute&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'RequireSetMembership'</span><span class="p">:</span>
+            <span class="n">attribute</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Attribute'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">)</span>
             <span class="n">attribute</span> <span class="o">=</span> <span class="n">arg_set</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
-            <span class="n">list_variable</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;List&#39;</span><span class="p">)</span>
+            <span class="n">list_variable</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'List'</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">list_variable</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
 
@@ -309,10 +331,10 @@
                 <span class="n">allowed</span><span class="o">=</span><span class="n">allowed</span><span class="p">,</span>
                 <span class="n">list_resolved</span><span class="o">=</span><span class="n">found</span><span class="p">,</span>
             <span class="p">))</span>
-        <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;RequireMatch&#39;</span><span class="p">:</span>
-            <span class="n">attribute</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Attribute&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">'RequireMatch'</span><span class="p">:</span>
+            <span class="n">attribute</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Attribute'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">)</span>
             <span class="n">attribute</span> <span class="o">=</span> <span class="n">arg_set</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
-            <span class="n">regex_ref</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RegEx&#39;</span><span class="p">)</span>
+            <span class="n">regex_ref</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'RegEx'</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">regex_ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">regex_str</span> <span class="o">=</span> <span class="n">arg_set</span><span class="o">.</span><span class="n">SubstituteStringVariables</span><span class="p">(</span><span class="n">regex_ref</span><span class="p">)</span>
@@ -332,7 +354,7 @@
         <span class="n">list_of_valid</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
         <span class="n">volume_elem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">pipeline_node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enforce RequireSetMembership, raising the same exceptions as the pipeline stage.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Enforce RequireSetMembership, raising the same exceptions as the pipeline stage."""</span>
     <span class="k">if</span> <span class="n">list_of_valid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span>
 
@@ -360,7 +382,7 @@
         <span class="n">regex_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">volume_elem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">pipeline_node</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enforce RequireMatch, raising the same exceptions as the pipeline stage.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Enforce RequireMatch, raising the same exceptions as the pipeline stage."""</span>
     <span class="n">pattern</span> <span class="o">=</span> <span class="n">compile_match_pattern</span><span class="p">(</span><span class="n">regex_str</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">kind</span> <span class="ow">is</span> <span class="n">MatchPatternKind</span><span class="o">.</span><span class="n">WILDCARD</span><span class="p">:</span>
         <span class="k">return</span>
@@ -408,7 +430,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root_for_search</span><span class="p">,</span> <span class="n">BlockNode</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">root_for_search</span>
 
-    <span class="n">block_node</span> <span class="o">=</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;Block&#39;</span><span class="p">)</span>
+    <span class="n">block_node</span> <span class="o">=</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'Block'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">block_node</span>
 
 
@@ -431,14 +453,14 @@
         <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">base_xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">filters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IterateFilter</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return candidate elements when a point-lookup strategy applies, else None.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return candidate elements when a point-lookup strategy applies, else None."""</span>
 
-    <span class="n">section_membership</span> <span class="o">=</span> <span class="n">_membership_filter_for_attribute</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="s1">&#39;Number&#39;</span><span class="p">)</span>
+    <span class="n">section_membership</span> <span class="o">=</span> <span class="n">_membership_filter_for_attribute</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="s1">'Number'</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">section_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">section_membership</span><span class="o">.</span><span class="n">list_resolved</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">section_membership</span><span class="o">.</span><span class="n">allowed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">section_membership</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="n">base_xpath</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Block/Section&#39;</span><span class="p">,</span> <span class="s1">&#39;Section&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">base_xpath</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'Block/Section'</span><span class="p">,</span> <span class="s1">'Section'</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">section_membership</span><span class="o">.</span><span class="n">allowed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
@@ -457,13 +479,13 @@
             <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">transform_membership</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ControlSectionNumber&#39;</span><span class="p">,</span> <span class="s1">&#39;MappedSectionNumber&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'ControlSectionNumber'</span><span class="p">,</span> <span class="s1">'MappedSectionNumber'</span><span class="p">):</span>
         <span class="n">transform_membership</span> <span class="o">=</span> <span class="n">_membership_filter_for_attribute</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">transform_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">membership_attribute</span> <span class="o">=</span> <span class="n">attribute</span>
             <span class="k">break</span>
 
-    <span class="k">if</span> <span class="n">transform_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">base_xpath</span> <span class="o">==</span> <span class="s1">&#39;Transform&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">transform_membership</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">base_xpath</span> <span class="o">==</span> <span class="s1">'Transform'</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">transform_membership</span><span class="o">.</span><span class="n">list_resolved</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">transform_membership</span><span class="o">.</span><span class="n">allowed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">transform_membership</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -477,16 +499,16 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">allowed_values</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">POINT_LOOKUP_MAX</span><span class="p">:</span>
             <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">allowed_values</span><span class="p">:</span>
-                <span class="n">element</span> <span class="o">=</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transform[@</span><span class="si">{</span><span class="n">membership_attribute</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;]&quot;</span><span class="p">)</span>
+                <span class="n">element</span> <span class="o">=</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Transform[@</span><span class="si">{</span><span class="n">membership_attribute</span><span class="si">}</span><span class="s2">='</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">']"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">element_passes_iterate_filters</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
                     <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">candidates</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">literal_child_lookup</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;Channel&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Channel&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Filter&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Filter&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;Block&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;Block&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">),</span>
+        <span class="s1">'Channel'</span><span class="p">:</span> <span class="p">(</span><span class="s1">'Channel'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">),</span>
+        <span class="s1">'Filter'</span><span class="p">:</span> <span class="p">(</span><span class="s1">'Filter'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">),</span>
+        <span class="s1">'Block'</span><span class="p">:</span> <span class="p">(</span><span class="s1">'Block'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">base_xpath</span> <span class="ow">in</span> <span class="n">literal_child_lookup</span><span class="p">:</span>
         <span class="n">element_name</span><span class="p">,</span> <span class="n">attribute_name</span> <span class="o">=</span> <span class="n">literal_child_lookup</span><span class="p">[</span><span class="n">base_xpath</span><span class="p">]</span>
@@ -502,7 +524,7 @@
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="n">base_xpath</span> <span class="o">==</span> <span class="n">_STOS_TRANSFORM_XPATH</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ControlSectionNumber&#39;</span><span class="p">,</span> <span class="s1">&#39;MappedSectionNumber&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'ControlSectionNumber'</span><span class="p">,</span> <span class="s1">'MappedSectionNumber'</span><span class="p">):</span>
             <span class="n">membership</span> <span class="o">=</span> <span class="n">_membership_filter_for_attribute</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">membership</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">membership</span><span class="o">.</span><span class="n">list_resolved</span> <span class="ow">or</span> <span class="n">membership</span><span class="o">.</span><span class="n">allowed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
@@ -511,7 +533,7 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">membership</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">POINT_LOOKUP_MAX</span><span class="p">:</span>
                 <span class="n">candidates</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">membership</span><span class="o">.</span><span class="n">allowed</span><span class="p">:</span>
-                    <span class="n">element</span> <span class="o">=</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transform[@</span><span class="si">{</span><span class="n">attribute</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;]&quot;</span><span class="p">)</span>
+                    <span class="n">element</span> <span class="o">=</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Transform[@</span><span class="si">{</span><span class="n">attribute</span><span class="si">}</span><span class="s2">='</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">']"</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">element_passes_iterate_filters</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
                         <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">candidates</span>
@@ -523,20 +545,20 @@
         <span class="n">root_for_search</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">base_xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">filters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">IterateFilter</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">section_membership</span> <span class="o">=</span> <span class="n">_membership_filter_for_attribute</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="s1">&#39;Number&#39;</span><span class="p">)</span>
+    <span class="n">section_membership</span> <span class="o">=</span> <span class="n">_membership_filter_for_attribute</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="s1">'Number'</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">section_membership</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">section_membership</span><span class="o">.</span><span class="n">list_resolved</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">section_membership</span><span class="o">.</span><span class="n">allowed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">section_membership</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">POINT_LOOKUP_MAX</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">base_xpath</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Block/Section&#39;</span><span class="p">,</span> <span class="s1">&#39;Section&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">base_xpath</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'Block/Section'</span><span class="p">,</span> <span class="s1">'Section'</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="n">base_xpath</span> <span class="o">==</span> <span class="s1">&#39;Block/Section&#39;</span><span class="p">:</span>
-        <span class="n">section_xpath</span> <span class="o">=</span> <span class="s1">&#39;Block/Section&#39;</span>
+    <span class="k">if</span> <span class="n">base_xpath</span> <span class="o">==</span> <span class="s1">'Block/Section'</span><span class="p">:</span>
+        <span class="n">section_xpath</span> <span class="o">=</span> <span class="s1">'Block/Section'</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">section_xpath</span> <span class="o">=</span> <span class="s1">&#39;Section&#39;</span>
+        <span class="n">section_xpath</span> <span class="o">=</span> <span class="s1">'Section'</span>
 
     <span class="k">return</span> <span class="n">_findall_filtered</span><span class="p">(</span><span class="n">root_for_search</span><span class="p">,</span> <span class="n">section_xpath</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
 
@@ -546,14 +568,14 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">sort_iterate_candidates</span><span class="p">(</span>
         <span class="n">candidates</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">],</span>
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return *candidates* ordered by *attribute*, numeric when the value is an int.</span>
+<span class="w">    </span><span class="sd">"""Return *candidates* ordered by *attribute*, numeric when the value is an int.</span>
 
 <span class="sd">    ExportAnnotationCrops uses this so a block stored high-Z first (RPC2) is</span>
 <span class="sd">    visited in ascending section number, matching a block stored low-Z first.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">sort_key</span><span class="p">(</span><span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]:</span>
-        <span class="n">raw</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">raw</span><span class="p">))</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
@@ -572,7 +594,7 @@
         <span class="n">arg_set</span><span class="p">:</span> <span class="n">ArgumentSet</span><span class="p">,</span>
         <span class="n">volume_elem</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">get_search_root</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield iterate candidates using Require*-aware fetch when possible.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Yield iterate candidates using Require*-aware fetch when possible."""</span>
     <span class="k">if</span> <span class="n">use_legacy_iterate_fetch</span><span class="p">():</span>
         <span class="k">yield from</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span>
         <span class="k">return</span>
@@ -610,7 +632,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">legacy_iterate_candidates</span><span class="p">(</span>
         <span class="n">root_for_search</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span>
         <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield candidates using the legacy unconditional findall path.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Yield candidates using the legacy unconditional findall path."""</span>
     <span class="k">yield from</span> <span class="n">root_for_search</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span>
 </pre></div>
 

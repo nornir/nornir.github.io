@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Grid690 Python Refine-Grid Parity — Change Log" href="refine-grid690-python-parity-changelog.html" />
+    <link rel="prev" title="Markdown in the monodoc" href="development/markdown_in_sphinx.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,14 +42,57 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines.html">Pipeline catalogue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="development/index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="development/release.html">Release process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/publishing_documentation.html">Publishing the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/github_pages.html">GitHub Pages hosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/logging.html">Logging convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/pyre_development.html">Pyre development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_notes.html">Developer notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ir-refine-grid C++ → Python Parity Checklist</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cli-and-initialization-legacycode-code-ir-tools-ir-refine-grid-cxx">1. CLI and initialization (<code class="docutils literal notranslate"><span class="pre">/legacycode/code/ir-tools/ir-refine-grid.cxx</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pass-structure-refine-mosaic-mt-mosaic-refinement-common-hxx-l14401803">2. Pass structure (<code class="docutils literal notranslate"><span class="pre">refine_mosaic_mt</span></code>, mosaic_refinement_common.hxx L1440–1803)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#measurement-loop-calc-displacements-mosaic-refinement-common-hxx-l224395">3. Measurement loop (<code class="docutils literal notranslate"><span class="pre">calc_displacements</span></code>, mosaic_refinement_common.hxx L224–395)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fft-cell-preprocessing-grid-common-hxx-fft-common-cxx">4. FFT cell preprocessing (<code class="docutils literal notranslate"><span class="pre">grid_common.hxx</span></code> / <code class="docutils literal notranslate"><span class="pre">fft_common.cxx</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#regularization-regularize-displacements-mosaic-refinement-common-cxx-l36171">5. Regularization (<code class="docutils literal notranslate"><span class="pre">regularize_displacements</span></code>, mosaic_refinement_common.cxx L36–171)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removed-retired-python-behaviors-mosaic-refine-path">6. Removed/retired Python behaviors (mosaic refine path)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#coordinate-unit-conventions">7. Coordinate/unit conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="refine-grid690-python-parity-changelog.html">Grid690 Python Refine-Grid Parity — Change Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir-blob-cpp-parity-checklist.html">ir-blob C++ → Python parity checklist</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -64,6 +109,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="development/index.html">Development</a></li>
       <li class="breadcrumb-item active">ir-refine-grid C++ → Python Parity Checklist</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/refine-grid-cpp-parity-checklist.md.txt" rel="nofollow"> View page source</a>
@@ -369,7 +415,10 @@ resamples; tiles are already on the output lattice after pass 0 (2.8).</p></li>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="development/markdown_in_sphinx.html" class="btn btn-neutral float-left" title="Markdown in the monodoc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="refine-grid690-python-parity-changelog.html" class="btn btn-neutral float-right" title="Grid690 Python Refine-Grid Parity — Change Log" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -56,8 +56,9 @@ MQTT. ``start-nornir-build.ps1`` loads
    * - Variable
      - Expected value
    * - ``NORNIR_DOCKER_USER_ROOT``
-     - Machine-local Docker root for Builds / Run / mounted-configs. Default
-       ``C:\Docker`` (often ``D:\Docker``). Set as a user or system env var.
+     - Machine-local Docker root for Builds / Run / mounted-configs. The default
+       is ``C:\Docker``; many lab machines set it to ``D:\Docker``. Examples on
+       each page say which path they assume. Set as a user or system env var.
    * - ``NORNIR_GHCR_OWNER``
      - GHCR namespace for pull/push (``docker-pull.ps1``, initialize). Default
        ``jamesra``. Example: ``nornir`` for org packages.

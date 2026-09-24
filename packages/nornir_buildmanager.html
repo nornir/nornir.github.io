@@ -42,16 +42,37 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Packages</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="nornir_shared.html">nornir-shared</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html">nornir-pools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_imageregistration.html">nornir-imageregistration</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">nornir-buildmanager</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#volumedata-dirty-save-ownership">VolumeData dirty / save ownership</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#common-workflow">Common workflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#vikingxml-version-2">VikingXML Version 2</a></li>
 </ul>
 </li>
@@ -63,10 +84,10 @@
 <li class="toctree-l2"><a class="reference internal" href="other_packages.html">Other repositories in the umbrella</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -105,6 +126,7 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="../api/nornir_buildmanager.html"><span class="doc">nornir_buildmanager</span></a></p></li>
 </ul>
+<p>The command sequence from import through VikingXML is <a class="reference internal" href="../guides/build_volume.html"><span class="doc">Build a volume</span></a>. A grouped list of pipeline names is <a class="reference internal" href="../pipelines.html"><span class="doc">Pipeline catalogue</span></a>.</p>
 <section id="volumedata-dirty-save-ownership">
 <h2>VolumeData dirty / save ownership<a class="headerlink" href="#volumedata-dirty-save-ownership" title="Link to this heading"></a></h2>
 <p>Pipeline stages and volumemanager getters follow this contract:</p>
@@ -121,15 +143,6 @@ and skips <code class="docutils literal notranslate"><span class="pre">None</spa
 </ul>
 <p>See the package <code class="docutils literal notranslate"><span class="pre">README.md</span></code> table of <code class="docutils literal notranslate"><span class="pre">VolumeData.xml</span></code> locations and
 <code class="docutils literal notranslate"><span class="pre">tests/test_import_volumedata_save.py</span></code>.</p>
-</section>
-<section id="common-workflow">
-<h2>Common workflow<a class="headerlink" href="#common-workflow" title="Link to this heading"></a></h2>
-<ol class="arabic simple">
-<li><p>Import data (for example <code class="docutils literal notranslate"><span class="pre">ImportIDoc</span></code>, <code class="docutils literal notranslate"><span class="pre">ImportDM4</span></code>, or <code class="docutils literal notranslate"><span class="pre">ImportPMG</span></code>).</p></li>
-<li><p>Clean input tiles with <code class="docutils literal notranslate"><span class="pre">Prune</span></code> and produce image histograms.</p></li>
-<li><p>Register sections with <code class="docutils literal notranslate"><span class="pre">Mosaic</span></code> and downstream alignment pipelines.</p></li>
-<li><p>Export manifests with <code class="docutils literal notranslate"><span class="pre">CreateVikingXML</span></code> when ready for consumption.</p></li>
-</ol>
 </section>
 <section id="vikingxml-version-2">
 <h2>VikingXML Version 2<a class="headerlink" href="#vikingxml-version-2" title="Link to this heading"></a></h2>
@@ -150,13 +163,13 @@ and fall back to each child’s <code class="docutils literal notranslate"><span
 archive (same pattern as the older volume-level <code class="docutils literal notranslate"><span class="pre">StosZip</span></code> attribute).</p></li>
 </ul>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Volume</span> <span class="n">Version</span><span class="o">=</span><span class="s2">&quot;2&quot;</span> <span class="n">Name</span><span class="o">=</span><span class="s2">&quot;...&quot;</span> <span class="n">num_stos</span><span class="o">=</span><span class="s2">&quot;N&quot;</span> <span class="n">num_sections</span><span class="o">=</span><span class="s2">&quot;M&quot;</span> <span class="n">InputChecksum</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="o">&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Volume</span> <span class="n">Version</span><span class="o">=</span><span class="s2">"2"</span> <span class="n">Name</span><span class="o">=</span><span class="s2">"..."</span> <span class="n">num_stos</span><span class="o">=</span><span class="s2">"N"</span> <span class="n">num_sections</span><span class="o">=</span><span class="s2">"M"</span> <span class="n">InputChecksum</span><span class="o">=</span><span class="s2">"..."</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="n">Sections</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">Section</span> <span class="n">Number</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">Path</span><span class="o">=</span><span class="s2">&quot;...&quot;</span> <span class="n">Name</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="o">&gt;...&lt;/</span><span class="n">Section</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">Section</span> <span class="n">Number</span><span class="o">=</span><span class="s2">"1"</span> <span class="n">Path</span><span class="o">=</span><span class="s2">"..."</span> <span class="n">Name</span><span class="o">=</span><span class="s2">"..."</span><span class="o">&gt;...&lt;/</span><span class="n">Section</span><span class="o">&gt;</span>
   <span class="o">&lt;/</span><span class="n">Sections</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="n">StosGroup</span> <span class="n">Name</span><span class="o">=</span><span class="s2">&quot;SliceToVolume1&quot;</span> <span class="nb">zip</span><span class="o">=</span><span class="s2">&quot;TEM/SliceToVolume1.zip&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">stos</span> <span class="n">controlSection</span><span class="o">=</span><span class="s2">&quot;645&quot;</span> <span class="n">mappedSection</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;1-645.stos&quot;</span>
-          <span class="n">pixelspacing</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;Grid&quot;</span><span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="n">StosGroup</span> <span class="n">Name</span><span class="o">=</span><span class="s2">"SliceToVolume1"</span> <span class="nb">zip</span><span class="o">=</span><span class="s2">"TEM/SliceToVolume1.zip"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">stos</span> <span class="n">controlSection</span><span class="o">=</span><span class="s2">"645"</span> <span class="n">mappedSection</span><span class="o">=</span><span class="s2">"1"</span> <span class="n">path</span><span class="o">=</span><span class="s2">"1-645.stos"</span>
+          <span class="n">pixelspacing</span><span class="o">=</span><span class="s2">"1"</span> <span class="nb">type</span><span class="o">=</span><span class="s2">"Grid"</span><span class="o">/&gt;</span>
   <span class="o">&lt;/</span><span class="n">StosGroup</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">Volume</span><span class="o">&gt;</span>
 </pre></div>

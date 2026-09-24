@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -74,7 +96,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nornir_buildmanager.build</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 
 <span class="sd">*Note*: Certain arguments support regular expressions.  See the python :py:mod:`re` module for instructions on how to construct appropriate regular expressions.</span>
 
@@ -83,7 +105,7 @@
 <span class="sd">   :func: BuildParserRoot</span>
 <span class="sd">   :prog: nornir_build volumepath</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -108,12 +130,12 @@
 <span class="c1"># hung with no output. The same files passed individually because nothing had pulled the</span>
 <span class="c1"># GUI backend in.</span>
 <span class="k">if</span> <span class="n">is_headless</span><span class="p">():</span>
-    <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
-<span class="k">elif</span> <span class="s1">&#39;DEBUG&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">)</span>
+<span class="k">elif</span> <span class="s1">'DEBUG'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;QtAgg&#39;</span><span class="p">)</span>
+        <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'QtAgg'</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>  <span class="c1"># Fallback to non-interactive backend</span>
+        <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">)</span>  <span class="c1"># Fallback to non-interactive backend</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
@@ -131,135 +153,135 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_AddParserRootArguments</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add global flags shared by all build subcommands.&quot;&quot;&quot;</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-debug&#39;</span><span class="p">,</span>
-                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="sd">"""Add global flags shared by all build subcommands."""</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-debug'</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                         <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If true any exceptions raised by pipelines are not handled.&#39;</span><span class="p">,</span>
-                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;debug&#39;</span><span class="p">)</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'If true any exceptions raised by pipelines are not handled.'</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">'debug'</span><span class="p">)</span>
 
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-lowpriority&#39;</span><span class="p">,</span> <span class="s1">&#39;-lp&#39;</span><span class="p">,</span>
-                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-lowpriority'</span><span class="p">,</span> <span class="s1">'-lp'</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                         <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Run the build with lower priority.  The machine may be more responsive at the expense of much slower builds. 3x-5x slower in tests.&#39;</span><span class="p">,</span>
-                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;lowpriority&#39;</span><span class="p">)</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Run the build with lower priority.  The machine may be more responsive at the expense of much slower builds. 3x-5x slower in tests.'</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">'lowpriority'</span><span class="p">)</span>
 
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-verbose&#39;</span><span class="p">,</span>
-                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-verbose'</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                         <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Log per-iterate pipeline progress (Iterate/Mapping dumps). &#39;</span>
-                             <span class="s1">&#39;Same as NORNIR_LOG_PIPELINE_PROGRESS=1. Independent of -debug.&#39;</span><span class="p">,</span>
-                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;verbose&#39;</span><span class="p">)</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Log per-iterate pipeline progress (Iterate/Mapping dumps). '</span>
+                             <span class="s1">'Same as NORNIR_LOG_PIPELINE_PROGRESS=1. Independent of -debug.'</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">'verbose'</span><span class="p">)</span>
 
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-computational_library&#39;</span><span class="p">,</span>
-                        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cupy&#39;</span><span class="p">,</span> <span class="s1">&#39;numpy&#39;</span><span class="p">,</span> <span class="s1">&#39;detect&#39;</span><span class="p">],</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-computational_library'</span><span class="p">,</span>
+                        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">'cupy'</span><span class="p">,</span> <span class="s1">'numpy'</span><span class="p">,</span> <span class="s1">'detect'</span><span class="p">],</span>
                         <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">default</span><span class="o">=</span><span class="s1">&#39;detect&#39;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;If not specified, cupy will be used if a nVidia GPU is present.  Otherwise, force cupy (GPU) or numpy (CPU) use.&#39;</span><span class="p">,</span>
-                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;computational_library&#39;</span><span class="p">)</span>
+                        <span class="n">default</span><span class="o">=</span><span class="s1">'detect'</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'If not specified, cupy will be used if a nVidia GPU is present.  Otherwise, force cupy (GPU) or numpy (CPU) use.'</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">'computational_library'</span><span class="p">)</span>
 
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-no-delete&#39;</span><span class="p">,</span>
-                        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-no-delete'</span><span class="p">,</span>
+                        <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                         <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Skip all destructive Clean() and file removals; log what would have been deleted instead.  Stages still run and missing outputs are still created.&#39;</span><span class="p">,</span>
-                        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;no_delete&#39;</span><span class="p">)</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">'Skip all destructive Clean() and file removals; log what would have been deleted instead.  Stages still run and missing outputs are still created.'</span><span class="p">,</span>
+                        <span class="n">dest</span><span class="o">=</span><span class="s1">'no_delete'</span><span class="p">)</span>
 
 
-<span class="c1">#     parser.add_argument(&#39;-recover&#39;,</span>
-<span class="c1">#                         action=&#39;store_true&#39;,</span>
+<span class="c1">#     parser.add_argument('-recover',</span>
+<span class="c1">#                         action='store_true',</span>
 <span class="c1">#                         required=False,</span>
 <span class="c1">#                         default=False,</span>
-<span class="c1">#                         help=&#39;Used to recover missing meta-data.  This searches child directories for VolumeData.xml files and re-links them to the parent element in volume path.  This command does not recurse and does not need to be run on the top-level volume directory.&#39;,</span>
-<span class="c1">#                         dest=&#39;verbose&#39;)</span>
+<span class="c1">#                         help='Used to recover missing meta-data.  This searches child directories for VolumeData.xml files and re-links them to the parent element in volume path.  This command does not recurse and does not need to be run on the top-level volume directory.',</span>
+<span class="c1">#                         dest='verbose')</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_AddRecoverNotesParser</span><span class="p">(</span><span class="n">root_parser</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">,</span> <span class="n">subparsers</span><span class="p">):</span>
-    <span class="n">recover_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;RecoverNotes&#39;</span><span class="p">,</span>
-                                           <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Recover or update notes from *.txt files. With ImportDir, scan an IDoc-style raw-data tree and copy changed notes into matching volume sections.&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">recover_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">'RecoverNotes'</span><span class="p">,</span>
+                                           <span class="n">help</span><span class="o">=</span><span class="s1">'Recover or update notes from *.txt files. With ImportDir, scan an IDoc-style raw-data tree and copy changed notes into matching volume sections.'</span><span class="p">,</span> <span class="p">)</span>
     <span class="n">recover_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">call_recover_import_meta_data</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">root_parser</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;volumepath&#39;</span><span class="p">,</span>
-                                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'volumepath'</span><span class="p">,</span>
+                                <span class="n">action</span><span class="o">=</span><span class="s1">'store'</span><span class="p">,</span>
                                 <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The path to the volume&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'The path to the volume'</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;ImportDir&#39;</span><span class="p">,</span>
-                                <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'ImportDir'</span><span class="p">,</span>
+                                <span class="n">nargs</span><span class="o">=</span><span class="s1">'?'</span><span class="p">,</span>
                                 <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Optional raw-data directory in IDoc import layout. When provided, notes.txt files from section folders are copied into matching volume sections.&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'Optional raw-data directory in IDoc import layout. When provided, notes.txt files from section folders are copied into matching volume sections.'</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-save&#39;</span><span class="p">,</span>
-                                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-save'</span><span class="p">,</span>
+                                <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                                 <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                 <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Set this flag to save the VolumeData.xml files with the located linked elements included.&#39;</span><span class="p">,</span>
-                                <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;save_restoration&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'Set this flag to save the VolumeData.xml files with the located linked elements included.'</span><span class="p">,</span>
+                                <span class="n">dest</span><span class="o">=</span><span class="s1">'save_restoration'</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_AddRecoverParser</span><span class="p">(</span><span class="n">root_parser</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">,</span> <span class="n">subparsers</span><span class="p">):</span>
-    <span class="n">recover_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;RecoverLinks&#39;</span><span class="p">,</span>
-                                           <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Used to recover missing meta-data.  This searches child directories for VolumeData.xml files and re-links them to the parent element in volume path.  This command does not recurse and does not need to be run on the top-level volume directory.&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">recover_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">'RecoverLinks'</span><span class="p">,</span>
+                                           <span class="n">help</span><span class="o">=</span><span class="s1">'Used to recover missing meta-data.  This searches child directories for VolumeData.xml files and re-links them to the parent element in volume path.  This command does not recurse and does not need to be run on the top-level volume directory.'</span><span class="p">,</span> <span class="p">)</span>
     <span class="n">recover_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">call_recover_links</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">root_parser</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;volumepath&#39;</span><span class="p">,</span>
-                                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'volumepath'</span><span class="p">,</span>
+                                <span class="n">action</span><span class="o">=</span><span class="s1">'store'</span><span class="p">,</span>
                                 <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The path to the volume&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'The path to the volume'</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-recurse&#39;</span><span class="p">,</span>
-                                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-recurse'</span><span class="p">,</span>
+                                <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                                 <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                 <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Set this flag to include sub-directories&#39;</span><span class="p">,</span>
-                                <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;recurse&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'Set this flag to include sub-directories'</span><span class="p">,</span>
+                                <span class="n">dest</span><span class="o">=</span><span class="s1">'recurse'</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-save&#39;</span><span class="p">,</span>
-                                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-save'</span><span class="p">,</span>
+                                <span class="n">action</span><span class="o">=</span><span class="s1">'store_true'</span><span class="p">,</span>
                                 <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                                 <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Set this flag to save the VolumeData.xml files with the located linked elements included.&#39;</span><span class="p">,</span>
-                                <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;save_restoration&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'Set this flag to save the VolumeData.xml files with the located linked elements included.'</span><span class="p">,</span>
+                                <span class="n">dest</span><span class="o">=</span><span class="s1">'save_restoration'</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_AddXMLRepairParser</span><span class="p">(</span><span class="n">root_parser</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">,</span> <span class="n">subparsers</span><span class="p">):</span>
-    <span class="n">recover_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;RepairXML&#39;</span><span class="p">,</span>
-                                           <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Fixes an issue where XML files have extra characters after the closing tag.  Should only apply to data before Dec 2023&#39;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">recover_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">'RepairXML'</span><span class="p">,</span>
+                                           <span class="n">help</span><span class="o">=</span><span class="s1">'Fixes an issue where XML files have extra characters after the closing tag.  Should only apply to data before Dec 2023'</span><span class="p">,</span> <span class="p">)</span>
     <span class="n">recover_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">call_repair_xml</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">root_parser</span><span class="p">)</span>
 
-    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;volumepath&#39;</span><span class="p">,</span>
-                                <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
+    <span class="n">recover_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'volumepath'</span><span class="p">,</span>
+                                <span class="n">action</span><span class="o">=</span><span class="s1">'store'</span><span class="p">,</span>
                                 <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The path to the volume&#39;</span><span class="p">)</span>
+                                <span class="n">help</span><span class="o">=</span><span class="s1">'The path to the volume'</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_GetPipelineXMLPath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">__spec__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;Pipelines.xml&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">'config'</span><span class="p">,</span> <span class="s1">'Pipelines.xml'</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;Pipelines.xml&#39;</span><span class="p">))</span>  <span class="c1"># type: ignore[return-value]</span>
+        <span class="k">return</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'config'</span><span class="p">,</span> <span class="s1">'Pipelines.xml'</span><span class="p">))</span>  <span class="c1"># type: ignore[return-value]</span>
 
 
 <div class="viewcode-block" id="BuildParserRoot">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.BuildParserRoot">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BuildParserRoot</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
-    <span class="c1"># conflict_handler = &#39;resolve&#39; replaces old arguments with new if both use the same option flag</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="s1">&#39;Buildscript&#39;</span><span class="p">,</span> <span class="n">conflict_handler</span><span class="o">=</span><span class="s1">&#39;resolve&#39;</span><span class="p">,</span>
-                                     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Options available to all build commands. Specific pipelines extend this argument list.&#39;</span><span class="p">,</span>
-                                     <span class="n">epilog</span><span class="o">=</span><span class="s1">&#39;Examples:</span><span class="se">\n</span><span class="s1">&#39;</span>
-                                            <span class="s1">&#39;  nornir-build ImportIDoc /data/volume /data/idoc</span><span class="se">\n</span><span class="s1">&#39;</span>
-                                            <span class="s1">&#39;  nornir-build -debug -computational_library cupy Mosaic /data/volume -Sections 1-10</span><span class="se">\n</span><span class="s1">&#39;</span>
-                                            <span class="s1">&#39;  nornir-build help Mosaic&#39;</span><span class="p">)</span>
+    <span class="c1"># conflict_handler = 'resolve' replaces old arguments with new if both use the same option flag</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="s1">'Buildscript'</span><span class="p">,</span> <span class="n">conflict_handler</span><span class="o">=</span><span class="s1">'resolve'</span><span class="p">,</span>
+                                     <span class="n">description</span><span class="o">=</span><span class="s1">'Options available to all build commands. Specific pipelines extend this argument list.'</span><span class="p">,</span>
+                                     <span class="n">epilog</span><span class="o">=</span><span class="s1">'Examples:</span><span class="se">\n</span><span class="s1">'</span>
+                                            <span class="s1">'  nornir-build ImportIDoc /data/volume /data/idoc</span><span class="se">\n</span><span class="s1">'</span>
+                                            <span class="s1">'  nornir-build -debug -computational_library cupy Mosaic /data/volume -Sections 1-10</span><span class="se">\n</span><span class="s1">'</span>
+                                            <span class="s1">'  nornir-build help Mosaic'</span><span class="p">)</span>
     <span class="n">_AddParserRootArguments</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
 
     <span class="c1"># Create subparsers for commands</span>
-    <span class="n">pipeline_subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Commands&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;command&#39;</span><span class="p">)</span>
+    <span class="n">pipeline_subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">'Commands'</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">'command'</span><span class="p">)</span>
 
-    <span class="c1"># Add a special help command that doesn&#39;t require volumepath</span>
-    <span class="n">help_parser</span> <span class="o">=</span> <span class="n">pipeline_subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Show help for a specific command&#39;</span><span class="p">)</span>
-    <span class="n">help_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;command_name&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Name of the command to show help for&#39;</span><span class="p">)</span>
+    <span class="c1"># Add a special help command that doesn't require volumepath</span>
+    <span class="n">help_parser</span> <span class="o">=</span> <span class="n">pipeline_subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">'help'</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">'Show help for a specific command'</span><span class="p">)</span>
+    <span class="n">help_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'command_name'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">'?'</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">'Name of the command to show help for'</span><span class="p">)</span>
     <span class="n">help_parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">print_help</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">)</span>
 
     <span class="n">_AddRecoverParser</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">pipeline_subparsers</span><span class="p">)</span>
@@ -273,7 +295,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_AddPipelineParsers</span><span class="p">(</span><span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">):</span>
     <span class="n">PipelineXML</span> <span class="o">=</span> <span class="n">_GetPipelineXMLPath</span><span class="p">()</span>
-    <span class="c1"># Load the element tree once and pass it to the later functions so we aren&#39;t parsing the XML text in the loop</span>
+    <span class="c1"># Load the element tree once and pass it to the later functions so we aren't parsing the XML text in the loop</span>
     <span class="n">PipelineTree</span> <span class="o">=</span> <span class="n">pipelinemanager</span><span class="o">.</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">LoadPipelineXML</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">pipeline_name</span> <span class="ow">in</span> <span class="n">pipelinemanager</span><span class="o">.</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">ListPipelines</span><span class="p">(</span><span class="n">PipelineTree</span><span class="p">):</span>
@@ -282,10 +304,10 @@
         <span class="n">pipeline_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="n">pipeline_name</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">Help</span><span class="p">,</span> <span class="n">epilog</span><span class="o">=</span><span class="n">pipeline</span><span class="o">.</span><span class="n">Epilog</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
 
         <span class="c1"># Add volumepath as first positional argument</span>
-        <span class="n">pipeline_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;volumepath&#39;</span><span class="p">,</span>
-                                     <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store&#39;</span><span class="p">,</span>
+        <span class="n">pipeline_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'volumepath'</span><span class="p">,</span>
+                                     <span class="n">action</span><span class="o">=</span><span class="s1">'store'</span><span class="p">,</span>
                                      <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-                                     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The path to the volume&#39;</span><span class="p">)</span>
+                                     <span class="n">help</span><span class="o">=</span><span class="s1">'The path to the volume'</span><span class="p">)</span>
 
         <span class="n">pipeline</span><span class="o">.</span><span class="n">GetArgParser</span><span class="p">(</span><span class="n">pipeline_parser</span><span class="p">,</span> <span class="n">IncludeGlobals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
 
@@ -298,17 +320,17 @@
 <div class="viewcode-block" id="print_help">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.print_help">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">print_help</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;parser&#39;</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: Parser reference not found&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'parser'</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Error: Parser reference not found"</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;command_name&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">command_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'command_name'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">command_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
     <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">command_name</span> <span class="ow">in</span> <span class="n">CommandParserDict</span><span class="p">:</span>
         <span class="n">parser</span> <span class="o">=</span> <span class="n">CommandParserDict</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">command_name</span><span class="p">]</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown command: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">command_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown command: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">command_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">args</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span></div>
 
 
@@ -316,26 +338,26 @@
 <div class="viewcode-block" id="call_recover_links">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.call_recover_links">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">call_recover_links</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function checks for missing link elements in a volume and adds them back to the volume&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""This function checks for missing link elements in a volume and adds them back to the volume"""</span>
     <span class="n">volumeObj</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">VolumeManager</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">)</span>
     <span class="n">volumeObj</span><span class="o">.</span><span class="n">RepairMissingLinkElements</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">recurse</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">save_restoration</span><span class="p">:</span>
         <span class="n">volumeObj</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Recovered links saved (if found).&quot;</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Recovered links saved (if found)."</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Save flag not set, recovered links not saved.&quot;</span><span class="p">)</span></div>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Save flag not set, recovered links not saved."</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="call_repair_xml">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.call_repair_xml">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">call_repair_xml</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Repair malformed VolumeData XML files with trailing content.</span>
+<span class="w">    </span><span class="sd">"""Repair malformed VolumeData XML files with trailing content.</span>
 
 <span class="sd">    This migration-style repair targets older metadata where characters were written</span>
 <span class="sd">    after the closing XML tag (primarily pre-Dec 2023 data sets).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">volumeObj</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">VolumeManager</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">)</span>
     <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">migration</span><span class="o">.</span><span class="n">RepairCroppedXMLFilesInElement</span><span class="p">(</span><span class="n">volumeObj</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span></div>
 
@@ -344,13 +366,13 @@
 <div class="viewcode-block" id="call_recover_import_meta_data">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.call_recover_import_meta_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">call_recover_import_meta_data</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recover notes metadata from text files under the volume or an import directory.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Recover notes metadata from text files under the volume or an import directory."""</span>
     <span class="n">volumeObj</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">VolumeManager</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">volumeObj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Volume not found: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Volume not found: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="n">import_dir</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;ImportDir&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">import_dir</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'ImportDir'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">import_dir</span><span class="p">:</span>
         <span class="n">notesAdded</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">importers</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="n">RecoverNotesFromImportDir</span><span class="p">(</span><span class="n">volumeObj</span><span class="p">,</span> <span class="n">import_dir</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
         <span class="n">recurse</span> <span class="o">=</span> <span class="kc">True</span>
@@ -361,14 +383,14 @@
         <span class="n">scan_path</span> <span class="o">=</span> <span class="n">volumeObj</span><span class="o">.</span><span class="n">FullPath</span>  <span class="c1"># type: ignore[union-attr]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">notesAdded</span><span class="p">:</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No notes recovered from </span><span class="si">{</span><span class="n">scan_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No notes recovered from </span><span class="si">{</span><span class="n">scan_path</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">save_restoration</span><span class="p">:</span>
         <span class="n">volumeObj</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Recovered notes file saved.&quot;</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Recovered notes file saved."</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Save flag not set, recovered notes, but not saved.&quot;</span><span class="p">)</span></div>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Save flag not set, recovered notes, but not saved."</span><span class="p">)</span></div>
 
 
 
@@ -381,7 +403,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_run_pipeline_segment</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">volume_tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flush_at_boundary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run one pipeline segment, optionally reusing an in-memory volume tree.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run one pipeline segment, optionally reusing an in-memory volume tree."""</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">pipelinemanager</span><span class="o">.</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">RunPipeline</span><span class="p">(</span>
         <span class="n">PipelineXmlFile</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">PipelineXmlFile</span><span class="p">,</span>
         <span class="n">PipelineName</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">PipelineName</span><span class="p">,</span>
@@ -401,53 +423,53 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_pipeline_name_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return PipelineName or utility command name from parsed CLI args.&quot;&quot;&quot;</span>
-    <span class="n">pipeline</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;PipelineName&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Return PipelineName or utility command name from parsed CLI args."""</span>
+    <span class="n">pipeline</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'PipelineName'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pipeline</span><span class="p">:</span>
-        <span class="n">pipeline</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;command&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'command'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pipeline</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_chain_pipeline_display_name</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sidebar/meta title for a chain segment (``Name (k/n)`` when chained).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Sidebar/meta title for a chain segment (``Name (k/n)`` when chained)."""</span>
     <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">total</span><span class="si">}</span><span class="s2">)"</span>
     <span class="k">return</span> <span class="n">name</span>
 
 
 <span class="c1"># Pipelines whose -Output directory is the primary product root; include it in</span>
 <span class="c1"># the dashboard header so parallel ExportAnnotationCrops runs are distinguishable.</span>
 <span class="n">_OUTPUT_IN_HEADER_PIPELINES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span>
-    <span class="s2">&quot;ExportAnnotationCrops&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;RepairAnnotationOverlays&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ScoreAnnotationCrops&quot;</span><span class="p">,</span>
+    <span class="s2">"ExportAnnotationCrops"</span><span class="p">,</span>
+    <span class="s2">"RepairAnnotationOverlays"</span><span class="p">,</span>
+    <span class="s2">"ScoreAnnotationCrops"</span><span class="p">,</span>
 <span class="p">})</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_dashboard_volumepath</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="n">pipeline</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Volume path for MQTT/dashboard header, with -Output when it is the crop root.&quot;&quot;&quot;</span>
-    <span class="n">volumepath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;volumepath&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Volume path for MQTT/dashboard header, with -Output when it is the crop root."""</span>
+    <span class="n">volumepath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">"volumepath"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">volumepath</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">pipeline</span> <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_pipeline_name_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="c1"># Chain display names look like &quot;ExportAnnotationCrops (2/3)&quot;.</span>
-    <span class="n">base</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; (&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;OutputPath&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># Chain display names look like "ExportAnnotationCrops (2/3)".</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" ("</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">"OutputPath"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">_OUTPUT_IN_HEADER_PIPELINES</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">output</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">volumepath</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">volumepath</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">return</span> <span class="n">volumepath</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_publish_early_run_meta_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span>
                                       <span class="n">pipeline</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish retained dashboard meta as soon as CLI args are known.</span>
+<span class="w">    </span><span class="sd">"""Publish retained dashboard meta as soon as CLI args are known.</span>
 
 <span class="sd">    Uses ``PipelineName`` when present (pipeline commands); otherwise ``command``</span>
 <span class="sd">    (utilities such as RecoverLinks). Skips when volumepath is missing.</span>
 <span class="sd">    Optional *pipeline* overrides the displayed name (e.g. ``Prune (1/6)``).</span>
 <span class="sd">    For AnnotationCrops pipelines, ``volumepath`` includes ``-Output`` so the</span>
 <span class="sd">    dashboard header distinguishes parallel export targets.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">pipeline</span> <span class="o">=</span> <span class="n">_pipeline_name_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">pipeline</span><span class="p">:</span>
@@ -460,13 +482,13 @@
     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">publish_early_run_meta</span><span class="p">(</span>
         <span class="n">pipeline</span><span class="o">=</span><span class="n">pipeline</span><span class="p">,</span>
         <span class="n">volumepath</span><span class="o">=</span><span class="n">volumepath</span><span class="p">,</span>
-        <span class="n">compute</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NORNIR_COMPUTATIONAL_LIBRARY&#39;</span><span class="p">),</span>
+        <span class="n">compute</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY'</span><span class="p">),</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_publish_chain_segment_meta</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                                 <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish running meta for a later ``--then`` segment without resetting ``start_ts``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Publish running meta for a later ``--then`` segment without resetting ``start_ts``."""</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">_pipeline_name_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
         <span class="k">return</span>
@@ -479,17 +501,17 @@
     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">publish_run_meta</span><span class="p">(</span>
         <span class="n">pipeline</span><span class="o">=</span><span class="n">display</span><span class="p">,</span>
         <span class="n">volumepath</span><span class="o">=</span><span class="n">volumepath</span><span class="p">,</span>
-        <span class="n">status</span><span class="o">=</span><span class="s2">&quot;running&quot;</span><span class="p">,</span>
-        <span class="n">compute</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NORNIR_COMPUTATIONAL_LIBRARY&#39;</span><span class="p">),</span>
+        <span class="n">status</span><span class="o">=</span><span class="s2">"running"</span><span class="p">,</span>
+        <span class="n">compute</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY'</span><span class="p">),</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_publish_chain_progress</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish the depth-0 ``Pipelines`` track for a ``--then`` chain.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Publish the depth-0 ``Pipelines`` track for a ``--then`` chain."""</span>
     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">publish_run_event</span><span class="p">(</span>
-        <span class="s2">&quot;iterate_progress&quot;</span><span class="p">,</span>
-        <span class="n">track_id</span><span class="o">=</span><span class="s2">&quot;chain&quot;</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Pipelines&quot;</span><span class="p">,</span>
+        <span class="s2">"iterate_progress"</span><span class="p">,</span>
+        <span class="n">track_id</span><span class="o">=</span><span class="s2">"chain"</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">"Pipelines"</span><span class="p">,</span>
         <span class="n">current</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
         <span class="n">total</span><span class="o">=</span><span class="n">total</span><span class="p">,</span>
         <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -497,10 +519,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_publish_pipeline_segment_complete</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish a sticky completed depth-0 track for a finished chain segment.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Publish a sticky completed depth-0 track for a finished chain segment."""</span>
     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">publish_run_event</span><span class="p">(</span>
-        <span class="s2">&quot;iterate_progress&quot;</span><span class="p">,</span>
-        <span class="n">track_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;pipeline:</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">"iterate_progress"</span><span class="p">,</span>
+        <span class="n">track_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">"pipeline:</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
         <span class="n">current</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">total</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -510,10 +532,10 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_publish_run_completion</span><span class="p">(</span><span class="n">succeeded</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Publish retained final run status for the dashboard.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Publish retained final run status for the dashboard."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">publish_run_meta</span><span class="p">(</span>
-        <span class="n">status</span><span class="o">=</span><span class="s2">&quot;completed&quot;</span> <span class="k">if</span> <span class="n">succeeded</span> <span class="k">else</span> <span class="s2">&quot;failed&quot;</span><span class="p">,</span>
+        <span class="n">status</span><span class="o">=</span><span class="s2">"completed"</span> <span class="k">if</span> <span class="n">succeeded</span> <span class="k">else</span> <span class="s2">"failed"</span><span class="p">,</span>
         <span class="n">end_ts</span><span class="o">=</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
     <span class="p">)</span>
 
@@ -521,13 +543,13 @@
 <div class="viewcode-block" id="InitLogging">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.InitLogging">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">InitLogging</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize persistent logging for the current command invocation.</span>
+<span class="w">    </span><span class="sd">"""Initialize persistent logging for the current command invocation.</span>
 
 <span class="sd">    Logging writes through ``nornir_shared.misc.SetupLogging``. When a</span>
 <span class="sd">    ``volumepath`` is present, file logs go under ``&lt;volumepath&gt;/logs``.</span>
 <span class="sd">    ``-debug`` sets the level to DEBUG; otherwise WARN is used.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#    nornir_shared.Misc.RunWithProfiler(&#39;Execute()&#39;, &quot;C:/Temp/profile.pr&quot;)</span>
+<span class="sd">    """</span>
+    <span class="c1">#    nornir_shared.Misc.RunWithProfiler('Execute()', "C:/Temp/profile.pr")</span>
 
     <span class="n">buildArgs</span> <span class="o">=</span> <span class="n">_ReorderArgs</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">))</span>
 
@@ -535,9 +557,9 @@
 
     <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">extraargs</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="s1">&#39;volumepath&#39;</span> <span class="ow">in</span> <span class="n">args</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">:</span>
-        <span class="n">log_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="s1">&#39;logs&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_GetFromNamespace</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;debug&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s1">'volumepath'</span> <span class="ow">in</span> <span class="n">args</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">:</span>
+        <span class="n">log_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">,</span> <span class="s1">'logs'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_GetFromNamespace</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'debug'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="n">SetupLogging</span><span class="p">(</span><span class="n">OutputPath</span><span class="o">=</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">Level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">SetupLogging</span><span class="p">(</span><span class="n">OutputPath</span><span class="o">=</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">Level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARN</span><span class="p">)</span>
@@ -549,35 +571,35 @@
 <div class="viewcode-block" id="init_computational_library">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.init_computational_library">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">init_computational_library</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select CPU/GPU computation backend and export process environment.</span>
+<span class="w">    </span><span class="sd">"""Select CPU/GPU computation backend and export process environment.</span>
 
 <span class="sd">    Records the backend the build asked for in</span>
 <span class="sd">    ``NORNIR_COMPUTATIONAL_LIBRARY_REQUESTED`` and updates</span>
-<span class="sd">    ``nornir_imageregistration``&#39;s active backend, which sets</span>
+<span class="sd">    ``nornir_imageregistration``'s active backend, which sets</span>
 <span class="sd">    ``NORNIR_COMPUTATIONAL_LIBRARY`` to the backend actually in effect.</span>
 
 <span class="sd">    The two can diverge: requesting ``cupy`` on a host whose CuPy runtime probe</span>
 <span class="sd">    fails leaves requested=cupy / effective=numpy. Keeping both lets a build log</span>
 <span class="sd">    show that a GPU run silently fell back to the CPU.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">==</span> <span class="s1">&#39;detect&#39;</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">==</span> <span class="s1">'detect'</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">HasCupy</span><span class="p">():</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">=</span> <span class="s1">&#39;cupy&#39;</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">=</span> <span class="s1">'cupy'</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">=</span> <span class="s1">&#39;numpy&#39;</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">=</span> <span class="s1">'numpy'</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NORNIR_COMPUTATIONAL_LIBRARY_REQUESTED&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NORNIR_COMPUTATIONAL_LIBRARY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY_REQUESTED'</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'NORNIR_COMPUTATIONAL_LIBRARY'</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span>
     <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">SetActiveComputationLib</span><span class="p">(</span>
-        <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">==</span> <span class="s1">&#39;cupy&#39;</span> <span class="k">else</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span><span class="p">)</span></div>
+        <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">computational_library</span> <span class="o">==</span> <span class="s1">'cupy'</span> <span class="k">else</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span><span class="p">)</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_GetValidCommands</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get list of all valid commands/pipelines.&quot;&quot;&quot;</span>
-    <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;RecoverLinks&#39;</span><span class="p">,</span> <span class="s1">&#39;RecoverNotes&#39;</span><span class="p">,</span> <span class="s1">&#39;RepairXML&#39;</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">"""Get list of all valid commands/pipelines."""</span>
+    <span class="n">commands</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'help'</span><span class="p">,</span> <span class="s1">'RecoverLinks'</span><span class="p">,</span> <span class="s1">'RecoverNotes'</span><span class="p">,</span> <span class="s1">'RepairXML'</span><span class="p">]</span>
     <span class="c1"># Add pipeline commands from XML</span>
     <span class="n">PipelineXML</span> <span class="o">=</span> <span class="n">_GetPipelineXMLPath</span><span class="p">()</span>
     <span class="n">PipelineTree</span> <span class="o">=</span> <span class="n">pipelinemanager</span><span class="o">.</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">LoadPipelineXML</span><span class="p">(</span><span class="n">PipelineXML</span><span class="p">)</span>
@@ -588,12 +610,12 @@
 <span class="c1"># Flags defined on the root parser only (see _AddParserRootArguments). Used to recognize</span>
 <span class="c1"># [volumepath, &lt;root flags...&gt;, &lt;command&gt;, ...] test/harness argv and normalize to</span>
 <span class="c1"># [&lt;root flags...&gt;, &lt;command&gt;, volumepath, ...] before subparser dispatch.</span>
-<span class="n">_ROOT_FLAGS_NO_VALUE</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s1">&#39;-debug&#39;</span><span class="p">,</span> <span class="s1">&#39;-verbose&#39;</span><span class="p">,</span> <span class="s1">&#39;-lowpriority&#39;</span><span class="p">,</span> <span class="s1">&#39;-lp&#39;</span><span class="p">,</span> <span class="s1">&#39;-no-delete&#39;</span><span class="p">})</span>
-<span class="n">_ROOT_FLAGS_WITH_VALUE</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s1">&#39;-computational_library&#39;</span><span class="p">})</span>
+<span class="n">_ROOT_FLAGS_NO_VALUE</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s1">'-debug'</span><span class="p">,</span> <span class="s1">'-verbose'</span><span class="p">,</span> <span class="s1">'-lowpriority'</span><span class="p">,</span> <span class="s1">'-lp'</span><span class="p">,</span> <span class="s1">'-no-delete'</span><span class="p">})</span>
+<span class="n">_ROOT_FLAGS_WITH_VALUE</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s1">'-computational_library'</span><span class="p">})</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_segment_is_root_only_flags</span><span class="p">(</span><span class="n">segment</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if *segment* is a sequence of root-parser flags (and values for value-taking flags).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""True if *segment* is a sequence of root-parser flags (and values for value-taking flags)."""</span>
     <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">segment</span><span class="p">):</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">segment</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
@@ -610,7 +632,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_leading_root_flag_segment_length</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the length of a leading argv prefix consumed by root-parser flags.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the length of a leading argv prefix consumed by root-parser flags."""</span>
     <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
         <span class="n">token</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
@@ -627,7 +649,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_ReorderArgs</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reorder argv so root flags and subcommand precede volumepath (argparse subparser layout).</span>
+<span class="w">    </span><span class="sd">"""Reorder argv so root flags and subcommand precede volumepath (argparse subparser layout).</span>
 
 <span class="sd">    Accepts legacy test orderings:</span>
 <span class="sd">    - ``[volumepath, command, ...]`` (swap first two when command is second)</span>
@@ -635,7 +657,7 @@
 <span class="sd">    - ``[-debug, ..., volumepath, command, ...]`` (launch.json / flags-before-path order)</span>
 
 <span class="sd">    Leaves canonical ``[flags..., command, volumepath, ...]`` unchanged.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">args</span>
 
@@ -646,11 +668,11 @@
         <span class="k">return</span> <span class="n">args</span>
 
     <span class="c1"># [volumepath, command, ...] — do not swap when args[0] is a flag (e.g. -debug ImportPMG vol)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">valid_commands</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">valid_commands</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
 
     <span class="c1"># [volumepath, &lt;root flags...&gt;, command, &lt;tail&gt;]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'-'</span><span class="p">):</span>
         <span class="n">volumepath</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_commands</span><span class="p">:</span>
@@ -663,46 +685,46 @@
     <span class="n">prefix_len</span> <span class="o">=</span> <span class="n">_leading_root_flag_segment_length</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">prefix_len</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
         <span class="n">rest</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">prefix_len</span><span class="p">:]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">rest</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">valid_commands</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span> <span class="ow">and</span> <span class="n">rest</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">valid_commands</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">args</span><span class="p">[:</span><span class="n">prefix_len</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">rest</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">rest</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
 
     <span class="k">return</span> <span class="n">args</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_SplitChainSegments</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split argv on ``--then`` into per-pipeline segments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Split argv on ``--then`` into per-pipeline segments."""</span>
     <span class="n">segments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">current</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">buildArgs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">&#39;--then&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s1">'--then'</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">current</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;--then cannot precede the first pipeline segment&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'--then cannot precede the first pipeline segment'</span><span class="p">)</span>
             <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
             <span class="n">current</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">current</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">current</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no pipeline segment after final --then&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'no pipeline segment after final --then'</span><span class="p">)</span>
     <span class="n">segments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">segments</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_AppendTimingOutput</span><span class="p">(</span><span class="n">volumepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timer</span><span class="p">:</span> <span class="n">TaskTimer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a timing record for one pipeline invocation to Timing.txt.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Append a timing record for one pipeline invocation to Timing.txt."""</span>
     <span class="n">out_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span>
     <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span>
-    <span class="n">time_text_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">volumepath</span><span class="p">,</span> <span class="s1">&#39;Timing.txt&#39;</span><span class="p">)</span>
+    <span class="n">time_text_full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">volumepath</span><span class="p">,</span> <span class="s1">'Timing.txt'</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">time_text_full_path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">time_text_full_path</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
             <span class="n">output_file</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s1">&#39;Could not write </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">time_text_full_path</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s1">'Could not write </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="n">time_text_full_path</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="ExecuteChain">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.ExecuteChain">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ExecuteChain</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run multiple pipelines sequentially in one process, separated by ``--then``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Run multiple pipelines sequentially in one process, separated by ``--then``."""</span>
     <span class="n">segments</span> <span class="o">=</span> <span class="n">_SplitChainSegments</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span>
     <span class="n">first_segment</span> <span class="o">=</span> <span class="n">_ReorderArgs</span><span class="p">(</span><span class="n">segments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
@@ -711,18 +733,18 @@
     <span class="n">parser</span> <span class="o">=</span> <span class="n">BuildParserRoot</span><span class="p">()</span>
     <span class="n">first_args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">first_segment</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">first_args</span><span class="p">,</span> <span class="s1">&#39;command&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;help&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">first_args</span><span class="p">,</span> <span class="s1">'command'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'help'</span><span class="p">:</span>
         <span class="n">first_args</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">first_args</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_args</span><span class="p">,</span> <span class="s1">&#39;volumepath&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">first_args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;the following arguments are required: volumepath&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_args</span><span class="p">,</span> <span class="s1">'volumepath'</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">first_args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"the following arguments are required: volumepath"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">first_args</span><span class="o">.</span><span class="n">lowpriority</span><span class="p">:</span>
         <span class="n">lowpriority</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, using low priority flag.  This can make builds much slower&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Warning, using low priority flag.  This can make builds much slower"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_args</span><span class="p">,</span> <span class="s1">&#39;computational_library&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">first_args</span><span class="p">,</span> <span class="s1">'computational_library'</span><span class="p">):</span>
         <span class="n">init_computational_library</span><span class="p">(</span><span class="n">first_args</span><span class="p">)</span>
 
     <span class="n">root_flags</span> <span class="o">=</span> <span class="n">first_segment</span><span class="p">[:</span><span class="n">_leading_root_flag_segment_length</span><span class="p">(</span><span class="n">first_segment</span><span class="p">)]</span>
@@ -735,7 +757,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">segment</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">segments</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_commands</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unknown pipeline in chain segment: </span><span class="si">{</span><span class="n">segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">"unknown pipeline in chain segment: </span><span class="si">{</span><span class="n">segment</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">segment_argv</span> <span class="o">=</span> <span class="n">first_segment</span>
@@ -743,7 +765,7 @@
                 <span class="n">segment_argv</span> <span class="o">=</span> <span class="n">_ReorderArgs</span><span class="p">(</span><span class="n">root_flags</span> <span class="o">+</span> <span class="p">[</span><span class="n">segment</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">volumepath</span><span class="p">]</span> <span class="o">+</span> <span class="n">segment</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
             <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">segment_argv</span><span class="p">)</span>
-            <span class="n">cmd_name</span> <span class="o">=</span> <span class="n">_pipeline_name_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;PipelineName&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">cmd_name</span> <span class="o">=</span> <span class="n">_pipeline_name_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'PipelineName'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="n">display_name</span> <span class="o">=</span> <span class="n">_chain_pipeline_display_name</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">num_segments</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -773,18 +795,18 @@
 <div class="viewcode-block" id="Execute">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.Execute">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Execute</span><span class="p">(</span><span class="n">buildArgs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the nornir-build command line entrypoint.</span>
+<span class="w">    </span><span class="sd">"""Run the nornir-build command line entrypoint.</span>
 
 <span class="sd">    The argv parser accepts canonical subcommand ordering and legacy test</span>
 <span class="sd">    ordering that starts with ``volumepath``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Spend more time on each thread before switching</span>
     <span class="c1"># sys.setswitchinterval(500)</span>
 
     <span class="k">if</span> <span class="n">buildArgs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">buildArgs</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
-    <span class="k">if</span> <span class="s1">&#39;--then&#39;</span> <span class="ow">in</span> <span class="n">buildArgs</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">'--then'</span> <span class="ow">in</span> <span class="n">buildArgs</span><span class="p">:</span>
         <span class="n">ExecuteChain</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span>
         <span class="k">return</span>
 
@@ -792,12 +814,12 @@
     <span class="n">buildArgs</span> <span class="o">=</span> <span class="n">_ReorderArgs</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span>
 
     <span class="c1"># Change the temp directory if nornir specifies an alternate in the environment variables</span>
-    <span class="k">if</span> <span class="s1">&#39;NORNIR_TEMP_DIR&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NORNIR_TEMP_DIR&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">'NORNIR_TEMP_DIR'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'NORNIR_TEMP_DIR'</span><span class="p">]</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TEMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_dir</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TMP&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_dir</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TMPDIR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_dir</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TEMP'</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_dir</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TMP'</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_dir</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'TMPDIR'</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_dir</span>
 
     <span class="n">InitLogging</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span>
 
@@ -808,25 +830,25 @@
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span>
 
     <span class="c1"># Help command does not require volumepath or timing output.</span>
-    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;command&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;help&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'command'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">'help'</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="c1"># For all other commands, require volumepath</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;volumepath&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;the following arguments are required: volumepath&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'volumepath'</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">"the following arguments are required: volumepath"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">lowpriority</span><span class="p">:</span>
         <span class="n">lowpriority</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, using low priority flag.  This can make builds much slower&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Warning, using low priority flag.  This can make builds much slower"</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;computational_library&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'computational_library'</span><span class="p">):</span>
         <span class="n">init_computational_library</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
     <span class="n">_publish_early_run_meta_from_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
     <span class="n">cmd_name</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;PipelineName&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'PipelineName'</span><span class="p">):</span>
         <span class="n">cmd_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">PipelineName</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">buildArgs</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">cmd_name</span> <span class="o">=</span> <span class="n">buildArgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -848,7 +870,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
     <span class="n">Execute</span><span class="p">()</span>
 </pre></div>
 

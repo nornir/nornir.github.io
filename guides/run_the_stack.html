@@ -1,0 +1,178 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Run the stack &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Agents and contributors" href="../agents.html" />
+    <link rel="prev" title="Build a volume" href="build_volume.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyre_use.html">Using Pyre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_volume.html">Build a volume</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Run the stack</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Guides</a></li>
+      <li class="breadcrumb-item active">Run the stack</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/run_the_stack.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="run-the-stack">
+<h1>Run the stack<a class="headerlink" href="#run-the-stack" title="Link to this heading"></a></h1>
+<p>Headless Nornir runs in Docker. Pyre does not. Three roles stay separate:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 40.0%" />
+<col style="width: 38.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Role</p></th>
+<th class="head"><p>Use it for</p></th>
+<th class="head"><p>Start here</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Programmer shell</p></td>
+<td><p>Editable checkout, tests, Dev Containers</p></td>
+<td><p><a class="reference internal" href="../docker/cursor_dev.html"><span class="doc">Cursor / local agent dev shell</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cursor agent worker</p></td>
+<td><p>Self-hosted Cursor worker process</p></td>
+<td><p><a class="reference internal" href="../docker/cursor_worker.html"><span class="doc">Cursor self-hosted cloud agent worker</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Build appliance</p></td>
+<td><p>Interactive <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> with NAS mounts and the dashboard</p></td>
+<td><p><a class="reference internal" href="../docker/remote_deployment.html"><span class="doc">Remote build appliance</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Image tags, GPU versus CPU images, and how to build them are in <a class="reference internal" href="../docker/images.html"><span class="doc">Image catalogue</span></a>. Run one <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> command in a container with <a class="reference internal" href="../docker/nd_build.html"><span class="doc">nd-build — run nornir-build inside Docker</span></a>.</p>
+<p>Also:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../docker/dashboard.html"><span class="doc">Build dashboard (co-located)</span></a> — MQTT build dashboard on port 8087.</p></li>
+<li><p><a class="reference internal" href="../docker/annotation_gallery.html"><span class="doc">Annotation overlay gallery</span></a> — annotation crop review. That image does not install Nornir.</p></li>
+<li><p><a class="reference internal" href="../docker/windows_cursor_layout.html"><span class="doc">Standard D:\ layout for nornir-cursor-worker</span></a> — <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> layout for the Cursor worker. <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code> and is often set to <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>; that page assumes <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>.</p></li>
+</ul>
+<p>Host checks (driver, WSL2, open-file limit) are in <a class="reference internal" href="../host_requirements.html"><span class="doc">Host requirements</span></a>.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build_volume.html" class="btn btn-neutral float-left" title="Build a volume" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../agents.html" class="btn btn-neutral float-right" title="Agents and contributors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

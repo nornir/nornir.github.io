@@ -67,15 +67,16 @@ VS Code launch configurations live in ``.vscode/launch.json`` at the monorepo ro
 Settings and logs
 ~~~~~~~~~~~~~~~~~
 
-+---------------------------+-----------------------------------------------+
-| Dev build                 | Frozen Windows install                        |
-+===========================+===============================================+
-| ``pyre/settings.json``    | ``%APPDATA%\Nornir\Pyre\settings.json``     |
-| (package tree, dev)       | (user-writable)                               |
-+---------------------------+-----------------------------------------------+
-| ``NORNIR_LOG_ROOT`` env   | Defaults to                                   |
-| or cwd fallback           | ``%LOCALAPPDATA%\Nornir\Pyre\logs``           |
-+---------------------------+-----------------------------------------------+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Dev build
+     - Frozen Windows install
+   * - ``pyre/settings.json`` (package tree, dev)
+     - ``%APPDATA%\Nornir\Pyre\settings.json`` (user-writable)
+   * - ``NORNIR_LOG_ROOT`` env or cwd fallback
+     - Defaults to ``%LOCALAPPDATA%\Nornir\Pyre\logs``
 
 Set ``NORNIR_LOG_ROOT`` in development to follow the unified logging convention
 (:doc:`logging`).

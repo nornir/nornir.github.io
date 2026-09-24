@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -107,16 +129,16 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.VolumeManager.Load">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">VolumePath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Create</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">UseCache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load the volume information for the specified directory or create one if it doesn&#39;t exist&quot;&quot;&quot;</span>
-        <span class="n">Filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">,</span> <span class="s2">&quot;VolumeData.xml&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Load the volume information for the specified directory or create one if it doesn't exist"""</span>
+        <span class="n">Filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">,</span> <span class="s2">"VolumeData.xml"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">Filename</span><span class="p">):</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Provided volume description file does not exist: &quot;</span> <span class="o">+</span> <span class="n">Filename</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Provided volume description file does not exist: "</span> <span class="o">+</span> <span class="n">Filename</span><span class="p">)</span>
 
-            <span class="n">OldVolume</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">,</span> <span class="s2">&quot;Volume.xml&quot;</span><span class="p">)</span>
+            <span class="n">OldVolume</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">,</span> <span class="s2">"Volume.xml"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">OldVolume</span><span class="p">):</span>
                 <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">OldVolume</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
                 <span class="c1"># Volumes.CreateFromDOM(XMLTree)</span>
-                <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VolumePath</span>
+                <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Path'</span><span class="p">]</span> <span class="o">=</span> <span class="n">VolumePath</span>
                 <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">VolumeRoot</span><span class="p">)</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">WrapElement</span><span class="p">(</span><span class="n">VolumeRoot</span><span class="p">)</span>
                 <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">SetElementParent</span><span class="p">(</span><span class="n">VolumeRoot</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
                 <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
@@ -126,7 +148,7 @@
             <span class="k">if</span> <span class="n">Create</span><span class="p">:</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-                <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Name&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">),</span> <span class="s2">&quot;Path&quot;</span><span class="p">:</span> <span class="n">VolumePath</span><span class="p">})</span>
+                <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="s1">'Volume'</span><span class="p">,</span> <span class="p">{</span><span class="s2">"Name"</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">),</span> <span class="s2">"Path"</span><span class="p">:</span> <span class="n">VolumePath</span><span class="p">})</span>
                 <span class="n">SaveNewVolume</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="c1"># VM =  VolumeManager(VolumeData, Filename)</span>
                 <span class="c1"># return VM</span>
@@ -143,7 +165,7 @@
             <span class="c1"># loading the file and closing it myself seems to have solved</span>
             <span class="c1"># the problem</span>
             <span class="n">RawXML</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Filename</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
                 <span class="n">RawXML</span> <span class="o">=</span> <span class="n">hFile</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">RawXML</span><span class="p">)</span>
             <span class="c1"># VolumeData = Volumes.CreateFromDOM(XMLTree)</span>
@@ -151,14 +173,14 @@
 
             <span class="c1"># VolumeRoot = XMLTree.getroot()</span>
 
-        <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">VolumePath</span>
+        <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Path'</span><span class="p">]</span> <span class="o">=</span> <span class="n">VolumePath</span>
         <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">VolumeNode</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">VolumeRoot</span><span class="p">)</span>
         <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">SetElementParent</span><span class="p">(</span><span class="n">VolumeRoot</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
 
         <span class="k">if</span> <span class="n">SaveNewVolume</span><span class="p">:</span>
             <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
 
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;Volume Root: &quot;</span> <span class="o">+</span> <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Path&#39;</span><span class="p">])</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"Volume Root: "</span> <span class="o">+</span> <span class="n">VolumeRoot</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Path'</span><span class="p">])</span>
         <span class="c1"># VolumeManager.__RemoveElementsWithoutPath__(VolumeRoot)</span>
 
         <span class="k">return</span> <span class="n">VolumeRoot</span></div>
@@ -167,26 +189,26 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__SortNodes__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively order child elements by SortKey.</span>
+<span class="w">        </span><span class="sd">"""Recursively order child elements by SortKey.</span>
 
 <span class="sd">        Uses the public Element sequence API (or ``XElementWrapper.sort`` when</span>
 <span class="sd">        present). Do not touch ``element._children`` — that attribute does not</span>
 <span class="sd">        exist on the C-accelerated ``xml.etree.ElementTree.Element``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sort</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s1">&#39;sort&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="s1">'sort'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">sort</span><span class="p">):</span>
             <span class="n">sort</span><span class="p">()</span>
             <span class="k">return</span>
 
         <span class="n">children</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">element</span><span class="p">[:]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;SortKey&#39;</span><span class="p">))</span>
+            <span class="n">element</span><span class="p">[:]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">'SortKey'</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">element</span><span class="p">:</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">__SortNodes__</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__RemoveEmptyElements__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all elements that should be found on the file system but are not&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Remove all elements that should be found on the file system but are not"""</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Element</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">Element</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">e</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -204,9 +226,9 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.VolumeManager.CalcVolumeChecksum">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">CalcVolumeChecksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">VolumeObj</span><span class="p">):</span>
-        <span class="n">XMLString</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-        <span class="n">OldChecksum</span> <span class="o">=</span> <span class="n">VolumeObj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Checksum&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">XMLString</span> <span class="o">=</span> <span class="n">XMLString</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">OldChecksum</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">XMLString</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+        <span class="n">OldChecksum</span> <span class="o">=</span> <span class="n">VolumeObj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Checksum'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+        <span class="n">XMLString</span> <span class="o">=</span> <span class="n">XMLString</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">OldChecksum</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nornir_shared</span><span class="o">.</span><span class="n">checksum</span><span class="o">.</span><span class="n">DataChecksum</span><span class="p">(</span><span class="n">XMLString</span><span class="p">)</span></div>
 
 
@@ -214,19 +236,19 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.VolumeManager.SaveSingleFile">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">SaveSingleFile</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">VolumeObj</span><span class="p">,</span> <span class="n">xmlfile_fullpath</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the volume to a single XML file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Save the volume to a single XML file"""</span>
 
         <span class="n">fullpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">xmlfile_fullpath</span><span class="p">)</span>
 
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># prettyoutput.Log(&quot;Saving %s&quot; % xmlfilename)</span>
+        <span class="c1"># prettyoutput.Log("Saving %s" % xmlfilename)</span>
 
-        <span class="c1"># prettyoutput.Log(&quot;Saving %s&quot; % XMLFilename)</span>
+        <span class="c1"># prettyoutput.Log("Saving %s" % XMLFilename)</span>
 
-        <span class="n">OutputXML</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">OutputXML</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
         <span class="c1"># print OutputXML</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xmlfile_fullpath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xmlfile_fullpath</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
             <span class="n">hFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">OutputXML</span><span class="p">)</span></div>
 
 
@@ -234,15 +256,15 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.VolumeManager.Save">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Save</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">VolumeObj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the volume to an XML file, putting sub-elements in seperate folders&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Save the volume to an XML file, putting sub-elements in seperate folders"""</span>
 
-        <span class="c1"># We cannot include the volume checksum in the calculation because including it changes the checksum&#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="s1">&#39;Save&#39;</span><span class="p">):</span>
+        <span class="c1"># We cannot include the volume checksum in the calculation because including it changes the checksum'''</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="s1">'Save'</span><span class="p">):</span>
             <span class="n">VolumeObj</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">tabLevel</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="s1">&#39;Parent&#39;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">,</span> <span class="s1">'Parent'</span><span class="p">):</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">VolumeObj</span><span class="o">.</span><span class="n">Parent</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Trying to save element with no Save function or parent </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">)))</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Trying to save element with no Save function or parent </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">VolumeObj</span><span class="p">)))</span></div>
 </div>
 
 </pre></div>

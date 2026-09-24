@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -89,9 +111,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_buildmanager.volumemanager.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">MissingElementError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_shared</span><span class="w"> </span><span class="kn">import</span> <span class="n">prettyoutput</span> <span class="k">as</span> <span class="n">prettyoutput</span>
 
-<span class="n">_XT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_XT&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;XElementWrapper&#39;</span><span class="p">)</span>
+<span class="n">_XT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'_XT'</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">'XElementWrapper'</span><span class="p">)</span>
 
-<span class="c1"># Used for debugging with conditional break&#39;s, each node gets a temporary unique ID</span>
+<span class="c1"># Used for debugging with conditional break's, each node gets a temporary unique ID</span>
 <span class="n">nid</span> <span class="o">=</span> <span class="mi">0</span>
 
 
@@ -109,24 +131,24 @@
     <span class="n">_Parent</span><span class="p">:</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="kc">None</span>  <span class="c1"># Parent node in the XML tree</span>
     <span class="n">_save_lock</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span>  <span class="c1"># Lock to prevent multiple threads from writing attributes of the node at the same time</span>
 
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;XElementWrapper&#39;</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">'XElementWrapper'</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XElementWrapper.sort">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.sort">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Order child elements&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Order child elements"""</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">children</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">with_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;SortKey&#39;</span><span class="p">)]</span>
-        <span class="n">without_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">&#39;SortKey&#39;</span><span class="p">)]</span>
-        <span class="n">linked</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">without_keys</span> <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">)]</span>
-        <span class="n">other</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">without_keys</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">)]</span>
+        <span class="n">with_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">'SortKey'</span><span class="p">)]</span>
+        <span class="n">without_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">'SortKey'</span><span class="p">)]</span>
+        <span class="n">linked</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">without_keys</span> <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">)]</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">without_keys</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">)]</span>
 
-        <span class="n">sorted_with_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">with_keys</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;SortKey&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">sorted_linked</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">linked</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">child</span><span class="p">:</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sorted_with_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">with_keys</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">'SortKey'</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sorted_linked</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">linked</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">child</span><span class="p">:</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">sorted_other</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">sorted_with_keys</span> <span class="o">+</span> <span class="n">sorted_linked</span> <span class="o">+</span> <span class="n">sorted_other</span>
@@ -139,7 +161,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">CreationTime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
-        <span class="n">datestr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;CreationDate&#39;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+        <span class="n">datestr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'CreationDate'</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
         <span class="n">creation_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datestr</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">creation_time</span><span class="o">.</span><span class="n">tzinfo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">creation_time</span> <span class="o">=</span> <span class="n">creation_time</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
@@ -147,15 +169,15 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">SortKey</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The default key used for sorting elements&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The default key used for sorting elements"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">strList</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostringlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">outStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">outStr</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strList</span><span class="p">:</span>
-            <span class="n">outStr</span> <span class="o">=</span> <span class="n">outStr</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+            <span class="n">outStr</span> <span class="o">=</span> <span class="n">outStr</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">'&gt;'</span><span class="p">:</span>
                 <span class="k">break</span>
 
         <span class="k">return</span> <span class="n">outStr</span>
@@ -166,34 +188,34 @@
             <span class="k">if</span> <span class="n">attribName</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">attribName</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;_Parent&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">'_Parent'</span><span class="p">):</span>
                 <span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">_Parent</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Checksum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Checksum&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Checksum'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
 
     <span class="nd">@Checksum</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Checksum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s1">&#39;Setting non string value on XElement.Checksum, automatically corrected: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Checksum&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="s1">'Setting non string value on XElement.Checksum, automatically corrected: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Checksum'</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Version&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Version'</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 
     <span class="nd">@Version</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;Version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'Version'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">AttributesChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if this element&#39;s XML attributes need to be written to disk.</span>
+<span class="w">        </span><span class="sd">"""True if this element's XML attributes need to be written to disk.</span>
 
 <span class="sd">        Set at mutation time by attribute assignment paths (``__setattr__`` /</span>
 <span class="sd">        property setters that update ``attrib``), not by Save. Cleared only by</span>
@@ -201,12 +223,12 @@
 <span class="sd">        owns this element. Prefer letting mutation APIs set this; assign True</span>
 <span class="sd">        manually only for rare explicit dirties when attrib was changed outside</span>
 <span class="sd">        those paths.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AttributesChanged</span>
 
     <span class="nd">@AttributesChanged</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">AttributesChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set or clear the attribute-dirty flag (normally set by mutation APIs).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Set or clear the attribute-dirty flag (normally set by mutation APIs)."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_AttributesChanged</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="c1">#         if Value:</span>
@@ -214,35 +236,35 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ChildrenChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if this element&#39;s direct child list needs to be written to disk.</span>
+<span class="w">        </span><span class="sd">"""True if this element's direct child list needs to be written to disk.</span>
 
 <span class="sd">        Set at mutation time by ``append``, ``remove``, and</span>
 <span class="sd">        ``UpdateOrAddChild*`` on this element (not by nested linked containers</span>
 <span class="sd">        mutating themselves). Cleared only by :meth:`ResetElementChangeFlags`</span>
 <span class="sd">        after a successful save. Linked children own their own VolumeData.xml</span>
 <span class="sd">        and flags; their dirtiness does not set this parent flag.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ChildrenChanged</span>
 
     <span class="nd">@ChildrenChanged</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ChildrenChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set or clear the children-dirty flag (normally set by append/remove).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Set or clear the children-dirty flag (normally set by append/remove)."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ChildrenChanged</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ElementHasChangesToSave</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether this element&#39;s XML file needs a rewrite, based on dirty flags.</span>
+<span class="w">        </span><span class="sd">"""Whether this element's XML file needs a rewrite, based on dirty flags.</span>
 
 <span class="sd">        Reads flags already set at mutation time. Does **not** invent dirtiness</span>
 <span class="sd">        or walk linked containers (``SaveAsLinkedElement``) that save themselves.</span>
 <span class="sd">        May consult **non-linked** nested children only, because those nodes are</span>
-<span class="sd">        serialized into this element&#39;s XML (no separate VolumeData.xml).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        serialized into this element's XML (no separate VolumeData.xml).</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AttributesChanged</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChildrenChanged</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
 
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">XContainerElementWrapper</span><span class="p">):</span>
@@ -256,17 +278,17 @@
 <div class="viewcode-block" id="XElementWrapper.ResetElementChangeFlags">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.ResetElementChangeFlags">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ResetElementChangeFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear dirty flags after this element&#39;s XML was successfully written.</span>
+<span class="w">        </span><span class="sd">"""Clear dirty flags after this element's XML was successfully written.</span>
 
 <span class="sd">        Clears this element and non-linked nested children that share the same</span>
 <span class="sd">        file. Does not clear linked containers (they reset when they save).</span>
-<span class="sd">        Call only after a successful write—not to mean \&quot;I decided nothing changed.\&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Call only after a successful write—not to mean \"I decided nothing changed.\"</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_AttributesChanged</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ChildrenChanged</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">XContainerElementWrapper</span><span class="p">):</span>
@@ -283,9 +305,9 @@
     <span class="c1">#</span>
     <span class="c1">#     @property</span>
     <span class="c1">#     def MarkNonContainerParentChanged(self):</span>
-    <span class="c1">#         &#39;&#39;&#39;</span>
-    <span class="c1">#         Sets the parent&#39;s ChildrenChanged flag to True if the parent is not a ContainerElement or does not have the SaveAsLinkedElement attribute set to True</span>
-    <span class="c1">#         &#39;&#39;&#39;</span>
+    <span class="c1">#         '''</span>
+    <span class="c1">#         Sets the parent's ChildrenChanged flag to True if the parent is not a ContainerElement or does not have the SaveAsLinkedElement attribute set to True</span>
+    <span class="c1">#         '''</span>
     <span class="c1">#</span>
     <span class="c1">#         parent = self.Parent</span>
     <span class="c1">#         if parent is None:</span>
@@ -303,7 +325,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XElementWrapper</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The root of the element tree&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""The root of the element tree"""</span>
         <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">while</span> <span class="n">node</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">Parent</span>
@@ -317,39 +339,39 @@
 <div class="viewcode-block" id="XElementWrapper.SetParentNoChangeFlag">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.SetParentNoChangeFlag">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">SetParentNoChangeFlag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        This is not a setter to avoid triggering the Attribute Changed flag with the</span>
 <span class="sd">        __setattr__ override for this class</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_Parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'_Parent'</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">OnParentChanged</span><span class="p">()</span></div>
 
 
     <span class="nd">@Parent</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Setting the parent with this method will set the Attribute Changed flag</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_Parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'_Parent'</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">OnParentChanged</span><span class="p">()</span>
 
 <div class="viewcode-block" id="XElementWrapper.OnParentChanged">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.OnParentChanged">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">OnParentChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Actions that should occur when our parent changes&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s1">&#39;__fullpath&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;__fullpath&#39;</span><span class="p">]</span></div>
+<span class="w">        </span><span class="sd">"""Actions that should occur when our parent changes"""</span>
+        <span class="k">if</span> <span class="s1">'__fullpath'</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'__fullpath'</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="XElementWrapper.indexofchild">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.indexofchild">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">indexofchild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the index of a child element&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the index of a child element"""</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">obj</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">i</span>
 
-        <span class="k">raise</span> <span class="n">MissingElementError</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;Element:</span><span class="se">\t</span><span class="si">{0}</span><span class="se">\n</span><span class="s2"> is not a child of:</span><span class="se">\n\t</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span></div>
+        <span class="k">raise</span> <span class="n">MissingElementError</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">"Element:</span><span class="se">\t</span><span class="si">{0}</span><span class="se">\n</span><span class="s2"> is not a child of:</span><span class="se">\n\t</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span></div>
 
 
     <span class="nd">@classmethod</span>
@@ -361,7 +383,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">extra</span><span class="p">):</span>
 
         <span class="k">global</span> <span class="n">nid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">'id'</span><span class="p">]</span> <span class="o">=</span> <span class="n">nid</span>
         <span class="n">nid</span> <span class="o">+=</span> <span class="mi">1</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_AttributesChanged</span> <span class="o">=</span> <span class="kc">False</span>
@@ -375,7 +397,7 @@
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attrib</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attrib</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
                     <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s1">&#39;Setting non string value on &lt;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&gt;, automatically corrected: &#39;</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">&#39; -&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="s1">'Setting non string value on &lt;'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'&gt;, automatically corrected: '</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="s1">' -&gt; '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
                             <span class="n">attrib</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
                     <span class="n">StringAttrib</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">attrib</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -387,25 +409,25 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_Parent</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_Link&quot;</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;CreationDate&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;CreationDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">__GetCreationTimeString__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"_Link"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">'CreationDate'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'CreationDate'</span><span class="p">]</span> <span class="o">=</span> <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">__GetCreationTimeString__</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="s1">&#39;Version&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">'Version'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">Version</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">GetLatestVersionForNodeType</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
 
 <div class="viewcode-block" id="XElementWrapper.RemoveDuplicateElements">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.RemoveDuplicateElements">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">RemoveDuplicateElements</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tagName</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;For nodes that should not be duplicated this function removes all but the last created element&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""For nodes that should not be duplicated this function removes all but the last created element"""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="XElementWrapper.IsParent">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.IsParent">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">IsParent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns true if the node is a parent&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Returns true if the node is a parent"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
@@ -417,25 +439,25 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">NeedsValidation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;NeedsValidation should be implemented in derived class </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"NeedsValidation should be implemented in derived class </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
 <div class="viewcode-block" id="XElementWrapper.IsValidLazy">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.IsValidLazy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">IsValidLazy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        First checks if the XElement requires validation before invoking IsValid</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">NeedsValidation</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsValid</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;NeedsValidation flag not set&quot;</span></div>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"NeedsValidation flag not set"</span></div>
 
 
 <div class="viewcode-block" id="XElementWrapper.IsValid">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.IsValid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">IsValid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This function should be overridden by derived classes.  It returns true if the file system or other external</span>
+<span class="w">        </span><span class="sd">"""This function should be overridden by derived classes.  It returns true if the file system or other external</span>
 <span class="sd">           resources match the state recorded within the element.</span>
 
 <span class="sd">           IsValid should always do the full work of validation and then update</span>
@@ -445,38 +467,38 @@
 <span class="sd">           believe it is in a valid state.  IsValidLazy will only call IsValid</span>
 <span class="sd">           on elements whose NeedsValidation call is True.</span>
 
-<span class="sd">           Returns Tuple of state and a string with a reason&quot;&quot;&quot;</span>
+<span class="sd">           Returns Tuple of state and a string with a reason"""</span>
 
-        <span class="k">if</span> <span class="s1">&#39;Version&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">'Version'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">GetLatestVersionForNodeType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Node version outdated&quot;</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"Node version outdated"</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">IsNodeVersionCompatible</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Version</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Node version outdated&quot;</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"Node version outdated"</span>
 
-        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;&quot;</span></div>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">""</span></div>
 
 
 <div class="viewcode-block" id="XElementWrapper.CleanIfInvalid">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.CleanIfInvalid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">CleanIfInvalid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the contents of this node if it is out of date.</span>
+<span class="w">        </span><span class="sd">"""Remove the contents of this node if it is out of date.</span>
 
 <span class="sd">        Under no-delete mode the node is never actually removed; returns</span>
 <span class="sd">        (False, reason) so callers treat the element as still present.</span>
 
 <span class="sd">        :returns: (cleaned, reason) where cleaned is True when the node was</span>
 <span class="sd">                  (or would have been) removed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsValid</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
-            <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">is_no_delete</span><span class="p">():</span>
                 <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39; --- NO-DELETE: Would clean </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">); keeping.&#39;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s1">' --- NO-DELETE: Would clean </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">); keeping.'</span><span class="p">)</span>
                 <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Clean</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
@@ -486,26 +508,26 @@
 <div class="viewcode-block" id="XElementWrapper.Clean">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.Clean">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">Clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove node from element tree and remove any external resources such as files.</span>
+<span class="w">        </span><span class="sd">"""Remove node from element tree and remove any external resources such as files.</span>
 
 <span class="sd">        Under no-delete mode, logs the intent and returns without removing</span>
 <span class="sd">        anything from the tree or the filesystem.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">is_no_delete</span><span class="p">():</span>
             <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39; --- NO-DELETE: Would clean </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
-                <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39; (</span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s1">)&#39;</span> <span class="k">if</span> <span class="n">reason</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;; keeping.&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s1">' --- NO-DELETE: Would clean </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span>
+                <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s1">' (</span><span class="si">{</span><span class="n">reason</span><span class="si">}</span><span class="s1">)'</span> <span class="k">if</span> <span class="n">reason</span> <span class="k">else</span> <span class="s1">''</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'; keeping.'</span><span class="p">)</span>
             <span class="k">return</span>
 
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; --- Cleaning </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span><span class="si">}</span><span class="s1">. &#39;</span><span class="p">)</span>
+        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s1">' --- Cleaning </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span><span class="si">}</span><span class="s1">. '</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">reason</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">&quot;  --- &quot;</span> <span class="o">+</span> <span class="n">reason</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="s2">"  --- "</span> <span class="o">+</span> <span class="n">reason</span><span class="p">)</span>
 
         <span class="c1"># Make sure we clean child elements if needed</span>
         <span class="n">children</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">XElementWrapper</span><span class="p">):</span>
-                <span class="n">child</span><span class="o">.</span><span class="n">Clean</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Parent was removed&quot;</span><span class="p">)</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">Clean</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="s2">"Parent was removed"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -517,12 +539,12 @@
 
 <div class="viewcode-block" id="XElementWrapper.Copy">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.Copy">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">Copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;XElementWrapper&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deep-copy this element and its descendant wrappers.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"XElementWrapper"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Deep-copy this element and its descendant wrappers.</span>
 
 <span class="sd">        Children are copied recursively so the result is not attached to the</span>
 <span class="sd">        source tree and does not share child identity with it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">t</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">cpy</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
 
@@ -538,7 +560,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Rare raw Element: detach via serialize round-trip, then wrap.</span>
                 <span class="n">detached</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
-                    <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;unicode&#39;</span><span class="p">))</span>
+                    <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostring</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'unicode'</span><span class="p">))</span>
                 <span class="n">cpy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">XElementWrapper</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">detached</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">cpy</span></div>
@@ -546,8 +568,8 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__CreateFromElement</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dictElement</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an instance of this class using an ElementTree.Element.</span>
-<span class="sd">           Override to customize the creation of derived classes&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create an instance of this class using an ElementTree.Element.</span>
+<span class="sd">           Override to customize the creation of derived classes"""</span>
 
         <span class="n">newElement</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">dictElement</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="n">dictElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
 
@@ -566,7 +588,7 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.wrap">[docs]</a>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">dictElement</span><span class="p">:</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XElementWrapper</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change the class of an ElementTree.Element(PropertyElementName) to add our wrapper functions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Change the class of an ElementTree.Element(PropertyElementName) to add our wrapper functions"""</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictElement</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>  <span class="c1"># Check if it is already wrapped</span>
             <span class="k">return</span> <span class="n">dictElement</span>
 
@@ -575,18 +597,18 @@
         <span class="k">assert</span> <span class="p">(</span><span class="n">newElement</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">newElement</span><span class="p">,</span> <span class="bp">cls</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="s1">&#39;CreationDate&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Populating missing CreationDate attribute &quot;</span> <span class="o">+</span> <span class="n">newElement</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">())</span>
-            <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;CreationDate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">__GetCreationTimeString__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">'CreationDate'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Populating missing CreationDate attribute "</span> <span class="o">+</span> <span class="n">newElement</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">())</span>
+            <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">'CreationDate'</span><span class="p">]</span> <span class="o">=</span> <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">__GetCreationTimeString__</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">newElement</span><span class="p">,</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">XContainerElementWrapper</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;Path&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">newElement</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; no path attribute but being set as container&quot;</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="p">(</span><span class="s1">&#39;Path&#39;</span> <span class="ow">in</span> <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">'Path'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">:</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">newElement</span><span class="o">.</span><span class="n">ToElementString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">" no path attribute but being set as container"</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="s1">'Path'</span> <span class="ow">in</span> <span class="n">newElement</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
 
         <span class="c1"># Also convert all non-link child elements</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">newElement</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">XElementWrapper</span><span class="p">):</span>
@@ -605,10 +627,10 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.ToElementString">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ToElementString</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">strList</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">tostringlist</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">outStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">outStr</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strList</span><span class="p">:</span>
-            <span class="n">outStr</span> <span class="o">=</span> <span class="n">outStr</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span>
+            <span class="n">outStr</span> <span class="o">=</span> <span class="n">outStr</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">'&gt;'</span><span class="p">:</span>
                 <span class="k">break</span>
 
         <span class="k">return</span> <span class="n">outStr</span></div>
@@ -616,7 +638,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called when an attribute lookup has not found the attribute in the usual places (i.e. it is not an instance attribute nor is it found in the class tree for self). name is the attribute name. This method should return the (computed) attribute value or raise an AttributeError exception.</span>
+<span class="w">        </span><span class="sd">"""Called when an attribute lookup has not found the attribute in the usual places (i.e. it is not an instance attribute nor is it found in the class tree for self). name is the attribute name. This method should return the (computed) attribute value or raise an AttributeError exception.</span>
 
 <span class="sd">        Note that if the attribute is found through the normal mechanism, __getattr__() is not called. (This</span>
 <span class="sd">        is an intentional asymmetry between __getattr__() and __setattr__().) This is done both for</span>
@@ -624,7 +646,7 @@
 <span class="sd">        of the instance. Note that at least for instance variables, you can fake total control by not</span>
 <span class="sd">        inserting any values in the instance attribute dictionary (but instead inserting them in another</span>
 <span class="sd">        object). See the __getattribute__() method below for a way to actually get total control in</span>
-<span class="sd">        new-style classes.&quot;&quot;&quot;</span>
+<span class="sd">        new-style classes."""</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
@@ -632,7 +654,7 @@
         <span class="n">superClass</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">XElementWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">superClass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">superClass</span><span class="p">,</span> <span class="s1">&#39;__getattr__&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">superClass</span><span class="p">,</span> <span class="s1">'__getattr__'</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">superClass</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="k">pass</span>
@@ -643,9 +665,9 @@
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called when an attribute assignment is attempted. This is called instead of the</span>
+<span class="w">        </span><span class="sd">"""Called when an attribute assignment is attempted. This is called instead of the</span>
 <span class="sd">           normal mechanism (i.e. store the value in the instance dictionary). name is the</span>
-<span class="sd">           attribute name, value is the value to be assigned to it.&quot;&quot;&quot;</span>
+<span class="sd">           attribute name, value is the value to be assigned to it."""</span>
 
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
             <span class="n">attribute</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -670,7 +692,7 @@
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">elif</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;_&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'_'</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -680,12 +702,12 @@
                     <span class="n">originalValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
                 <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting None on XML Element attribute: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Setting None on XML Element attribute: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                    <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting non string value on &lt;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&gt;, automatically corrected: &#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; -&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+                    <span class="n">XElementWrapper</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Setting non string value on &lt;'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'&gt;, automatically corrected: '</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">' -&gt; '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
 
-                    <span class="n">strVal</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%g</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">strVal</span> <span class="o">=</span> <span class="s1">'</span><span class="si">%g</span><span class="s1">'</span> <span class="o">%</span> <span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">strVal</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_AttributesChanged</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AttributesChanged</span> <span class="ow">or</span> <span class="p">(</span><span class="n">strVal</span> <span class="o">!=</span> <span class="n">originalValue</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -696,7 +718,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Like __setattr__() but for attribute deletion instead of assignment. This should only be implemented if del obj.name is meaningful for the object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Like __setattr__() but for attribute deletion instead of assignment. This should only be implemented if del obj.name is meaningful for the object."""</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -711,7 +733,7 @@
 <div class="viewcode-block" id="XElementWrapper.CompareAttributes">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.CompareAttributes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">CompareAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dictAttrib</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare the passed dictionary with the attributes on the node, return entries which do not match&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Compare the passed dictionary with the attributes on the node, return entries which do not match"""</span>
         <span class="n">mismatched</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">entry</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dictAttrib</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
@@ -727,7 +749,7 @@
 <div class="viewcode-block" id="XElementWrapper.RemoveOldChildrenByAttrib">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.RemoveOldChildrenByAttrib">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">RemoveOldChildrenByAttrib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ElementName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AttribName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AttribValue</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;If multiple children match the criteria, we remove all but the child with the latest creation date&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""If multiple children match the criteria, we remove all but the child with the latest creation date"""</span>
         <span class="n">Children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildrenByAttrib</span><span class="p">(</span><span class="n">ElementName</span><span class="p">,</span> <span class="n">AttribName</span><span class="p">,</span> <span class="n">AttribValue</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">Children</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
@@ -739,10 +761,10 @@
         <span class="n">OldestChild</span> <span class="o">=</span> <span class="n">Children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">iChild</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">Children</span><span class="p">)):</span>
             <span class="n">Child</span> <span class="o">=</span> <span class="n">Children</span><span class="p">[</span><span class="n">iChild</span><span class="p">]</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">Child</span><span class="p">,</span> <span class="s1">&#39;CreationDate&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">Child</span><span class="p">,</span> <span class="s1">'CreationDate'</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">Child</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">OldestChild</span><span class="p">,</span> <span class="s1">&#39;CreationDate&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">OldestChild</span><span class="p">,</span> <span class="s1">'CreationDate'</span><span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">OldestChild</span><span class="p">)</span>
                     <span class="n">OldestChild</span> <span class="o">=</span> <span class="n">Child</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -758,13 +780,13 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">GetChildrenByAttrib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ElementName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AttribName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AttribValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span>
         <span class="n">XElementWrapper</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">AttribValue</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">=&#39;</span><span class="si">%(AttribValue)g</span><span class="s2">&#39;]&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;ElementName&#39;</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribName&#39;</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribValue&#39;</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
+            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">='</span><span class="si">%(AttribValue)g</span><span class="s2">']"</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'ElementName'</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribName'</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribValue'</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">=&#39;</span><span class="si">%(AttribValue)s</span><span class="s2">&#39;]&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;ElementName&#39;</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribName&#39;</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribValue&#39;</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
+            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">='</span><span class="si">%(AttribValue)s</span><span class="s2">']"</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'ElementName'</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribName'</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribValue'</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">XPathStr</span><span class="p">)</span></div>
 
 
@@ -773,18 +795,18 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">GetChildByAttrib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ElementName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AttribName</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">AttribValue</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">AttribValue</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">=&#39;</span><span class="si">%(AttribValue)g</span><span class="s2">&#39;]&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;ElementName&#39;</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribName&#39;</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribValue&#39;</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
+            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">='</span><span class="si">%(AttribValue)g</span><span class="s2">']"</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'ElementName'</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribName'</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribValue'</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">=&#39;</span><span class="si">%(AttribValue)s</span><span class="s2">&#39;]&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;ElementName&#39;</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribName&#39;</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
-                                                                               <span class="s1">&#39;AttribValue&#39;</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
+            <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(ElementName)s</span><span class="s2">[@</span><span class="si">%(AttribName)s</span><span class="s2">='</span><span class="si">%(AttribValue)s</span><span class="s2">']"</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'ElementName'</span><span class="p">:</span> <span class="n">ElementName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribName'</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
+                                                                               <span class="s1">'AttribValue'</span><span class="p">:</span> <span class="n">AttribValue</span><span class="p">}</span>
 
         <span class="k">assert</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">XPathStr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">XPathStr</span><span class="p">)</span>
         <span class="c1"># if(len(Children) &gt; 1):</span>
-        <span class="c1">#    prettyoutput.LogErr(&quot;Multiple nodes found fitting criteria: &quot; + XPathStr)</span>
+        <span class="c1">#    prettyoutput.LogErr("Multiple nodes found fitting criteria: " + XPathStr)</span>
         <span class="c1">#    return Children</span>
 
         <span class="c1"># if len(Children) == 0:</span>
@@ -799,18 +821,18 @@
 <div class="viewcode-block" id="XElementWrapper.Contains">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.Contains">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">Contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if a direct child matches ``Element`` on tag and attributes.</span>
+<span class="w">        </span><span class="sd">"""True if a direct child matches ``Element`` on tag and attributes.</span>
 
 <span class="sd">        ``CreationDate`` is ignored so a freshly built probe can match a child that</span>
-<span class="sd">        already carries an auto-stamped date. Compares ``Element``&#39;s attributes to</span>
-<span class="sd">        each child (not the parent&#39;s), which is what duplicate detection needs.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        already carries an auto-stamped date. Compares ``Element``'s attributes to</span>
+<span class="sd">        each child (not the parent's), which is what duplicate detection needs.</span>
+<span class="sd">        """</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Element</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="s1">'tag'</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Element</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">attrs_ok</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">Element</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;CreationDate&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">'CreationDate'</span><span class="p">:</span>
                     <span class="k">continue</span>
                 <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span> <span class="ow">or</span> <span class="n">c</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">v</span><span class="p">:</span>
                     <span class="n">attrs_ok</span> <span class="o">=</span> <span class="kc">False</span>
@@ -824,40 +846,40 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.UpdateOrAddChildByAttrib">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">UpdateOrAddChildByAttrib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">_XT</span><span class="p">,</span> <span class="n">AttribNames</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">_XT</span><span class="p">]:</span>  <span class="c1"># type: ignore[override]</span>
         <span class="k">if</span> <span class="n">AttribNames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">AttribNames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]</span>
+            <span class="n">AttribNames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Name'</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">AttribNames</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">AttribNames</span> <span class="o">=</span> <span class="p">[</span><span class="n">AttribNames</span><span class="p">]</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">AttribNames</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unexpected attribute names for UpdateOrAddChildByAttrib&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">"Unexpected attribute names for UpdateOrAddChildByAttrib"</span><span class="p">)</span>
 
-        <span class="n">attribXPathTemplate</span> <span class="o">=</span> <span class="s2">&quot;@</span><span class="si">%(AttribName)s</span><span class="s2">=&#39;</span><span class="si">%(AttribValue)s</span><span class="s2">&#39;&quot;</span>
+        <span class="n">attribXPathTemplate</span> <span class="o">=</span> <span class="s2">"@</span><span class="si">%(AttribName)s</span><span class="s2">='</span><span class="si">%(AttribValue)s</span><span class="s2">'"</span>
         <span class="n">attribXPaths</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">AttribName</span> <span class="ow">in</span> <span class="n">AttribNames</span><span class="p">:</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="n">AttribName</span><span class="p">]</span>
-            <span class="n">attribXPaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attribXPathTemplate</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;AttribName&#39;</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
-                                                       <span class="s1">&#39;AttribValue&#39;</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
+            <span class="n">attribXPaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attribXPathTemplate</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'AttribName'</span><span class="p">:</span> <span class="n">AttribName</span><span class="p">,</span>
+                                                       <span class="s1">'AttribValue'</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
 
-        <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(ElementName)s</span><span class="s2">[</span><span class="si">%(QueryString)s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">{</span><span class="s1">&#39;ElementName&#39;</span><span class="p">:</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
-                                                         <span class="s1">&#39;QueryString&#39;</span><span class="p">:</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attribXPaths</span><span class="p">)}</span>
+        <span class="n">XPathStr</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(ElementName)s</span><span class="s2">[</span><span class="si">%(QueryString)s</span><span class="s2">]"</span> <span class="o">%</span> <span class="p">{</span><span class="s1">'ElementName'</span><span class="p">:</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span>
+                                                         <span class="s1">'QueryString'</span><span class="p">:</span> <span class="s1">' and '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">attribXPaths</span><span class="p">)}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">UpdateOrAddChild</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">XPathStr</span><span class="p">)</span>  <span class="c1"># type: ignore[return-value]</span></div>
 
 
 <div class="viewcode-block" id="XElementWrapper.UpdateOrAddChild">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.UpdateOrAddChild">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">UpdateOrAddChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">,</span> <span class="n">XPath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">XElementWrapper</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds an element using the specified XPath.  If the XPath is unspecified the element name is used</span>
+<span class="w">        </span><span class="sd">"""Adds an element using the specified XPath.  If the XPath is unspecified the element name is used</span>
 <span class="sd">           Returns a tuple with (True/False, Element).</span>
 <span class="sd">           True indicates the element did not exist and was added.</span>
 <span class="sd">           False indicates the element existed and the existing value is returned.</span>
-<span class="sd">           &quot;&quot;&quot;</span>
+<span class="sd">           """</span>
 
         <span class="k">if</span> <span class="n">XPath</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">XPath</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span>
 
         <span class="n">NewNodeCreated</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;Eliminates duplicates if they are found&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">'''Eliminates duplicates if they are found'''</span>
         <span class="c1">#        if self.Contains(Element):</span>
         <span class="c1">#            return</span>
         <span class="c1"># MatchingChildren = list(self.findall(XPath))</span>
@@ -865,7 +887,7 @@
         <span class="c1"># for i in range(1,len(MatchingChiElement.Parent = selfdren)):</span>
         <span class="c1"># self.remove(MatchingChildren[i])</span>
 
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;Returns the existing element if it exists, adds ChildElement with specified attributes if it does not exist.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">'''Returns the existing element if it exists, adds ChildElement with specified attributes if it does not exist.'''</span>
         <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">XPath</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">element</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -885,7 +907,7 @@
         <span class="c1"># Child.Parent = self</span>
 
         <span class="k">if</span> <span class="n">NewNodeCreated</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ChildrenChanged</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">),</span> <span class="s2">&quot;ChildrenChanged must be true if we report adding a child element&quot;</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ChildrenChanged</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">),</span> <span class="s2">"ChildrenChanged must be true if we report adding a child element"</span>
 
         <span class="k">return</span> <span class="n">NewNodeCreated</span><span class="p">,</span> <span class="n">child</span></div>
 
@@ -893,7 +915,7 @@
 <div class="viewcode-block" id="XElementWrapper.AddChild">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.AddChild">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">AddChild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_child_element</span><span class="p">):</span>
-        <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">&quot;Use append instead of AddChild on XElementWrapper based objects&quot;</span><span class="p">)</span>
+        <span class="ne">DeprecationWarning</span><span class="p">(</span><span class="s2">"Use append instead of AddChild on XElementWrapper based objects"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_child_element</span><span class="p">)</span></div>
 
 
@@ -919,7 +941,7 @@
 <div class="viewcode-block" id="XElementWrapper.FindParent">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.FindParent">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">FindParent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ParentTag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find parent with specified tag&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Find parent with specified tag"""</span>
         <span class="k">assert</span> <span class="p">(</span><span class="n">ParentTag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span>
         <span class="k">while</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -932,7 +954,7 @@
 <div class="viewcode-block" id="XElementWrapper.FindFromParent">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.FindFromParent">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">FindFromParent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">XElementWrapper</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run find on xpath on each parent, return first hit&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run find on xpath on each parent, return first hit"""</span>
         <span class="c1">#        assert (not ParentTag is None)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span>
         <span class="k">while</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -948,7 +970,7 @@
 <div class="viewcode-block" id="XElementWrapper.FindAllFromParent">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.FindAllFromParent">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">FindAllFromParent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run findall on xpath on each parent, return results only first nearest parent with resuls&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run findall on xpath on each parent, return results only first nearest parent with resuls"""</span>
         <span class="c1">#        assert (not ParentTag is None)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span>
         <span class="k">while</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -963,7 +985,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_ReplaceChildElementInPlace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="n">XElementWrapper</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap a child for an equivalent one **without** marking this element dirty.</span>
+<span class="w">        </span><span class="sd">"""Swap a child for an equivalent one **without** marking this element dirty.</span>
 
 <span class="sd">        Deliberately does not set ``_ChildrenChanged``, unlike append/remove. Every</span>
 <span class="sd">        live caller substitutes a node for its own loaded or wrapped equivalent --</span>
@@ -975,8 +997,8 @@
 <span class="sd">        the directory modification times that validation depends on. Callers that</span>
 <span class="sd">        genuinely restructure the parent, such as :meth:`ReplaceChildWithLink`,</span>
 <span class="sd">        set the flag themselves.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># print(&quot;Removing {0}&quot;.format(str(old)))</span>
+<span class="sd">        """</span>
+        <span class="c1"># print("Removing {0}".format(str(old)))</span>
         <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexofchild</span><span class="p">(</span><span class="n">old</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span>
@@ -988,17 +1010,17 @@
 <div class="viewcode-block" id="XElementWrapper.ReplaceChildWithLink">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.ReplaceChildWithLink">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ReplaceChildWithLink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Substitute a link stub for a container child, marking this element dirty.</span>
+<span class="w">        </span><span class="sd">"""Substitute a link stub for a container child, marking this element dirty.</span>
 
 <span class="sd">        Unlike the resolution path this really does restructure the parent: the</span>
-<span class="sd">        container&#39;s content stops being part of this element&#39;s XML, so the change</span>
+<span class="sd">        container's content stops being part of this element's XML, so the change</span>
 <span class="sd">        has to be persisted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">XContainerElementWrapper</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
                 <span class="k">return</span>
 
-            <span class="n">LinkElement</span> <span class="o">=</span> <span class="n">XElementWrapper</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span> <span class="s1">&#39;_Link&#39;</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+            <span class="n">LinkElement</span> <span class="o">=</span> <span class="n">XElementWrapper</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span> <span class="s1">'_Link'</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
             <span class="c1"># SaveElement.append(LinkElement)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ReplaceChildElementInPlace</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">LinkElement</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ChildrenChanged</span> <span class="o">=</span> <span class="kc">True</span></div>
@@ -1008,7 +1030,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">XElementWrapper</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">child</span>
 
-        <span class="k">assert</span> <span class="p">(</span><span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">),</span> <span class="s2">&quot;ReplaceChildIfUnwrapped: </span><span class="si">{0}</span><span class="s2"> not a child of </span><span class="si">{1}</span><span class="s2"> as expected&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">child</span><span class="p">),</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">),</span> <span class="s2">"ReplaceChildIfUnwrapped: </span><span class="si">{0}</span><span class="s2"> not a child of </span><span class="si">{1}</span><span class="s2"> as expected"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">child</span><span class="p">),</span>
                                                                                                      <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
         <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">wrappedElement</span><span class="p">)</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">WrapElement</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
@@ -1034,12 +1056,12 @@
                 <span class="k">return</span> <span class="kc">None</span>
 
             <span class="k">if</span> <span class="n">UsedWildcard</span><span class="p">:</span>
-                <span class="n">LinkMatches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">),</span> <span class="n">LinkMatches</span><span class="p">))</span>
+                <span class="n">LinkMatches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">),</span> <span class="n">LinkMatches</span><span class="p">))</span>
 
             <span class="n">num_matches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LinkMatches</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">num_matches</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="c1"># if num_matches &gt; 1:</span>
-                <span class="c1">#    prettyoutput.Log(&quot;Need to load {0} links&quot;.format(num_matches))</span>
+                <span class="c1">#    prettyoutput.Log("Need to load {0} links".format(num_matches))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_replace_links</span><span class="p">(</span><span class="n">LinkMatches</span><span class="p">)</span>
 
                 <span class="c1"># Persist whatever link resolution repaired, matching findall below.</span>
@@ -1067,7 +1089,7 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">RemainingXPath</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">foundChild</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">RemainingXPath</span><span class="p">)</span>
 
-                <span class="c1"># Continue searching links if we don&#39;t find a result on the loaded elements</span>
+                <span class="c1"># Continue searching links if we don't find a result on the loaded elements</span>
                 <span class="k">if</span> <span class="n">foundChild</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">foundChild</span><span class="p">,</span> <span class="n">XElementWrapper</span><span class="p">))</span>
                     <span class="k">return</span> <span class="n">foundChild</span>
@@ -1092,11 +1114,11 @@
             <span class="k">return</span>  <span class="c1"># matches</span>
 
         <span class="k">if</span> <span class="n">UsedWildcard</span><span class="p">:</span>
-            <span class="n">link_matches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">),</span> <span class="n">link_matches</span><span class="p">))</span>
+            <span class="n">link_matches</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">),</span> <span class="n">link_matches</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">link_matches</span><span class="p">:</span>
             <span class="c1"># if num_matches &gt; 1:</span>
-            <span class="c1">#    prettyoutput.Log(&quot;Need to load {0} links&quot;.format(num_matches))</span>
+            <span class="c1">#    prettyoutput.Log("Need to load {0} links".format(num_matches))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_replace_links</span><span class="p">(</span><span class="n">link_matches</span><span class="p">)</span>
 
             <span class="c1"># See find() above: this looks like a read that writes, but a healthy</span>
@@ -1123,7 +1145,7 @@
             <span class="c1">#             NotValid = m.CleanIfInvalid()</span>
             <span class="c1">#             if NotValid:</span>
             <span class="c1">#                 continue</span>
-            <span class="k">if</span> <span class="s1">&#39;_Link&#39;</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">'_Link'</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">tag</span><span class="p">:</span>
                 <span class="c1"># TODO: Can this code path ever execute?  Seems like we pre-load the links above</span>
                 <span class="n">m_replaced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_replace_link</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">m_replaced</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1131,7 +1153,7 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">m</span> <span class="o">=</span> <span class="n">m_replaced</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">XElementWrapper</span><span class="p">):</span>
-                <span class="c1"># Inlines _ReplaceChildIfUnwrapped&#39;s own first test. Children are</span>
+                <span class="c1"># Inlines _ReplaceChildIfUnwrapped's own first test. Children are</span>
                 <span class="c1"># already wrapped on all but the first pass, so calling it here</span>
                 <span class="c1"># meant a Python call per child per query only to return it again.</span>
                 <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ReplaceChildIfUnwrapped</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
@@ -1156,37 +1178,37 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__ElementLinkNameFromXPath</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">xpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        :Return: The name to search for the linked and unlinked version of the search term.</span>
 <span class="sd">                 If only attributes are specified the Link search term will return all</span>
 <span class="sd">                 elements. (UnlinkedElementPath, LinkedElementPath, RemainingPath, HasWildcard)</span>
 <span class="sd">                 If the xpath has a wildcard (HasWildcard) a function searching with LinkedElementPath</span>
 <span class="sd">                 must manually check each child element tag to see if it ends in _Link.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
-        <span class="k">if</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">:</span>
-            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="s1">&#39;__ElementLinkNameFromXPath&#39;</span><span class="p">)</span>
-            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Backslash found in xpath query, is this intentional or should it be a forward slash?&quot;</span><span class="p">)</span>
-            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;XPath: &quot;</span> <span class="o">+</span> <span class="n">xpath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">'</span><span class="se">\\</span><span class="s1">'</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">:</span>
+            <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="s1">'__ElementLinkNameFromXPath'</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Backslash found in xpath query, is this intentional or should it be a forward slash?"</span><span class="p">)</span>
+            <span class="n">Logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"XPath: "</span> <span class="o">+</span> <span class="n">xpath</span><span class="p">)</span>
 
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
         <span class="n">UnlinkedElementsXPath</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">SubContainerParts</span> <span class="o">=</span> <span class="n">UnlinkedElementsXPath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span>
+        <span class="n">SubContainerParts</span> <span class="o">=</span> <span class="n">UnlinkedElementsXPath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'['</span><span class="p">)</span>
         <span class="n">SubContainerName</span> <span class="o">=</span> <span class="n">SubContainerParts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="n">HaveSubContainerName</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="n">SubContainerName</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">SubContainerName</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">SubContainerIsWildcard</span> <span class="o">=</span> <span class="n">SubContainerName</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span>
+        <span class="n">SubContainerIsWildcard</span> <span class="o">=</span> <span class="n">SubContainerName</span> <span class="o">==</span> <span class="s1">'*'</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">HaveSubContainerName</span><span class="p">:</span>
-            <span class="n">SubContainerName</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span>
+            <span class="n">SubContainerName</span> <span class="o">=</span> <span class="s1">'*'</span>
             <span class="n">LinkedElementsXPath</span> <span class="o">=</span> <span class="n">SubContainerName</span> <span class="o">+</span> <span class="n">UnlinkedElementsXPath</span>
             <span class="n">SubContainerIsWildcard</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">SubContainerIsWildcard</span><span class="p">:</span>
-                <span class="n">LinkedSubContainerName</span> <span class="o">=</span> <span class="n">SubContainerName</span> <span class="o">+</span> <span class="s1">&#39;_Link&#39;</span>
+                <span class="n">LinkedSubContainerName</span> <span class="o">=</span> <span class="n">SubContainerName</span> <span class="o">+</span> <span class="s1">'_Link'</span>
                 <span class="n">LinkedElementsXPath</span> <span class="o">=</span> <span class="n">UnlinkedElementsXPath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">SubContainerName</span><span class="p">,</span> <span class="n">LinkedSubContainerName</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># ElementTree does not let use say &#39;*_link&#39; when searching tag names.  So we have to return</span>
+                <span class="c1"># ElementTree does not let use say '*_link' when searching tag names.  So we have to return</span>
                 <span class="c1"># all tags and filter out _links later.</span>
                 <span class="n">LinkedElementsXPath</span> <span class="o">=</span> <span class="n">UnlinkedElementsXPath</span>
 
@@ -1196,16 +1218,16 @@
 <div class="viewcode-block" id="XElementWrapper.LoadAllLinkedNodes">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.LoadAllLinkedNodes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">LoadAllLinkedNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively load all the linked nodes on this element&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Recursively load all the linked nodes on this element"""</span>
 
         <span class="n">child_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">linked_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_Link&#39;</span><span class="p">),</span> <span class="n">child_nodes</span><span class="p">))</span>
+        <span class="n">linked_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">),</span> <span class="n">child_nodes</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">linked_nodes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                           <span class="s1">&#39;_replace_links&#39;</span><span class="p">),</span> <span class="s1">&#39;Nodes with linked children must implement _replace_links to load those links&#39;</span>
+                           <span class="s1">'_replace_links'</span><span class="p">),</span> <span class="s1">'Nodes with linked children must implement _replace_links to load those links'</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_replace_links&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">'_replace_links'</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_replace_links</span><span class="p">(</span><span class="n">linked_nodes</span><span class="p">)</span>
 
         <span class="c1"># Check all of our child nodes for links</span>
@@ -1213,7 +1235,7 @@
             <span class="n">n</span><span class="o">.</span><span class="n">LoadAllLinkedNodes</span><span class="p">()</span>  <span class="c1"># type: ignore[union-attr]</span>
 
         <span class="c1">#         for n in child_nodes:</span>
-        <span class="c1">#             if n.tag.endswith(&#39;_Link&#39;):</span>
+        <span class="c1">#             if n.tag.endswith('_Link'):</span>
         <span class="c1">#                 n_replaced = self._replace_link(n)</span>
         <span class="c1">#                 if n_replaced is None:</span>
         <span class="c1">#                     continue</span>

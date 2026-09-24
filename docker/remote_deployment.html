@@ -42,10 +42,34 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Docker images</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="images.html">Image catalogue</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
@@ -68,8 +92,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -126,7 +148,7 @@ Container (<code class="docutils literal notranslate"><span class="pre">run-curs
 </li>
 </ol>
 <p><strong>Every session (1 step)</strong>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span> <span class="s2">&quot;$env:NORNIR_DOCKER_USER_ROOT\Builds</span><span class="se">\n</span><span class="s2">ornir-build\start-nornir-build.ps1&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span> <span class="s2">"$env:NORNIR_DOCKER_USER_ROOT\Builds</span><span class="se">\n</span><span class="s2">ornir-build\start-nornir-build.ps1"</span>
 <span class="c1"># GPU probe picks nornir:cupy vs nornir:prod; path-B CIFS; interactive shell</span>
 </pre></div>
 </div>
@@ -157,8 +179,9 @@ MQTT. <code class="docutils literal notranslate"><span class="pre">start-nornir-
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code></p></td>
-<td><p>Machine-local Docker root for Builds / Run / mounted-configs. Default
-<code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code> (often <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>). Set as a user or system env var.</p></td>
+<td><p>Machine-local Docker root for Builds / Run / mounted-configs. The default
+is <code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code>; many lab machines set it to <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>. Examples on
+each page say which path they assume. Set as a user or system env var.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_GHCR_OWNER</span></code></p></td>
 <td><p>GHCR namespace for pull/push (<code class="docutils literal notranslate"><span class="pre">docker-pull.ps1</span></code>, initialize). Default
@@ -301,7 +324,7 @@ per container start.</p>
 <section id="verify-checklist">
 <h2>Verify checklist<a class="headerlink" href="#verify-checklist" title="Link to this heading"></a></h2>
 <p>Inside the appliance shell:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">&quot;$NORNIR_NET_MOUNTS&quot;</span>   <span class="c1"># expect 1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">"$NORNIR_NET_MOUNTS"</span>   <span class="c1"># expect 1</span>
 <span class="n">findmnt</span> <span class="o">-</span><span class="n">t</span> <span class="n">cifs</span>
 <span class="c1"># expect shares from nas-mounts.tsv (e.g. /storage4)</span>
 <span class="c1"># CAP_SYS_ADMIN should be dropped after entry when setpriv/capsh are present</span>

@@ -42,10 +42,34 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Docker images</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Image catalogue</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#monorepo-version-and-package-map">Monorepo version and package map</a></li>
@@ -65,8 +89,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -193,11 +215,11 @@ including <code class="docutils literal notranslate"><span class="pre">org.openc
 <code class="docutils literal notranslate"><span class="pre">org.nornir.variant</span></code>, and <code class="docutils literal notranslate"><span class="pre">org.nornir.package_versions.json.base64</span></code>
 (base64-encoded JSON map of docker-included packages).</p>
 <p>Inspect (PowerShell):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">&#39;{{json .Config.Labels}}&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">'{{json .Config.Labels}}'</span>
 </pre></div>
 </div>
 <p>Decode the BOM:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format &#39;{{index .Config.Labels &quot;org.nornir.package_versions.json.base64&quot;}}&#39;)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format '{{index .Config.Labels "org.nornir.package_versions.json.base64"}}')
 [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b64))
 </pre></div>
 </div>
@@ -218,7 +240,7 @@ script used by the Cursor dev compose flow). It is <strong>not</strong> the defa
 explicitly so an empty <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> is populated by <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> (requires network and
 <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code> if you override defaults), then drops into
 your shell, for example (one line, or use <code class="docutils literal notranslate"><span class="pre">^</span></code> continuation in <code class="docutils literal notranslate"><span class="pre">cmd</span></code> / backtick in PowerShell):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="n">secrets</span><span class="o">.</span><span class="n">env</span> <span class="o">--</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">nornir</span><span class="o">-</span><span class="n">dev</span> <span class="o">-</span><span class="n">v</span> <span class="s2">&quot;D:\Docker\mounted-configs</span><span class="se">\n</span><span class="s2">ornir-dev:/workspace&quot;</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">workspace</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">entry</span><span class="o">.</span><span class="n">sh</span> <span class="n">bash</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="n">secrets</span><span class="o">.</span><span class="n">env</span> <span class="o">--</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">nornir</span><span class="o">-</span><span class="n">dev</span> <span class="o">-</span><span class="n">v</span> <span class="s2">"D:\Docker\mounted-configs</span><span class="se">\n</span><span class="s2">ornir-dev:/workspace"</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">workspace</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">entry</span><span class="o">.</span><span class="n">sh</span> <span class="n">bash</span>
 </pre></div>
 </div>
 <p>If the mount is <strong>non-empty</strong> and not a git repo, the script refuses to clone (see script
@@ -234,7 +256,7 @@ your env file:</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">compose.cursor-dev.yaml</span></code> bind-mounts <code class="docutils literal notranslate"><span class="pre">NORNIR_TESTOUTPUT_HOST</span></code> (default <code class="docutils literal notranslate"><span class="pre">D:/nornir-test-output</span></code>) to that path.</p>
 <p>and:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">v</span> <span class="s2">&quot;//wsl$/Ubuntu/home/you/nornir-testdata:/nornir-testdata:ro&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">v</span> <span class="s2">"//wsl$/Ubuntu/home/you/nornir-testdata:/nornir-testdata:ro"</span>
 </pre></div>
 </div>
 <p>Or use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">-f</span> <span class="pre">nornir-docker/compose.cursor-dev.yaml</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">cursor-dev</span></code>, which

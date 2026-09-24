@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -92,7 +114,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_parse_shared_memory_address</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse address stored in SHARED_MEMORY_SERVER_ADDRESS (tuple repr or plain string).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Parse address stored in SHARED_MEMORY_SERVER_ADDRESS (tuple repr or plain string)."""</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">parsed</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
@@ -106,20 +128,20 @@
 <div class="viewcode-block" id="get_or_create_shared_memory_manager">
 <a class="viewcode-back" href="../../api/nornir_pools.html#nornir_pools.get_or_create_shared_memory_manager">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_or_create_shared_memory_manager</span><span class="p">(</span><span class="n">authkey</span><span class="p">:</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain a SharedMemoryManager for inter-process buffers.</span>
+<span class="w">    </span><span class="sd">"""Obtain a SharedMemoryManager for inter-process buffers.</span>
 
 <span class="sd">    Call from the parent before workers start. The listener address/authkey are</span>
 <span class="sd">    published via SHARED_MEMORY_SERVER_ADDRESS / SHARED_MEMORY_AUTHKEY so children</span>
 <span class="sd">    can connect to the same manager.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_shared_memory_manager</span>
 
     <span class="k">if</span> <span class="n">_shared_memory_manager</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">&#39;SHARED_MEMORY_SERVER_ADDRESS&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">'SHARED_MEMORY_SERVER_ADDRESS'</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">authkey</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">key</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SHARED_MEMORY_AUTHKEY&#39;</span><span class="p">])</span>
-            <span class="n">address</span> <span class="o">=</span> <span class="n">_parse_shared_memory_address</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SHARED_MEMORY_SERVER_ADDRESS&#39;</span><span class="p">])</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'SHARED_MEMORY_AUTHKEY'</span><span class="p">])</span>
+            <span class="n">address</span> <span class="o">=</span> <span class="n">_parse_shared_memory_address</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'SHARED_MEMORY_SERVER_ADDRESS'</span><span class="p">])</span>
             <span class="n">_shared_memory_manager</span> <span class="o">=</span> <span class="n">SharedMemoryManager</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="n">authkey</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
             <span class="n">_shared_memory_manager</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -128,11 +150,11 @@
             <span class="n">_shared_memory_manager</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
             <span class="n">_addr</span> <span class="o">=</span> <span class="n">_shared_memory_manager</span><span class="o">.</span><span class="n">address</span>
             <span class="k">assert</span> <span class="n">_addr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_authkey</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating shared memory manager: </span><span class="si">{</span><span class="n">_addr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Creating shared memory manager: </span><span class="si">{</span><span class="n">_addr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">_stop_shared_memory_manager</span><span class="p">)</span>
             <span class="c1"># Store a literal-evaluable form so children can reconnect with a real tuple.</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SHARED_MEMORY_SERVER_ADDRESS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">_addr</span><span class="p">)</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SHARED_MEMORY_AUTHKEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_authkey</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'SHARED_MEMORY_SERVER_ADDRESS'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">_addr</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'SHARED_MEMORY_AUTHKEY'</span><span class="p">]</span> <span class="o">=</span> <span class="n">_authkey</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">_shared_memory_manager</span></div>
 

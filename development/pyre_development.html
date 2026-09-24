@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Markdown in the monodoc" href="markdown_in_sphinx.html" />
-    <link rel="prev" title="Release process" href="release.html" /> 
+    <link rel="next" title="Developer notes" href="../developer_notes.html" />
+    <link rel="prev" title="Logging convention" href="logging.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,16 +42,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="publishing_documentation.html">Publishing the documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="github_pages.html">GitHub Pages hosting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">Logging convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Pyre development</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#monorepo-layout">Monorepo layout</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#local-development-environment">Local development environment</a><ul>
@@ -75,11 +99,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#see-also">See also</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid-cpp-parity-checklist.html">ir-refine-grid C++ → Python Parity Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid690-python-parity-changelog.html">Grid690 Python Refine-Grid Parity — Change Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ir-blob-cpp-parity-checklist.html">ir-blob C++ → Python parity checklist</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -166,6 +192,25 @@ are installed.</p>
 </section>
 <section id="settings-and-logs">
 <h3>Settings and logs<a class="headerlink" href="#settings-and-logs" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Dev build</p></th>
+<th class="head"><p>Frozen Windows install</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pyre/settings.json</span></code> (package tree, dev)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%APPDATA%\Nornir\Pyre\settings.json</span></code> (user-writable)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> env or cwd fallback</p></td>
+<td><p>Defaults to <code class="docutils literal notranslate"><span class="pre">%LOCALAPPDATA%\Nornir\Pyre\logs</span></code></p></td>
+</tr>
+</tbody>
+</table>
 <p>Set <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> in development to follow the unified logging convention
 (<a class="reference internal" href="logging.html"><span class="doc">Logging convention</span></a>).</p>
 </section>
@@ -182,7 +227,7 @@ conventions).</p>
 <section id="gpu-optional">
 <h3>GPU (optional)<a class="headerlink" href="#gpu-optional" title="Link to this heading"></a></h3>
 <p>UI development does not require CuPy. For GPU-backed registration:</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="s2">&quot;nornir-imageregistration[gpu]&quot;</span> <span class="p">-</span><span class="n">-no-deps</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="s2">"nornir-imageregistration[gpu]"</span> <span class="p">-</span><span class="n">-no-deps</span>
 </pre></div>
 </div>
 </section>
@@ -297,8 +342,8 @@ is current in git.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="release.html" class="btn btn-neutral float-left" title="Release process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="markdown_in_sphinx.html" class="btn btn-neutral float-right" title="Markdown in the monodoc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="logging.html" class="btn btn-neutral float-left" title="Logging convention" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../developer_notes.html" class="btn btn-neutral float-right" title="Developer notes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="GitHub Pages hosting" href="github_pages.html" />
-    <link rel="prev" title="Development" href="index.html" /> 
+    <link rel="prev" title="Release process" href="release.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,28 +42,57 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Publishing the documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#local-build">Local build</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#continuous-integration">Continuous integration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deploy-credentials-option-a">Deploy credentials (Option A)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-credentials-option-a">Deploy credentials (Option A)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#to-add-the-secret">To add the secret</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#version-banner">Version banner</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="github_pages.html">GitHub Pages hosting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">Logging convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyre_development.html">Pyre development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid-cpp-parity-checklist.html">ir-refine-grid C++ → Python Parity Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid690-python-parity-changelog.html">Grid690 Python Refine-Grid Parity — Change Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ir-blob-cpp-parity-checklist.html">ir-blob C++ → Python parity checklist</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -102,12 +131,15 @@
 <li><p>Install Sphinx dependencies and editable packages (from the monorepo root):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">docs</span><span class="o">/</span><span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">shared</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">pools</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">imageregistration</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">buildmanager</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">pools</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="s2">"six&gt;=1.16"</span> <span class="s2">"numpy&gt;=1.26"</span> <span class="s2">"matplotlib&gt;=3.8"</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">imageregistration</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="s2">"scipy&gt;=1.11"</span> <span class="s2">"Pillow&gt;=10.2"</span> <span class="s2">"pydantic&gt;=2.9.2"</span> <span class="s2">"scikit-image&gt;=0.25.1"</span> <span class="s2">"hypothesis&gt;=6.96"</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="n">nornir</span><span class="o">-</span><span class="n">buildmanager</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">deps</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="s2">"validators&gt;=0.23"</span> <span class="s2">"python-dotenv&gt;=1.0.1"</span>
 </pre></div>
 </div>
-<p>If dependency resolution pulls remote Git URLs instead of your local trees, install the four packages in that order and adjust pins as needed for your branch.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> keeps git URL pins in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> from replacing the local trees.</p>
 </li>
 <li><p>Build HTML:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">build</span> <span class="o">-</span><span class="n">b</span> <span class="n">html</span> <span class="n">docs</span> <span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span>
@@ -136,9 +168,21 @@ on branch <strong>``master``</strong> (the branch GitHub Pages serves; option A:
 <h2>Deploy credentials (Option A)<a class="headerlink" href="#deploy-credentials-option-a" title="Link to this heading"></a></h2>
 <p>Pushing from this repo into <strong>another</strong> repository requires a token or deploy key with write access to <code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code>. The workflow uses <strong>peaceiris/actions-gh-pages</strong> with:</p>
 <ul class="simple">
-<li><p><strong>Secret (placeholder name):</strong> <code class="docutils literal notranslate"><span class="pre">NORNIR_GITHUB_IO_DEPLOY_TOKEN</span></code> — a fine-grained or classic PAT with <code class="docutils literal notranslate"><span class="pre">contents:</span> <span class="pre">write</span></code> on <code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code>, stored in this monorepo’s <strong>Settings → Secrets and variables → Actions</strong>.</p></li>
+<li><p><strong>Secret (placeholder name):</strong> <code class="docutils literal notranslate"><span class="pre">NORNIR_ORG_GITHUB_IO_DEPLOY_TOKEN</span></code> — a fine-grained or classic PAT with <code class="docutils literal notranslate"><span class="pre">contents:</span> <span class="pre">write</span></code> on <code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code>, stored in this monorepo’s <strong>Settings → Secrets and variables → Actions</strong>.</p></li>
 </ul>
-<p>Without that secret, the HTML <strong>build</strong> can succeed while <strong>Publish to nornir.github.io</strong> fails with <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">found</span> <span class="pre">deploy</span> <span class="pre">key</span> <span class="pre">or</span> <span class="pre">tokens</span></code>.</p>
+<p>Without that secret, the HTML <strong>build</strong> succeeds and <strong>Publish to nornir.github.io</strong> is
+<strong>skipped</strong> with a workflow warning (so missing credentials do not turn every <code class="docutils literal notranslate"><span class="pre">master</span></code>
+push red). Set the secret when you want Pages to update automatically.</p>
+<section id="to-add-the-secret">
+<h3>To add the secret<a class="headerlink" href="#to-add-the-secret" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create a fine-grained PAT (or classic PAT) with <strong>Contents: Read and write</strong> on
+<code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code>.</p></li>
+<li><p>In <strong>https://github.com/jamesra/nornir</strong> → <strong>Settings → Secrets and variables → Actions</strong>,
+create repository secret <code class="docutils literal notranslate"><span class="pre">NORNIR_ORG_GITHUB_IO_DEPLOY_TOKEN</span></code> with that token value.</p></li>
+<li><p>Re-run the <strong>Documentation</strong> workflow (or push to <code class="docutils literal notranslate"><span class="pre">master</span></code> under the docs path filters).</p></li>
+</ol>
+</section>
 </section>
 <section id="version-banner">
 <h2>Version banner<a class="headerlink" href="#version-banner" title="Link to this heading"></a></h2>
@@ -150,7 +194,7 @@ on branch <strong>``master``</strong> (the branch GitHub Pages serves; option A:
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="release.html" class="btn btn-neutral float-left" title="Release process" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="github_pages.html" class="btn btn-neutral float-right" title="GitHub Pages hosting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

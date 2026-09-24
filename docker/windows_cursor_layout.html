@@ -42,10 +42,34 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Docker images</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="images.html">Image catalogue</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
@@ -66,8 +90,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -101,9 +123,9 @@
 <section id="one-time-initializer">
 <h2>One-time initializer<a class="headerlink" href="#one-time-initializer" title="Link to this heading"></a></h2>
 <p><strong>Git clone and Docker do not create these paths.</strong> Run <code class="docutils literal notranslate"><span class="pre">Initialize-NornirCursorWorkerLayout.ps1</span></code> once (Developer Mode or elevated shell for symlinks):</p>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span> <span class="s1">&#39;D:\src\git\nornir\nornir-docker\windows-docker-layout\Initialize-NornirCursorWorkerLayout.ps1&#39;</span> <span class="p">`</span>
-  <span class="n">-ScriptsRepoRoot</span> <span class="s1">&#39;D:\src\git\nornir&#39;</span> <span class="p">`</span>
-  <span class="n">-DockerUserRoot</span> <span class="s1">&#39;D:\Docker&#39;</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span> <span class="s1">'D:\src\git\nornir\nornir-docker\windows-docker-layout\Initialize-NornirCursorWorkerLayout.ps1'</span> <span class="p">`</span>
+  <span class="n">-ScriptsRepoRoot</span> <span class="s1">'D:\src\git\nornir'</span> <span class="p">`</span>
+  <span class="n">-DockerUserRoot</span> <span class="s1">'D:\Docker'</span>
 </pre></div>
 </div>
 </section>
@@ -154,7 +176,7 @@
 </section>
 <section id="compose">
 <h2>Compose<a class="headerlink" href="#compose" title="Link to this heading"></a></h2>
-<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:NORNIR_CURSOR_WORKER_ENV_FILE</span> <span class="p">=</span> <span class="s1">&#39;D:\Docker\Run\nornir-cursor-worker\nornir-cursor-worker.run.env&#39;</span>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:NORNIR_CURSOR_WORKER_ENV_FILE</span> <span class="p">=</span> <span class="s1">'D:\Docker\Run\nornir-cursor-worker\nornir-cursor-worker.run.env'</span>
 <span class="n">docker</span> <span class="n">compose</span> <span class="o">-f</span> <span class="n">nornir-docker</span><span class="p">/</span><span class="n">compose</span><span class="p">.</span><span class="n">cursor-worker</span><span class="p">.</span><span class="n">yaml</span> <span class="n">run</span> <span class="p">-</span><span class="n">-rm</span> <span class="n">nornir-cursor-worker</span>
 </pre></div>
 </div>

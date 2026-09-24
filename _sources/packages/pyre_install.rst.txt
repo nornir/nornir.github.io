@@ -83,5 +83,7 @@ See also
 --------
 
 * User changelog: :doc:`pyre_changelog`
+* How to drive the UI: :doc:`../guides/pyre_use`
+* Machine requirements: :doc:`../host_requirements`
 * Package overview: :doc:`other_packages`
 * Full manual: https://nornir.github.io/

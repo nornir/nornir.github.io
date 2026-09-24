@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview of volume building" href="overview_alignment_theory.html" />
-    <link rel="prev" title="Nornir documentation" href="index.html" /> 
+    <link rel="next" title="Concepts" href="concepts.html" />
+    <link rel="prev" title="Host requirements" href="host_requirements.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,21 +42,43 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#mission">Mission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#history">History</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#related-tools">Related tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#system-notes">System notes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#terminology-short-glossary">Terminology (short glossary)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#terminology">Terminology</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -99,25 +121,20 @@
 </section>
 <section id="related-tools">
 <h2>Related tools<a class="headerlink" href="#related-tools" title="Link to this heading"></a></h2>
-<p>Volume images frequently exceed reasonable sizes for single files. <strong>Viking</strong> is another Marc Lab tool for viewing and annotating huge datasets. Nornir output can be viewed with Viking when placed on a web server.</p>
+<p>Nornir builds the aligned volume and a VikingXML manifest. <strong>Viking</strong> views and annotates that volume. <strong>SBFSEM-tools</strong> analyzes Viking annotations in MATLAB. Build in Nornir, view and annotate in Viking, analyze in SBFSEM-tools.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/connectomes/Viking">Viking</a></p></li>
+<li><p><a class="reference external" href="https://github.com/neitzlab/SBFSEM-tools">SBFSEM-tools</a></p></li>
+</ul>
+<p>See <a class="reference internal" href="guides/build_volume.html"><span class="doc">Build a volume</span></a>.</p>
 </section>
 <section id="system-notes">
 <h2>System notes<a class="headerlink" href="#system-notes" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p>64-bit OS (development has focused on Windows).</p></li>
-<li><p>Rough guideline: about 2 GB RAM per CPU core for heavy pipelines (workload-dependent).</p></li>
-</ul>
+<p>What a machine needs to run Pyre, a workstation pipeline, or Docker is in <a class="reference internal" href="host_requirements.html"><span class="doc">Host requirements</span></a>. Production volumes (NAS, scratch disk, GPU class) are in <a class="reference internal" href="performance/envelope.html"><span class="doc">Production envelope</span></a>.</p>
 </section>
-<section id="terminology-short-glossary">
-<h2>Terminology (short glossary)<a class="headerlink" href="#terminology-short-glossary" title="Link to this heading"></a></h2>
-<p><strong>Block</strong> — plastic-embedded sample before sectioning.</p>
-<p><strong>Section / slice</strong> — one thin physical slice from the block, typically tens of nanometres thick for TEM.</p>
-<p><strong>Mosaic</strong> — a set of overlapping microscope images covering an area larger than one field of view.</p>
-<p><strong>Tile</strong> — one image in a mosaic (with deliberate overlap between neighbors).</p>
-<p><strong>Slice-to-slice (STOS)</strong> — transforms that align one section’s image to an adjacent section.</p>
-<p><strong>Center section</strong> — the section chosen as the origin of the volume coordinate system; other sections map toward it through composed transforms.</p>
-<p><strong>Slice-to-volume</strong> — the composed mapping from a section’s mosaic space into the unified volume space.</p>
-<p>For the same terms in the context of the full alignment walkthrough, see <a class="reference internal" href="overview_alignment_theory.html"><span class="doc">Overview of volume building</span></a>.</p>
+<section id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Link to this heading"></a></h2>
+<p>Terms used across the manual (block, section, mosaic, tile, channel, filter, prune, blob, STOS, grid, slice-to-volume) are defined in <a class="reference internal" href="concepts.html"><span class="doc">Concepts</span></a>.</p>
 </section>
 </section>
 
@@ -125,8 +142,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Nornir documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="overview_alignment_theory.html" class="btn btn-neutral float-right" title="Overview of volume building" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="host_requirements.html" class="btn btn-neutral float-left" title="Host requirements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="concepts.html" class="btn btn-neutral float-right" title="Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Docker images" href="../docker/index.html" />
     <link rel="prev" title="nornir_volumecontroller API" href="nornir_volumecontroller.html" /> 
 </head>
 
@@ -41,13 +42,33 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="nornir_shared.html"><code class="docutils literal notranslate"><span class="pre">nornir_shared</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html"><code class="docutils literal notranslate"><span class="pre">nornir_pools</span></code></a></li>
@@ -254,6 +275,8 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
 </ul>
 
         </div>
@@ -646,7 +669,7 @@ groups a contiguous run of Z-sections and their associated image channels,
 filters, tile pyramids, and registration transforms.</p>
 <p>Typical usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel</span>
-<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">&#39;/path/to/volume.xml&#39;</span><span class="p">)</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">'/path/to/volume.xml'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">vol</span><span class="o">.</span><span class="n">Blocks</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">Sections</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
@@ -705,7 +728,7 @@ groups a contiguous run of Z-sections and their associated image channels,
 filters, tile pyramids, and registration transforms.</p>
 <p>Typical usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">nornir_volumemodel</span>
-<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">&#39;/path/to/volume.xml&#39;</span><span class="p">)</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">nornir_volumemodel</span><span class="o">.</span><span class="n">Load_Xml</span><span class="p">(</span><span class="s1">'/path/to/volume.xml'</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">vol</span><span class="o">.</span><span class="n">Blocks</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">Sections</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
@@ -1149,6 +1172,7 @@ registration transforms.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="nornir_volumecontroller.html" class="btn btn-neutral float-left" title="nornir_volumecontroller API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../docker/index.html" class="btn btn-neutral float-right" title="Docker images" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

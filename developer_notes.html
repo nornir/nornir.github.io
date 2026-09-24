@@ -19,8 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API reference" href="api/index.html" />
-    <link rel="prev" title="Markdown in the monodoc" href="development/markdown_in_sphinx.html" /> 
+    <link rel="next" title="Markdown in the monodoc" href="development/markdown_in_sphinx.html" />
+    <link rel="prev" title="Pyre development" href="development/pyre_development.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,14 +42,48 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
-<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines.html">Pipeline catalogue</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="development/index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="development/release.html">Release process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/publishing_documentation.html">Publishing the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/github_pages.html">GitHub Pages hosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/logging.html">Logging convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/pyre_development.html">Pyre development</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Developer notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development/markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refine-grid-cpp-parity-checklist.html">ir-refine-grid C++ → Python Parity Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refine-grid690-python-parity-changelog.html">Grid690 Python Refine-Grid Parity — Change Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ir-blob-cpp-parity-checklist.html">ir-blob C++ → Python parity checklist</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -66,6 +100,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="development/index.html">Development</a></li>
       <li class="breadcrumb-item active">Developer notes</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/developer_notes.rst.txt" rel="nofollow"> View page source</a>
@@ -78,25 +113,21 @@
              
   <section id="developer-notes">
 <h1>Developer notes<a class="headerlink" href="#developer-notes" title="Link to this heading"></a></h1>
-<p>This repository is an <strong>umbrella</strong> checkout that contains multiple <code class="docutils literal notranslate"><span class="pre">nornir-*</span></code> packages side by side. Typical development uses a dedicated virtual environment (see project <code class="docutils literal notranslate"><span class="pre">.cursor/rules</span></code> for the recommended path on this machine) and editable installs of the packages you are changing.</p>
+<p>This repository is an <strong>umbrella</strong> checkout that contains multiple <code class="docutils literal notranslate"><span class="pre">nornir-*</span></code> packages side by side. Contributor setup, editable installs, and test conventions are in <a class="reference internal" href="agents.html"><span class="doc">Agents and contributors</span></a>.</p>
 <ul class="simple">
 <li><p><strong>Monodoc:</strong> <a class="reference external" href="https://nornir.github.io/">https://nornir.github.io/</a> — full documentation and API reference.</p></li>
 <li><p><strong>Publishing:</strong> <a class="reference internal" href="development/publishing_documentation.html"><span class="doc">Publishing the documentation</span></a> describes how HTML is built and deployed to the <code class="docutils literal notranslate"><span class="pre">nornir.github.io</span></code> site.</p></li>
 </ul>
 <p>When adding features, prefer updating the <strong>monodoc</strong> (reStructuredText under <code class="docutils literal notranslate"><span class="pre">docs/</span></code>) and keep package <code class="docutils literal notranslate"><span class="pre">README.md</span></code> files short—overview plus links to this site.</p>
-<p>Grid refine parity (C++ <code class="docutils literal notranslate"><span class="pre">ir-refine-grid</span></code> vs Python <code class="docutils literal notranslate"><span class="pre">RefineGridMosaic</span></code>):</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">docs/refine-grid-cpp-parity-checklist.md</span></code> — C++ audit mapping</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docs/refine-grid690-python-parity-changelog.md</span></code> — implementation change log</p></li>
-</ul>
+<p>Grid-refine and blob parity audits (C++ tools versus the Python ports) are listed under <a class="reference internal" href="development/index.html"><span class="doc">Development</span></a>.</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="development/markdown_in_sphinx.html" class="btn btn-neutral float-left" title="Markdown in the monodoc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="api/index.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="development/pyre_development.html" class="btn btn-neutral float-left" title="Pyre development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development/markdown_in_sphinx.html" class="btn btn-neutral float-right" title="Markdown in the monodoc" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

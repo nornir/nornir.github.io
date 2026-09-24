@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -89,7 +111,7 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">IgnoreRuntimeWarnings</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A context manager that swallows warnings with set keywords in release and sends them to the log in debug mode.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A context manager that swallows warnings with set keywords in release and sends them to the log in debug mode."""</span>
     <span class="n">_original_filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="ne">Warning</span><span class="p">],</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_record</span><span class="p">:</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_warnings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">warnings</span><span class="o">.</span><span class="n">WarningMessage</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -98,7 +120,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">warnings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">warnings</span><span class="o">.</span><span class="n">WarningMessage</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the list of warnings that were caught.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Returns the list of warnings that were caught."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_warnings</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warnings_to_filter</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Type</span><span class="p">[</span><span class="ne">Warning</span><span class="p">],</span>
@@ -111,16 +133,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_warnings_to_filter</span> <span class="o">=</span> <span class="p">[</span><span class="n">warnings_to_filter</span><span class="p">]</span>  <span class="c1"># type: ignore[list-item]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolved_log_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the log suffix, evaluating callables only when logging.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the log suffix, evaluating callables only when logging."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_msg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">return</span> <span class="s2">""</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_msg</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_msg</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_msg</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_original_filters</span> <span class="o">=</span> <span class="n">warnings</span><span class="o">.</span><span class="n">filters</span><span class="p">[:]</span>  <span class="c1"># type: ignore[assignment]</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">"always"</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_record</span> <span class="o">=</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_record</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_warnings</span>
@@ -137,13 +159,13 @@
                         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">warning_to_filter</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                             <span class="k">if</span> <span class="n">warning_to_filter</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
                                 <span class="k">if</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">debugging</span><span class="o">.</span><span class="n">in_debug_mode</span><span class="p">():</span>
-                                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolved_log_msg</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolved_log_msg</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
                                 <span class="k">else</span><span class="p">:</span>
                                     <span class="k">pass</span>
                                 <span class="k">break</span>
                         <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">warning</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="n">warning_to_filter</span><span class="p">):</span>
                             <span class="k">if</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">debugging</span><span class="o">.</span><span class="n">in_debug_mode</span><span class="p">():</span>
-                                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolved_log_msg</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolved_log_msg</span><span class="p">()</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
                             <span class="k">else</span><span class="p">:</span>
                                 <span class="k">pass</span>
                             <span class="k">break</span>
@@ -157,18 +179,18 @@
 <a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.assemble.IgnoreUnderflow">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">IgnoreUnderflow</span><span class="p">(</span><span class="n">IgnoreRuntimeWarnings</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">:</span> <span class="n">LogMessage</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;underflow&#39;</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">'underflow'</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">)</span></div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">IgnoreOverflow</span><span class="p">(</span><span class="n">IgnoreRuntimeWarnings</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">:</span> <span class="n">LogMessage</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;overflow&#39;</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">'overflow'</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">IgnoreUnderAndOverflow</span><span class="p">(</span><span class="n">IgnoreRuntimeWarnings</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_msg</span><span class="p">:</span> <span class="n">LogMessage</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">([</span><span class="s1">&#39;underflow&#39;</span><span class="p">,</span> <span class="s1">&#39;overflow&#39;</span><span class="p">],</span> <span class="n">log_msg</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">([</span><span class="s1">'underflow'</span><span class="p">,</span> <span class="s1">'overflow'</span><span class="p">],</span> <span class="n">log_msg</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">IgnoreLinAlgWarning</span><span class="p">(</span><span class="n">IgnoreRuntimeWarnings</span><span class="p">):</span>

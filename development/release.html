@@ -19,8 +19,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Pyre development" href="pyre_development.html" />
-    <link rel="prev" title="Logging convention" href="logging.html" /> 
+    <link rel="next" title="Publishing the documentation" href="publishing_documentation.html" />
+    <link rel="prev" title="Development" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,15 +42,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Development</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="publishing_documentation.html">Publishing the documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="github_pages.html">GitHub Pages hosting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging convention</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Release process</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#source-files">Source files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#release-checklist">Release checklist</a></li>
@@ -59,12 +80,17 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyre-windows-installer">Pyre Windows installer</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="publishing_documentation.html">Publishing the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="github_pages.html">GitHub Pages hosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging convention</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyre_development.html">Pyre development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid-cpp-parity-checklist.html">ir-refine-grid C++ → Python Parity Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid690-python-parity-changelog.html">Grid690 Python Refine-Grid Parity — Change Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ir-blob-cpp-parity-checklist.html">ir-blob C++ → Python parity checklist</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -112,11 +138,11 @@ monorepo release, plus the package’s subdirectory and whether it is included i
 Docker images.  Example entry:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">packages</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">nornir_shared</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.5.3&quot;</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"1.5.3"</span>
 <span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nornir-shared</span>
 <span class="w">    </span><span class="nt">docker</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">pyre</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.5.2&quot;</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"1.5.2"</span>
 <span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nornir-pyre</span>
 <span class="w">    </span><span class="nt">docker</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </pre></div>
@@ -186,11 +212,11 @@ record the UTC build time, and embed a base64-encoded JSON BOM into the image as
 </tbody>
 </table>
 <p>Inspect labels:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">&#39;{{json .Config.Labels}}&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">image</span> <span class="n">inspect</span> <span class="n">nornir</span><span class="p">:</span><span class="n">dev</span> <span class="o">--</span><span class="nb">format</span> <span class="s1">'{{json .Config.Labels}}'</span>
 </pre></div>
 </div>
 <p>Decode the BOM (PowerShell):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format &#39;{{index .Config.Labels &quot;org.nornir.package_versions.json.base64&quot;}}&#39;)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$b64 = (docker image inspect nornir:dev --format '{{index .Config.Labels "org.nornir.package_versions.json.base64"}}')
 [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($b64))
 </pre></div>
 </div>
@@ -235,8 +261,8 @@ End users: <a class="reference internal" href="../packages/pyre_install.html"><s
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="logging.html" class="btn btn-neutral float-left" title="Logging convention" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pyre_development.html" class="btn btn-neutral float-right" title="Pyre development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="publishing_documentation.html" class="btn btn-neutral float-right" title="Publishing the documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

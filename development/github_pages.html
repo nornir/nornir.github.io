@@ -42,22 +42,48 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Development</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="publishing_documentation.html">Publishing the documentation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">GitHub Pages hosting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">Logging convention</a></li>
-<li class="toctree-l2"><a class="reference internal" href="release.html">Release process</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyre_development.html">Pyre development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="markdown_in_sphinx.html">Markdown in the monodoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid-cpp-parity-checklist.html">ir-refine-grid C++ → Python Parity Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../refine-grid690-python-parity-changelog.html">Grid690 Python Refine-Grid Parity — Change Log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ir-blob-cpp-parity-checklist.html">ir-blob C++ → Python parity checklist</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -93,7 +119,7 @@
 </ul>
 <p><strong>What to verify (once per org/repo setup):</strong></p>
 <ol class="arabic simple">
-<li><p>In that repository, open <strong>Settings → Pages</strong> and confirm the published source matches how CI deploys (typically the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch at the repository root).</p></li>
+<li><p>In that repository, open <strong>Settings → Pages</strong> and confirm the published source is the <code class="docutils literal notranslate"><span class="pre">master</span></code> branch at the repository root. CI publishes built HTML to <code class="docutils literal notranslate"><span class="pre">master</span></code> (see <a class="reference internal" href="publishing_documentation.html"><span class="doc">Publishing the documentation</span></a>); it does not publish to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
 <li><p>Confirm you have permission to push to <code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code> or that a machine account / deploy key is configured for the workflow described in <a class="reference internal" href="publishing_documentation.html"><span class="doc">Publishing the documentation</span></a>.</p></li>
 </ol>
 <p>The umbrella <strong>source</strong> documentation lives in this monorepo under <code class="docutils literal notranslate"><span class="pre">docs/</span></code>; the <code class="docutils literal notranslate"><span class="pre">nornir.github.io</span></code> repository holds <strong>built HTML</strong> only (generated output), not hand-edited copies of the manuals.</p>

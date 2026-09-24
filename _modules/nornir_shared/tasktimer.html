@@ -39,14 +39,36 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docker/index.html">Docker images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../development/index.html">Development</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../developer_notes.html">Developer notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
 </ul>
 
         </div>
@@ -85,7 +107,7 @@
 <div class="viewcode-block" id="TaskTimer">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.TaskTimer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskTimer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper class that allows us to manually record how long a given section of code took to execute&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Helper class that allows us to manually record how long a given section of code took to execute"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Dictionary of start times</span>
@@ -94,7 +116,7 @@
         <span class="c1"># Dictionary of elapsed times</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_TaskDeltaTime</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-        <span class="c1"># If a task isn&#39;t explicitely started we compare to when this class was created.</span>
+        <span class="c1"># If a task isn't explicitely started we compare to when this class was created.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DefaultStartTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">CreationDateTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
@@ -108,14 +130,14 @@
 <div class="viewcode-block" id="TaskTimer.End">
 <a class="viewcode-back" href="../../api/nornir_buildmanager.html#nornir_buildmanager.build.TaskTimer.End">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">End</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">print_elapsed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop a timer for a task, print output if PrintElapsed is not explicitely set to False&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop a timer for a task, print output if PrintElapsed is not explicitely set to False"""</span>
         <span class="n">tend</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
 
         <span class="n">tstart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DefaultStartTime</span>
         <span class="k">if</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TaskStartTime</span><span class="p">:</span>
             <span class="n">tstart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TaskStartTime</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">DefaultStartTime</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;No timer started for task </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s1"> using default value&#39;</span><span class="p">)</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s1">'No timer started for task </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s1"> using default value'</span><span class="p">)</span>
 
         <span class="n">tdelta</span> <span class="o">=</span> <span class="n">tend</span> <span class="o">-</span> <span class="n">tstart</span>
         <span class="k">if</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TaskDeltaTime</span><span class="p">:</span>
@@ -129,7 +151,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ElapsedTimes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy of recorded task wall times in seconds.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a copy of recorded task wall times in seconds."""</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TaskDeltaTime</span><span class="p">)</span>
 
 <div class="viewcode-block" id="TaskTimer.ElapsedString">
@@ -139,27 +161,27 @@
             <span class="n">tdelta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TaskDeltaTime</span><span class="p">[</span><span class="n">task</span><span class="p">]</span>
             <span class="p">[</span><span class="n">ms</span><span class="p">,</span> <span class="n">sec</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">tdelta</span><span class="p">)</span>
             <span class="p">[</span><span class="n">garbage</span><span class="p">,</span> <span class="n">ms</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">modf</span><span class="p">(</span><span class="n">ms</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">task</span> <span class="o">+</span> <span class="s1">&#39; : </span><span class="si">%2d</span><span class="s1"> days </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="n">tdelta</span> <span class="o">/</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span><span class="p">),</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">tdelta</span><span class="p">)))</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">ms</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">task</span> <span class="o">+</span> <span class="s1">' : </span><span class="si">%2d</span><span class="s1"> days </span><span class="si">%s</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">tdelta</span> <span class="o">/</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span><span class="p">),</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'%H:%M:%S'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">tdelta</span><span class="p">)))</span> <span class="o">+</span> <span class="s1">'.'</span> <span class="o">+</span> <span class="p">(</span><span class="s1">'</span><span class="si">%d</span><span class="s1">'</span> <span class="o">%</span> <span class="n">ms</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
+        <span class="k">return</span> <span class="s1">''</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreationDateTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreationDateTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
         <span class="n">localTime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreationDateTime</span><span class="o">.</span><span class="n">astimezone</span><span class="p">()</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="n">localTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">(</span><span class="si">%a</span><span class="s2"> </span><span class="si">%x</span><span class="s2"> %I:%M%p %Z)&quot;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">localTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">(</span><span class="si">%a</span><span class="s2"> </span><span class="si">%x</span><span class="s2"> %I:%M%p %Z)"</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TaskDeltaTime</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">outstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ElapsedString</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="si">{</span><span class="n">outstr</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">'</span><span class="se">\n\t</span><span class="si">{</span><span class="n">outstr</span><span class="si">}</span><span class="s1">'</span>
 
         <span class="k">return</span> <span class="n">s</span></div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TaskTimerContext</span><span class="p">(</span><span class="n">TaskTimer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A context manager for the TaskTimer class.  Can be used to time a block of code.  When the context is ended all task timers are stopped&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A context manager for the TaskTimer class.  Can be used to time a block of code.  When the context is ended all task timers are stopped"""</span>
 
     <span class="n">_current_task</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -167,10 +189,10 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_calling_function_name</span><span class="p">():</span>
         <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+            <span class="k">return</span> <span class="s2">"unknown"</span>
         <span class="n">caller_frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span><span class="o">.</span><span class="n">f_back</span>
         <span class="k">if</span> <span class="n">caller_frame</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">caller_frame</span><span class="o">.</span><span class="n">f_code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+            <span class="k">return</span> <span class="s2">"unknown"</span>
         <span class="k">return</span> <span class="n">caller_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

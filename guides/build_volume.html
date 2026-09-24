@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build a volume &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Run the stack" href="run_the_stack.html" />
+    <link rel="prev" title="Using Pyre" href="pyre_use.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyre_use.html">Using Pyre</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build a volume</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#import">Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prune-and-mosaic">Prune and mosaic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slice-to-slice">Slice-to-slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#slice-to-volume-and-export">Slice-to-volume and export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#view-and-analyze">View and analyze</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="run_the_stack.html">Run the stack</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Guides</a></li>
+      <li class="breadcrumb-item active">Build a volume</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/build_volume.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-a-volume">
+<h1>Build a volume<a class="headerlink" href="#build-a-volume" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> runs one named pipeline against a volume directory. The science behind each stage is in <a class="reference internal" href="../overview_alignment_theory.html"><span class="doc">Overview of volume building</span></a>. Flags below are the examples already shipped in <code class="docutils literal notranslate"><span class="pre">Pipelines.xml</span></code> and the buildmanager README. Run <code class="docutils literal notranslate"><span class="pre">nornir-build</span> <span class="pre">&lt;Pipeline&gt;</span> <span class="pre">--help</span></code> before changing them. Host sizing is in <a class="reference internal" href="../host_requirements.html"><span class="doc">Host requirements</span></a>.</p>
+<section id="import">
+<h2>Import<a class="headerlink" href="#import" title="Link to this heading"></a></h2>
+<p>Pick the importer that matches the microscope:</p>
+<ul>
+<li><p>SerialEM <code class="docutils literal notranslate"><span class="pre">.idoc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">ImportIDoc</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">idoc</span> <span class="o">-</span><span class="n">Sections</span> <span class="mi">1</span><span class="o">-</span><span class="mi">10</span> <span class="o">-</span><span class="n">CameraBpp</span> <span class="mi">14</span>
+</pre></div>
+</div>
+</li>
+<li><p>Digital Micrograph <code class="docutils literal notranslate"><span class="pre">.dm4</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">ImportDM4</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">dm4</span> <span class="o">-</span><span class="n">Sections</span> <span class="mi">1</span><span class="o">-</span><span class="mi">20</span> <span class="o">-</span><span class="n">overlap</span> <span class="mi">10</span><span class="p">,</span><span class="mi">20</span>
+</pre></div>
+</div>
+</li>
+<li><p>Surveyor <code class="docutils literal notranslate"><span class="pre">.pmg</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">ImportPMG</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">pmg</span> <span class="o">-</span><span class="n">Scale</span> <span class="mf">4.0</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">VolumeData.xml</span></code> is written at several levels of the tree (volume, block, section, channel), not only at the volume root. The locations are on <a class="reference internal" href="../packages/nornir_buildmanager.html"><span class="doc">nornir-buildmanager</span></a>.</p>
+</section>
+<section id="prune-and-mosaic">
+<h2>Prune and mosaic<a class="headerlink" href="#prune-and-mosaic" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Prune</span></code> drops tiles that do not have enough texture. <code class="docutils literal notranslate"><span class="pre">Mosaic</span></code> then lays the remaining tiles out and writes an assembled mosaic.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">Prune</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">-</span><span class="n">InputFilter</span> <span class="n">Raw8</span> <span class="o">-</span><span class="n">DefaultThreshold</span> <span class="mf">0.2</span> <span class="o">-</span><span class="n">Sections</span> <span class="mi">1</span><span class="o">-</span><span class="mi">10</span>
+<span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">Mosaic</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">-</span><span class="n">InputFilter</span> <span class="n">Raw8</span> <span class="o">-</span><span class="n">InputTransform</span> <span class="n">Prune</span> <span class="o">-</span><span class="n">OutputTransform</span> <span class="n">Grid</span> <span class="o">-</span><span class="n">RegistrationDownsample</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</section>
+<section id="slice-to-slice">
+<h2>Slice-to-slice<a class="headerlink" href="#slice-to-slice" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">CreateBlobFilter</span></code> builds the texture image used when downsampled TEM sections would otherwise lose features. <code class="docutils literal notranslate"><span class="pre">AlignSections</span></code> brute-force aligns adjacent sections and records a center section. <code class="docutils literal notranslate"><span class="pre">RefineSectionAlignment</span></code> applies the grid refine, often in passes at finer downsampling.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">AlignSections</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">-</span><span class="n">Downsample</span> <span class="mi">8</span> <span class="o">-</span><span class="n">Channels</span> <span class="o">.*</span> <span class="o">-</span><span class="n">Filters</span> <span class="n">Raw8</span> <span class="o">-</span><span class="n">OutputStosMap</span> <span class="n">PotentialRegistrationChain</span>
+</pre></div>
+</div>
+<p>This brute-force step is the usual place to open Pyre and correct a bad pair before refine. Controls are in <a class="reference internal" href="pyre_use.html"><span class="doc">Using Pyre</span></a>.</p>
+</section>
+<section id="slice-to-volume-and-export">
+<h2>Slice-to-volume and export<a class="headerlink" href="#slice-to-volume-and-export" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">SliceToVolume</span></code> composes the slice-to-slice chain into one transform per section onto the center section. <code class="docutils literal notranslate"><span class="pre">Assemble</span></code> builds images from a transform and a filter. <code class="docutils literal notranslate"><span class="pre">CreateVikingXML</span></code> writes the manifest Viking reads. The <code class="docutils literal notranslate"><span class="pre">-StosGroup</span></code> name is the label in Viking’s File → Transform → SliceToVolume menu.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">CreateVikingXML</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volume</span> <span class="o">-</span><span class="n">OutputFile</span> <span class="n">MyVolume</span> <span class="o">-</span><span class="n">StosMap</span> <span class="n">FinalStosMap</span> <span class="o">-</span><span class="n">StosGroup</span> <span class="n">Grid32</span> <span class="o">-</span><span class="n">StosGroup</span> <span class="n">SliceToVolume1</span>
+</pre></div>
+</div>
+<p>The Version 2 XML and zip layout is documented on <a class="reference internal" href="../packages/nornir_buildmanager.html"><span class="doc">nornir-buildmanager</span></a>. Put the volume where Viking can read it.</p>
+</section>
+<section id="view-and-analyze">
+<h2>View and analyze<a class="headerlink" href="#view-and-analyze" title="Link to this heading"></a></h2>
+<p>Nornir stops at the VikingXML manifest and the image pyramids.</p>
+<ol class="arabic simple">
+<li><p>View and annotate the volume in <a class="reference external" href="https://github.com/connectomes/Viking">Viking</a>.</p></li>
+<li><p>Analyze those annotations in <a class="reference external" href="https://github.com/neitzlab/SBFSEM-tools">SBFSEM-tools</a> (MATLAB).</p></li>
+</ol>
+<p>Build in Nornir, view and annotate in Viking, analyze in SBFSEM-tools.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyre_use.html" class="btn btn-neutral float-left" title="Using Pyre" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="run_the_stack.html" class="btn btn-neutral float-right" title="Run the stack" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
