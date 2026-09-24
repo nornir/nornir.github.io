@@ -121,13 +121,22 @@ Production, cursor-dev, and cursor-worker containers ship with ``nofile`` **6553
 Roles (do not collapse)
 -----------------------
 
-============= ========================================= ======================================
-Role          Image / stack                             Launcher
-============= ========================================= ======================================
-Programmer    ``cursor-dev`` / ``nornir:dev-cursor-base`` ``run-cursor-dev.ps1``
-Cursor AI     ``nornir:cursor-worker``                   ``start-cursor-worker.ps1``
-Build appliance ``nornir:cupy`` or ``nornir:prod``       ``start-nornir-build.ps1``
-============= ========================================= ======================================
+.. list-table::
+   :header-rows: 1
+   :widths: 22 40 38
+
+   * - Role
+     - Image / stack
+     - Launcher
+   * - Programmer
+     - ``cursor-dev`` / ``nornir:dev-cursor-base``
+     - ``run-cursor-dev.ps1``
+   * - Cursor AI
+     - ``nornir:cursor-worker``
+     - ``start-cursor-worker.ps1``
+   * - Build appliance
+     - ``nornir:cupy`` or ``nornir:prod``
+     - ``start-nornir-build.ps1``
 
 ``nornir:dev-cursor-base`` is a shared base layer, not the AI image. Use
 ``-Image nornir:dev-cursor-base -Clone`` on the appliance only when you need live
