@@ -245,8 +245,8 @@ known host-visible path.</p></td>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 22.0%" />
-<col style="width: 40.0%" />
-<col style="width: 38.0%" />
+<col style="width: 48.0%" />
+<col style="width: 30.0%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Role</p></th>
@@ -263,8 +263,17 @@ known host-visible path.</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">nornir:cursor-worker</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Build appliance</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> or <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code></p></td>
+<tr class="row-even"><td><p>Build appliance (GPU)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> — for build machines with an NVIDIA GPU (<code class="docutils literal notranslate"><span class="pre">cupy-cuda13x</span></code>).
+CUDA Toolkit <strong>13.2</strong> requires compute capability <strong>7.5+</strong> (Turing and
+newer; Maxwell / Pascal / Volta are out of support). CuPy Delaunay
+(<code class="docutils literal notranslate"><span class="pre">cupyx.scipy.spatial.Delaunay</span></code> / GDel2D) does not document a higher
+architecture floor than CuPy itself, so plan on <strong>7.5+</strong> for GPU mesh
+and transform paths that use it.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Build appliance (CPU)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> — CPU-only systems (no GPU / no CuPy).</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code></p></td>
 </tr>
 </tbody>

@@ -105,9 +105,9 @@ UI development does not require CuPy. For GPU-backed registration:
 Windows packaging and release
 -----------------------------
 
-End users install ``Pyre-<version>-Setup.exe`` from GitHub Releases
-(:doc:`../packages/pyre_install`). Maintainers build it from
-``nornir-pyre/packaging/windows/``.
+End users download the Windows installer from this documentation site
+(|pyre-windows-installer|; :doc:`../packages/pyre_install`) or from GitHub
+Releases. Maintainers build it from ``nornir-pyre/packaging/windows/``.
 
 Prerequisites
 ~~~~~~~~~~~~~

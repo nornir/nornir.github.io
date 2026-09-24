@@ -109,8 +109,10 @@ Pyre Windows installer
 ----------------------
 
 Pyre ships a native Windows installer (``Pyre-<version>-Setup.exe``), not a Docker image.
-On ``v*`` tags, ``.github/workflows/pyre-windows-release.yml`` builds the frozen bundle and
-attaches the installer to the GitHub Release.
+The latest build is also hosted on the docs site as |pyre-windows-installer|
+(:doc:`../packages/pyre_install`). On ``v*`` tags,
+``.github/workflows/pyre-windows-release.yml`` builds the frozen bundle and attaches the
+installer to the GitHub Release.
 
 The installer filename and ``AppVersion`` come from ``nornir-pyre/pyproject.toml``
 (via ``packaging/windows/build-installer.ps1``), not from the monorepo root ``VERSION``
