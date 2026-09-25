@@ -57,6 +57,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyre_use.html">Using Pyre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_build_container.html">Deploy the build container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tem_scripts.html">TEM build scripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_volume.html">Build a volume</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Run the stack</a></li>
 </ul>
@@ -130,7 +132,7 @@
 </tr>
 <tr class="row-even"><td><p>Build appliance</p></td>
 <td><p>Interactive <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> with NAS mounts and the dashboard</p></td>
-<td><p><a class="reference internal" href="../docker/remote_deployment.html"><span class="doc">Remote build appliance</span></a></p></td>
+<td><p><a class="reference internal" href="deploy_build_container.html"><span class="doc">Deploy the build container</span></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -138,7 +140,7 @@
 <p>Also:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../docker/dashboard.html"><span class="doc">Build dashboard (co-located)</span></a> — MQTT build dashboard on port 8087.</p></li>
-<li><p><a class="reference internal" href="../docker/annotation_gallery.html"><span class="doc">Annotation overlay gallery</span></a> — annotation crop review. That image does not install Nornir.</p></li>
+<li><p><a class="reference internal" href="../docker/annotation_gallery.html"><span class="doc">Annotation overlay gallery</span></a> — annotation crop review, a service on the SAM2 trainer Compose file. That image does not install Nornir.</p></li>
 <li><p><a class="reference internal" href="../docker/windows_cursor_layout.html"><span class="doc">Standard D:\ layout for nornir-cursor-worker</span></a> — <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> layout for the Cursor worker. <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code> and is often set to <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>; that page assumes <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>.</p></li>
 </ul>
 <p>Host checks (driver, WSL2, open-file limit) are in <a class="reference internal" href="../host_requirements.html"><span class="doc">Host requirements</span></a>.</p>

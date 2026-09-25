@@ -76,8 +76,6 @@
 <li class="toctree-l2"><a class="reference internal" href="remote_deployment.html">Remote build appliance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (co-located)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Annotation overlay gallery</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#registry">Registry</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#permissions">Permissions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#weekly-export">Weekly export</a></li>
 </ul>
 </li>
@@ -116,44 +114,37 @@
              
   <section id="annotation-overlay-gallery">
 <h1>Annotation overlay gallery<a class="headerlink" href="#annotation-overlay-gallery" title="Link to this heading"></a></h1>
-<p>Slim HTTP + SPA for per-volume <code class="docutils literal notranslate"><span class="pre">AnnotationCrops</span></code> PNG + 1-bit mask review.
-The <strong>gallery image does not install Nornir</strong> (no <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code>,
-imageregistration, CuPy, or torch). Export, SAM2 scoring, and weekly refresh
-run on <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> / cursor-dev against the same registry.</p>
-<p>Start:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">start</span><span class="o">-</span><span class="n">annotation</span><span class="o">-</span><span class="n">gallery</span><span class="o">.</span><span class="n">ps1</span>
-<span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">annotation</span><span class="o">-</span><span class="n">gallery</span><span class="o">.</span><span class="n">yaml</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span> <span class="o">--</span><span class="n">build</span>
+<p>Slim HTTP + SPA for per-volume <code class="docutils literal notranslate"><span class="pre">AnnotationCrops</span></code> review. The image does
+<strong>not</strong> install Nornir. It lives in the SAM2 trainer repo
+(<code class="docutils literal notranslate"><span class="pre">Sam2SegmentationTrainer/annotation-gallery</span></code>) and runs as a second service
+on that project’s Compose file, beside <code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code>.</p>
+<p>The gallery and the trainer share <code class="docutils literal notranslate"><span class="pre">SAM2_LOCAL_DATA_HOST</span></code> mounted at
+<code class="docutils literal notranslate"><span class="pre">/data-local</span></code>. <code class="docutils literal notranslate"><span class="pre">GALLERY_VOLUME_DIR</span></code> is <code class="docutils literal notranslate"><span class="pre">SAM2_DATA_ROOT</span></code>
+(<code class="docutils literal notranslate"><span class="pre">/data-local/current</span></code>). Children of that directory are volume roots
+(<code class="docutils literal notranslate"><span class="pre">RC1</span></code>, <code class="docutils literal notranslate"><span class="pre">RC2</span></code>, …); each contains <code class="docutils literal notranslate"><span class="pre">AnnotationCrops</span></code>.</p>
+<p>Start from the trainer repo (same <code class="docutils literal notranslate"><span class="pre">docker/.env</span></code> and net-mounts override as
+the trainer):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">yaml</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span> <span class="o">--</span><span class="n">build</span> <span class="n">annotation</span><span class="o">-</span><span class="n">gallery</span>
 </pre></div>
 </div>
-<p>Then open <a class="reference external" href="http://127.0.0.1:8090">http://127.0.0.1:8090</a></p>
-<p>Run env template: <code class="docutils literal notranslate"><span class="pre">nornir-docker/example.annotation-gallery.run.env</span></code> →
-<code class="docutils literal notranslate"><span class="pre">&lt;NORNIR_DOCKER_USER_ROOT&gt;\Run\nornir-annotation-gallery\annotation-gallery.run.env</span></code>.</p>
-<section id="registry">
-<h2>Registry<a class="headerlink" href="#registry" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">GALLERY_VOLUME_DIR</span></code> (in-container <code class="docutils literal notranslate"><span class="pre">/gallery-volumes</span></code>) is a folder of
-<strong>volume-root</strong> links. The child <strong>name</strong> is the Identity volume name; the
-child <strong>target</strong> is the volume root (<code class="docutils literal notranslate"><span class="pre">/storage4/RC2</span></code>), not <code class="docutils literal notranslate"><span class="pre">AnnotationCrops</span></code>.
-The gallery reads <code class="docutils literal notranslate"><span class="pre">{name}/AnnotationCrops/</span></code>. Identity never stores filesystem
-paths.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">storage4</span><span class="o">/</span><span class="n">RC2</span> <span class="o">/</span><span class="n">gallery</span><span class="o">-</span><span class="n">volumes</span><span class="o">/</span><span class="n">RC2</span>
-</pre></div>
-</div>
-<p>Bind the registry <strong>and</strong> the storage root so those links resolve.
-<code class="docutils literal notranslate"><span class="pre">GALLERY_VOLUME_DIR_HOST</span></code> and <code class="docutils literal notranslate"><span class="pre">GALLERY_STORAGE_HOST</span></code> are compose bind sources.</p>
-</section>
-<section id="permissions">
-<h2>Permissions<a class="headerlink" href="#permissions" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">GALLERY_IDENTITY_MODE=stub</span></code> (default) uses <code class="docutils literal notranslate"><span class="pre">GALLERY_STUB_ROLE=read|review</span></code>.
-<code class="docutils literal notranslate"><span class="pre">oidc</span></code> talks to <code class="docutils literal notranslate"><span class="pre">https://identity.codepharm.net:5001</span></code> (auth) and
-<code class="docutils literal notranslate"><span class="pre">https://identity.codepharm.net:6001</span></code> (API). App mapping is Read vs Review
-per volume; names are probed from Identity (<code class="docutils literal notranslate"><span class="pre">GALLERY_READ_PERMISSION</span></code> /
-<code class="docutils literal notranslate"><span class="pre">GALLERY_REVIEW_PERMISSION</span></code>).</p>
-</section>
+<p>Pages:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://127.0.0.1:8080">http://127.0.0.1:8080</a></p></li>
+<li><p><a class="reference external" href="https://127.0.0.1:8443">https://127.0.0.1:8443</a> when both PEM files are present</p></li>
+</ul>
+<p>Host cert paths belong in <code class="docutils literal notranslate"><span class="pre">D:\Docker\Run\sam2-dev\.env</span></code> (<code class="docutils literal notranslate"><span class="pre">SSL_CERT_PATH</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SSL_KEY_PATH</span></code>). Compose mounts that directory at <code class="docutils literal notranslate"><span class="pre">/certs</span></code>. If either PEM
+is missing, HTTP on port 80 still starts and HTTPS stays off.</p>
+<p>Trash and restore write <code class="docutils literal notranslate"><span class="pre">ignore.json</span></code> and move the mask between <code class="docutils literal notranslate"><span class="pre">masks/</span></code>
+and <code class="docutils literal notranslate"><span class="pre">ignored/</span></code>. The trainer skips a sample whose raster is not in <code class="docutils literal notranslate"><span class="pre">masks/</span></code>.</p>
+<p>The trainer Compose service uses stub identity with the review role so
+ignore/restore works on localhost. <code class="docutils literal notranslate"><span class="pre">oidc</span></code> still talks to Identity when
+<code class="docutils literal notranslate"><span class="pre">GALLERY_IDENTITY_MODE=oidc</span></code>.</p>
 <section id="weekly-export">
 <h2>Weekly export<a class="headerlink" href="#weekly-export" title="Link to this heading"></a></h2>
 <p>Do <strong>not</strong> spawn <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> from a gallery HTTP request. Use
-<code class="docutils literal notranslate"><span class="pre">nornir-docker/annotation-gallery/refresh-export.sh</span></code> on <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> cron
-with the same registry.</p>
+<code class="docutils literal notranslate"><span class="pre">annotation-gallery/refresh-export.sh</span></code> from the trainer repo on
+<code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> cron.</p>
 </section>
 </section>
 

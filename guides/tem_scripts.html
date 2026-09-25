@@ -1,0 +1,200 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TEM build scripts &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Build a volume" href="build_volume.html" />
+    <link rel="prev" title="Deploy the build container" href="deploy_build_container.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyre_use.html">Using Pyre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_build_container.html">Deploy the build container</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TEM build scripts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#temimport">TEMImport</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tembuild">TEMBuild</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#temalign">TEMAlign</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="build_volume.html">Build a volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_the_stack.html">Run the stack</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Guides</a></li>
+      <li class="breadcrumb-item active">TEM build scripts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/tem_scripts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tem-build-scripts">
+<h1>TEM build scripts<a class="headerlink" href="#tem-build-scripts" title="Link to this heading"></a></h1>
+<p>Inside the build container (<a class="reference internal" href="deploy_build_container.html"><span class="doc">Deploy the build container</span></a>) the lab sequence is three wrappers. Each one is a single <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> process. Stages run in order, joined by <code class="docutils literal notranslate"><span class="pre">--then</span></code>, and the process stops on the first failure. The default compute library is CuPy (<code class="docutils literal notranslate"><span class="pre">NORNIR_COMPUTATIONAL_LIBRARY</span></code>). Progress is published to the co-located dashboard.</p>
+<p>Run them in this order:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TEMImport</span></code> when the volume has not been imported.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEMBuild</span></code> to build mosaics. It assumes <code class="docutils literal notranslate"><span class="pre">VolumeData.xml</span></code> already exists. <code class="docutils literal notranslate"><span class="pre">TEMBuild-import</span></code> is import plus the same mosaic stages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEMAlign</span></code> after the mosaics exist. It produces the slice-to-volume transforms Viking reads.</p></li>
+</ul>
+<p>The science for these stages is <a class="reference internal" href="../overview_alignment_theory.html"><span class="doc">Overview of volume building</span></a>. Flags below are the ones in <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager/scripts</span></code>. <code class="docutils literal notranslate"><span class="pre">nornir-build</span> <span class="pre">&lt;Pipeline&gt;</span> <span class="pre">--help</span></code> lists every flag; the pipeline catalogue (<a class="reference internal" href="../pipelines.html"><span class="doc">Pipeline catalogue</span></a>) is not this recipe.</p>
+<section id="temimport">
+<h2>TEMImport<a class="headerlink" href="#temimport" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ImportIDoc</span></code> copies a SerialEM <code class="docutils literal notranslate"><span class="pre">.idoc</span></code> directory into the volume and writes <code class="docutils literal notranslate"><span class="pre">VolumeData.xml</span></code> at the volume, block, section, and channel levels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TEMImport</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idoc</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">volume</span>
+</pre></div>
+</div>
+</section>
+<section id="tembuild">
+<h2>TEMBuild<a class="headerlink" href="#tembuild" title="Link to this heading"></a></h2>
+<p>Same chain as the VS Code launch configuration “TEM Build: full sequence (sequential)”. Pass the volume directory, or let the script prompt.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Prune</span> <span class="pre">-InputFilter</span> <span class="pre">Raw8</span> <span class="pre">-Downsample</span> <span class="pre">4</span> <span class="pre">-Channels</span> <span class="pre">TEM</span> <span class="pre">-DefaultThreshold</span> <span class="pre">10.0</span></code> — drop tiles that do not have enough texture to align.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Histogram</span> <span class="pre">-Filters</span> <span class="pre">Raw8</span> <span class="pre">-InputTransform</span> <span class="pre">Prune</span> <span class="pre">-Downsample</span> <span class="pre">4</span> <span class="pre">-Channels</span> <span class="pre">TEM</span></code> — contrast statistics for the tiles that remain.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AdjustContrast</span> <span class="pre">-InputFilter</span> <span class="pre">Raw8</span> <span class="pre">-OutputFilter</span> <span class="pre">Leveled</span> <span class="pre">-InputTransform</span> <span class="pre">Prune</span> <span class="pre">-Channels</span> <span class="pre">TEM</span></code> — write the <code class="docutils literal notranslate"><span class="pre">Leveled</span></code> filter that mosaic registration uses.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Mosaic</span> <span class="pre">-InputFilter</span> <span class="pre">Leveled</span> <span class="pre">-RegistrationDownsample</span> <span class="pre">4</span> <span class="pre">-InputTransform</span> <span class="pre">Prune</span> <span class="pre">-OutputTransform</span> <span class="pre">Grid</span> <span class="pre">-Channels</span> <span class="pre">TEM</span></code> — lay the tiles out. The output transform is <code class="docutils literal notranslate"><span class="pre">Grid</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Assemble</span> <span class="pre">-Channels</span> <span class="pre">TEM</span> <span class="pre">-Filters</span> <span class="pre">Leveled</span> <span class="pre">-Downsample</span> <span class="pre">8,16,32</span> <span class="pre">-NoInterlace</span> <span class="pre">-Transform</span> <span class="pre">Grid</span></code> — build pyramid images from that layout.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MosaicReport</span> <span class="pre">-PruneFilter</span> <span class="pre">Raw8</span> <span class="pre">-ContrastFilter</span> <span class="pre">Raw8</span> <span class="pre">-AssembleFilter</span> <span class="pre">Leveled</span> <span class="pre">-AssembleDownsample</span> <span class="pre">16</span> <span class="pre">-Output</span> <span class="pre">MosaicReport</span></code> — QA report for the mosaic.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CreateVikingXML</span> <span class="pre">-OutputFile</span> <span class="pre">Mosaic</span></code> — a mosaic manifest. This is not a slice-to-volume group yet.</p></li>
+</ul>
+</section>
+<section id="temalign">
+<h2>TEMAlign<a class="headerlink" href="#temalign" title="Link to this heading"></a></h2>
+<p>Run this after TEMBuild. A bad brute-force pair is fixed in Pyre (<a class="reference internal" href="pyre_use.html"><span class="doc">Using Pyre</span></a>) before you treat the later grid passes as final.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CreateBlobFilter</span> <span class="pre">-Channels</span> <span class="pre">TEM</span> <span class="pre">-InputFilter</span> <span class="pre">Leveled</span> <span class="pre">-Levels</span> <span class="pre">16,32,64</span> <span class="pre">-OutputFilter</span> <span class="pre">Blob</span> <span class="pre">-Radius</span> <span class="pre">9</span> <span class="pre">-Median</span> <span class="pre">7</span> <span class="pre">-Max</span> <span class="pre">3</span></code> — a texture image so downsampled brute force still sees features.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AlignSections</span> <span class="pre">-NumAdjacentSections</span> <span class="pre">1</span> <span class="pre">-Filters</span> <span class="pre">Blob</span> <span class="pre">-UseMasks</span> <span class="pre">-Downsample</span> <span class="pre">64</span> <span class="pre">-Channels</span> <span class="pre">TEM</span></code> — first slice-to-slice placement, one neighbor each way, and a potential registration chain.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AssembleStosOverlays</span> <span class="pre">-StosGroup</span> <span class="pre">StosBrute</span> <span class="pre">-Downsample</span> <span class="pre">64</span> <span class="pre">-StosMap</span> <span class="pre">PotentialRegistrationChain</span></code> — overlay pictures of those pairs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SelectBestRegistrationChain</span> <span class="pre">-StosGroup</span> <span class="pre">StosBrute</span> <span class="pre">-Downsample</span> <span class="pre">64</span> <span class="pre">-InputStosMap</span> <span class="pre">PotentialRegistrationChain</span> <span class="pre">-OutputStosMap</span> <span class="pre">FinalStosMap</span></code> — choose the chain and write <code class="docutils literal notranslate"><span class="pre">FinalStosMap</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RefineSectionAlignment</span> <span class="pre">-InputGroup</span> <span class="pre">StosBrute</span> <span class="pre">-InputDownsample</span> <span class="pre">64</span> <span class="pre">-OutputGroup</span> <span class="pre">Grid</span> <span class="pre">-OutputDownsample</span> <span class="pre">32</span> <span class="pre">-Filter</span> <span class="pre">Leveled</span></code> — first grid refine, from the brute result at 64 to a grid at 32.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AssembleStosOverlays</span> <span class="pre">-StosGroup</span> <span class="pre">Grid</span> <span class="pre">-Downsample</span> <span class="pre">32</span> <span class="pre">-StosMap</span> <span class="pre">FinalStosMap</span></code> — overlays of that grid.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CreateVikingXML</span> <span class="pre">-StosGroup</span> <span class="pre">Grid32</span> <span class="pre">-StosMap</span> <span class="pre">FinalStosMap</span> <span class="pre">-OutputFile</span> <span class="pre">Grid32</span></code> — publish that pass. <code class="docutils literal notranslate"><span class="pre">Grid32</span></code> is a StosGroup name Viking can show.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RefineSectionAlignment</span> <span class="pre">-InputGroup</span> <span class="pre">Grid</span> <span class="pre">-InputDownsample</span> <span class="pre">32</span> <span class="pre">-OutputGroup</span> <span class="pre">Grid</span> <span class="pre">-OutputDownsample</span> <span class="pre">16</span> <span class="pre">-Filter</span> <span class="pre">Leveled</span></code> — second grid refine, 32 to 16.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SliceToVolume</span> <span class="pre">-Downsample</span> <span class="pre">16</span> <span class="pre">-InputGroup</span> <span class="pre">Grid</span> <span class="pre">-OutputGroup</span> <span class="pre">SliceToVolume</span> <span class="pre">-NoLinearBlend</span></code> — one mapping per section onto the center section.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ScaleVolumeTransforms</span> <span class="pre">-InputGroup</span> <span class="pre">SliceToVolume</span> <span class="pre">-InputDownsample</span> <span class="pre">16</span> <span class="pre">-OutputDownsample</span> <span class="pre">1</span></code> — scale that mapping to full resolution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LinearizeVolume</span> <span class="pre">-InputGroup</span> <span class="pre">SliceToVolume</span> <span class="pre">-InputDownsample</span> <span class="pre">1</span> <span class="pre">-OutputGroup</span> <span class="pre">SliceToVolumeLinear</span> <span class="pre">-min_blend</span> <span class="pre">0.005</span> <span class="pre">-max_blend</span> <span class="pre">0.05</span> <span class="pre">-travel_limit</span> <span class="pre">512</span> <span class="pre">-reblend_iterations</span> <span class="pre">8</span> <span class="pre">-reblend_tolerance</span> <span class="pre">0.5</span></code> — a blended variant of the same mapping.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CreateVikingXML</span> <span class="pre">-OutputFile</span> <span class="pre">SliceToVolume</span> <span class="pre">-StosGroup</span> <span class="pre">SliceToVolume1</span> <span class="pre">-StosGroup</span> <span class="pre">SliceToVolumeLinear1</span> <span class="pre">-StosMap</span> <span class="pre">SliceToVolume</span></code> — the Viking manifest. Those StosGroup names are the labels in Viking’s File → Transform → SliceToVolume menu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MosaicToVolume</span> <span class="pre">-InputTransform</span> <span class="pre">Grid</span> <span class="pre">-OutputTransform</span> <span class="pre">ChannelToVolume</span> <span class="pre">-Channels</span> <span class="pre">'(?!Registered)'</span></code> — map each mosaic channel into volume space.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Assemble</span> <span class="pre">-Channels</span> <span class="pre">'(?!Registered)'</span> <span class="pre">-Filters</span> <span class="pre">Leveled</span> <span class="pre">-Downsample</span> <span class="pre">32</span> <span class="pre">-NoInterlace</span> <span class="pre">-Transform</span> <span class="pre">ChannelToVolume</span> <span class="pre">-ChannelPrefix</span> <span class="pre">Registered_</span></code> — write <code class="docutils literal notranslate"><span class="pre">Registered_*</span></code> channels at downsample 32.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MosaicReport</span> <span class="pre">-PruneFilter</span> <span class="pre">Raw8</span> <span class="pre">-ContrastFilter</span> <span class="pre">Raw8</span> <span class="pre">-AssembleFilter</span> <span class="pre">Leveled</span> <span class="pre">-AssembleDownsample</span> <span class="pre">32</span> <span class="pre">-Output</span> <span class="pre">VolumeReport</span></code> — QA report for the volume.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ExportImages</span> <span class="pre">-Channels</span> <span class="pre">Registered</span> <span class="pre">-Filters</span> <span class="pre">Leveled</span> <span class="pre">-Downsample</span> <span class="pre">32</span></code> — export the registered leveled images next to the volume.</p></li>
+</ul>
+<p>View and annotate the result in <a class="reference external" href="https://github.com/connectomes/Viking">Viking</a>. Analyze those annotations in <a class="reference external" href="https://github.com/neitzlab/SBFSEM-tools">SBFSEM-tools</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="deploy_build_container.html" class="btn btn-neutral float-left" title="Deploy the build container" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build_volume.html" class="btn btn-neutral float-right" title="Build a volume" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

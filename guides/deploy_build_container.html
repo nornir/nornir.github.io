@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploy the build container &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TEM build scripts" href="tem_scripts.html" />
+    <link rel="prev" title="Using Pyre" href="pyre_use.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pyre_use.html">Using Pyre</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Deploy the build container</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#one-time-setup">One-time setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#every-session">Every session</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tem_scripts.html">TEM build scripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_volume.html">Build a volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="run_the_stack.html">Run the stack</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Guides</a></li>
+      <li class="breadcrumb-item active">Deploy the build container</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/deploy_build_container.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="deploy-the-build-container">
+<h1>Deploy the build container<a class="headerlink" href="#deploy-the-build-container" title="Link to this heading"></a></h1>
+<p>This is the production box that runs <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> against volumes on a NAS. It is not the programmer Dev Container and not the Cursor worker. Host checks are in <a class="reference internal" href="../host_requirements.html"><span class="doc">Host requirements</span></a>. Variable tables, open-file limits, and the troubleshooting list stay in <a class="reference internal" href="../docker/remote_deployment.html"><span class="doc">Remote build appliance</span></a>.</p>
+<section id="one-time-setup">
+<h2>One-time setup<a class="headerlink" href="#one-time-setup" title="Link to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Install Docker Desktop with WSL2. Load the CIFS module in WSL (<code class="docutils literal notranslate"><span class="pre">modprobe</span> <span class="pre">cifs</span></code>) if this machine will mount NAS shares. Install an NVIDIA driver only when you want the GPU image. Git is required to clone the scripts.</p></li>
+<li><p>Clone the monorepo with submodules. The container images are pulled from GHCR. You do not build them on this machine. If the pull asks you to log in:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">login</span> <span class="n">ghcr</span><span class="o">.</span><span class="n">io</span> <span class="o">-</span><span class="n">u</span> <span class="o">&lt;</span><span class="n">github</span><span class="o">-</span><span class="n">user</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The token needs <code class="docutils literal notranslate"><span class="pre">read:packages</span></code>.</p>
+</li>
+<li><p>From the monorepo, run the initializer once. It creates the local Docker layout, pulls the images, and starts the dashboard:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">Initialize</span><span class="o">-</span><span class="n">NornirBuildAppliance</span><span class="o">.</span><span class="n">ps1</span>
+</pre></div>
+</div>
+<p>Press Enter to use the parent of <code class="docutils literal notranslate"><span class="pre">nornir-docker</span></code> as the monorepo root, or pass <code class="docutils literal notranslate"><span class="pre">-MonorepoRoot</span></code>.</p>
+</li>
+<li><p>Edit only the site files under <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code> (default <code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code>; many lab machines set <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-net-mounts\net-mounts\nas-mounts.tsv</span></code> — which shares to mount</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-net-mounts\secrets\net-creds\*.cred</span></code> — credentials for those shares</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-net-mounts\.run.nornir-net-mounts.env</span></code> — only when a host path is not the default</p></li>
+</ul>
+<p>The committed template is <code class="docutils literal notranslate"><span class="pre">nornir-docker/example.nornir-net-mounts.run.env</span></code>.</p>
+</li>
+</ol>
+</section>
+<section id="every-session">
+<h2>Every session<a class="headerlink" href="#every-session" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span> <span class="s2">"$env:NORNIR_DOCKER_USER_ROOT\Builds</span><span class="se">\n</span><span class="s2">ornir-build\start-nornir-build.ps1"</span>
+</pre></div>
+</div>
+<p>The launcher probes the GPU. A usable NVIDIA GPU selects <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code>. Otherwise it selects the CPU image <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code>. It mounts the shares from inside the container and opens a shell.</p>
+<p>Confirm the shell before starting a build:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">&quot;$NORNIR_NET_MOUNTS&quot;</span></code> prints <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">findmnt</span> <span class="pre">-t</span> <span class="pre">cifs</span></code> lists the shares from <code class="docutils literal notranslate"><span class="pre">nas-mounts.tsv</span></code>.</p></li>
+<li><p>The dashboard is at <a class="reference external" href="http://127.0.0.1:8087">http://127.0.0.1:8087</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEMImport</span></code>, <code class="docutils literal notranslate"><span class="pre">TEMBuild</span></code>, <code class="docutils literal notranslate"><span class="pre">TEMBuild-import</span></code>, and <code class="docutils literal notranslate"><span class="pre">TEMAlign</span></code> are on <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p></li>
+</ul>
+<p>Those four commands are the lab build. What each stage does is <a class="reference internal" href="tem_scripts.html"><span class="doc">TEM build scripts</span></a>.</p>
+<p>To refresh images later without re-running the initializer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">docker</span><span class="o">-</span><span class="n">pull</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">IncludeDashboard</span> <span class="o">-</span><span class="n">ContinueOnError</span>
+</pre></div>
+</div>
+<p>Pass <code class="docutils literal notranslate"><span class="pre">-PreferVersioned</span></code> to pin the pull to the monorepo <code class="docutils literal notranslate"><span class="pre">VERSION</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pyre_use.html" class="btn btn-neutral float-left" title="Using Pyre" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tem_scripts.html" class="btn btn-neutral float-right" title="TEM build scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
