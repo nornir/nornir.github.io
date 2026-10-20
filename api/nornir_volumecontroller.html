@@ -224,7 +224,7 @@ loading a large volume does not incur upfront I/O costs.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.Scale">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">Scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#Scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.Scale" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Physical scale of a volume channel on each spatial axis (units per pixel).</p>
 <p>Wraps the volumemodel <code class="docutils literal notranslate"><span class="pre">Scale</span></code> object so callers can read <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>, and <code class="docutils literal notranslate"><span class="pre">Z</span></code>
 units-per-pixel as plain floats rather than navigating the model hierarchy.</p>
@@ -307,7 +307,7 @@ loading a large volume does not incur upfront I/O costs.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeInterface">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">VolumeInterface</span></span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#VolumeInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeInterface" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Abstract interface for any volume controller.</p>
 <p>Concrete subclasses (e.g. <a class="reference internal" href="#nornir_volumecontroller.base_objects.Volume" title="nornir_volumecontroller.base_objects.Volume"><code class="xref py py-class docutils literal notranslate"><span class="pre">Volume</span></code></a>) must implement <code class="docutils literal notranslate"><span class="pre">Bounds</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Channels</span></code>, and <a class="reference internal" href="#nornir_volumecontroller.base_objects.VolumeInterface.GetData" title="nornir_volumecontroller.base_objects.VolumeInterface.GetData"><code class="xref py py-meth docutils literal notranslate"><span class="pre">GetData()</span></code></a>.</p>
@@ -339,7 +339,7 @@ loading a large volume does not incur upfront I/O costs.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="nornir_volumecontroller.base_objects.VolumeRegisteredChannel">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_volumecontroller.base_objects.</span></span><span class="sig-name descname"><span class="pre">VolumeRegisteredChannel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channelModel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_volumecontroller/base_objects.html#VolumeRegisteredChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_volumecontroller.base_objects.VolumeRegisteredChannel" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Wraps a single imaging channel together with its channel-to-volume registration transform.</p>
 <p>Provides convenient access to the channel’s <code class="docutils literal notranslate"><span class="pre">Name</span></code>, <code class="docutils literal notranslate"><span class="pre">Scale</span></code>, and tile-pyramid
 file paths at a given downsample level.</p>
@@ -386,7 +386,7 @@ file paths at a given downsample level.</p>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">{channel_name:</span> <span class="pre">VolumeRegisteredChannel}</span></code></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -405,7 +405,7 @@ included.</p>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">{section_number:</span> <span class="pre">{channel_name:</span> <span class="pre">VolumeRegisteredChannel}}</span></code></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>

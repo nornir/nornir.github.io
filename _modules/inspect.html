@@ -512,6 +512,8 @@
     <span class="n">f</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">_unwrap_partial</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">isfunction</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_signature_is_functionlike</span><span class="p">(</span><span class="n">f</span><span class="p">)):</span>
         <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1"># If it's a pure Python function, or an object that is duck type</span>
+    <span class="c1"># of a Python function (Cython and Mock functions, for instance), then:</span>
     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_flags</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">isgeneratorfunction</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
@@ -2509,7 +2511,7 @@
             <span class="n">is_duck_function</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># If it's not a pure Python function, and not a duck type</span>
-            <span class="c1"># of pure function:</span>
+            <span class="c1"># of pure function (Cython and Mock functions, for instance), then:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">'</span><span class="si">{!r}</span><span class="s1"> is not a Python function'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
 
     <span class="n">s</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">"__text_signature__"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -2702,7 +2704,7 @@
 
     <span class="k">if</span> <span class="n">isfunction</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_signature_is_functionlike</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
         <span class="c1"># If it's a pure Python function, or an object that is duck type</span>
-        <span class="c1"># of a Python function (Cython functions, for instance), then:</span>
+        <span class="c1"># of a Python function (Cython and Mock functions, for instance), then:</span>
         <span class="k">return</span> <span class="n">_signature_from_function</span><span class="p">(</span><span class="n">sigcls</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span>
                                         <span class="n">skip_bound_arg</span><span class="o">=</span><span class="n">skip_bound_arg</span><span class="p">,</span>
                                         <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">,</span> <span class="nb">locals</span><span class="o">=</span><span class="nb">locals</span><span class="p">,</span> <span class="n">eval_str</span><span class="o">=</span><span class="n">eval_str</span><span class="p">)</span>
@@ -3522,6 +3524,10 @@
 <span class="w">    </span><span class="sd">""" Logic for inspecting an object given at command line """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+
+    <span class="c1"># The printed text can contain characters unencodable in the encoding</span>
+    <span class="c1"># of stdout, e.g. undecodable bytes of a file name.</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">reconfigure</span><span class="p">(</span><span class="n">errors</span><span class="o">=</span><span class="s1">'backslashreplace'</span><span class="p">)</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
