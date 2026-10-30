@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
@@ -99,12 +103,17 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">concurrent.futures</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">errno</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">xml.etree</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementTree</span> <span class="k">as</span> <span class="n">ElementTree</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_buildmanager.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">shadow_write</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_buildmanager.volumemanager.container_storage</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">VOLUME_DATA_FILENAME</span><span class="p">,</span>
+    <span class="n">XML_CONTAINER_STORAGE</span><span class="p">,</span>
+    <span class="n">ContainerStorage</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_buildmanager.volumemanager.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DuplicateElementError</span><span class="p">,</span> <span class="n">MissingElementError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_buildmanager.volumemanager.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidateAttributesAreStrings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_buildmanager.volumemanager.elementwrapping</span><span class="w"> </span><span class="kn">import</span> <span class="n">WrapElement</span><span class="p">,</span> <span class="n">SetElementParent</span>
@@ -125,6 +134,8 @@
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XContainerElementWrapper">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">XContainerElementWrapper</span><span class="p">(</span><span class="n">XResourceElementWrapper</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""XML meta-data for a container whose sub-elements are contained within a directory on the file system.  The directories container will always be the same, such as TilePyramid"""</span>
+
+    <span class="n">storage</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">ContainerStorage</span><span class="p">]</span> <span class="o">=</span> <span class="n">XML_CONTAINER_STORAGE</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">SaveAsLinkedElement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -258,17 +269,10 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_load_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Loads an XML file from the file system and returns the root element"""</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fullpath</span><span class="p">,</span> <span class="s2">"VolumeData.xml"</span><span class="p">)</span>
-        <span class="n">xml_tree</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">xml_tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
-
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_wrap_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Loads an xml file containing a subset of our meta-data referred to by a LINK element.  Wraps the loaded XML in the correct meta-data class"""</span>
 
-        <span class="n">XMLElement</span> <span class="o">=</span> <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">_load_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+        <span class="n">XMLElement</span> <span class="o">=</span> <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">load_container</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
         <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">NewElement</span><span class="p">)</span> <span class="o">=</span> <span class="n">WrapElement</span><span class="p">(</span><span class="n">XMLElement</span><span class="p">)</span>
         <span class="c1"># SubContainer = XContainerElementWrapper.wrap(XMLElement)</span>
 
@@ -277,7 +281,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_wrap_setparent_link_element</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullpath</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Loads an xml file containing a subset of our meta-data referred to by a LINK element.  Wraps the loaded XML in the correct meta-data class"""</span>
 
-        <span class="n">XMLElement</span> <span class="o">=</span> <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">_load_link_element</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
+        <span class="n">XMLElement</span> <span class="o">=</span> <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">load_container</span><span class="p">(</span><span class="n">fullpath</span><span class="p">)</span>
         <span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">NewElement</span><span class="p">)</span> <span class="o">=</span> <span class="n">WrapElement</span><span class="p">(</span><span class="n">XMLElement</span><span class="p">)</span>
         <span class="c1"># SubContainer = XContainerElementWrapper.wrap(XMLElement)</span>
 
@@ -538,7 +542,9 @@
 <span class="sd">        """</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Save</span><span class="p">(</span><span class="n">tabLevel</span><span class="o">=</span><span class="n">tabLevel</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span>
+            <span class="c1"># One SQLite shadow connection for every container this save writes.</span>
+            <span class="k">with</span> <span class="n">shadow_write</span><span class="o">.</span><span class="n">save_session</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Save</span><span class="p">(</span><span class="n">tabLevel</span><span class="o">=</span><span class="n">tabLevel</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parent</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="n">tabLevel</span><span class="o">=</span><span class="n">tabLevel</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="n">recurse</span><span class="p">)</span>
@@ -563,7 +569,9 @@
             <span class="k">if</span> <span class="n">tabLevel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">tabLevel</span> <span class="o">=</span> <span class="mi">0</span>
 
-            <span class="n">children_snapshot</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># Write children in tree order (loaded order, or sort() order after a</span>
+            <span class="c1"># child-list change) so repeated saves write identical bytes.</span>
+            <span class="n">children_snapshot</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">AnyChangesFound</span><span class="p">:</span>
                 <span class="n">seen_link_keys</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
                 <span class="n">can_skip_serialization</span> <span class="o">=</span> <span class="kc">True</span>
@@ -594,12 +602,12 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChildrenChanged</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">recurse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="n">children_snapshot</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">children_snapshot</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AttributesChanged</span><span class="p">:</span>
                 <span class="n">ValidateAttributesAreStrings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-            <span class="n">xmlfilename</span> <span class="o">=</span> <span class="s1">'VolumeData.xml'</span>
+            <span class="n">xmlfilename</span> <span class="o">=</span> <span class="n">VOLUME_DATA_FILENAME</span>
 
             <span class="c1"># Shallow copy for serialization so we do not mutate the live tree mid-pipeline.</span>
             <span class="n">SaveElement</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
@@ -668,7 +676,10 @@
                     <span class="n">SaveElement</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">AnyChangesFound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__SaveXML</span><span class="p">(</span><span class="n">xmlfilename</span><span class="p">,</span> <span class="n">SaveElement</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'Writing </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1">'</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">save_container</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">,</span> <span class="n">SaveElement</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">ResetElementChangeFlags</span><span class="p">()</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">AnyChangesFound</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">SaveAsLinkedElement</span><span class="p">:</span>
                 <span class="c1"># Clean linked containers are a routine no-op; keep out of info/prettyoutput spam.</span>
@@ -676,163 +687,7 @@
                     <span class="sa">f</span><span class="s1">'Skipping </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1"> '</span>
                     <span class="sa">f</span><span class="s1">'(no dirty flags on this container; nested linked containers may still have written)'</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_save_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">__ensure_container_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">"""Create ``self.FullPath`` if needed; return it.</span>
-
-<span class="sd">        Uses CIFS/NFS-tolerant creation (see :func:`nornir_shared.files.ensure_directory`).</span>
-<span class="sd">        """</span>
-        <span class="k">return</span> <span class="n">ensure_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">__SaveXML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmlfilename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">SaveElement</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Intended to be called on a thread from the save function"""</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'Writing </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s1"> under </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">FullPath</span><span class="si">}</span><span class="s1">'</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">ElementTree</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="s1">'  '</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot encode output XML:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-            <span class="k">raise</span>
-
-        <span class="n">container_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ensure_container_directory</span><span class="p">()</span>
-
-        <span class="c1"># prettyoutput.Log("Saving %s" % xmlfilename)</span>
-        <span class="n">BackupXMLFilename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">xmlfilename</span><span class="p">)</span><span class="si">}</span><span class="s2">.backup.xml"</span>
-        <span class="n">BackupXMLFullPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">container_dir</span><span class="p">,</span> <span class="n">BackupXMLFilename</span><span class="p">)</span>
-        <span class="n">XMLFilename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">container_dir</span><span class="p">,</span> <span class="n">xmlfilename</span><span class="p">)</span>
-        <span class="n">TmpFilename</span> <span class="o">=</span> <span class="n">XMLFilename</span> <span class="o">+</span> <span class="s2">".tmp"</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="nf">write_temp_file</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">,</span> <span class="s1">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
-                    <span class="n">ElementTree</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">SaveElement</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-                        <span class="n">hFile</span><span class="p">,</span>
-                        <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">,</span>
-                        <span class="n">xml_declaration</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">short_empty_elements</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-                    <span class="k">pass</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
-                    <span class="k">raise</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cannot encode output XML:</span><span class="se">\n</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="k">raise</span>
-
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"No meta data produced for XML element </span><span class="si">{</span><span class="n">SaveElement</span><span class="si">}</span><span class="s2"> writing to </span><span class="si">{</span><span class="n">xmlfilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-        <span class="n">last_open_error</span><span class="p">:</span> <span class="ne">OSError</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">write_temp_file</span><span class="p">()</span>
-                <span class="k">break</span>
-            <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">last_open_error</span> <span class="o">=</span> <span class="n">e</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__ensure_container_directory</span><span class="p">()</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">*</span> <span class="p">(</span><span class="n">attempt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
-                        <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">,</span>
-                        <span class="s2">"Too many open files; raise ulimit -n or reduce tile I/O concurrency"</span><span class="p">,</span>
-                        <span class="n">XMLFilename</span><span class="p">,</span>
-                    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-                <span class="k">raise</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"Unable to write </span><span class="si">{</span><span class="n">TmpFilename</span><span class="si">}</span><span class="s2"> after retries; last error: </span><span class="si">{</span><span class="n">last_open_error</span><span class="si">}</span><span class="s2">"</span>
-            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">last_open_error</span>
-
-        <span class="c1"># If the current VolumeData.xml has data, then create a backup copy</span>
-        <span class="c1"># This should prevent us removing valid backups if the current VolumeData.xml</span>
-        <span class="c1"># has zero bytes</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">statinfo</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">XMLFilename</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">statinfo</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="c1"># Attempt to create a backup of the meta-data file before we replace it, just in case</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">BackupXMLFullPath</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-                    <span class="c1"># It is OK if a backup file does not exist</span>
-                    <span class="k">pass</span>
-                <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
-                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Permission error removing backup of </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> before write"</span><span class="p">)</span>
-                    <span class="k">raise</span>
-
-                <span class="c1"># Move the current file to the backup location, write the new data</span>
-                <span class="n">backup_ok</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="n">backup_blocked</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">for</span> <span class="n">backup_attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">XMLFilename</span><span class="p">,</span> <span class="n">BackupXMLFullPath</span><span class="p">)</span>
-                        <span class="n">backup_ok</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="k">break</span>
-                    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">"Could not backup </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">BackupXMLFullPath</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">); continuing without backup"</span><span class="p">)</span>
-                        <span class="k">break</span>
-                    <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
-                        <span class="n">backup_blocked</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">"XML backup retry </span><span class="si">{</span><span class="n">backup_attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/8, file in use: </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">backup_attempt</span><span class="p">)))</span>
-                    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">:</span>
-                            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">"Too many open files backing up </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">; continuing without backup. "</span>
-                                <span class="s2">"Raise ulimit -n or reduce tile I/O concurrency."</span><span class="p">)</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">"Could not backup </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">BackupXMLFullPath</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">); continuing without backup"</span><span class="p">)</span>
-                        <span class="k">break</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">backup_ok</span> <span class="ow">and</span> <span class="n">backup_blocked</span><span class="p">:</span>
-                    <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">"Permission error backing up </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> before write; continuing without backup"</span><span class="p">)</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># This is a rare issue where I'd write a file but have zero bytes on disk.</span>
-                <span class="c1"># If this error occurs check into replacing the zero byte file with the backup if it exists</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">LogErr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> had zero size, did not backup on write"</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-        <span class="c1"># prettyoutput.Log("Saving %s" % XMLFilename)</span>
-        <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">TmpFilename</span><span class="p">,</span> <span class="n">XMLFilename</span><span class="p">)</span>
-                <span class="k">return</span>
-            <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="c1"># Parent dir vanished or not yet visible (Clean race / CIFS cache).</span>
-                <span class="n">last_open_error</span> <span class="o">=</span> <span class="n">e</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__ensure_container_directory</span><span class="p">()</span>
-                <span class="n">write_temp_file</span><span class="p">()</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">*</span> <span class="p">(</span><span class="n">attempt</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="k">except</span> <span class="ne">PermissionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="c1"># SMB/CIFS often holds a directory handle after a large folder move</span>
-                <span class="c1"># (WinError 32). Back off and retry the replace.</span>
-                <span class="n">last_open_error</span> <span class="o">=</span> <span class="n">e</span>
-                <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">"XML replace retry </span><span class="si">{</span><span class="n">attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/8, file in use: </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">attempt</span><span class="p">)))</span>
-            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span>
-                        <span class="n">errno</span><span class="o">.</span><span class="n">EMFILE</span><span class="p">,</span>
-                        <span class="s2">"Too many open files; raise ulimit -n or reduce tile I/O concurrency"</span><span class="p">,</span>
-                        <span class="n">XMLFilename</span><span class="p">,</span>
-                    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-                <span class="k">raise</span>
-
-        <span class="k">if</span> <span class="n">last_open_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">last_open_error</span>
-        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unable to write </span><span class="si">{</span><span class="n">XMLFilename</span><span class="si">}</span><span class="s2"> after retries"</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span></div>
 
 </pre></div>
 

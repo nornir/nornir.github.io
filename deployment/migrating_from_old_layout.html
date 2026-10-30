@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migrating from the old layout &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Concepts" href="../concepts.html" />
+    <link rel="prev" title="Troubleshooting" href="troubleshooting.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Migrating from the old layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#copy-files-with-move-dockerhostlayout-ps1">Copy files with <code class="docutils literal notranslate"><span class="pre">Move-DockerHostLayout.ps1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#old-to-new">Old to new</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#removed-scripts-and-files">Removed scripts and files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#renamed-variables">Renamed variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#behaviour-changes-worth-knowing">Behaviour changes worth knowing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Migrating from the old layout</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/migrating_from_old_layout.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="migrating-from-the-old-layout">
+<h1>Migrating from the old layout<a class="headerlink" href="#migrating-from-the-old-layout" title="Link to this heading"></a></h1>
+<p>The old <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> tree grew one convention per service (<code class="docutils literal notranslate"><span class="pre">Builds\IdentityServer\.env.All*</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mounted-configs\...</span></code>, <code class="docutils literal notranslate"><span class="pre">Run\segmentation-server</span></code>, Nginx Proxy Manager). The stack layout
+gives every stack the same shape (<a class="reference internal" href="host_layout.html"><span class="doc">Host layout</span></a>). Moving over is a copy, not a rename: old
+files stay where they are until you delete them.</p>
+<section id="copy-files-with-move-dockerhostlayout-ps1">
+<h2>Copy files with <code class="docutils literal notranslate"><span class="pre">Move-DockerHostLayout.ps1</span></code><a class="headerlink" href="#copy-files-with-move-dockerhostlayout-ps1" title="Link to this heading"></a></h2>
+<p>Always run with <code class="docutils literal notranslate"><span class="pre">-WhatIf</span></code> first; it prints the old-to-new table without copying:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.\nornir-docker\deploy\Move-DockerHostLayout.ps1 -WhatIf
+.\nornir-docker\deploy\Move-DockerHostLayout.ps1
+.\nornir-docker\deploy\Move-DockerHostLayout.ps1 -From D:\Docker -To \\newserver\c$\srv\docker
+</pre></div>
+</div>
+<p>It never deletes or overwrites. Env files that map to one <code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code> are concatenated
+with a header naming each source; when a destination already exists it writes
+<code class="docutils literal notranslate"><span class="pre">&lt;dest&gt;.migrated</span></code> next to it for you to diff and merge. Old <code class="docutils literal notranslate"><span class="pre">mounted-configs\nornir-build-*</span></code>
+sessions are left alone unless you pass <code class="docutils literal notranslate"><span class="pre">-IncludeWork</span></code>. Then:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">&lt;role&gt;</span></code> (creates the rest of the tree and the forwarding
+launchers);</p></li>
+<li><p>compare each migrated env file with its <code class="docutils literal notranslate"><span class="pre">example.&lt;stack&gt;.run.env</span></code> and rename keys (the
+script does not rename variables);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code>;</p></li>
+<li><p>on the dev box, stop the old all-in-one <code class="docutils literal notranslate"><span class="pre">viking</span></code> compose project before the first
+<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">...</span> <span class="pre">up</span></code> (<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">-p</span> <span class="pre">viking</span> <span class="pre">down</span></code>); its published ports clash with the
+new stacks;</p></li>
+<li><p>delete the old files once the stacks run.</p></li>
+</ol>
+</section>
+<section id="old-to-new">
+<h2>Old to new<a class="headerlink" href="#old-to-new" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 46.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Old</p></th>
+<th class="head"><p>New</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code> (old script default)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> on Windows, <code class="docutils literal notranslate"><span class="pre">/srv/docker</span></code> on Ubuntu; set <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code> to keep
+another root</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mounted-configs\nornir-build-*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Work\nornir-build-*</span></code> (<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">prune</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-dashboard\dashboard.run.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-dashboard\nornir-dashboard.run.env</span></code> (old name still read)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\IdentityServer\.env.All</span></code>, <code class="docutils literal notranslate"><span class="pre">.env.All.Production</span></code>, <code class="docutils literal notranslate"><span class="pre">.env.All.Docker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-identity\viking-identity.run.env</span></code> (secrets into
+<code class="docutils literal notranslate"><span class="pre">Run\viking-identity\secrets\secrets.env</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Configs\IdentityServer\Duende_License.key</span></code> (or <code class="docutils literal notranslate"><span class="pre">mounted-configs\IdentityServer\</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-identity\secrets\Duende_License.key</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mounted-configs\IdentityServer\secrets.json</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-identity\secrets\secrets.json</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mounted-configs\IdentityServer\DataProtectionKeys</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">&lt;Viking</span> <span class="pre">repo&gt;\Servers\IdentityServer\DataProtectionKeys</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Data\viking-identity\DataProtectionKeys</span></code>. Copy before the first <code class="docutils literal notranslate"><span class="pre">viking-identity</span></code>
+start, or every user is signed out. <code class="docutils literal notranslate"><span class="pre">Move-DockerHostLayout.ps1</span></code> copies only the
+<code class="docutils literal notranslate"><span class="pre">mounted-configs</span></code> source; copy the repository folder by hand.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\cloudflare.ini</span></code>, <code class="docutils literal notranslate"><span class="pre">Builds\*\cloudflare.ini</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-certs\secrets\cloudflare.ini</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\GrpcAnnotationService\.env.Docker</span></code>, <code class="docutils literal notranslate"><span class="pre">Builds\AnnotationSql\.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-annotation\viking-annotation.run.env</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\GrpcAnnotationService\corrections</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Data\viking-annotation\corrections</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\SectionCorrectionService\.env.Docker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-corrections\viking-corrections.run.env</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\SegmentationServer\.env</span></code>, <code class="docutils literal notranslate"><span class="pre">models.json</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\viking-segmentation\viking-segmentation.run.env</span></code>, <code class="docutils literal notranslate"><span class="pre">Run\viking-segmentation\models.json</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Run\segmentation-server</span></code> (model files)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Data\viking-segmentation\models</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\AnnotationGallery\.env</span></code></p></td>
+<td><p>copied to <code class="docutils literal notranslate"><span class="pre">Run\sam2-gallery\sam2-gallery.run.env</span></code> by the script, but the gallery is not a
+<code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> stack: start it from the Sam2Trainer repository</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\ReverseProxy</span></code> (Nginx Proxy Manager GUI, admin port 81)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> stack: routes come from <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code>; no admin UI</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">*-letsencrypt</span></code> Docker volumes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Certs\&lt;TLS_CERT_NAME&gt;\</span></code> (<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">...</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\*\rebuild-and-start.ps1</span></code>, <code class="docutils literal notranslate"><span class="pre">restart_omni.cmd</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">rebuild</span></code> / <code class="docutils literal notranslate"><span class="pre">restart</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\nornir-build\*.ps1</span></code> (copies of the launchers)</p></td>
+<td><p>forwarding launchers written by <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-dev\</span></code> net-mount files</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-net-mounts\</span></code> (old location still read as a fallback)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds\nornir-cursor-worker\.env.cursor-worker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run\nornir-cursor-worker\nornir-cursor-worker.run.env</span></code> (old file still found)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="removed-scripts-and-files">
+<h2>Removed scripts and files<a class="headerlink" href="#removed-scripts-and-files" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 46.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Removed (<code class="docutils literal notranslate"><span class="pre">nornir-docker/</span></code>)</p></th>
+<th class="head"><p>Use instead</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Initialize-NornirBuildAppliance.ps1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">deploy/Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link-build-env.ps1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-docker\.env</span></code>: hardlink to <code class="docutils literal notranslate"><span class="pre">Run\nornir-dev\.env</span></code> (<a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a>).
+Build args: run <code class="docutils literal notranslate"><span class="pre">docker-build.ps1</span></code> from <code class="docutils literal notranslate"><span class="pre">Builds\nornir\</span></code>, which reads <code class="docutils literal notranslate"><span class="pre">build.env</span></code> /
+<code class="docutils literal notranslate"><span class="pre">.build.&lt;id&gt;.env</span></code> there</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NornirDevParityMounts.ps1</span></code></p></td>
+<td><p>built into <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span> <span class="pre">-DevParityMounts</span></code> (<code class="docutils literal notranslate"><span class="pre">NornirDevRunMounts.ps1</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nd-build.sh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nd-build.ps1</span></code> (<code class="docutils literal notranslate"><span class="pre">pwsh</span> <span class="pre">nornir-docker/nd-build.ps1</span></code> on Linux) / <code class="docutils literal notranslate"><span class="pre">nd-build.cmd</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">legacy-interactive-container.ps1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">shell</span></code> or <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-dev</span> <span class="pre">shell</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dev/start.ps1</span></code>, <code class="docutils literal notranslate"><span class="pre">prod/start.ps1</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir_cupy/start.ps1</span></code>, <code class="docutils literal notranslate"><span class="pre">start-sample.ps1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> (deploy), <code class="docutils literal notranslate"><span class="pre">run-cursor-dev.ps1</span></code> (dev shell), <code class="docutils literal notranslate"><span class="pre">docker-build.ps1</span></code> (images)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir_cupy/</span></code> (whole folder)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">prod/Dockerfile</span> <span class="pre">--build-arg</span> <span class="pre">INSTALL_CUPY=1</span></code> (<code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">*/compose-dev.yaml</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose.cursor-dev.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">compose.yaml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*/nornir-projects.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">*/requirements.txt</span></code> stubs</p></td>
+<td><p>nothing; images install from the monorepo and <code class="docutils literal notranslate"><span class="pre">constraints-headless.txt</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.env.build.example</span></code>, <code class="docutils literal notranslate"><span class="pre">.env.cursor-dev.example</span></code>, <code class="docutils literal notranslate"><span class="pre">.env.cursor-worker.example</span></code></p></td>
+<td><p>the <code class="docutils literal notranslate"><span class="pre">example.*.env</span></code> templates they pointed at</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">example._shared.build.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Builds\nornir\build.env</span></code> (per-image templates <code class="docutils literal notranslate"><span class="pre">*/example.&lt;id&gt;.build.env</span></code> remain)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">example.dashboard.run.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">deploy/examples/example.nornir-dashboard.run.env</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Kept on purpose: <code class="docutils literal notranslate"><span class="pre">docker-run-nornir-dev.ps1</span></code> (used by <code class="docutils literal notranslate"><span class="pre">D:\Docker\Run\nornir-dev\run.ps1</span></code>),
+<code class="docutils literal notranslate"><span class="pre">Cleanup-CursorWorkerClones.ps1</span></code> (its <code class="docutils literal notranslate"><span class="pre">-AgentCloneParent</span></code> default now matches
+<code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code>), <code class="docutils literal notranslate"><span class="pre">windows-docker-layout/Initialize-NornirCursorWorkerLayout.ps1</span></code>
+(worker only), and <code class="docutils literal notranslate"><span class="pre">nd-build.ps1</span></code> / <code class="docutils literal notranslate"><span class="pre">nd-build.cmd</span></code>.</p>
+</section>
+<section id="renamed-variables">
+<h2>Renamed variables<a class="headerlink" href="#renamed-variables" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Old</p></th>
+<th class="head"><p>New</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MONOREPO_ROOT</span></code> (host scripts, user environment)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code> (old name still read, with a warning)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-MonorepoRoot</span></code> (<code class="docutils literal notranslate"><span class="pre">Initialize-NornirBuildAppliance.ps1</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-RepoRoot</span></code> (<code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Viking service keys that changed with the move to <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/</span></code> are listed in the Viking
+deployment docs.</p>
+</section>
+<section id="behaviour-changes-worth-knowing">
+<h2>Behaviour changes worth knowing<a class="headerlink" href="#behaviour-changes-worth-knowing" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Launchers under <code class="docutils literal notranslate"><span class="pre">Builds\nornir-build</span></code> used to be copies and broke after <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>; they are
+now forwarding launchers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> joins <code class="docutils literal notranslate"><span class="pre">nornir-dashboard_default</span></code> automatically and publishes to
+<code class="docutils literal notranslate"><span class="pre">mosquitto</span></code> (the old default network name did not match the compose project).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> passes <code class="docutils literal notranslate"><span class="pre">--shm-size=64g</span></code> by default.</p></li>
+<li><p>The TEM scripts choose NumPy automatically when no GPU is present.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compose.cursor-dev.yaml</span></code> loads <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code> with <code class="docutils literal notranslate"><span class="pre">env_file</span></code>, so settings such as
+<code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE</span></code> reach the container without editing the compose file.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="troubleshooting.html" class="btn btn-neutral float-left" title="Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../concepts.html" class="btn btn-neutral float-right" title="Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Deploy the build container" href="deploy_build_container.html" />
+    <link rel="next" title="TEM build scripts" href="tem_scripts.html" />
     <link rel="prev" title="Guides" href="index.html" /> 
 </head>
 
@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -57,15 +61,14 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Using Pyre</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#menus">Menus</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#control-points">Control points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#alignment-keys">Alignment keys</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#navigation">Navigation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="deploy_build_container.html">Deploy the build container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tem_scripts.html">TEM build scripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="build_volume.html">Build a volume</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run_the_stack.html">Run the stack</a></li>
 </ul>
 </li>
 </ul>
@@ -114,44 +117,65 @@
   <section id="using-pyre">
 <h1>Using Pyre<a class="headerlink" href="#using-pyre" title="Link to this heading"></a></h1>
 <p>Pyre is the interactive registration tool. Install it with <a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>, or run a developer build with <a class="reference internal" href="../development/pyre_development.html"><span class="doc">Pyre development</span></a>.</p>
-<p>Open a registration with <strong>File → Open STOS</strong>, or <strong>File → New STOS</strong> for a new pair. Open a mosaic with <strong>File → Open Mosaic</strong>.</p>
+<p>Open a registration with <strong>File → Open STOS File</strong> (Ctrl+O). To register a new pair, open the images with <strong>File → Open Source Image</strong> and <strong>File → Open Target Image</strong>. <strong>File → Open STOS Folder Browser</strong> lists every <code class="docutils literal notranslate"><span class="pre">.stos</span></code> file in a folder. Save with <strong>File → Save STOS File</strong> (Ctrl+S).</p>
+<p>The same mouse and keyboard reference is built into Pyre: <strong>Help → Mouse and Keyboard Controls</strong> (F1).</p>
+<section id="menus">
+<h2>Menus<a class="headerlink" href="#menus" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>File:</strong> open STOS files, images, and masks; save the STOS file or the warped image.</p></li>
+<li><p><strong>Transform:</strong> convert the transform type, flip the source image, reset the transform.</p></li>
+<li><p><strong>Registration:</strong> rotation/translation estimates, rigid and grid refinement, removing points on masked areas, cancelling registration (Esc), the ROI inspector, and the registration defaults (<strong>Transform Settings</strong>).</p></li>
+<li><p><strong>View:</strong> window layouts for multiple displays, showing or hiding the Source, Target, and Composite windows, restoring orientation, and image contrast.</p></li>
+<li><p><strong>Help:</strong> the controls reference and this manual.</p></li>
+</ul>
+</section>
 <section id="control-points">
 <h2>Control points<a class="headerlink" href="#control-points" title="Link to this heading"></a></h2>
-<p>These bindings apply to STOS registration views. Triangulation transforms can add and delete points. A refined grid cannot; convert or use a triangulation transform if you need to edit the mesh.</p>
+<p>These bindings apply to the Source, Target, and Composite STOS windows.</p>
+<p>On a control point:</p>
 <ul class="simple">
-<li><p>Click to select a point.</p></li>
-<li><p>Shift+Click to add a point.</p></li>
-<li><p>Alt+Shift+Click to add a point and auto-align it.</p></li>
-<li><p>Drag a point to move it.</p></li>
-<li><p>Ctrl+drag to translate the mapped (source) image.</p></li>
-<li><p>Alt+Click to move the selected point to the cursor.</p></li>
-<li><p>Shift+right-click to delete a point (triangulation only).</p></li>
-<li><p>Right-drag to pan.</p></li>
+<li><p>Click to select only that point. Shift+Click adds it to or removes it from the selection.</p></li>
+<li><p>Drag to move it. Shift+Drag starts a box selection instead.</p></li>
+<li><p>Alt+Shift+Click auto-aligns it.</p></li>
+<li><p>Shift+right-click deletes it.</p></li>
+</ul>
+<p>On empty space:</p>
+<ul class="simple">
+<li><p>Click to clear the selection.</p></li>
+<li><p>Drag to box-select. Alt+Drag lasso-selects. Hold Shift as well to add to or remove from the selection.</p></li>
+<li><p>Shift+Click or middle-click adds a control point. Alt+Shift+Click adds one and auto-aligns it.</p></li>
+<li><p>Alt+Click moves the selected point to the cursor (exactly one point selected).</p></li>
+<li><p>Ctrl+Drag moves all control points together, translating the mapped (source) image (one or no point selected).</p></li>
+</ul>
+<p>Delete or Backspace deletes the selected points.</p>
+<p>By transform type:</p>
+<ul class="simple">
+<li><p><strong>Mesh and RBF:</strong> every binding above. Deleting keeps at least three control points.</p></li>
+<li><p><strong>Grid:</strong> points can be moved but not added or deleted; trying either offers to convert the transform to a mesh. Source points cannot be moved in the Source window; move them in the Target or Composite window.</p></li>
+<li><p><strong>Rigid:</strong> there are no control points. Drag moves the mapped image in the Source or Composite window. Adding a point offers to convert the transform to a mesh.</p></li>
 </ul>
 </section>
 <section id="alignment-keys">
 <h2>Alignment keys<a class="headerlink" href="#alignment-keys" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Rigid:</strong> Space runs a local brute-force refine (±5° at 1° steps) and keeps scale. Shift+Space also refines scale.</p></li>
-<li><p><strong>Mesh / RBF:</strong> Space auto-aligns the selected control point. Shift+Space auto-aligns all points.</p></li>
-<li><p><strong>Grid:</strong> Space auto-aligns the selected control point. Shift+Space runs one grid-refine pass (settings dialog, then a live preview). The Refine w/ Grid menu runs the chosen number of iterations as one job and updates the view after each pass. Several Shift+Space presses are not the same as that multi-pass job.</p></li>
+<li><p><strong>Rigid:</strong> Space runs a local brute-force refine (±5° at 1° steps) and keeps scale. Shift+Space also refines scale. Both are also in the <strong>Registration</strong> menu.</p></li>
+<li><p><strong>Mesh / RBF:</strong> Space auto-aligns the selected control points and the point under the cursor. Shift+Space auto-aligns all points. Holding Space aligns each point once: sweep the cursor over points to align them in turn, and release and press again to re-align one.</p></li>
+<li><p><strong>Grid:</strong> Space auto-aligns like Mesh. Shift+Space runs one grid-refine pass (settings dialog, then a live preview). <strong>Registration → Refine w/ Grid</strong> runs the chosen number of iterations as one job and updates the view after each pass. Several Shift+Space presses are not the same as that multi-pass job.</p></li>
+<li><p><strong>Esc</strong> (or <strong>Registration → Cancel Registration</strong>, or the status-bar Cancel) cancels queued point alignments and any running refine or rotate job. Points already moved stay moved. While you are creating a point or dragging a selection box, Esc cancels that instead.</p></li>
 </ul>
 </section>
 <section id="navigation">
 <h2>Navigation<a class="headerlink" href="#navigation" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>WASD pans. Right-drag also pans.</p></li>
-<li><p>The mouse wheel zooms.</p></li>
-<li><p>Shift+scroll scales the transform about the cursor when the transform supports it.</p></li>
-<li><p>Ctrl+scroll rotates the mapped section when the transform supports it. Ctrl+Shift+scroll uses finer steps. On a rigid transform, rotation is in the Composite view.</p></li>
-<li><p>Page Up / Page Down changes magnification.</p></li>
-<li><p><strong>M</strong> matches Source, Target, and Composite to the focused window’s center and magnification.</p></li>
-<li><p><strong>L</strong> shows or hides mesh lines.</p></li>
+<li><p>The mouse wheel zooms about the cursor. Page Up zooms out and Page Down zooms in.</p></li>
+<li><p>Shift+scroll scales the transform about the cursor when the transform supports it and no points are selected or queued.</p></li>
+<li><p>Ctrl+scroll rotates the mapped section when the transform supports it. Ctrl+Shift+scroll uses finer steps. On a rigid transform, rotation is in the Composite window only.</p></li>
+<li><p><strong>M</strong> matches Source, Target, and Composite to the focused window’s center and zoom.</p></li>
+<li><p><strong>L</strong> shows or hides mesh lines in the focused window.</p></li>
 <li><p><strong>F</strong> flips the source (mapped) image.</p></li>
-<li><p><strong>Tab</strong> toggles how the source image is drawn (registered versus the alternate display) on the shared transform. It applies to Source, Target, and Composite.</p></li>
 <li><p>Ctrl+Z undoes. Ctrl+X redoes.</p></li>
 </ul>
-<p>Save with <strong>File → Save STOS</strong>.</p>
 <p>If the window is blank, update the graphics driver. A developer build can try <code class="docutils literal notranslate"><span class="pre">PYOPENGL_PLATFORM=software</span></code>. Session logs for the installer build are under <code class="docutils literal notranslate"><span class="pre">%LOCALAPPDATA%\Nornir\Pyre\logs</span></code>.</p>
 </section>
 </section>
@@ -161,7 +185,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="deploy_build_container.html" class="btn btn-neutral float-right" title="Deploy the build container" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tem_scripts.html" class="btn btn-neutral float-right" title="TEM build scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

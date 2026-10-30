@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Build a volume" href="build_volume.html" />
-    <link rel="prev" title="Deploy the build container" href="deploy_build_container.html" /> 
+    <link rel="prev" title="Using Pyre" href="pyre_use.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -57,7 +61,6 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="pyre_use.html">Using Pyre</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deploy_build_container.html">Deploy the build container</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">TEM build scripts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#temimport">TEMImport</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tembuild">TEMBuild</a></li>
@@ -65,7 +68,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="build_volume.html">Build a volume</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run_the_stack.html">Run the stack</a></li>
 </ul>
 </li>
 </ul>
@@ -113,7 +115,7 @@
              
   <section id="tem-build-scripts">
 <h1>TEM build scripts<a class="headerlink" href="#tem-build-scripts" title="Link to this heading"></a></h1>
-<p>Inside the build container (<a class="reference internal" href="deploy_build_container.html"><span class="doc">Deploy the build container</span></a>) the lab sequence is three wrappers. Each one is a single <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> process. Stages run in order, joined by <code class="docutils literal notranslate"><span class="pre">--then</span></code>, and the process stops on the first failure. The default compute library is CuPy (<code class="docutils literal notranslate"><span class="pre">NORNIR_COMPUTATIONAL_LIBRARY</span></code>). Progress is published to the co-located dashboard.</p>
+<p>Inside the build container (<a class="reference internal" href="../deployment/nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>) the lab sequence is three wrappers. Each one is a single <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> process. Stages run in order, joined by <code class="docutils literal notranslate"><span class="pre">--then</span></code>, and the process stops on the first failure. The default compute library is CuPy (<code class="docutils literal notranslate"><span class="pre">NORNIR_COMPUTATIONAL_LIBRARY</span></code>). Progress is published to the co-located dashboard.</p>
 <p>Run them in this order:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">TEMImport</span></code> when the volume has not been imported.</p></li>
@@ -170,7 +172,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="deploy_build_container.html" class="btn btn-neutral float-left" title="Deploy the build container" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pyre_use.html" class="btn btn-neutral float-left" title="Using Pyre" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="build_volume.html" class="btn btn-neutral float-right" title="Build a volume" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

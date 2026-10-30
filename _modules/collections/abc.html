@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
@@ -379,7 +383,7 @@
 
 
 <div class="viewcode-block" id="Iterable">
-<a class="viewcode-back" href="../../api/nornir_imageregistration.html#nornir_imageregistration.core.Iterable">[docs]</a>
+<a class="viewcode-back" href="../../api/nornir_pools.html#nornir_imageregistration.core.Iterable">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Iterable</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
@@ -399,6 +403,8 @@
 
 
 
+<div class="viewcode-block" id="Iterator">
+<a class="viewcode-back" href="../../api/nornir_pools.html#nornir_imageregistration.core.Iterator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Iterator</span><span class="p">(</span><span class="n">Iterable</span><span class="p">):</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
@@ -415,7 +421,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">__subclasshook__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="n">Iterator</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_check_methods</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="s1">'__iter__'</span><span class="p">,</span> <span class="s1">'__next__'</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span></div>
+
 
 
 <span class="n">Iterator</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">bytes_iterator</span><span class="p">)</span>
@@ -643,6 +650,8 @@
     <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="Callable">
+<a class="viewcode-back" href="../../api/nornir_pools.html#nornir_imageregistration.core.Callable">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Callable</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
@@ -657,7 +666,8 @@
             <span class="k">return</span> <span class="n">_check_methods</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="s2">"__call__"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">NotImplemented</span>
 
-    <span class="n">__class_getitem__</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_CallableGenericAlias</span><span class="p">)</span>
+    <span class="n">__class_getitem__</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_CallableGenericAlias</span><span class="p">)</span></div>
+
 
 
 <span class="c1">### SETS ###</span>

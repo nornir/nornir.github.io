@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
@@ -102,12 +106,13 @@
 <span class="sd">@author: u0490822</span>
 <span class="sd">"""</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Sequence</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">cupy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
@@ -264,8 +269,56 @@
 <span class="n">INVERSE_MAP_Y_CORRELATION_THRESHOLD</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span>
 
 
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LinearBlendParams</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Shared linear-blend knobs threaded through blend and chain-correction helpers.</span>
+
+<span class="sd">    Keyword façades pack into this type once; callers that already have a packed</span>
+<span class="sd">    instance use :func:`BlendTransformsWithParams` /</span>
+<span class="sd">    :func:`BlendTransformsIterativelyWithParams`. ``linear_factor`` is accepted</span>
+<span class="sd">    only via :meth:`from_kwargs` (deprecated alias for ``min_blend``).</span>
+<span class="sd">    """</span>
+
+    <span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">reblend_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_ITERATIONS</span>
+    <span class="n">reblend_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_TOLERANCE</span>
+    <span class="n">reblend_weight_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_WEIGHT_TOLERANCE</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_kwargs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span>
+                    <span class="o">*</span><span class="p">,</span>
+                    <span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">max_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">travel_limit</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">reblend_iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_REBLEND_ITERATIONS</span><span class="p">,</span>
+                    <span class="n">reblend_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">reblend_weight_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"LinearBlendParams"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Pack loose blend kwargs; ``None`` reblend tolerances become module defaults."""</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">min_blend</span><span class="o">=</span><span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+            <span class="n">max_blend</span><span class="o">=</span><span class="n">max_blend</span><span class="p">,</span>
+            <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
+            <span class="n">reblend_iterations</span><span class="o">=</span><span class="n">reblend_iterations</span><span class="p">,</span>
+            <span class="n">reblend_tolerance</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">DEFAULT_REBLEND_TOLERANCE</span> <span class="k">if</span> <span class="n">reblend_tolerance</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reblend_tolerance</span><span class="p">),</span>
+            <span class="n">reblend_weight_tolerance</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">DEFAULT_REBLEND_WEIGHT_TOLERANCE</span>
+                <span class="k">if</span> <span class="n">reblend_weight_tolerance</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="n">reblend_weight_tolerance</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">effective_max_blend</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Per-point max rigid weight after subtle defaults."""</span>
+        <span class="k">return</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_blend</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">travel_limit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_blend</span><span class="p">)</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-                        <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+                        <span class="n">stacklevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return min_blend, accepting deprecated linear_factor with a warning."""</span>
     <span class="k">if</span> <span class="n">linear_factor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">min_blend</span> <span class="o">!=</span> <span class="n">linear_factor</span><span class="p">:</span>
@@ -275,7 +328,7 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="s2">"linear_factor is deprecated; use min_blend instead"</span><span class="p">,</span>
                 <span class="ne">DeprecationWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="n">stacklevel</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">linear_factor</span>
     <span class="k">return</span> <span class="n">min_blend</span>
 
@@ -413,8 +466,14 @@
 <span class="sd">    :return:  Either a mesh triangulation, a grid triangulation, or a linear transformation.  Grid and Triangulation</span>
 <span class="sd">    match the input transform.  Linear transforms are only returned if min_blend is 1.0.</span>
 <span class="sd">    """</span>
-    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
-    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">LinearBlendParams</span><span class="o">.</span><span class="n">from_kwargs</span><span class="p">(</span>
+        <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
+        <span class="n">max_blend</span><span class="o">=</span><span class="n">max_blend</span><span class="p">,</span>
+        <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
+        <span class="n">reblend_iterations</span><span class="o">=</span><span class="n">reblend_iterations</span><span class="p">,</span>
+        <span class="n">reblend_tolerance</span><span class="o">=</span><span class="n">reblend_tolerance</span><span class="p">,</span>
+        <span class="n">reblend_weight_tolerance</span><span class="o">=</span><span class="n">reblend_weight_tolerance</span><span class="p">,</span>
+        <span class="n">linear_factor</span><span class="o">=</span><span class="n">linear_factor</span><span class="p">)</span>
 
     <span class="c1"># This check is here to help the IDE with autocompletion</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ITransform</span><span class="p">):</span>
@@ -424,21 +483,13 @@
     <span class="n">linear_transform</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">converters</span><span class="o">.</span><span class="n">ConvertControlPointsToRigidTransformForBlend</span><span class="p">(</span>
         <span class="n">transform</span><span class="p">,</span>
         <span class="n">ignore_rotation</span><span class="o">=</span><span class="n">ignore_rotation</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">min_blend</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">min_blend</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">linear_transform</span>
 
-    <span class="k">if</span> <span class="n">reblend_iterations</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">blended</span> <span class="o">=</span> <span class="n">BlendTransformsIteratively</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span>
-                                             <span class="n">linear_transform</span><span class="o">=</span><span class="n">linear_transform</span><span class="p">,</span>
-                                             <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
-                                             <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
-                                             <span class="n">reblend_iterations</span><span class="o">=</span><span class="n">reblend_iterations</span><span class="p">,</span>
-                                             <span class="n">reblend_tolerance</span><span class="o">=</span><span class="n">reblend_tolerance</span><span class="p">,</span>
-                                             <span class="n">reblend_weight_tolerance</span><span class="o">=</span><span class="n">reblend_weight_tolerance</span><span class="p">,</span>
-                                             <span class="n">max_blend</span><span class="o">=</span><span class="n">effective_max_blend</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">reblend_iterations</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">blended</span> <span class="o">=</span> <span class="n">BlendTransformsIterativelyWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">blended</span> <span class="o">=</span> <span class="n">BlendTransforms</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="o">=</span><span class="n">linear_transform</span><span class="p">,</span> <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
-                                  <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="o">=</span><span class="n">effective_max_blend</span><span class="p">)</span>
+        <span class="n">blended</span> <span class="o">=</span> <span class="n">BlendTransformsWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">_orientation_sign_preserved</span><span class="p">(</span><span class="n">mesh_corr</span><span class="p">,</span> <span class="n">estimate_inverse_map_y_correlation</span><span class="p">(</span><span class="n">blended</span><span class="p">)):</span>
         <span class="k">return</span> <span class="n">blended</span>
@@ -465,8 +516,21 @@
 <span class="sd">    :param max_blend: Cap per-point linear weight; defaults to min_blend or 0.9 by mode.</span>
 <span class="sd">    :return: Mesh triangulation, grid triangulation, or linear transform matching input type.</span>
 <span class="sd">    """</span>
-    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
-    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">LinearBlendParams</span><span class="o">.</span><span class="n">from_kwargs</span><span class="p">(</span>
+        <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
+        <span class="n">max_blend</span><span class="o">=</span><span class="n">max_blend</span><span class="p">,</span>
+        <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
+        <span class="n">linear_factor</span><span class="o">=</span><span class="n">linear_factor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BlendTransformsWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">BlendTransformsWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">IControlPoints</span><span class="p">,</span>
+                              <span class="n">linear_transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span>
+                              <span class="n">params</span><span class="p">:</span> <span class="n">LinearBlendParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""One-shot blend using packed :class:`LinearBlendParams`."""</span>
+    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">min_blend</span>
+    <span class="n">travel_limit</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">travel_limit</span>
+    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">effective_max_blend</span>
 
     <span class="k">if</span> <span class="n">min_blend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">min_blend</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">min_blend</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"min_blend must be between 0 and 1.0, got </span><span class="si">{</span><span class="n">min_blend</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -488,7 +552,7 @@
     <span class="n">linear_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">linear_points</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">distances</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">linear_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">array_distance</span><span class="p">(</span><span class="n">linear_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span>
         <span class="n">blend_weights</span> <span class="o">=</span> <span class="n">_travel_blend_weights</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">effective_max_blend</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">blend_weights</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">target_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
@@ -508,33 +572,47 @@
                                <span class="o">*</span><span class="p">,</span>
                                <span class="n">linear_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ITransform</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Iteratively blend toward linear_transform until points stabilize or iteration cap is reached."""</span>
-    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">_coalesce_min_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">linear_factor</span><span class="p">)</span>
-    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">resolve_effective_max_blend</span><span class="p">(</span><span class="n">min_blend</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">max_blend</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">reblend_iterations</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">BlendTransforms</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span>
-                               <span class="n">linear_transform</span><span class="o">=</span><span class="n">linear_transform</span><span class="p">,</span>
-                               <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
-                               <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
-                               <span class="n">max_blend</span><span class="o">=</span><span class="n">effective_max_blend</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">LinearBlendParams</span><span class="o">.</span><span class="n">from_kwargs</span><span class="p">(</span>
+        <span class="n">min_blend</span><span class="o">=</span><span class="n">min_blend</span><span class="p">,</span>
+        <span class="n">max_blend</span><span class="o">=</span><span class="n">max_blend</span><span class="p">,</span>
+        <span class="n">travel_limit</span><span class="o">=</span><span class="n">travel_limit</span><span class="p">,</span>
+        <span class="n">reblend_iterations</span><span class="o">=</span><span class="n">reblend_iterations</span><span class="p">,</span>
+        <span class="n">reblend_tolerance</span><span class="o">=</span><span class="n">reblend_tolerance</span><span class="p">,</span>
+        <span class="n">reblend_weight_tolerance</span><span class="o">=</span><span class="n">reblend_weight_tolerance</span><span class="p">,</span>
+        <span class="n">linear_factor</span><span class="o">=</span><span class="n">linear_factor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BlendTransformsIterativelyWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">BlendTransformsIterativelyWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">:</span> <span class="n">IControlPoints</span><span class="p">,</span>
+                                         <span class="n">linear_transform</span><span class="p">:</span> <span class="n">ITransform</span><span class="p">,</span>
+                                         <span class="n">params</span><span class="p">:</span> <span class="n">LinearBlendParams</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Iterative blend using packed :class:`LinearBlendParams`."""</span>
+    <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">reblend_iterations</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">BlendTransformsWithParams</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">linear_transform</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+    <span class="n">min_blend</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">min_blend</span>
+    <span class="n">travel_limit</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">travel_limit</span>
+    <span class="n">effective_max_blend</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">effective_max_blend</span>
 
     <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">TargetPoints</span><span class="p">)</span>
     <span class="n">current_target_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">transform</span><span class="o">.</span><span class="n">TargetPoints</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">source_points</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">SourcePoints</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reblend_iterations</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">reblend_iterations</span><span class="p">):</span>
         <span class="n">target_points</span> <span class="o">=</span> <span class="n">current_target_points</span>
         <span class="n">linear_points</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">linear_transform</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">source_points</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">travel_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">distances</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">linear_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">array_distance</span><span class="p">(</span><span class="n">linear_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="n">_travel_blend_weights</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">travel_limit</span><span class="p">,</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">effective_max_blend</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">weights</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">target_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">min_blend</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
         <span class="n">new_target_points</span> <span class="o">=</span> <span class="n">_blend_target_points</span><span class="p">(</span><span class="n">target_points</span><span class="p">,</span> <span class="n">linear_points</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
-        <span class="n">movement</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">new_target_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))))</span>
+        <span class="n">movement</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">array_distance</span><span class="p">(</span><span class="n">new_target_points</span> <span class="o">-</span> <span class="n">target_points</span><span class="p">)))</span>
         <span class="n">current_target_points</span> <span class="o">=</span> <span class="n">new_target_points</span>
 
-        <span class="k">if</span> <span class="n">movement</span> <span class="o">&lt;</span> <span class="n">reblend_tolerance</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">reblend_weight_tolerance</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">movement</span> <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="n">reblend_tolerance</span>
+                <span class="ow">or</span> <span class="nb">float</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">params</span><span class="o">.</span><span class="n">reblend_weight_tolerance</span><span class="p">):</span>
             <span class="k">break</span>
 
     <span class="k">return</span> <span class="n">_control_points_from_blended_targets</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">current_target_points</span><span class="p">)</span>

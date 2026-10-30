@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
@@ -118,6 +122,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">xml.etree</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementTree</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_pools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.env_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">env_is_truthy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.misc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.prettyoutput</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prettyoutput</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_buildmanager.no_delete</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_no_delete_mod</span>
@@ -152,14 +157,9 @@
 <span class="n">_PIPELINE_PROGRESS_ENV</span> <span class="o">=</span> <span class="s2">"NORNIR_LOG_PIPELINE_PROGRESS"</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_env_flag_enabled</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""True when *name* is a conventional truthy environment flag."""</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"on"</span><span class="p">}</span>
-
-
 <span class="k">def</span><span class="w"> </span><span class="nf">_should_log_pipeline_progress</span><span class="p">(</span><span class="n">argset</span><span class="p">:</span> <span class="s2">"ArgumentSet | None"</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""True when per-iterate pipeline progress should be written to the log."""</span>
-    <span class="k">if</span> <span class="n">_env_flag_enabled</span><span class="p">(</span><span class="n">_PIPELINE_PROGRESS_ENV</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">env_is_truthy</span><span class="p">(</span><span class="n">_PIPELINE_PROGRESS_ENV</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">if</span> <span class="n">argset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -795,7 +795,9 @@
             <span class="n">block_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">'Block'</span><span class="p">)))</span>
             <span class="n">pipeline_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span> <span class="ow">or</span> <span class="s2">""</span>
             <span class="n">is_import_pipeline</span> <span class="o">=</span> <span class="n">pipeline_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Import"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">pipeline_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"Adopt"</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">volume_xml_existed</span> <span class="ow">or</span> <span class="n">block_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_import_pipeline</span><span class="p">:</span>
+            <span class="c1"># ExportTrainingData -VikingXML reads another server's volume; the local folder may be empty.</span>
+            <span class="n">is_remote_export</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">"VikingXML"</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">volume_xml_existed</span> <span class="ow">or</span> <span class="n">block_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_import_pipeline</span> <span class="ow">or</span> <span class="n">is_remote_export</span><span class="p">):</span>
                 <span class="n">err</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Volume at </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">volumepath</span><span class="si">}</span><span class="s2"> has no usable data "</span>
                     <span class="sa">f</span><span class="s2">"(VolumeData.xml existed=</span><span class="si">{</span><span class="n">volume_xml_existed</span><span class="si">}</span><span class="s2">, Block count=</span><span class="si">{</span><span class="n">block_count</span><span class="si">}</span><span class="s2">). "</span>
@@ -811,8 +813,12 @@
 
         <span class="c1"># dargs = copy.deepcopy(defaultDargs)</span>
 
-        <span class="n">no_delete</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'no_delete'</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">set_no_delete</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">no_delete</span><span class="p">))</span>
+        <span class="n">no_delete</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'no_delete'</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span> <span class="ow">or</span> <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">element_requests_no_delete</span><span class="p">(</span>
+            <span class="n">PipelineElement</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">no_delete</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">'no_delete'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">prettyoutput</span><span class="o">.</span><span class="n">Log</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"NO-DELETE: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_PipelineName</span><span class="si">}</span><span class="s2"> does not delete volume inputs"</span><span class="p">)</span>
+        <span class="n">_no_delete_mod</span><span class="o">.</span><span class="n">set_no_delete</span><span class="p">(</span><span class="n">no_delete</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ExecuteChildPipelines</span><span class="p">(</span><span class="n">ArgSet</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">VolumeTree</span><span class="p">,</span> <span class="n">PipelineElement</span><span class="p">)</span>
         <span class="k">finally</span><span class="p">:</span>
@@ -1117,8 +1123,12 @@
 
         <span class="n">variable_name</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'VariableName'</span><span class="p">,</span> <span class="s1">'Iterate'</span><span class="p">)</span>
         <span class="n">track_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"iterate:</span><span class="si">{</span><span class="n">variable_name</span><span class="si">}</span><span class="s2">"</span>
-        <span class="c1"># Do not materialize candidates for len(); MQTT omits None totals</span>
-        <span class="c1"># (publish_run_event) so streaming can start before the full set is known (#140).</span>
+        <span class="c1"># Section iterates are already in the volume XML. Count them so the</span>
+        <span class="c1"># dashboard can draw a bar. Other iterates stay streamed (#140).</span>
+        <span class="n">progress_total</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">variable_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"sectionnode"</span><span class="p">:</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+            <span class="n">progress_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
         <span class="n">depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterate_depth</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_iterate_depth</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -1129,7 +1139,7 @@
             <span class="n">publish_run_event</span><span class="p">(</span>
                 <span class="s2">"iterate_progress"</span><span class="p">,</span>
                 <span class="n">current</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">progress_total</span><span class="p">,</span>
                 <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
                 <span class="n">track_id</span><span class="o">=</span><span class="n">track_id</span><span class="p">,</span>
                 <span class="n">label</span><span class="o">=</span><span class="n">variable_name</span><span class="p">)</span>
@@ -1149,7 +1159,7 @@
                 <span class="n">publish_run_event</span><span class="p">(</span>
                     <span class="s2">"iterate_progress"</span><span class="p">,</span>
                     <span class="n">current</span><span class="o">=</span><span class="n">progress_current</span><span class="p">,</span>
-                    <span class="n">total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">total</span><span class="o">=</span><span class="n">progress_total</span><span class="p">,</span>
                     <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span>
                     <span class="n">track_id</span><span class="o">=</span><span class="n">track_id</span><span class="p">,</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">variable_name</span><span class="p">,</span>
@@ -1159,12 +1169,15 @@
             <span class="n">publish_run_event</span><span class="p">(</span>
                 <span class="s2">"iterate_progress_complete"</span><span class="p">,</span>
                 <span class="n">track_id</span><span class="o">=</span><span class="n">track_id</span><span class="p">,</span>
-                <span class="n">total</span><span class="o">=</span><span class="n">progress_current</span><span class="p">)</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">progress_total</span> <span class="k">if</span> <span class="n">progress_total</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">progress_current</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">save_parent</span><span class="p">:</span>
             <span class="n">PipelineManager</span><span class="o">.</span><span class="n">_SaveNodes</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">NumProcessed</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># AllowEmpty="True": matching nothing is fine and later sibling stages still run. Without it an</span>
+        <span class="c1"># empty iterate raises, and the parent loop skips every remaining stage in the pipeline.</span>
+        <span class="n">allow_empty</span> <span class="o">=</span> <span class="n">PipelineNode</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'AllowEmpty'</span><span class="p">,</span> <span class="s1">'False'</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'true'</span><span class="p">,</span> <span class="s1">'1'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">,</span> <span class="s1">'yes'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">NumProcessed</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_empty</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">PipelineSearchFailed</span><span class="p">(</span><span class="n">PipelineNode</span><span class="o">=</span><span class="n">PipelineNode</span><span class="p">,</span> <span class="n">VolumeElem</span><span class="o">=</span><span class="n">RootForSearch</span><span class="p">,</span> <span class="n">xpath</span><span class="o">=</span><span class="n">xpath</span><span class="p">)</span></div>
 
 
@@ -1224,11 +1237,11 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">nested_stage</span><span class="p">:</span>
                 <span class="n">prettyoutput</span><span class="o">.</span><span class="n">CurseString</span><span class="p">(</span><span class="s1">'Stage'</span><span class="p">,</span> <span class="n">stage_label</span><span class="p">)</span>
 
-            <span class="c1"># TODO: Update args from the element</span>
-
             <span class="c1"># Update dargs with the attributes</span>
 
             <span class="n">ArgSet</span><span class="o">.</span><span class="n">AddAttributes</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">)</span>
+
+            <span class="c1"># Check for parameters under the function node and load them into the dictionary</span>
             <span class="n">ArgSet</span><span class="o">.</span><span class="n">AddParameters</span><span class="p">(</span><span class="n">PipelineNode</span><span class="p">)</span>
 
             <span class="n">stage_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PipelineModule</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">PipelineFunction</span><span class="si">}</span><span class="s2"> @ </span><span class="si">{</span><span class="n">PipelineManager</span><span class="o">.</span><span class="n">_StageVolumeLabel</span><span class="p">(</span><span class="n">VolumeElem</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
@@ -1241,11 +1254,6 @@
 
             <span class="n">stage_started</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="c1"># PipelineManager.AddAttributes(dargs, PipelineNode)</span>
-
-                <span class="c1"># Check for parameters under the function node and load them into the dictionary</span>
-                <span class="c1"># PipelineManager.AddParameters(dargs, PipelineNode, dargsKeyname='Parameters')</span>
-
                 <span class="n">kwargs</span> <span class="o">=</span> <span class="n">ArgSet</span><span class="o">.</span><span class="n">KeyWordArgs</span><span class="p">()</span>
 
                 <span class="n">kwargs</span><span class="p">[</span><span class="s2">"Logger"</span><span class="p">]</span> <span class="o">=</span> <span class="n">PipelineManager</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">getChild</span><span class="p">(</span><span class="n">PipelineFunction</span><span class="p">)</span>

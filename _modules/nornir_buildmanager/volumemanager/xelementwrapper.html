@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
@@ -100,7 +104,6 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">TypeVar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">xml.etree</span><span class="w"> </span><span class="kn">import</span> <span class="n">ElementTree</span> <span class="k">as</span> <span class="n">ElementTree</span>
@@ -136,22 +139,26 @@
 <div class="viewcode-block" id="XElementWrapper.sort">
 <a class="viewcode-back" href="../../../api/nornir_buildmanager.html#nornir_buildmanager.pipelinemanager.XElementWrapper.sort">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">"""Order child elements"""</span>
+<span class="w">        </span><span class="sd">"""Order child elements ascending; the order ``Save`` writes to VolumeData.xml.</span>
+
+<span class="sd">        Wrapped children sort by ``SortKey`` and come first, then unwrapped children</span>
+<span class="sd">        (unloaded ``*_Link`` stubs) by tag. Ties break on Path, then Name, so the</span>
+<span class="sd">        result does not depend on the order children were added and sorting a</span>
+<span class="sd">        sorted list leaves it unchanged.</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span>
 
+        <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="n">child</span><span class="p">:</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Name'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span>
+
         <span class="n">children</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">with_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">'SortKey'</span><span class="p">)]</span>
+        <span class="n">with_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">'SortKey'</span><span class="p">)]</span>
         <span class="n">without_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s1">'SortKey'</span><span class="p">)]</span>
-        <span class="n">linked</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">without_keys</span> <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">)]</span>
-        <span class="n">other</span> <span class="o">=</span> <span class="p">[</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">without_keys</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'_Link'</span><span class="p">)]</span>
 
-        <span class="n">sorted_with_keys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">with_keys</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s1">'SortKey'</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">sorted_linked</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">linked</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">child</span><span class="p">:</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'Path'</span><span class="p">,</span> <span class="s1">''</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">sorted_other</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">sorted_with_keys</span> <span class="o">+</span> <span class="n">sorted_linked</span> <span class="o">+</span> <span class="n">sorted_other</span>
+        <span class="bp">self</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">with_keys</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">child</span><span class="p">:</span> <span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">SortKey</span><span class="p">,</span> <span class="o">*</span><span class="n">identity</span><span class="p">(</span><span class="n">child</span><span class="p">)))</span> <span class="o">+</span>
+                   <span class="nb">sorted</span><span class="p">(</span><span class="n">without_keys</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">child</span><span class="p">:</span> <span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="o">*</span><span class="n">identity</span><span class="p">(</span><span class="n">child</span><span class="p">))))</span>
 
         <span class="k">if</span> <span class="n">recurse</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>

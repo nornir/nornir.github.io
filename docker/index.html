@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -72,13 +76,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Docker images</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="images.html">Image catalogue</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html">Remote build appliance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (co-located)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="annotation_gallery.html">Annotation overlay gallery</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html">Cursor / local agent dev shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_worker.html">Cursor self-hosted cloud agent worker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html">Standard <code class="docutils literal notranslate"><span class="pre">D:\</span></code> layout for nornir-cursor-worker</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
@@ -110,7 +108,7 @@
              
   <section id="docker-images">
 <h1>Docker images<a class="headerlink" href="#docker-images" title="Link to this heading"></a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">nornir-docker</span></code> directory provides container images for running the <strong>headless</strong> Nornir stack (Python 3.14, no Pyre UI). Pyre is <strong>not</strong> shipped in these images. Which role to launch is <a class="reference internal" href="../guides/run_the_stack.html"><span class="doc">Run the stack</span></a>. Host checks are <a class="reference internal" href="../host_requirements.html"><span class="doc">Host requirements</span></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">nornir-docker</span></code> directory provides container images for running the <strong>headless</strong> Nornir stack (Python 3.14, no Pyre UI). Pyre is <strong>not</strong> shipped in these images. Deploying and running the stacks (build appliance, dashboard, Dev Container, Cursor worker, Viking servers) is <a class="reference internal" href="../deployment/index.html"><span class="doc">Deployment and configuration</span></a>. Host checks are <a class="reference internal" href="../host_requirements.html"><span class="doc">Host requirements</span></a>.</p>
 <ul class="simple">
 <li><p>End users: install the Windows app — <a class="reference external" href="https://github.com/jamesra/nornir/releases/latest/download/Pyre-Setup.exe">Pyre-Setup.exe</a> (see <a class="reference internal" href="../packages/pyre_install.html"><span class="doc">Installing Pyre on Windows</span></a>).</p></li>
 <li><p>Developers: use <code class="docutils literal notranslate"><span class="pre">venv/pyre314</span></code> on the host for the PyQt-based UI (see <a class="reference internal" href="../development/pyre_development.html"><span class="doc">Pyre development</span></a>).</p></li>
@@ -125,50 +123,8 @@
 <li class="toctree-l2"><a class="reference internal" href="images.html#gpu-runtime">GPU runtime</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="nd_build.html#environment-variables">Environment variables</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="remote_deployment.html">Remote build appliance</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#quickstart-new-production-box">Quickstart: new production box</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#environment-variables">Environment variables</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#open-file-limits">Open file limits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#roles-do-not-collapse">Roles (do not collapse)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#shared-nornir-net-mounts-path-b">Shared <code class="docutils literal notranslate"><span class="pre">nornir-net-mounts</span></code> (path B)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#verify-checklist">Verify checklist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#troubleshooting">Troubleshooting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="remote_deployment.html#maintainer-publish-build-machine">Maintainer publish (build machine)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Build dashboard (co-located)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dashboard.html#log-retention-and-ui-history">Log retention and UI history</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="annotation_gallery.html">Annotation overlay gallery</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="annotation_gallery.html#weekly-export">Weekly export</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cursor_dev.html">Cursor / local agent dev shell</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html#workspace-strategy">Workspace strategy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html#wsl2-test-data-recommended">WSL2 test data (recommended)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html#test-data">Test data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html#headless-pytest-and-nornir-pyre">Headless pytest and nornir-pyre</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_dev.html#umbrella-pytest-cupy-and-bind-mounted-checkouts">Umbrella pytest, CuPy, and bind-mounted checkouts</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="cursor_worker.html">Cursor self-hosted cloud agent worker</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cursor_worker.html#components">Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_worker.html#secrets">Secrets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cursor_worker.html#powershell-launcher-start-cursor-worker-ps1">PowerShell launcher <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="windows_cursor_layout.html">Standard <code class="docutils literal notranslate"><span class="pre">D:\</span></code> layout for nornir-cursor-worker</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html#one-time-initializer">One-time initializer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html#directory-layout">Directory layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html#disk-cleanup">Disk cleanup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html#build-and-run">Build and run</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html#dev-mount-parity-opt-in">Dev mount parity (opt-in)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="windows_cursor_layout.html#compose">Compose</a></li>
 </ul>
 </li>
 </ul>

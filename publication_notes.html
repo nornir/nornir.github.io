@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publication notes: nornir &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment/index.html">Deployment and configuration</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Publication notes: nornir</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/publication_notes.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="publication-notes-nornir">
+<h1>Publication notes: nornir<a class="headerlink" href="#publication-notes-nornir" title="Link to this heading"></a></h1>
+<p>Image processing, registration and volume build pipeline for serial-section electron microscopy (the nornir packages),
+including the export of training data for the SAM2 segmentation trainer. Material for future papers: citations,
+formulas, algorithmic decisions and the reasoning behind them. Index of all projects: <code class="docutils literal notranslate"><span class="pre">~/.cursor/publication-notes.md</span></code>.
+Format and rules: the <code class="docutils literal notranslate"><span class="pre">publication-notes</span></code> skill.</p>
+<section id="methods-and-contributions">
+<h2>Methods and contributions<a class="headerlink" href="#methods-and-contributions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Section registration and volume assembly</strong> (<code class="docutils literal notranslate"><span class="pre">nornir-imageregistration</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code>): to fill with the
+registration, stos and mosaicking methods as they are written up.</p></li>
+<li><p><strong>Segmentation training export</strong> (<code class="docutils literal notranslate"><span class="pre">nornir-buildmanager/nornir_buildmanager/operations/segmentationtraining</span></code>): crops,
+masks, <code class="docutils literal notranslate"><span class="pre">circle_annotations.json</span></code> and <code class="docutils literal notranslate"><span class="pre">shapes.jsonl</span></code> per volume for the trainer. Circles are written at their true
+radii, either as annotated or as the polygon’s inscribed circle (the largest circle inside the exterior ring, holes
+ignored); scaling a circle into a prompt is the trainer’s job, never the exporter’s.</p></li>
+<li><p><strong>Carried prompts at export (planned)</strong> (Sam2Trainer <code class="docutils literal notranslate"><span class="pre">docs/adjacent_circle_seed_plan.md</span></code>): circles and polygons linked
+to a target polygon within two sections are carried into the target’s section at export (section transform, published
+residual correction, inverse transform) and stored on the target’s <code class="docutils literal notranslate"><span class="pre">shapes.jsonl</span></code> line as <code class="docutils literal notranslate"><span class="pre">linked_circles</span></code> and
+<code class="docutils literal notranslate"><span class="pre">linked_polygons</span></code>, with their overlap with the target and a provenance record (source position, size, LastModified,
+and a thumbprint of the section-to-section mapping) so only changed carries are recomputed.</p></li>
+</ul>
+</section>
+<section id="formulas">
+<h2>Formulas<a class="headerlink" href="#formulas" title="Link to this heading"></a></h2>
+<p>Circle carry, five-point mean scale (Sam2Trainer <code class="docutils literal notranslate"><span class="pre">docs/depth_relative_trust.md</span></code>, section 7):
+$c’ = \Phi(c)$, $R’ = R \cdot \frac{1}{4} \sum_{k=1}^{4} \lVert \Phi(c + R e_k) - \Phi(c) \rVert / R$, with
+$\Phi = T_t^{-1} \circ C \circ T_s$.</p>
+<p>Overlap of a carried shape $X$ with the target $T$: $o = |X \cap T| / |X|$ (whole cell, holes excluded); the trainer
+keeps $o \ge 0.60$.</p>
+<p>Pyre composite view, display to camera solve (<code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/views/composite_display.py</span></code>,
+<code class="docutils literal notranslate"><span class="pre">lookat_from_display_position</span></code>): find the source-space camera centre $\ell$ with $T(\ell) = d$ for a display point $d$
+by $\ell_0 = T^{-1}(d)$, $\ell_{k+1} = \ell_k + T^{-1}(d) - T^{-1}(T(\ell_k))$, keeping the best $\ell_k$ and stopping
+when $\lVert T(\ell_k) - d \rVert_\infty \le 0.01$ px or after 8 steps ($T$ maps source to target).</p>
+</section>
+<section id="algorithmic-decisions">
+<h2>Algorithmic decisions<a class="headerlink" href="#algorithmic-decisions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>2026-10-26 Pyre holds images deeper than 8 bits as float32; 8-bit images stay float16.</strong> Why: float16 keeps 11
+significant bits, so a 16-bit image loses about 5 bits in Pyre. Save Warped Image of a real 16-bit TEM tile
+(<code class="docutils literal notranslate"><span class="pre">nornir-testdata/Images/16-bit/10000.tif</span></code>, identity transform) matched the source at 34.3% of pixels with errors up
+to 16 levels when held as float16, and at 100% as float32. float16 represents every 8-bit level exactly, so 8-bit
+images keep it. Cost: 16-bit images use twice the memory (4080 x 4080: 32 to 64 MiB). Rejected: changing the library
+default <code class="docutils literal notranslate"><span class="pre">default_image_dtype()</span></code> (doubles memory in the build pipeline too); re-reading the source file at export
+time (registration would still see the reduced precision). Where: <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/viewmodels/imageviewmodel.py</span></code>
+(<code class="docutils literal notranslate"><span class="pre">working_float_dtype</span></code>), <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/state/imageloader.py</span></code>.</p></li>
+<li><p><strong>2026-10-26 Integer images to float16 are scaled in float32.</strong> Why: <code class="docutils literal notranslate"><span class="pre">ImageParamToImageArray</span></code> cast to float16 and
+then divided by the integer maximum, but that maximum (65535 for uint16) is above float16’s largest value, 65504.
+Every 16- or 32-bit image raised an overflow (the package sets <code class="docutils literal notranslate"><span class="pre">np.seterr(over='raise')</span></code>) or, without that setting,
+would load as all zeros, so Pyre could not open 16-bit images (the 1.8.1 installer included). Only that case now
+divides in float32, one row slab at a time; 8-bit images and float32/float64 conversions keep the original expression
+and are pixel-identical to before on real 8-bit mosaic and Blob images and on 16-bit TEM/SEM tiles; 16-bit to float16
+is within 2.4e-4 of a float64 reference. Where: <code class="docutils literal notranslate"><span class="pre">nornir-imageregistration/nornir_imageregistration/core/_core.py</span></code>
+(<code class="docutils literal notranslate"><span class="pre">_int_image_to_unit_float</span></code>, <code class="docutils literal notranslate"><span class="pre">4358e8d</span></code>).</p></li>
+<li><p><strong>2026-10-26 Save Warped Image warps the source image into target space, at the source file’s bit depth.</strong> Why: it
+warped the target image onto a source-sized canvas. On a real StosBrute64 pair
+(<code class="docutils literal notranslate"><span class="pre">100-101_ctrl-TEM_Blob_map-TEM_Blob.stos</span></code>) the export now matches <code class="docutils literal notranslate"><span class="pre">TransformStos</span></code> (correlation 0.998, target shape
+683 x 682). The default “PNG 16-bit” choice also wrote 8-bit sources as 16-bit PNGs; the export depth is now capped
+at the source file’s depth. Where: <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/common.py</span></code> (<code class="docutils literal notranslate"><span class="pre">warped_image_export</span></code>),
+<code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/ui/windows/stoswindow.py</span></code> (<code class="docutils literal notranslate"><span class="pre">onSaveWarpedImage</span></code>), <code class="docutils literal notranslate"><span class="pre">4eb7418</span></code>.</p></li>
+<li><p><strong>2026-10-26 Save STOS: <code class="docutils literal notranslate"><span class="pre">ControlImageDim</span></code> from the target image, <code class="docutils literal notranslate"><span class="pre">MappedImageDim</span></code> from the source.</strong> Why: Pyre wrote
+them swapped (in <code class="docutils literal notranslate"><span class="pre">StosState</span></code> the deprecated “Fixed” names hold Source), and <code class="docutils literal notranslate"><span class="pre">StosFile.Save</span></code> keeps preset sizes, so
+every <code class="docutils literal notranslate"><span class="pre">.stos</span></code> Pyre saved with differently sized images carried swapped sizes. They feed the grid transform’s bounds
+and the refine plausibility check. Files saved before nornir-pyre <code class="docutils literal notranslate"><span class="pre">6cb309f</span></code> with unequal image sizes keep the swap
+until saved again. Where: <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/common.py</span></code> (<code class="docutils literal notranslate"><span class="pre">stos_image_dims_from_stos_config</span></code>).</p></li>
+<li><p><strong>2026-10-22 Pyre composite view: solve $T(\ell) = d$ instead of applying $T^{-1}$ once (formula above).</strong> Why: mesh
+forward and inverse triangulate different point sets and RBF fits two separate functions, so $T(T^{-1}(p))$ missed
+$p$ by up to 15 px (mesh) and 5 px (RBF) on a jittered 8x8 grid; each registration re-centred through it, and the
+view crept about 45 px over 40 results. With the solve the worst miss is 0.026 px (mesh, 300 points, mean about 6
+single-point transforms) and 0.01 px (RBF); the re-centred framing is also pinned so it cannot move. Rejected: 4
+steps (worst 0.88 px on mesh). Where: <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/views/composite_display.py</span></code>.</p></li>
+<li><p><strong>2026-10-22 Pyre: a held Space registers each point once per hold.</strong> Why: key auto-repeat (about 30 presses/s)
+re-registered the hovered point every 100-200 ms, and point alignment is not idempotent at subpixel level: the point
+moved 0.3-1 px on every repeat indefinitely (process pool, synthetic image). The user chose once per point per hold
+over once per key press and over continuous re-registration. Where:
+<code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/controllers/control_point_registration_queue.py</span></code> (<code class="docutils literal notranslate"><span class="pre">SpaceHoldRegistrations</span></code>).</p></li>
+<li><p><strong>2026-10-26 Exporter window placement: quarter-step lattice rejected; free placement under consideration, not implemented.</strong> Why: on RPC2 (set v3, <code class="docutils literal notranslate"><span class="pre">shapes.jsonl</span></code>, outlines simplified so approximate) 2,388 of about 5,500 masks that fit one 1024 crop sit between half-step (512 px) lattice positions and are split by the tile-aligned phase search (location 29308: 641 x 419 px, split 6% / 94%). A quarter-step lattice would fix only 1,234 of them; centring a window on the mask (clamped to contain the padded bbox) fixes all. The trainer sees one image per example with no tile-grid awareness, and the client/server fuse aligned 1024 cells at inference, so whole-object crops match inference better than clipped fragments. Image sharing (<code class="docutils literal notranslate"><span class="pre">group_windows</span></code>, identical windows only) is 1.8% of RPC2 v3 images (953 of 52,332), so a mask-specific window costs little. Rejected: quarter-step lattice (user, 2026-10-26; half the cases remain). Open: effect on training is unmeasured; needs a v4 export and a fixed whole-mask validation set. Any change is a new set number (<code class="docutils literal notranslate"><span class="pre">Training-set-naming.mdc</span></code>). Where: <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager/nornir_buildmanager/operations/segmentationtraining/geometry.py</span></code> (<code class="docutils literal notranslate"><span class="pre">place_mask_windows</span></code>).</p></li>
+<li><p><strong>2026-10-26 Pyre point registration: send CPU transforms to pool workers; one hovered point per press.</strong> Why: on a real STOS pair (3248 points, CuPy) a point took 3.4-10.1 s because the GPU grid/mesh transform was pickled to each cold worker, which started CUDA and compiled kernels (2.6-2.9 s per worker); a CPU rebuild of the transform brings it to about 0.12 s warm and 0.5-0.6 s on a worker’s first task. Hover-and-Space also added the hovered point to the shared selection, so press N aligned N points; each press now aligns one. The CPU and GPU snapshots differ by a median of 0.7 px (max about 3 px on 30 points), within the run-to-run variation of about 0.9 px, and both are equally accurate against a synthetic ground truth. Rejected: killing in-flight pool workers on cancel (the pool is shared; results are discarded instead). Where: <code class="docutils literal notranslate"><span class="pre">nornir-pyre/pyre/controllers/transformcontroller.py</span></code>.</p></li>
+<li><p><strong>2026-10-25 Carry at export, not in the trainer.</strong> One implementation of the carry for circles and polygons, matched
+to Viking’s production carry, with per-circle provenance so a new correction set or an edited annotation re-carries
+only what changed. All linked circles are exported with their overlap; the trainer filters (threshold changes need no
+re-export). Links alone decide what is carried: a link between a circle and a polygon means the process continues, so
+no terminal flag is needed.</p></li>
+<li><p><strong>2026-10-25 Links must include circles.</strong> <code class="docutils literal notranslate"><span class="pre">shapes.py</span></code> links only polygon locations, so circle-polygon links were
+dropped. In the v5 data only 619 of 40,998 RPC1 locations and 581 of 13,024 RPC2 locations had a linked outline 1-2
+sections away, and the trainer’s adjacent-polygon prompt realised 0.7% of its 15% share.</p></li>
+<li><p><strong>Exporter writes true circle radii</strong> (nornir <code class="docutils literal notranslate"><span class="pre">3b6fe2f</span></code> removed <code class="docutils literal notranslate"><span class="pre">-CircleDiameterScale</span></code>): the scale is a training
+choice and can change without a re-export.</p></li>
+</ul>
+</section>
+<section id="discussion-points">
+<h2>Discussion points<a class="headerlink" href="#discussion-points" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Registered (warped) images exported from Pyre’s Save Warped Image before nornir-pyre <code class="docutils literal notranslate"><span class="pre">4eb7418</span></code> (2026-10-26) are
+the target image warped by the source-to-target transform, not the source image in target space; they should be
+re-exported. When the swap was introduced is not established (verify).</p></li>
+<li><p>Linked annotations across sections are sparse in the exports so far; link coverage, not model capacity, limits how much
+adjacent-section prompting can be trained.</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Anderson, J. R., et al. (2009). A computational framework for ultrastructural mapping of neural circuitry. <em>PLoS
+Biology</em> 7(3), e1000074. (verify) Used for: the serial-section registration workflow nornir continues.</p></li>
+</ul>
+</section>
+<section id="open-questions-for-a-paper">
+<h2>Open questions for a paper<a class="headerlink" href="#open-questions-for-a-paper" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Carry accuracy: carried-centre error against Viking’s production carry and against the linked polygon, per volume.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

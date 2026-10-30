@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -98,9 +102,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-CreateBlobFilter">CreateBlobFilter</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-CreateStosGroup">CreateStosGroup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-CreateVikingXML">CreateVikingXML</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-ExportAnnotationCrops">ExportAnnotationCrops</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-ExportImages">ExportImages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-ExportMetadata">ExportMetadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-ExportTrainingData">ExportTrainingData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-ForceUpdateInputTransform">ForceUpdateInputTransform</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-GenerateMosaicLayoutSVG">GenerateMosaicLayoutSVG</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_build-volumepath-Histogram">Histogram</a></li>
@@ -213,6 +217,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper"><code class="docutils literal notranslate"><span class="pre">XElementWrapper</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XResourceElementWrapper"><code class="docutils literal notranslate"><span class="pre">XResourceElementWrapper</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.datetime"><code class="docutils literal notranslate"><span class="pre">datetime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.env_is_truthy"><code class="docutils literal notranslate"><span class="pre">env_is_truthy()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.isgenerator"><code class="docutils literal notranslate"><span class="pre">isgenerator()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.publish_run_event"><code class="docutils literal notranslate"><span class="pre">publish_run_event()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.read_data"><code class="docutils literal notranslate"><span class="pre">read_data()</span></code></a></li>
@@ -265,7 +270,7 @@
 <div class="highlight-default notranslate" id="nornir_build-volumepath"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">debug</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">lowpriority</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">verbose</span><span class="p">]</span>
                                <span class="p">[</span><span class="o">-</span><span class="n">computational_library</span> <span class="p">{</span><span class="n">cupy</span><span class="p">,</span><span class="n">numpy</span><span class="p">,</span><span class="n">detect</span><span class="p">}]</span>
                                <span class="p">[</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">delete</span><span class="p">]</span>
-                               <span class="p">{</span><span class="n">help</span><span class="p">,</span><span class="n">RecoverLinks</span><span class="p">,</span><span class="n">RecoverNotes</span><span class="p">,</span><span class="n">RepairXML</span><span class="p">,</span><span class="n">AddStos</span><span class="p">,</span><span class="n">AddToStosMap</span><span class="p">,</span><span class="n">AdjustContrast</span><span class="p">,</span><span class="n">AdoptVikingVolume</span><span class="p">,</span><span class="n">AlignSections</span><span class="p">,</span><span class="n">Assemble</span><span class="p">,</span><span class="n">AssembleStosOverlays</span><span class="p">,</span><span class="n">AssembleTiles</span><span class="p">,</span><span class="n">AssembleTilesFromImage</span><span class="p">,</span><span class="n">BuildImagePyramids</span><span class="p">,</span><span class="n">CalculateStosGroupWarpMetrics</span><span class="p">,</span><span class="n">Cleanup</span><span class="p">,</span><span class="n">CleanupStos</span><span class="p">,</span><span class="n">CopyStosGroup</span><span class="p">,</span><span class="n">CreateBlobFilter</span><span class="p">,</span><span class="n">CreateStosGroup</span><span class="p">,</span><span class="n">CreateVikingXML</span><span class="p">,</span><span class="n">ExportAnnotationCrops</span><span class="p">,</span><span class="n">ExportImages</span><span class="p">,</span><span class="n">ExportMetadata</span><span class="p">,</span><span class="n">ForceUpdateInputTransform</span><span class="p">,</span><span class="n">GenerateMosaicLayoutSVG</span><span class="p">,</span><span class="n">Histogram</span><span class="p">,</span><span class="n">ImportDM4</span><span class="p">,</span><span class="n">ImportIDoc</span><span class="p">,</span><span class="n">ImportImages</span><span class="p">,</span><span class="n">ImportMRC</span><span class="p">,</span><span class="n">ImportPMG</span><span class="p">,</span><span class="n">InvertFilter</span><span class="p">,</span><span class="n">LinearizeVolume</span><span class="p">,</span><span class="n">ListBlockStosMaps</span><span class="p">,</span><span class="n">ListDamagedSections</span><span class="p">,</span><span class="n">ListFilterContrast</span><span class="p">,</span><span class="n">ListGroupSectionMappings</span><span class="p">,</span><span class="n">ListMissingTilesets</span><span class="p">,</span><span class="n">ListPruneCutoff</span><span class="p">,</span><span class="n">ListStosGroups</span><span class="p">,</span><span class="n">ListStosMap</span><span class="p">,</span><span class="n">MarkSectionsDamaged</span><span class="p">,</span><span class="n">MarkSectionsUndamaged</span><span class="p">,</span><span class="n">Mosaic</span><span class="p">,</span><span class="n">MosaicNoTranslate</span><span class="p">,</span><span class="n">MosaicReport</span><span class="p">,</span><span class="n">MosaicToVolume</span><span class="p">,</span><span class="n">PrintContrast</span><span class="p">,</span><span class="n">Prune</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="o">-</span><span class="n">IrTools</span><span class="p">,</span><span class="n">RemoveFromStosMap</span><span class="p">,</span><span class="n">RemoveStosGroup</span><span class="p">,</span><span class="n">RemoveTransform</span><span class="p">,</span><span class="n">RenameFilter</span><span class="p">,</span><span class="n">RepairAnnotationOverlays</span><span class="p">,</span><span class="n">RepairStosAngles</span><span class="p">,</span><span class="n">ReportVolumeBounds</span><span class="p">,</span><span class="n">ScaleVolumeTransforms</span><span class="p">,</span><span class="n">ScoreAnnotationCrops</span><span class="p">,</span><span class="n">ScoreStosGroupQuality</span><span class="p">,</span><span class="n">SelectBestRegistrationChain</span><span class="p">,</span><span class="n">SetContrast</span><span class="p">,</span><span class="n">SetFilterLock</span><span class="p">,</span><span class="n">SetFilterMaskName</span><span class="p">,</span><span class="n">SetMosaicLock</span><span class="p">,</span><span class="n">SetPruneCutoff</span><span class="p">,</span><span class="n">SetTransformLock</span><span class="p">,</span><span class="n">ShadeCorrect</span><span class="p">,</span><span class="n">SliceToVolume</span><span class="p">,</span><span class="n">StosReport</span><span class="p">,</span><span class="n">SyncValidationTimes</span><span class="p">,</span><span class="n">VolumeImage</span><span class="p">}</span> <span class="o">...</span>
+                               <span class="p">{</span><span class="n">help</span><span class="p">,</span><span class="n">RecoverLinks</span><span class="p">,</span><span class="n">RecoverNotes</span><span class="p">,</span><span class="n">RepairXML</span><span class="p">,</span><span class="n">AddStos</span><span class="p">,</span><span class="n">AddToStosMap</span><span class="p">,</span><span class="n">AdjustContrast</span><span class="p">,</span><span class="n">AdoptVikingVolume</span><span class="p">,</span><span class="n">AlignSections</span><span class="p">,</span><span class="n">Assemble</span><span class="p">,</span><span class="n">AssembleStosOverlays</span><span class="p">,</span><span class="n">AssembleTiles</span><span class="p">,</span><span class="n">AssembleTilesFromImage</span><span class="p">,</span><span class="n">BuildImagePyramids</span><span class="p">,</span><span class="n">CalculateStosGroupWarpMetrics</span><span class="p">,</span><span class="n">Cleanup</span><span class="p">,</span><span class="n">CleanupStos</span><span class="p">,</span><span class="n">CopyStosGroup</span><span class="p">,</span><span class="n">CreateBlobFilter</span><span class="p">,</span><span class="n">CreateStosGroup</span><span class="p">,</span><span class="n">CreateVikingXML</span><span class="p">,</span><span class="n">ExportImages</span><span class="p">,</span><span class="n">ExportMetadata</span><span class="p">,</span><span class="n">ExportTrainingData</span><span class="p">,</span><span class="n">ForceUpdateInputTransform</span><span class="p">,</span><span class="n">GenerateMosaicLayoutSVG</span><span class="p">,</span><span class="n">Histogram</span><span class="p">,</span><span class="n">ImportDM4</span><span class="p">,</span><span class="n">ImportIDoc</span><span class="p">,</span><span class="n">ImportImages</span><span class="p">,</span><span class="n">ImportMRC</span><span class="p">,</span><span class="n">ImportPMG</span><span class="p">,</span><span class="n">InvertFilter</span><span class="p">,</span><span class="n">LinearizeVolume</span><span class="p">,</span><span class="n">ListBlockStosMaps</span><span class="p">,</span><span class="n">ListDamagedSections</span><span class="p">,</span><span class="n">ListFilterContrast</span><span class="p">,</span><span class="n">ListGroupSectionMappings</span><span class="p">,</span><span class="n">ListMissingTilesets</span><span class="p">,</span><span class="n">ListPruneCutoff</span><span class="p">,</span><span class="n">ListStosGroups</span><span class="p">,</span><span class="n">ListStosMap</span><span class="p">,</span><span class="n">MarkSectionsDamaged</span><span class="p">,</span><span class="n">MarkSectionsUndamaged</span><span class="p">,</span><span class="n">Mosaic</span><span class="p">,</span><span class="n">MosaicNoTranslate</span><span class="p">,</span><span class="n">MosaicReport</span><span class="p">,</span><span class="n">MosaicToVolume</span><span class="p">,</span><span class="n">PrintContrast</span><span class="p">,</span><span class="n">Prune</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="o">-</span><span class="n">IrTools</span><span class="p">,</span><span class="n">RemoveFromStosMap</span><span class="p">,</span><span class="n">RemoveStosGroup</span><span class="p">,</span><span class="n">RemoveTransform</span><span class="p">,</span><span class="n">RenameFilter</span><span class="p">,</span><span class="n">RepairAnnotationOverlays</span><span class="p">,</span><span class="n">RepairStosAngles</span><span class="p">,</span><span class="n">ReportVolumeBounds</span><span class="p">,</span><span class="n">ScaleVolumeTransforms</span><span class="p">,</span><span class="n">ScoreAnnotationCrops</span><span class="p">,</span><span class="n">ScoreStosGroupQuality</span><span class="p">,</span><span class="n">SelectBestRegistrationChain</span><span class="p">,</span><span class="n">SetContrast</span><span class="p">,</span><span class="n">SetFilterLock</span><span class="p">,</span><span class="n">SetFilterMaskName</span><span class="p">,</span><span class="n">SetMosaicLock</span><span class="p">,</span><span class="n">SetPruneCutoff</span><span class="p">,</span><span class="n">SetTransformLock</span><span class="p">,</span><span class="n">ShadeCorrect</span><span class="p">,</span><span class="n">SliceToVolume</span><span class="p">,</span><span class="n">StosReport</span><span class="p">,</span><span class="n">SyncValidationTimes</span><span class="p">,</span><span class="n">VolumeImage</span><span class="p">}</span> <span class="o">...</span>
 </pre></div>
 </div>
 <section id="nornir_build-volumepath-named-arguments">
@@ -298,7 +303,7 @@
 <span id="nornir_buildmanager.build-BuildParserRoot-commands"></span><h2>Commands<a class="headerlink" href="#nornir_build-volumepath-commands" title="Link to this heading"></a></h2>
 <dl class="option-list">
 <dt><kbd>command</kbd></dt>
-<dd><p>Possible choices: help, RecoverLinks, RecoverNotes, RepairXML, AddStos, AddToStosMap, AdjustContrast, AdoptVikingVolume, AlignSections, Assemble, AssembleStosOverlays, AssembleTiles, AssembleTilesFromImage, BuildImagePyramids, CalculateStosGroupWarpMetrics, Cleanup, CleanupStos, CopyStosGroup, CreateBlobFilter, CreateStosGroup, CreateVikingXML, ExportAnnotationCrops, ExportImages, ExportMetadata, ForceUpdateInputTransform, GenerateMosaicLayoutSVG, Histogram, ImportDM4, ImportIDoc, ImportImages, ImportMRC, ImportPMG, InvertFilter, LinearizeVolume, ListBlockStosMaps, ListDamagedSections, ListFilterContrast, ListGroupSectionMappings, ListMissingTilesets, ListPruneCutoff, ListStosGroups, ListStosMap, MarkSectionsDamaged, MarkSectionsUndamaged, Mosaic, MosaicNoTranslate, MosaicReport, MosaicToVolume, PrintContrast, Prune, RefineSectionAlignment, RefineSectionAlignment-IrTools, RemoveFromStosMap, RemoveStosGroup, RemoveTransform, RenameFilter, RepairAnnotationOverlays, RepairStosAngles, ReportVolumeBounds, ScaleVolumeTransforms, ScoreAnnotationCrops, ScoreStosGroupQuality, SelectBestRegistrationChain, SetContrast, SetFilterLock, SetFilterMaskName, SetMosaicLock, SetPruneCutoff, SetTransformLock, ShadeCorrect, SliceToVolume, StosReport, SyncValidationTimes, VolumeImage</p>
+<dd><p>Possible choices: help, RecoverLinks, RecoverNotes, RepairXML, AddStos, AddToStosMap, AdjustContrast, AdoptVikingVolume, AlignSections, Assemble, AssembleStosOverlays, AssembleTiles, AssembleTilesFromImage, BuildImagePyramids, CalculateStosGroupWarpMetrics, Cleanup, CleanupStos, CopyStosGroup, CreateBlobFilter, CreateStosGroup, CreateVikingXML, ExportImages, ExportMetadata, ExportTrainingData, ForceUpdateInputTransform, GenerateMosaicLayoutSVG, Histogram, ImportDM4, ImportIDoc, ImportImages, ImportMRC, ImportPMG, InvertFilter, LinearizeVolume, ListBlockStosMaps, ListDamagedSections, ListFilterContrast, ListGroupSectionMappings, ListMissingTilesets, ListPruneCutoff, ListStosGroups, ListStosMap, MarkSectionsDamaged, MarkSectionsUndamaged, Mosaic, MosaicNoTranslate, MosaicReport, MosaicToVolume, PrintContrast, Prune, RefineSectionAlignment, RefineSectionAlignment-IrTools, RemoveFromStosMap, RemoveStosGroup, RemoveTransform, RenameFilter, RepairAnnotationOverlays, RepairStosAngles, ReportVolumeBounds, ScaleVolumeTransforms, ScoreAnnotationCrops, ScoreStosGroupQuality, SelectBestRegistrationChain, SetContrast, SetFilterLock, SetFilterMaskName, SetMosaicLock, SetPruneCutoff, SetTransformLock, ShadeCorrect, SliceToVolume, StosReport, SyncValidationTimes, VolumeImage</p>
 </dd>
 </dl>
 </section>
@@ -1302,42 +1307,133 @@
 </section>
 <p>Example: nornir-build CreateVikingXML /data/volume -OutputFile MyVolume -StosMap FinalStosMap -StosGroup Grid32 -StosGroup SliceToVolume1</p>
 </section>
-<section id="nornir_build-volumepath-ExportAnnotationCrops">
-<span id="ExportAnnotationCrops"></span><h3>ExportAnnotationCrops<a class="headerlink" href="#nornir_build-volumepath-ExportAnnotationCrops" title="Link to this heading"></a></h3>
-<p>Ingests Locations via -OData or -Geometries, then writes lossless PNG crops, 1-bit masks, COCO RLE JSON, and optional overlays. Does not modify VolumeData.xml.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportAnnotationCrops</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">OData</span> <span class="n">ODATA</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Geometries</span> <span class="n">GEOMETRIES</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">ODataFilter</span> <span class="n">ODATAFILTER</span><span class="p">]</span>
-                                              <span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Exporter</span> <span class="n">EXPORTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Pad</span> <span class="n">PAD</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MaxTexture</span> <span class="n">MAXTEXTURE</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MaxTiles</span> <span class="n">MAXTILES</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MinProcessPixels</span> <span class="n">MINPROCESSPIXELS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Workers</span> <span class="n">WORKERS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MaskWorkers</span> <span class="n">MASKWORKERS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">StageTiles</span> <span class="n">STAGETILES</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Sections</span> <span class="n">SECTIONS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">IncludeOffEdge</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Force</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">RefreshOData</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">FailMissingTileset</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">NoOverlay</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Cleanup</span><span class="p">]</span>
-                                              <span class="n">volumepath</span>
+<section id="nornir_build-volumepath-ExportImages">
+<span id="ExportImages"></span><h3>ExportImages<a class="headerlink" href="#nornir_build-volumepath-ExportImages" title="Link to this heading"></a></h3>
+<p>Copies images of sections to an output directory</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportImages</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELREGEX</span><span class="p">]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERREGEX</span><span class="p">]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
+                                     <span class="n">volumepath</span>
 </pre></div>
 </div>
-<section id="nornir_build-volumepath-ExportAnnotationCrops-positional-arguments">
-<span id="-positional-arguments_repeat21"></span><h4>Positional Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportAnnotationCrops-positional-arguments" title="Link to this heading"></a></h4>
+<section id="nornir_build-volumepath-ExportImages-positional-arguments">
+<span id="-positional-arguments_repeat21"></span><h4>Positional Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportImages-positional-arguments" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>volumepath</kbd></dt>
 <dd><p>The path to the volume</p>
 </dd>
 </dl>
 </section>
-<section id="nornir_build-volumepath-ExportAnnotationCrops-named-arguments">
-<span id="-named-arguments_repeat19"></span><h4>Named Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportAnnotationCrops-named-arguments" title="Link to this heading"></a></h4>
+<section id="nornir_build-volumepath-ExportImages-named-arguments">
+<span id="-named-arguments_repeat19"></span><h4>Named Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportImages-named-arguments" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-to</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-cc</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-Channels</kbd></dt>
+<dd><p>Regular expression describing channels to be assembled</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'*'</span></code></p>
+</dd>
+<dt><kbd>-Filters</kbd></dt>
+<dd><p>Regular expression describing filters to be assembled</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'(?![M|m]ask)'</span></code></p>
+</dd>
+<dt><kbd>-Downsample</kbd></dt>
+<dd><p>Downsample output images by this factor</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd>
+<dt><kbd>-Output</kbd></dt>
+<dd><p>Directory to move assembled images to</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="nornir_build-volumepath-ExportMetadata">
+<span id="ExportMetadata"></span><h3>ExportMetadata<a class="headerlink" href="#nornir_build-volumepath-ExportMetadata" title="Link to this heading"></a></h3>
+<p>Export all meta-data to a single file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportMetadata</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
+                                       <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
+                                       <span class="n">volumepath</span>
+</pre></div>
+</div>
+<section id="nornir_build-volumepath-ExportMetadata-positional-arguments">
+<span id="-positional-arguments_repeat22"></span><h4>Positional Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportMetadata-positional-arguments" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>volumepath</kbd></dt>
+<dd><p>The path to the volume</p>
+</dd>
+</dl>
+</section>
+<section id="nornir_build-volumepath-ExportMetadata-named-arguments">
+<span id="-named-arguments_repeat20"></span><h4>Named Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportMetadata-named-arguments" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>-to</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-cc</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-Output</kbd></dt>
+<dd><p>Full path of output xml file, defaults to VolumeData.SingleFileBackup.xml in the Volume directory.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="nornir_build-volumepath-ExportTrainingData">
+<span id="ExportTrainingData"></span><h3>ExportTrainingData<a class="headerlink" href="#nornir_build-volumepath-ExportTrainingData" title="Link to this heading"></a></h3>
+<p>Ingests Locations via -OData or -Geometries, then writes lossless PNG crops, 1-bit masks, COCO RLE JSON, and optional overlays. Records the OData service root in source.json, each crop JSON, and annotation_crops.sqlite. Also writes circle_annotations.json, rebuilt from the manifest on every run (including -Update, -Repair, and -Cleanup): version 1, diameter_scale, and grid_cells keyed by manifest imageKey, each entry a circle (location_id, center_x, center_y, radius, structure_label, has_polygon_mask, source) in that crop’s pixel space at its downsample, x right and y down from the crop’s top-left, unclipped, listed in every crop it overlaps. source is annotated for circle-type annotations (center from MosaicShape, radius from the stored Radius, mosaic pixels at D1) and inscribed for masked polygons (largest circle inside the exterior ring). Radii are the true radius (the file records diameter_scale 1.0); the trainer applies its own prompt scale. Circle annotations are ingested separately and never produce masks. Also writes shapes.jsonl, rebuilt from the ingest spills on every run: per polygon location its structure_id, whether it has a mask, its outline relative to its centroid (D1 mosaic pixels), and the locations Viking links it to within 2 sections on the same structure (one LocationLinks pull, cached in _work and repeated with -Update, -RefreshOData or -Force, or when the set of locations changes). manifest.jsonl rows gain structureIds and linkedIds parallel to locationIds. A volume exported before this existed is brought up to date by running the pipeline again; no crop is restitched. -Repair restitches only crop images missing from the output scan. Export only: section walks set Validate=False and NoDelete forces the process no-delete flag so Clean() cannot remove volume inputs. Stale products under -Output may still be replaced.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportTrainingData</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">OData</span> <span class="n">ODATA</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Geometries</span> <span class="n">GEOMETRIES</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">ODataFilter</span> <span class="n">ODATAFILTER</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">StructureTypeId</span> <span class="n">STRUCTURETYPEID</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">VolumeName</span> <span class="n">VOLUMENAME</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">VikingXML</span> <span class="n">VIKINGXML</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">TileHost</span> <span class="n">TILEHOST</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">TileCache</span> <span class="n">TILECACHE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">TileRevalidate</span> <span class="n">TILEREVALIDATE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Exporter</span> <span class="n">EXPORTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Pad</span> <span class="n">PAD</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MaxTexture</span> <span class="n">MAXTEXTURE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MaxTiles</span> <span class="n">MAXTILES</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MinProcessPixels</span> <span class="n">MINPROCESSPIXELS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Workers</span> <span class="n">WORKERS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MaskWorkers</span> <span class="n">MASKWORKERS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">StageTiles</span> <span class="n">STAGETILES</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Sections</span> <span class="n">SECTIONS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">IncludeOffEdge</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Force</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">RefreshOData</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">FailMissingTileset</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Overlay</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Cleanup</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Update</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">SetVersion</span> <span class="n">SETVERSION</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">ParentSet</span> <span class="n">PARENTSET</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">SetDescription</span> <span class="n">SETDESCRIPTION</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Repair</span><span class="p">]</span>
+                                           <span class="n">volumepath</span>
+</pre></div>
+</div>
+<section id="nornir_build-volumepath-ExportTrainingData-positional-arguments">
+<span id="-positional-arguments_repeat23"></span><h4>Positional Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportTrainingData-positional-arguments" title="Link to this heading"></a></h4>
+<dl class="option-list">
+<dt><kbd>volumepath</kbd></dt>
+<dd><p>The path to the volume</p>
+</dd>
+</dl>
+</section>
+<section id="nornir_build-volumepath-ExportTrainingData-named-arguments">
+<span id="-named-arguments_repeat21"></span><h4>Named Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportTrainingData-named-arguments" title="Link to this heading"></a></h4>
 <dl class="option-list">
 <dt><kbd>-to</kbd></dt>
 <dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
@@ -1354,10 +1450,29 @@
 <dd><p>Saved OData Locations dump (JSONL, {value:[]}, or concatenated page documents). Exactly one of -OData or -Geometries is required.</p>
 </dd>
 <dt><kbd>-ODataFilter</kbd></dt>
-<dd><p>Override $filter only. Default selects closed polygons on Cell types including subtypes.</p>
+<dd><p>Override $filter only. When set, -StructureTypeId is ignored. Default selects closed polygons on Cell types including subtypes.</p>
+</dd>
+<dt><kbd>-StructureTypeId</kbd></dt>
+<dd><p>Exact Parent/TypeID values for closed polygons. One id or a list, same syntax as -Sections (1,3,5-7). No subtype expansion. Omitted keeps the Cell-plus-subtypes default. Overridden by -ODataFilter.</p>
 </dd>
 <dt><kbd>-Output</kbd></dt>
-<dd><p>Directory for PNG crops, JSON, masks, overlays, and _work cache</p>
+<dd><p>Directory for PNG crops, JSON, masks, overlays, and circle_annotations.json. The re-run cache is kept beside it in ../_work_cache/&lt;output folder name&gt;. Optional: defaults to AnnotationCrops inside the volume folder.</p>
+</dd>
+<dt><kbd>-VolumeName</kbd></dt>
+<dd><p>Name of the volume in the manifest, image keys and links. Optional: defaults to the VikingXML’s Name, then to the name of the annotation server (-OData). Required when neither names the volume.</p>
+</dd>
+<dt><kbd>-VikingXML</kbd></dt>
+<dd><p>Export a volume on another server: URL or file of its VikingXML. Tiles are fetched over HTTP into a cache folder and checked against the server before reuse; no local Nornir volume is needed (the volume path may be an empty folder). Combine with -OData for that lab’s annotations. Their endpoints must be open: no credentials are sent.</p>
+</dd>
+<dt><kbd>-TileHost</kbd></dt>
+<dd><p>With -VikingXML: base URL for tiles, replacing the VikingXML’s host/path.</p>
+</dd>
+<dt><kbd>-TileCache</kbd></dt>
+<dd><p>With -VikingXML: folder for the fetched-tile cache. Default is remote_tiles in ../_work_cache/&lt;output folder name&gt; beside -Output.</p>
+</dd>
+<dt><kbd>-TileRevalidate</kbd></dt>
+<dd><p>With -VikingXML: how often cached tiles are checked against the server. once = each level once per run (default), always, never, or a number of hours. A VikingXML unchanged since the last run skips the check.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'once'</span></code></p>
 </dd>
 <dt><kbd>-Channels</kbd></dt>
 <dd><p>Regular expression for the channel that owns the tileset</p>
@@ -1410,105 +1525,41 @@
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>-RefreshOData</kbd></dt>
-<dd><p>Refetch OData MosaicShape into Output/_work, then update masks and JSON (and restitch only where crop windows changed). Unchanged crops are skipped.</p>
+<dd><p>Refetch OData MosaicShape into the work folder, then update masks and JSON (and restitch only where crop windows changed). Unchanged crops are skipped.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>-FailMissingTileset</kbd></dt>
 <dd><p>Fail instead of skipping a section whose filter has no Tileset/level.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
-<dt><kbd>-NoOverlay</kbd></dt>
-<dd><p>Skip QA overlay PNGs (TEM + Viking HCL hue, TEM luma). SAM2 does not use them.</p>
+<dt><kbd>-Overlay</kbd></dt>
+<dd><p>Also write QA overlay PNGs (overlays/{imageKey}.png). Off by default: the gallery draws overlays itself and SAM2 does not use them. overlays/parts/{locationId}.json is always written; the parts PNGs are written only with this flag.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>-Cleanup</kbd></dt>
 <dd><p>Audit and repair corrupt AnnotationCrops products. Does not ingest OData or restitch.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
-</dl>
-</section>
-<p>Example: nornir-build ExportAnnotationCrops /data/volume -OData <a class="reference external" href="http://host/odata">http://host/odata</a> -Output /data/sam2 -Channels TEM -Filters Leveled</p>
-</section>
-<section id="nornir_build-volumepath-ExportImages">
-<span id="ExportImages"></span><h3>ExportImages<a class="headerlink" href="#nornir_build-volumepath-ExportImages" title="Link to this heading"></a></h3>
-<p>Copies images of sections to an output directory</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportImages</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELREGEX</span><span class="p">]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERREGEX</span><span class="p">]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
-                                     <span class="n">volumepath</span>
-</pre></div>
-</div>
-<section id="nornir_build-volumepath-ExportImages-positional-arguments">
-<span id="-positional-arguments_repeat22"></span><h4>Positional Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportImages-positional-arguments" title="Link to this heading"></a></h4>
-<dl class="option-list">
-<dt><kbd>volumepath</kbd></dt>
-<dd><p>The path to the volume</p>
+<dt><kbd>-Update</kbd></dt>
+<dd><p>ID-set delta: delete masks for locations that no longer match, mask or stitch newly added locations, and remask survivors whose LastModified changed inside their existing crop. Other survivor masks and TEM crops are left alone. Incompatible with -Force.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>-SetVersion</kbd></dt>
+<dd><p>The training set this export belongs to: v2, or v2.1 for a repopulated or tweaked v2 made with the same creation rules. Written to training_set.json in -Output. Omitted keeps the set already named there. Refused when the creation rules changed since that set number was started: new rules are a new set number (v3), not a new revision. Sets and models have separate version numbers.</p>
+</dd>
+<dt><kbd>-ParentSet</kbd></dt>
+<dd><p>The earlier set this one revises or derives from (for example v2 for -SetVersion v3). A revision such as v2.1 defaults to v2. Needs -SetVersion.</p>
+</dd>
+<dt><kbd>-SetDescription</kbd></dt>
+<dd><p>Free text about the set, kept in training_set.json. Omitted keeps the description already there; an operator may also edit the file.</p>
+</dd>
+<dt><kbd>-Repair</kbd></dt>
+<dd><p>Restitch crop images that are missing from -Output. Uses one images/ directory scan, then writes only those files. Other crops in the section are left alone. Does not refetch OData. Incompatible with -Force, -Update, -RefreshOData, and -Cleanup.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
 </section>
-<section id="nornir_build-volumepath-ExportImages-named-arguments">
-<span id="-named-arguments_repeat20"></span><h4>Named Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportImages-named-arguments" title="Link to this heading"></a></h4>
-<dl class="option-list">
-<dt><kbd>-to</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-cc</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-Channels</kbd></dt>
-<dd><p>Regular expression describing channels to be assembled</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'*'</span></code></p>
-</dd>
-<dt><kbd>-Filters</kbd></dt>
-<dd><p>Regular expression describing filters to be assembled</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'(?![M|m]ask)'</span></code></p>
-</dd>
-<dt><kbd>-Downsample</kbd></dt>
-<dd><p>Downsample output images by this factor</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
-</dd>
-<dt><kbd>-Output</kbd></dt>
-<dd><p>Directory to move assembled images to</p>
-</dd>
-</dl>
-</section>
-</section>
-<section id="nornir_build-volumepath-ExportMetadata">
-<span id="ExportMetadata"></span><h3>ExportMetadata<a class="headerlink" href="#nornir_build-volumepath-ExportMetadata" title="Link to this heading"></a></h3>
-<p>Export all meta-data to a single file</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportMetadata</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
-                                       <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
-                                       <span class="n">volumepath</span>
-</pre></div>
-</div>
-<section id="nornir_build-volumepath-ExportMetadata-positional-arguments">
-<span id="-positional-arguments_repeat23"></span><h4>Positional Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportMetadata-positional-arguments" title="Link to this heading"></a></h4>
-<dl class="option-list">
-<dt><kbd>volumepath</kbd></dt>
-<dd><p>The path to the volume</p>
-</dd>
-</dl>
-</section>
-<section id="nornir_build-volumepath-ExportMetadata-named-arguments">
-<span id="-named-arguments_repeat21"></span><h4>Named Arguments<a class="headerlink" href="#nornir_build-volumepath-ExportMetadata-named-arguments" title="Link to this heading"></a></h4>
-<dl class="option-list">
-<dt><kbd>-to</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-cc</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-Output</kbd></dt>
-<dd><p>Full path of output xml file, defaults to VolumeData.SingleFileBackup.xml in the Volume directory.</p>
-</dd>
-</dl>
-</section>
+<p>Example: nornir-build ExportTrainingData /data/volume -OData <a class="reference external" href="http://host/odata">http://host/odata</a> -Output /data/sam2 -Channels TEM -Filters Leveled</p>
 </section>
 <section id="nornir_build-volumepath-ForceUpdateInputTransform">
 <span id="ForceUpdateInputTransform"></span><h3>ForceUpdateInputTransform<a class="headerlink" href="#nornir_build-volumepath-ForceUpdateInputTransform" title="Link to this heading"></a></h3>
@@ -3277,7 +3328,7 @@
 <p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
 </dd>
 <dt><kbd>-Output</kbd></dt>
-<dd><p>Directory that already contains images/, masks/, and optional _work watermarks</p>
+<dd><p>Directory that already contains images/, masks/, and optional watermarks in the work folder</p>
 </dd>
 <dt><kbd>-Sections</kbd></dt>
 <dd><p>Section numbers to repair. Omitted means every Z with a watermark, else every crop image.</p>
@@ -4225,8 +4276,9 @@ show that a GPU run silently fell back to the CPU.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_buildmanager.build.is_headless">
-<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.build.</span></span><span class="sig-name descname"><span class="pre">is_headless</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_imageregistration/headless.html#is_headless"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.build.is_headless" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.build.</span></span><span class="sig-name descname"><span class="pre">is_headless</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_shared/headless.html#is_headless"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.build.is_headless" title="Link to this definition"></a></dt>
+<dd><p>Return True when no interactive display should be used.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_buildmanager.build.lowpriority">
@@ -4248,7 +4300,7 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <div class="highlight-default notranslate" id="id0"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">debug</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">lowpriority</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">verbose</span><span class="p">]</span>
                                <span class="p">[</span><span class="o">-</span><span class="n">computational_library</span> <span class="p">{</span><span class="n">cupy</span><span class="p">,</span><span class="n">numpy</span><span class="p">,</span><span class="n">detect</span><span class="p">}]</span>
                                <span class="p">[</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">delete</span><span class="p">]</span>
-                               <span class="p">{</span><span class="n">help</span><span class="p">,</span><span class="n">RecoverLinks</span><span class="p">,</span><span class="n">RecoverNotes</span><span class="p">,</span><span class="n">RepairXML</span><span class="p">,</span><span class="n">AddStos</span><span class="p">,</span><span class="n">AddToStosMap</span><span class="p">,</span><span class="n">AdjustContrast</span><span class="p">,</span><span class="n">AdoptVikingVolume</span><span class="p">,</span><span class="n">AlignSections</span><span class="p">,</span><span class="n">Assemble</span><span class="p">,</span><span class="n">AssembleStosOverlays</span><span class="p">,</span><span class="n">AssembleTiles</span><span class="p">,</span><span class="n">AssembleTilesFromImage</span><span class="p">,</span><span class="n">BuildImagePyramids</span><span class="p">,</span><span class="n">CalculateStosGroupWarpMetrics</span><span class="p">,</span><span class="n">Cleanup</span><span class="p">,</span><span class="n">CleanupStos</span><span class="p">,</span><span class="n">CopyStosGroup</span><span class="p">,</span><span class="n">CreateBlobFilter</span><span class="p">,</span><span class="n">CreateStosGroup</span><span class="p">,</span><span class="n">CreateVikingXML</span><span class="p">,</span><span class="n">ExportAnnotationCrops</span><span class="p">,</span><span class="n">ExportImages</span><span class="p">,</span><span class="n">ExportMetadata</span><span class="p">,</span><span class="n">ForceUpdateInputTransform</span><span class="p">,</span><span class="n">GenerateMosaicLayoutSVG</span><span class="p">,</span><span class="n">Histogram</span><span class="p">,</span><span class="n">ImportDM4</span><span class="p">,</span><span class="n">ImportIDoc</span><span class="p">,</span><span class="n">ImportImages</span><span class="p">,</span><span class="n">ImportMRC</span><span class="p">,</span><span class="n">ImportPMG</span><span class="p">,</span><span class="n">InvertFilter</span><span class="p">,</span><span class="n">LinearizeVolume</span><span class="p">,</span><span class="n">ListBlockStosMaps</span><span class="p">,</span><span class="n">ListDamagedSections</span><span class="p">,</span><span class="n">ListFilterContrast</span><span class="p">,</span><span class="n">ListGroupSectionMappings</span><span class="p">,</span><span class="n">ListMissingTilesets</span><span class="p">,</span><span class="n">ListPruneCutoff</span><span class="p">,</span><span class="n">ListStosGroups</span><span class="p">,</span><span class="n">ListStosMap</span><span class="p">,</span><span class="n">MarkSectionsDamaged</span><span class="p">,</span><span class="n">MarkSectionsUndamaged</span><span class="p">,</span><span class="n">Mosaic</span><span class="p">,</span><span class="n">MosaicNoTranslate</span><span class="p">,</span><span class="n">MosaicReport</span><span class="p">,</span><span class="n">MosaicToVolume</span><span class="p">,</span><span class="n">PrintContrast</span><span class="p">,</span><span class="n">Prune</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="o">-</span><span class="n">IrTools</span><span class="p">,</span><span class="n">RemoveFromStosMap</span><span class="p">,</span><span class="n">RemoveStosGroup</span><span class="p">,</span><span class="n">RemoveTransform</span><span class="p">,</span><span class="n">RenameFilter</span><span class="p">,</span><span class="n">RepairAnnotationOverlays</span><span class="p">,</span><span class="n">RepairStosAngles</span><span class="p">,</span><span class="n">ReportVolumeBounds</span><span class="p">,</span><span class="n">ScaleVolumeTransforms</span><span class="p">,</span><span class="n">ScoreAnnotationCrops</span><span class="p">,</span><span class="n">ScoreStosGroupQuality</span><span class="p">,</span><span class="n">SelectBestRegistrationChain</span><span class="p">,</span><span class="n">SetContrast</span><span class="p">,</span><span class="n">SetFilterLock</span><span class="p">,</span><span class="n">SetFilterMaskName</span><span class="p">,</span><span class="n">SetMosaicLock</span><span class="p">,</span><span class="n">SetPruneCutoff</span><span class="p">,</span><span class="n">SetTransformLock</span><span class="p">,</span><span class="n">ShadeCorrect</span><span class="p">,</span><span class="n">SliceToVolume</span><span class="p">,</span><span class="n">StosReport</span><span class="p">,</span><span class="n">SyncValidationTimes</span><span class="p">,</span><span class="n">VolumeImage</span><span class="p">}</span> <span class="o">...</span>
+                               <span class="p">{</span><span class="n">help</span><span class="p">,</span><span class="n">RecoverLinks</span><span class="p">,</span><span class="n">RecoverNotes</span><span class="p">,</span><span class="n">RepairXML</span><span class="p">,</span><span class="n">AddStos</span><span class="p">,</span><span class="n">AddToStosMap</span><span class="p">,</span><span class="n">AdjustContrast</span><span class="p">,</span><span class="n">AdoptVikingVolume</span><span class="p">,</span><span class="n">AlignSections</span><span class="p">,</span><span class="n">Assemble</span><span class="p">,</span><span class="n">AssembleStosOverlays</span><span class="p">,</span><span class="n">AssembleTiles</span><span class="p">,</span><span class="n">AssembleTilesFromImage</span><span class="p">,</span><span class="n">BuildImagePyramids</span><span class="p">,</span><span class="n">CalculateStosGroupWarpMetrics</span><span class="p">,</span><span class="n">Cleanup</span><span class="p">,</span><span class="n">CleanupStos</span><span class="p">,</span><span class="n">CopyStosGroup</span><span class="p">,</span><span class="n">CreateBlobFilter</span><span class="p">,</span><span class="n">CreateStosGroup</span><span class="p">,</span><span class="n">CreateVikingXML</span><span class="p">,</span><span class="n">ExportImages</span><span class="p">,</span><span class="n">ExportMetadata</span><span class="p">,</span><span class="n">ExportTrainingData</span><span class="p">,</span><span class="n">ForceUpdateInputTransform</span><span class="p">,</span><span class="n">GenerateMosaicLayoutSVG</span><span class="p">,</span><span class="n">Histogram</span><span class="p">,</span><span class="n">ImportDM4</span><span class="p">,</span><span class="n">ImportIDoc</span><span class="p">,</span><span class="n">ImportImages</span><span class="p">,</span><span class="n">ImportMRC</span><span class="p">,</span><span class="n">ImportPMG</span><span class="p">,</span><span class="n">InvertFilter</span><span class="p">,</span><span class="n">LinearizeVolume</span><span class="p">,</span><span class="n">ListBlockStosMaps</span><span class="p">,</span><span class="n">ListDamagedSections</span><span class="p">,</span><span class="n">ListFilterContrast</span><span class="p">,</span><span class="n">ListGroupSectionMappings</span><span class="p">,</span><span class="n">ListMissingTilesets</span><span class="p">,</span><span class="n">ListPruneCutoff</span><span class="p">,</span><span class="n">ListStosGroups</span><span class="p">,</span><span class="n">ListStosMap</span><span class="p">,</span><span class="n">MarkSectionsDamaged</span><span class="p">,</span><span class="n">MarkSectionsUndamaged</span><span class="p">,</span><span class="n">Mosaic</span><span class="p">,</span><span class="n">MosaicNoTranslate</span><span class="p">,</span><span class="n">MosaicReport</span><span class="p">,</span><span class="n">MosaicToVolume</span><span class="p">,</span><span class="n">PrintContrast</span><span class="p">,</span><span class="n">Prune</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="p">,</span><span class="n">RefineSectionAlignment</span><span class="o">-</span><span class="n">IrTools</span><span class="p">,</span><span class="n">RemoveFromStosMap</span><span class="p">,</span><span class="n">RemoveStosGroup</span><span class="p">,</span><span class="n">RemoveTransform</span><span class="p">,</span><span class="n">RenameFilter</span><span class="p">,</span><span class="n">RepairAnnotationOverlays</span><span class="p">,</span><span class="n">RepairStosAngles</span><span class="p">,</span><span class="n">ReportVolumeBounds</span><span class="p">,</span><span class="n">ScaleVolumeTransforms</span><span class="p">,</span><span class="n">ScoreAnnotationCrops</span><span class="p">,</span><span class="n">ScoreStosGroupQuality</span><span class="p">,</span><span class="n">SelectBestRegistrationChain</span><span class="p">,</span><span class="n">SetContrast</span><span class="p">,</span><span class="n">SetFilterLock</span><span class="p">,</span><span class="n">SetFilterMaskName</span><span class="p">,</span><span class="n">SetMosaicLock</span><span class="p">,</span><span class="n">SetPruneCutoff</span><span class="p">,</span><span class="n">SetTransformLock</span><span class="p">,</span><span class="n">ShadeCorrect</span><span class="p">,</span><span class="n">SliceToVolume</span><span class="p">,</span><span class="n">StosReport</span><span class="p">,</span><span class="n">SyncValidationTimes</span><span class="p">,</span><span class="n">VolumeImage</span><span class="p">}</span> <span class="o">...</span>
 </pre></div>
 </div>
 <section id="nornir_buildmanager.build-BuildParserRoot-named-arguments">
@@ -4281,7 +4333,7 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <span id="id2"></span><h3>Commands<a class="headerlink" href="#nornir_buildmanager.build-BuildParserRoot-commands" title="Link to this heading"></a></h3>
 <dl class="option-list">
 <dt><kbd>command</kbd></dt>
-<dd><p>Possible choices: help, RecoverLinks, RecoverNotes, RepairXML, AddStos, AddToStosMap, AdjustContrast, AdoptVikingVolume, AlignSections, Assemble, AssembleStosOverlays, AssembleTiles, AssembleTilesFromImage, BuildImagePyramids, CalculateStosGroupWarpMetrics, Cleanup, CleanupStos, CopyStosGroup, CreateBlobFilter, CreateStosGroup, CreateVikingXML, ExportAnnotationCrops, ExportImages, ExportMetadata, ForceUpdateInputTransform, GenerateMosaicLayoutSVG, Histogram, ImportDM4, ImportIDoc, ImportImages, ImportMRC, ImportPMG, InvertFilter, LinearizeVolume, ListBlockStosMaps, ListDamagedSections, ListFilterContrast, ListGroupSectionMappings, ListMissingTilesets, ListPruneCutoff, ListStosGroups, ListStosMap, MarkSectionsDamaged, MarkSectionsUndamaged, Mosaic, MosaicNoTranslate, MosaicReport, MosaicToVolume, PrintContrast, Prune, RefineSectionAlignment, RefineSectionAlignment-IrTools, RemoveFromStosMap, RemoveStosGroup, RemoveTransform, RenameFilter, RepairAnnotationOverlays, RepairStosAngles, ReportVolumeBounds, ScaleVolumeTransforms, ScoreAnnotationCrops, ScoreStosGroupQuality, SelectBestRegistrationChain, SetContrast, SetFilterLock, SetFilterMaskName, SetMosaicLock, SetPruneCutoff, SetTransformLock, ShadeCorrect, SliceToVolume, StosReport, SyncValidationTimes, VolumeImage</p>
+<dd><p>Possible choices: help, RecoverLinks, RecoverNotes, RepairXML, AddStos, AddToStosMap, AdjustContrast, AdoptVikingVolume, AlignSections, Assemble, AssembleStosOverlays, AssembleTiles, AssembleTilesFromImage, BuildImagePyramids, CalculateStosGroupWarpMetrics, Cleanup, CleanupStos, CopyStosGroup, CreateBlobFilter, CreateStosGroup, CreateVikingXML, ExportImages, ExportMetadata, ExportTrainingData, ForceUpdateInputTransform, GenerateMosaicLayoutSVG, Histogram, ImportDM4, ImportIDoc, ImportImages, ImportMRC, ImportPMG, InvertFilter, LinearizeVolume, ListBlockStosMaps, ListDamagedSections, ListFilterContrast, ListGroupSectionMappings, ListMissingTilesets, ListPruneCutoff, ListStosGroups, ListStosMap, MarkSectionsDamaged, MarkSectionsUndamaged, Mosaic, MosaicNoTranslate, MosaicReport, MosaicToVolume, PrintContrast, Prune, RefineSectionAlignment, RefineSectionAlignment-IrTools, RemoveFromStosMap, RemoveStosGroup, RemoveTransform, RenameFilter, RepairAnnotationOverlays, RepairStosAngles, ReportVolumeBounds, ScaleVolumeTransforms, ScoreAnnotationCrops, ScoreStosGroupQuality, SelectBestRegistrationChain, SetContrast, SetFilterLock, SetFilterMaskName, SetMosaicLock, SetPruneCutoff, SetTransformLock, ShadeCorrect, SliceToVolume, StosReport, SyncValidationTimes, VolumeImage</p>
 </dd>
 </dl>
 </section>
@@ -5285,30 +5337,15 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 </section>
 <p>Example: nornir-build CreateVikingXML /data/volume -OutputFile MyVolume -StosMap FinalStosMap -StosGroup Grid32 -StosGroup SliceToVolume1</p>
 </section>
-<section id="ExportAnnotationCrops">
-<span id="id65"></span><h4>ExportAnnotationCrops<a class="headerlink" href="#ExportAnnotationCrops" title="Link to this heading"></a></h4>
-<p>Ingests Locations via -OData or -Geometries, then writes lossless PNG crops, 1-bit masks, COCO RLE JSON, and optional overlays. Does not modify VolumeData.xml.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportAnnotationCrops</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">OData</span> <span class="n">ODATA</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Geometries</span> <span class="n">GEOMETRIES</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">ODataFilter</span> <span class="n">ODATAFILTER</span><span class="p">]</span>
-                                              <span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Exporter</span> <span class="n">EXPORTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Pad</span> <span class="n">PAD</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MaxTexture</span> <span class="n">MAXTEXTURE</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MaxTiles</span> <span class="n">MAXTILES</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MinProcessPixels</span> <span class="n">MINPROCESSPIXELS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Workers</span> <span class="n">WORKERS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">MaskWorkers</span> <span class="n">MASKWORKERS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">StageTiles</span> <span class="n">STAGETILES</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">Sections</span> <span class="n">SECTIONS</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">IncludeOffEdge</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Force</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">RefreshOData</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">FailMissingTileset</span><span class="p">]</span>
-                                              <span class="p">[</span><span class="o">-</span><span class="n">NoOverlay</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Cleanup</span><span class="p">]</span>
-                                              <span class="n">volumepath</span>
+<section id="ExportImages">
+<span id="id65"></span><h4>ExportImages<a class="headerlink" href="#ExportImages" title="Link to this heading"></a></h4>
+<p>Copies images of sections to an output directory</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportImages</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELREGEX</span><span class="p">]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERREGEX</span><span class="p">]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
+                                     <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
+                                     <span class="n">volumepath</span>
 </pre></div>
 </div>
 <section id="-positional-arguments_repeat21">
@@ -5330,6 +5367,112 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
 </dd>
+<dt><kbd>-Channels</kbd></dt>
+<dd><p>Regular expression describing channels to be assembled</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'*'</span></code></p>
+</dd>
+<dt><kbd>-Filters</kbd></dt>
+<dd><p>Regular expression describing filters to be assembled</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'(?![M|m]ask)'</span></code></p>
+</dd>
+<dt><kbd>-Downsample</kbd></dt>
+<dd><p>Downsample output images by this factor</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
+</dd>
+<dt><kbd>-Output</kbd></dt>
+<dd><p>Directory to move assembled images to</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="ExportMetadata">
+<span id="id68"></span><h4>ExportMetadata<a class="headerlink" href="#ExportMetadata" title="Link to this heading"></a></h4>
+<p>Export all meta-data to a single file</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportMetadata</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
+                                       <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
+                                       <span class="n">volumepath</span>
+</pre></div>
+</div>
+<section id="-positional-arguments_repeat22">
+<span id="id69"></span><h5>Positional Arguments<a class="headerlink" href="#-positional-arguments_repeat22" title="Link to this heading"></a></h5>
+<dl class="option-list">
+<dt><kbd>volumepath</kbd></dt>
+<dd><p>The path to the volume</p>
+</dd>
+</dl>
+</section>
+<section id="-named-arguments_repeat20">
+<span id="id70"></span><h5>Named Arguments<a class="headerlink" href="#-named-arguments_repeat20" title="Link to this heading"></a></h5>
+<dl class="option-list">
+<dt><kbd>-to</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-cc</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-Output</kbd></dt>
+<dd><p>Full path of output xml file, defaults to VolumeData.SingleFileBackup.xml in the Volume directory.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="ExportTrainingData">
+<span id="id71"></span><h4>ExportTrainingData<a class="headerlink" href="#ExportTrainingData" title="Link to this heading"></a></h4>
+<p>Ingests Locations via -OData or -Geometries, then writes lossless PNG crops, 1-bit masks, COCO RLE JSON, and optional overlays. Records the OData service root in source.json, each crop JSON, and annotation_crops.sqlite. Also writes circle_annotations.json, rebuilt from the manifest on every run (including -Update, -Repair, and -Cleanup): version 1, diameter_scale, and grid_cells keyed by manifest imageKey, each entry a circle (location_id, center_x, center_y, radius, structure_label, has_polygon_mask, source) in that crop’s pixel space at its downsample, x right and y down from the crop’s top-left, unclipped, listed in every crop it overlaps. source is annotated for circle-type annotations (center from MosaicShape, radius from the stored Radius, mosaic pixels at D1) and inscribed for masked polygons (largest circle inside the exterior ring). Radii are the true radius (the file records diameter_scale 1.0); the trainer applies its own prompt scale. Circle annotations are ingested separately and never produce masks. Also writes shapes.jsonl, rebuilt from the ingest spills on every run: per polygon location its structure_id, whether it has a mask, its outline relative to its centroid (D1 mosaic pixels), and the locations Viking links it to within 2 sections on the same structure (one LocationLinks pull, cached in _work and repeated with -Update, -RefreshOData or -Force, or when the set of locations changes). manifest.jsonl rows gain structureIds and linkedIds parallel to locationIds. A volume exported before this existed is brought up to date by running the pipeline again; no crop is restitched. -Repair restitches only crop images missing from the output scan. Export only: section walks set Validate=False and NoDelete forces the process no-delete flag so Clean() cannot remove volume inputs. Stale products under -Output may still be replaced.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportTrainingData</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">OData</span> <span class="n">ODATA</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Geometries</span> <span class="n">GEOMETRIES</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">ODataFilter</span> <span class="n">ODATAFILTER</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">StructureTypeId</span> <span class="n">STRUCTURETYPEID</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">VolumeName</span> <span class="n">VOLUMENAME</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">VikingXML</span> <span class="n">VIKINGXML</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">TileHost</span> <span class="n">TILEHOST</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">TileCache</span> <span class="n">TILECACHE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">TileRevalidate</span> <span class="n">TILEREVALIDATE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Exporter</span> <span class="n">EXPORTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Pad</span> <span class="n">PAD</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MaxTexture</span> <span class="n">MAXTEXTURE</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MaxTiles</span> <span class="n">MAXTILES</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MinProcessPixels</span> <span class="n">MINPROCESSPIXELS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Workers</span> <span class="n">WORKERS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">MaskWorkers</span> <span class="n">MASKWORKERS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">StageTiles</span> <span class="n">STAGETILES</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Sections</span> <span class="n">SECTIONS</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">IncludeOffEdge</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Force</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">RefreshOData</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">FailMissingTileset</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Overlay</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Cleanup</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Update</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">SetVersion</span> <span class="n">SETVERSION</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">ParentSet</span> <span class="n">PARENTSET</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">SetDescription</span> <span class="n">SETDESCRIPTION</span><span class="p">]</span>
+                                           <span class="p">[</span><span class="o">-</span><span class="n">Repair</span><span class="p">]</span>
+                                           <span class="n">volumepath</span>
+</pre></div>
+</div>
+<section id="-positional-arguments_repeat23">
+<span id="id72"></span><h5>Positional Arguments<a class="headerlink" href="#-positional-arguments_repeat23" title="Link to this heading"></a></h5>
+<dl class="option-list">
+<dt><kbd>volumepath</kbd></dt>
+<dd><p>The path to the volume</p>
+</dd>
+</dl>
+</section>
+<section id="-named-arguments_repeat21">
+<span id="id73"></span><h5>Named Arguments<a class="headerlink" href="#-named-arguments_repeat21" title="Link to this heading"></a></h5>
+<dl class="option-list">
+<dt><kbd>-to</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
+<dt><kbd>-cc</kbd></dt>
+<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
+</dd>
 <dt><kbd>-OData</kbd></dt>
 <dd><p>Connectome OData V4 service root. Exactly one of -OData or -Geometries is required.</p>
 </dd>
@@ -5337,10 +5480,29 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <dd><p>Saved OData Locations dump (JSONL, {value:[]}, or concatenated page documents). Exactly one of -OData or -Geometries is required.</p>
 </dd>
 <dt><kbd>-ODataFilter</kbd></dt>
-<dd><p>Override $filter only. Default selects closed polygons on Cell types including subtypes.</p>
+<dd><p>Override $filter only. When set, -StructureTypeId is ignored. Default selects closed polygons on Cell types including subtypes.</p>
+</dd>
+<dt><kbd>-StructureTypeId</kbd></dt>
+<dd><p>Exact Parent/TypeID values for closed polygons. One id or a list, same syntax as -Sections (1,3,5-7). No subtype expansion. Omitted keeps the Cell-plus-subtypes default. Overridden by -ODataFilter.</p>
 </dd>
 <dt><kbd>-Output</kbd></dt>
-<dd><p>Directory for PNG crops, JSON, masks, overlays, and _work cache</p>
+<dd><p>Directory for PNG crops, JSON, masks, overlays, and circle_annotations.json. The re-run cache is kept beside it in ../_work_cache/&lt;output folder name&gt;. Optional: defaults to AnnotationCrops inside the volume folder.</p>
+</dd>
+<dt><kbd>-VolumeName</kbd></dt>
+<dd><p>Name of the volume in the manifest, image keys and links. Optional: defaults to the VikingXML’s Name, then to the name of the annotation server (-OData). Required when neither names the volume.</p>
+</dd>
+<dt><kbd>-VikingXML</kbd></dt>
+<dd><p>Export a volume on another server: URL or file of its VikingXML. Tiles are fetched over HTTP into a cache folder and checked against the server before reuse; no local Nornir volume is needed (the volume path may be an empty folder). Combine with -OData for that lab’s annotations. Their endpoints must be open: no credentials are sent.</p>
+</dd>
+<dt><kbd>-TileHost</kbd></dt>
+<dd><p>With -VikingXML: base URL for tiles, replacing the VikingXML’s host/path.</p>
+</dd>
+<dt><kbd>-TileCache</kbd></dt>
+<dd><p>With -VikingXML: folder for the fetched-tile cache. Default is remote_tiles in ../_work_cache/&lt;output folder name&gt; beside -Output.</p>
+</dd>
+<dt><kbd>-TileRevalidate</kbd></dt>
+<dd><p>With -VikingXML: how often cached tiles are checked against the server. once = each level once per run (default), always, never, or a number of hours. A VikingXML unchanged since the last run skips the check.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">'once'</span></code></p>
 </dd>
 <dt><kbd>-Channels</kbd></dt>
 <dd><p>Regular expression for the channel that owns the tileset</p>
@@ -5393,105 +5555,41 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>-RefreshOData</kbd></dt>
-<dd><p>Refetch OData MosaicShape into Output/_work, then update masks and JSON (and restitch only where crop windows changed). Unchanged crops are skipped.</p>
+<dd><p>Refetch OData MosaicShape into the work folder, then update masks and JSON (and restitch only where crop windows changed). Unchanged crops are skipped.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>-FailMissingTileset</kbd></dt>
 <dd><p>Fail instead of skipping a section whose filter has no Tileset/level.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
-<dt><kbd>-NoOverlay</kbd></dt>
-<dd><p>Skip QA overlay PNGs (TEM + Viking HCL hue, TEM luma). SAM2 does not use them.</p>
+<dt><kbd>-Overlay</kbd></dt>
+<dd><p>Also write QA overlay PNGs (overlays/{imageKey}.png). Off by default: the gallery draws overlays itself and SAM2 does not use them. overlays/parts/{locationId}.json is always written; the parts PNGs are written only with this flag.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 <dt><kbd>-Cleanup</kbd></dt>
 <dd><p>Audit and repair corrupt AnnotationCrops products. Does not ingest OData or restitch.</p>
 <p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
-</dl>
-</section>
-<p>Example: nornir-build ExportAnnotationCrops /data/volume -OData <a class="reference external" href="http://host/odata">http://host/odata</a> -Output /data/sam2 -Channels TEM -Filters Leveled</p>
-</section>
-<section id="ExportImages">
-<span id="id68"></span><h4>ExportImages<a class="headerlink" href="#ExportImages" title="Link to this heading"></a></h4>
-<p>Copies images of sections to an output directory</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportImages</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Channels</span> <span class="n">CHANNELREGEX</span><span class="p">]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Filters</span> <span class="n">FILTERREGEX</span><span class="p">]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Downsample</span> <span class="n">DOWNSAMPLE</span><span class="p">]</span>
-                                     <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
-                                     <span class="n">volumepath</span>
-</pre></div>
-</div>
-<section id="-positional-arguments_repeat22">
-<span id="id69"></span><h5>Positional Arguments<a class="headerlink" href="#-positional-arguments_repeat22" title="Link to this heading"></a></h5>
-<dl class="option-list">
-<dt><kbd>volumepath</kbd></dt>
-<dd><p>The path to the volume</p>
+<dt><kbd>-Update</kbd></dt>
+<dd><p>ID-set delta: delete masks for locations that no longer match, mask or stitch newly added locations, and remask survivors whose LastModified changed inside their existing crop. Other survivor masks and TEM crops are left alone. Incompatible with -Force.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>-SetVersion</kbd></dt>
+<dd><p>The training set this export belongs to: v2, or v2.1 for a repopulated or tweaked v2 made with the same creation rules. Written to training_set.json in -Output. Omitted keeps the set already named there. Refused when the creation rules changed since that set number was started: new rules are a new set number (v3), not a new revision. Sets and models have separate version numbers.</p>
+</dd>
+<dt><kbd>-ParentSet</kbd></dt>
+<dd><p>The earlier set this one revises or derives from (for example v2 for -SetVersion v3). A revision such as v2.1 defaults to v2. Needs -SetVersion.</p>
+</dd>
+<dt><kbd>-SetDescription</kbd></dt>
+<dd><p>Free text about the set, kept in training_set.json. Omitted keeps the description already there; an operator may also edit the file.</p>
+</dd>
+<dt><kbd>-Repair</kbd></dt>
+<dd><p>Restitch crop images that are missing from -Output. Uses one images/ directory scan, then writes only those files. Other crops in the section are left alone. Does not refetch OData. Incompatible with -Force, -Update, -RefreshOData, and -Cleanup.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
 </dd>
 </dl>
 </section>
-<section id="-named-arguments_repeat20">
-<span id="id70"></span><h5>Named Arguments<a class="headerlink" href="#-named-arguments_repeat20" title="Link to this heading"></a></h5>
-<dl class="option-list">
-<dt><kbd>-to</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-cc</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-Channels</kbd></dt>
-<dd><p>Regular expression describing channels to be assembled</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'*'</span></code></p>
-</dd>
-<dt><kbd>-Filters</kbd></dt>
-<dd><p>Regular expression describing filters to be assembled</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">'(?![M|m]ask)'</span></code></p>
-</dd>
-<dt><kbd>-Downsample</kbd></dt>
-<dd><p>Downsample output images by this factor</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">1</span></code></p>
-</dd>
-<dt><kbd>-Output</kbd></dt>
-<dd><p>Directory to move assembled images to</p>
-</dd>
-</dl>
-</section>
-</section>
-<section id="ExportMetadata">
-<span id="id71"></span><h4>ExportMetadata<a class="headerlink" href="#ExportMetadata" title="Link to this heading"></a></h4>
-<p>Export all meta-data to a single file</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ExportMetadata</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
-                                       <span class="p">[</span><span class="o">-</span><span class="n">Output</span> <span class="n">OUTPUTPATH</span><span class="p">]</span>
-                                       <span class="n">volumepath</span>
-</pre></div>
-</div>
-<section id="-positional-arguments_repeat23">
-<span id="id72"></span><h5>Positional Arguments<a class="headerlink" href="#-positional-arguments_repeat23" title="Link to this heading"></a></h5>
-<dl class="option-list">
-<dt><kbd>volumepath</kbd></dt>
-<dd><p>The path to the volume</p>
-</dd>
-</dl>
-</section>
-<section id="-named-arguments_repeat21">
-<span id="id73"></span><h5>Named Arguments<a class="headerlink" href="#-named-arguments_repeat21" title="Link to this heading"></a></h5>
-<dl class="option-list">
-<dt><kbd>-to</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-cc</kbd></dt>
-<dd><p>E-Mail addresses for reports. Use with pipelines that emit notifications.</p>
-<p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
-</dd>
-<dt><kbd>-Output</kbd></dt>
-<dd><p>Full path of output xml file, defaults to VolumeData.SingleFileBackup.xml in the Volume directory.</p>
-</dd>
-</dl>
-</section>
+<p>Example: nornir-build ExportTrainingData /data/volume -OData <a class="reference external" href="http://host/odata">http://host/odata</a> -Output /data/sam2 -Channels TEM -Filters Leveled</p>
 </section>
 <section id="ForceUpdateInputTransform">
 <span id="id74"></span><h4>ForceUpdateInputTransform<a class="headerlink" href="#ForceUpdateInputTransform" title="Link to this heading"></a></h4>
@@ -7260,7 +7358,7 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <p>Default: <code class="docutils literal notranslate"><span class="pre">''</span></code></p>
 </dd>
 <dt><kbd>-Output</kbd></dt>
-<dd><p>Directory that already contains images/, masks/, and optional _work watermarks</p>
+<dd><p>Directory that already contains images/, masks/, and optional watermarks in the work folder</p>
 </dd>
 <dt><kbd>-Sections</kbd></dt>
 <dd><p>Section numbers to repair. Omitted means every Z with a watermark, else every crop image.</p>
@@ -8208,8 +8306,9 @@ show that a GPU run silently fell back to the CPU.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="id239">
-<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.build.</span></span><span class="sig-name descname"><span class="pre">is_headless</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_imageregistration/headless.html#is_headless"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id239" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.build.</span></span><span class="sig-name descname"><span class="pre">is_headless</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_shared/headless.html#is_headless"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id239" title="Link to this definition"></a></dt>
+<dd><p>Return True when no interactive display should be used.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="id240">
@@ -8560,12 +8659,12 @@ If the provided list is none we do not skip.</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">PipelineRegExSearchFailed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_buildmanager/pipeline_exceptions.html#PipelineRegExSearchFailed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">PipelineRegExSearchFailed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_pools.html#nornir_pools.Any" title="typing.Any"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_buildmanager/pipeline_exceptions.html#PipelineRegExSearchFailed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#nornir_buildmanager.pipelinemanager.PipelineError" title="nornir_buildmanager.pipeline_exceptions.PipelineError"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineError</span></code></a></p>
 <p>A regular expression search could not match any nodes</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed.attribValue">
-<span class="sig-name descname"><span class="pre">attribValue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></em><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed.attribValue" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">attribValue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="nornir_pools.html#nornir_pools.Any" title="typing.Any"><span class="pre">Any</span></a></em><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.PipelineRegExSearchFailed.attribValue" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -8832,6 +8931,11 @@ the parent’s XML so parent save consults nested non-linked dirty flags.</p>
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SortKey</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></em><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.XContainerElementWrapper.SortKey" title="Link to this definition"></a></dt>
 <dd><p>The default key used for sorting elements</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.XContainerElementWrapper.storage">
+<span class="sig-name descname"><span class="pre">storage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ContainerStorage</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;nornir_buildmanager.volumemanager.container_storage.XmlContainerStorage</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.XContainerElementWrapper.storage" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -9115,7 +9219,11 @@ False indicates the element existed and the existing value is returned.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.XElementWrapper.sort">
 <span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recurse</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/nornir_buildmanager/volumemanager/xelementwrapper.html#XElementWrapper.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.XElementWrapper.sort" title="Link to this definition"></a></dt>
-<dd><p>Order child elements</p>
+<dd><p>Order child elements ascending; the order <code class="docutils literal notranslate"><span class="pre">Save</span></code> writes to VolumeData.xml.</p>
+<p>Wrapped children sort by <code class="docutils literal notranslate"><span class="pre">SortKey</span></code> and come first, then unwrapped children
+(unloaded <code class="docutils literal notranslate"><span class="pre">*_Link</span></code> stubs) by tag. Ties break on Path, then Name, so the
+result does not depend on the order children were added and sorting a
+sorted list leaves it unchanged.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -9390,6 +9498,12 @@ of the time to include. Valid options are ‘auto’, ‘hours’, ‘minutes’
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.env_is_truthy">
+<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">env_is_truthy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/nornir_imageregistration/env_flags.html#env_is_truthy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.env_is_truthy" title="Link to this definition"></a></dt>
+<dd><p>Return True when the named env var’s normalized value is in <code class="docutils literal notranslate"><span class="pre">TRUTHY_TOKENS</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.isgenerator">
 <span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">isgenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/inspect.html#isgenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.isgenerator" title="Link to this definition"></a></dt>
 <dd><p>Return true if the object is a generator.</p>
@@ -9419,7 +9533,7 @@ send            resumes the generator and “sends” a value that becomes</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.publish_run_event">
-<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">publish_run_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.assemble.Any" title="typing.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_shared/mqtt_telemetry.html#publish_run_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.publish_run_event" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">publish_run_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_pools.html#nornir_pools.Any" title="typing.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.15)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/nornir_shared/mqtt_telemetry.html#publish_run_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.publish_run_event" title="Link to this definition"></a></dt>
 <dd><p>Publish a structured pipeline event to the run <code class="docutils literal notranslate"><span class="pre">event</span></code> topic.</p>
 <p>Typical <code class="docutils literal notranslate"><span class="pre">event</span></code> values: <code class="docutils literal notranslate"><span class="pre">stage_start</span></code>, <code class="docutils literal notranslate"><span class="pre">stage_end</span></code>, <code class="docutils literal notranslate"><span class="pre">stage_failed</span></code>,
 <code class="docutils literal notranslate"><span class="pre">iterate_progress</span></code>. Extra fields (<code class="docutils literal notranslate"><span class="pre">module</span></code>, <code class="docutils literal notranslate"><span class="pre">function</span></code>, <code class="docutils literal notranslate"><span class="pre">section</span></code>,
@@ -9434,15 +9548,15 @@ are included in the JSON payload.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.resolve_iterate_candidates">
-<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">resolve_iterate_candidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_for_search</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.pipelinemanager.XElementWrapper"><span class="pre">XElementWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">xpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterate_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ElementTree.Element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.ArgumentSet" title="nornir_buildmanager.pipelinemanager.ArgumentSet"><span class="pre">ArgumentSet</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_elem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.pipelinemanager.XElementWrapper"><span class="pre">XElementWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_search_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.Any" title="nornir_buildmanager.pipelinemanager.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.pipelinemanager.XElementWrapper"><span class="pre">XElementWrapper</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/nornir_buildmanager/pipelinemanager_iterate_filters.html#resolve_iterate_candidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.resolve_iterate_candidates" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">resolve_iterate_candidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_for_search</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.pipelinemanager.XElementWrapper"><span class="pre">XElementWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">xpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterate_node</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ElementTree.Element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.ArgumentSet" title="nornir_buildmanager.pipelinemanager.ArgumentSet"><span class="pre">ArgumentSet</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_elem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.pipelinemanager.XElementWrapper"><span class="pre">XElementWrapper</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_search_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.Any" title="nornir_buildmanager.pipelinemanager.Any"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="nornir_pools.html#nornir_pools.Iterator" title="nornir_pools.Iterator"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.pipelinemanager.XElementWrapper"><span class="pre">XElementWrapper</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/nornir_buildmanager/pipelinemanager_iterate_filters.html#resolve_iterate_candidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.resolve_iterate_candidates" title="Link to this definition"></a></dt>
 <dd><p>Yield iterate candidates using Require*-aware fetch when possible.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nornir_buildmanager.pipelinemanager.sort_iterate_candidates">
-<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">sort_iterate_candidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_imageregistration.html#nornir_imageregistration.core.Iterable" title="collections.abc.Iterable"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.volumemanager.xelementwrapper.XElementWrapper"><span class="pre">XElementWrapper</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.volumemanager.xelementwrapper.XElementWrapper"><span class="pre">XElementWrapper</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/nornir_buildmanager/pipelinemanager_iterate_filters.html#sort_iterate_candidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.sort_iterate_candidates" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">nornir_buildmanager.pipelinemanager.</span></span><span class="sig-name descname"><span class="pre">sort_iterate_candidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="nornir_pools.html#nornir_pools.Iterable" title="collections.abc.Iterable"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.volumemanager.xelementwrapper.XElementWrapper"><span class="pre">XElementWrapper</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#nornir_buildmanager.pipelinemanager.XElementWrapper" title="nornir_buildmanager.volumemanager.xelementwrapper.XElementWrapper"><span class="pre">XElementWrapper</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/nornir_buildmanager/pipelinemanager_iterate_filters.html#sort_iterate_candidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nornir_buildmanager.pipelinemanager.sort_iterate_candidates" title="Link to this definition"></a></dt>
 <dd><p>Return <em>candidates</em> ordered by <em>attribute</em>, numeric when the value is an int.</p>
-<p>ExportAnnotationCrops uses this so a block stored high-Z first (RPC2) is
+<p>ExportTrainingData uses this so a block stored high-Z first (RPC2) is
 visited in ascending section number, matching a block stored low-Z first.</p>
 </dd></dl>
 

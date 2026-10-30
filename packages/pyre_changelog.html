@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -77,8 +81,9 @@
 <li class="toctree-l2"><a class="reference internal" href="nornir_web.html">nornir-web</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pyre_install.html">Installing Pyre on Windows</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Pyre user changelog</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id1">1.7.7</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id2">1.7.6</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">1.8.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.7.7</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.7.6</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="other_packages.html">Other repositories in the umbrella</a></li>
@@ -126,15 +131,30 @@
 <a class="reference external" href="https://github.com/jamesra/nornir/releases">Releases page</a>
 (look for tags <code class="docutils literal notranslate"><span class="pre">pyre-*</span></code>).</p>
 <section id="id1">
-<h2>1.7.7<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>1.8.2<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>File → Save Warped Image</strong> now saves the source image aligned into the target image’s space. Pyre 1.7.7 and earlier saved the wrong image (the target image, warped the wrong way); re-export any warped images saved with those versions. Saving no longer fails with “cannot write mode I as PNG”, and the dialog offers an 8-bit or 16-bit PNG. 8-bit images are always saved as 8-bit.</p></li>
+<li><p><strong>File → Save STOS File</strong> writes the source and target image sizes in the right places. Pyre 1.7.7 and earlier swapped them whenever the two images differed in size, which can affect grid transforms; re-save those files if you use them.</p></li>
+<li><p>16-bit images open again (they failed to load), and Pyre keeps their full precision, so a 16-bit warped image matches its source exactly. 16-bit images use twice the memory they did.</p></li>
+<li><p>Fixed Pyre keeping every CPU core busy for a minute or more after it starts or after you load images. Background worker processes in the installed version were crashing and restarting in a loop.</p></li>
+<li><p>Much lower CPU use while Pyre sits idle. The image windows now redraw only when something on screen changes, such as a blinking selected point or a point being aligned.</p></li>
+<li><p>Spacebar registration: each press aligns only the point under the cursor or the selected points, not every point from earlier presses. Holding Space aligns each point once, the Composite view stays still while results arrive, and the progress bar clears when the work is done. <strong>Escape</strong> or the <strong>Cancel</strong> button in the status bar stops queued point alignments as well as running jobs.</p></li>
+<li><p><strong>Registration → Remove Points on Masked Areas</strong> works again and checks each image’s mask against that image’s points.</p></li>
+<li><p>Images opened with <code class="docutils literal notranslate"><span class="pre">-Source</span></code> and <code class="docutils literal notranslate"><span class="pre">-Target</span></code> are no longer replaced by the STOS file from your previous session, and a source and target image with the same file name in different folders are no longer aligned against themselves. After Pyre restores a source and target image without a STOS file, Save Warped Image works.</p></li>
+<li><p>The STOS folder browser no longer re-scores a whole folder every time Pyre starts. It saves quality scores as it computes them, pauses scoring while it is hidden or minimized, and opens at launch only if it was open when you last quit Pyre. If you use it, reopen it once with <strong>File → Open STOS Folder Browser</strong> after updating; Pyre remembers it from then on.</p></li>
+<li><p>Menus are reorganized into <strong>File</strong>, <strong>Transform</strong>, <strong>Registration</strong>, <strong>View</strong>, and <strong>Help</strong>. Registration defaults are under <strong>Registration → Transform Settings</strong>, image contrast is under <strong>View → Contrast</strong>, and <strong>Help → Mouse and Keyboard Controls</strong> (F1) shows an updated controls reference. <strong>Help → Online Manual</strong> opens the manual in your browser.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>1.7.7<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Cancel in-flight control-point registrations (including refine-grid work) when you open a different <code class="docutils literal notranslate"><span class="pre">.stos</span></code> file, so the UI does not keep applying edits from the previous pair.</p></li>
 <li><p>Faster feedback when Spacebar registration points fall on blue/busy or masked regions: both source and target masks are checked before a registration job is queued.</p></li>
 <li><p>Installer and documentation packaging updates for the Windows build.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>1.7.6<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>1.7.6<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Baseline Windows installer release used with the Nornir monorepo <code class="docutils literal notranslate"><span class="pre">v1.7.6</span></code> line.</p></li>
 </ul>

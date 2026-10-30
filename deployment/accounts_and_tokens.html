@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accounts and tokens &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ports and remote access" href="ports_and_remote_access.html" />
+    <link rel="prev" title="Configuration reference" href="configuration_reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Accounts and tokens</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#external-accounts-and-requests">External accounts and requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generated-secrets">Generated secrets</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Accounts and tokens</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/accounts_and_tokens.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="accounts-and-tokens">
+<h1>Accounts and tokens<a class="headerlink" href="#accounts-and-tokens" title="Link to this heading"></a></h1>
+<p>Everything you have to request, buy, or generate before the stacks run. Viking’s own list, with the
+per-service key names, is <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/accounts_and_tokens.html">Viking accounts and tokens</a>. Secrets go only in
+<code class="docutils literal notranslate"><span class="pre">Run/_host/secrets/secrets.env</span></code>, <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/secrets/</span></code>, or <code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/secrets/</span></code>
+on the host that needs them (<a class="reference internal" href="host_layout.html"><span class="doc">Host layout</span></a>). Never commit them, paste them in tickets, or put
+them in <code class="docutils literal notranslate"><span class="pre">host.env</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code>.</p>
+<section id="external-accounts-and-requests">
+<h2>External accounts and requests<a class="headerlink" href="#external-accounts-and-requests" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 22.0%" />
+<col style="width: 24.0%" />
+<col style="width: 20.0%" />
+<col style="width: 16.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>Where to get it</p></th>
+<th class="head"><p>What it is / scope</p></th>
+<th class="head"><p>Where it goes</p></th>
+<th class="head"><p>Needed for</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GitHub fine-grained PAT (servers)</p></td>
+<td><p>github.com &gt; Settings &gt; Developer settings &gt; Personal access tokens &gt; Fine-grained</p></td>
+<td><p>Packages: read. Contents: read on <code class="docutils literal notranslate"><span class="pre">jamesra/nornir</span></code> and <code class="docutils literal notranslate"><span class="pre">jamesra/Viking</span></code> only if they
+are private. Short expiry; one token per host.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/_host/secrets/secrets.env</span></code> (<code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code>); then once per host
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span> <span class="pre">ghcr.io</span> <span class="pre">-u</span> <span class="pre">&lt;github-user&gt;</span></code> with the token as password</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-Images</span> <span class="pre">ghcr</span></code>, <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">pull</span></code>, private clones</p></td>
+</tr>
+<tr class="row-odd"><td><p>GitHub fine-grained PAT (dev box)</p></td>
+<td><p>same</p></td>
+<td><p>Packages: read and write (<code class="docutils literal notranslate"><span class="pre">docker-push.ps1</span></code>); Contents: read/write if you push over HTTPS</p></td>
+<td><p>dev box <code class="docutils literal notranslate"><span class="pre">Run/_host/secrets/secrets.env</span></code>; <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span> <span class="pre">ghcr.io</span></code></p></td>
+<td><p>publishing images</p></td>
+</tr>
+<tr class="row-even"><td><p>DNS record</p></td>
+<td><p>Pitt IT ticket</p></td>
+<td><p>Wildcard <code class="docutils literal notranslate"><span class="pre">*.connectomes.pitt.edu</span></code> (or one record per name) to the <code class="docutils literal notranslate"><span class="pre">web</span></code> server’s
+public address</p></td>
+<td><p>Pitt DNS</p></td>
+<td><p>every public name; <code class="docutils literal notranslate"><span class="pre">doctor</span></code> checks resolution</p></td>
+</tr>
+<tr class="row-odd"><td><p>Firewall rules</p></td>
+<td><p>Pitt IT ticket</p></td>
+<td><p>The per-host table in <a class="reference internal" href="ports_and_remote_access.html#deploy-firewall-request"><span class="std std-ref">Firewall request</span></a></p></td>
+<td><p>Pitt network firewall</p></td>
+<td><p>public access, cross-host traffic</p></td>
+</tr>
+<tr class="row-even"><td><p>Certificate, or ACME EAB credentials</p></td>
+<td><p>Pitt IT ticket (InCommon / Sectigo)</p></td>
+<td><p>Either a wildcard/SAN certificate with its key and intermediate chain, or an ACME EAB key id
+(KID), HMAC key, and the ACME server URL</p></td>
+<td><p>Certificate files: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">manual</span></code>. EAB: <code class="docutils literal notranslate"><span class="pre">TLS_EAB_KID</span></code> and
+<code class="docutils literal notranslate"><span class="pre">TLS_EAB_HMAC_KEY</span></code> in <code class="docutils literal notranslate"><span class="pre">Run/viking-certs/secrets/secrets.env</span></code> on <code class="docutils literal notranslate"><span class="pre">web</span></code>; URL as
+<code class="docutils literal notranslate"><span class="pre">TLS_ACME_SERVER</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TLS_MODE=manual</span></code> or <code class="docutils literal notranslate"><span class="pre">acme-eab</span></code> (when Let’s Encrypt or port 80 is not allowed)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Let’s Encrypt</p></td>
+<td><p>nothing to request</p></td>
+<td><p>Only a contact email; no account, token, or payment</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TLS_EMAIL</span></code> in <code class="docutils literal notranslate"><span class="pre">host.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TLS_MODE=letsencrypt</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Duende IdentityServer license</p></td>
+<td><p>duendesoftware.com (purchase or community license)</p></td>
+<td><p>License key file for the IdentityServer edition in use</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/viking-identity/secrets/Duende_License.key</span></code> on <code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code> in production</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pitt SMTP credentials</p></td>
+<td><p>Pitt IT</p></td>
+<td><p>Relay host, port, user, and password for outgoing mail</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/viking-identity/secrets/</span></code> (key names in the Viking identity template)</p></td>
+<td><p>Identity email (password reset, confirmations)</p></td>
+</tr>
+<tr class="row-even"><td><p>SQL Server logins</p></td>
+<td><p>SQL Server DBA (or Pitt IT)</p></td>
+<td><p>One login per service with rights on its databases only</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SQL_SERVER_*</span></code> / <code class="docutils literal notranslate"><span class="pre">ConnectionStrings__*</span></code> in the Viking stack’s <code class="docutils literal notranslate"><span class="pre">secrets/secrets.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code>, <code class="docutils literal notranslate"><span class="pre">viking-annotation</span></code>, <code class="docutils literal notranslate"><span class="pre">viking-iis</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>NAS share account</p></td>
+<td><p>lab storage administrator</p></td>
+<td><p>SMB user that can read (and write, for builds) the volume shares</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/secrets/net-creds/&lt;id&gt;.cred</span></code> on <code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> CIFS mounts</p></td>
+</tr>
+<tr class="row-even"><td><p>Cursor API key (optional)</p></td>
+<td><p>cursor.com &gt; settings</p></td>
+<td><p>Key for the self-hosted agent worker</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-cursor-worker/nornir-cursor-worker.run.env</span></code> (<code class="docutils literal notranslate"><span class="pre">CURSOR_API_KEY</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Slack bot token (optional)</p></td>
+<td><p>api.slack.com &gt; Your apps &gt; OAuth &amp; Permissions</p></td>
+<td><p>Bot token (<code class="docutils literal notranslate"><span class="pre">xoxb-...</span></code>) for notifications</p></td>
+<td><p>the consuming stack’s <code class="docutils literal notranslate"><span class="pre">secrets/secrets.env</span></code> (<code class="docutils literal notranslate"><span class="pre">SLACK_BOT_TOKEN</span></code>)</p></td>
+<td><p>optional notifications</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_ORG_GITHUB_IO_DEPLOY_TOKEN</span></code></p></td>
+<td><p>GitHub PAT with write access to <code class="docutils literal notranslate"><span class="pre">nornir/nornir.github.io</span></code></p></td>
+<td><p>GitHub Actions repository secret on <code class="docutils literal notranslate"><span class="pre">jamesra/nornir</span></code>, not a host file</p></td>
+<td><p>repo Settings &gt; Secrets and variables &gt; Actions</p></td>
+<td><p>publishing these docs (<a class="reference internal" href="../development/publishing_documentation.html"><span class="doc">Publishing the documentation</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>YubiKey code-signing certificate</p></td>
+<td><p>unchanged from the existing release process</p></td>
+<td><p>Hardware-held code-signing certificate</p></td>
+<td><p>the YubiKey; never on a server</p></td>
+<td><p>signing Viking client releases</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="generated-secrets">
+<h2>Generated secrets<a class="headerlink" href="#generated-secrets" title="Link to this heading"></a></h2>
+<p>These are random values you create, not accounts. <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">secrets</span> <span class="pre">new</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">[KEY</span> <span class="pre">...]</span></code>
+writes a 32-byte URL-safe random value for the stack’s registry-listed <code class="docutils literal notranslate"><span class="pre">*_SECRET</span></code>, <code class="docutils literal notranslate"><span class="pre">*_TOKEN</span></code>
+and <code class="docutils literal notranslate"><span class="pre">*_PASSWORD</span></code> keys, for any key still holding a <code class="docutils literal notranslate"><span class="pre">REPLACE_WITH_GENERATED...</span></code> placeholder,
+and for any key you name. It replaces the placeholder where it is (<code class="docutils literal notranslate"><span class="pre">secrets/secrets.env</span></code>, else
+<code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code>) or appends to <code class="docutils literal notranslate"><span class="pre">secrets/secrets.env</span></code>. Keys that already have a value are
+kept, so it is safe to re-run; <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code> treats <code class="docutils literal notranslate"><span class="pre">REPLACE_ME</span></code> / <code class="docutils literal notranslate"><span class="pre">REPLACE_WITH_...</span></code>
+values as empty. <code class="docutils literal notranslate"><span class="pre">*_PASSWORD</span></code> values get an <code class="docutils literal notranslate"><span class="pre">Aa1!</span></code> prefix to satisfy SQL Server complexity
+rules. <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_PASSWORD</span></code> and connection strings are never generated (they belong to existing
+SQL logins). Empty optional client secrets are left alone, because empty means that client is
+disabled: name the ones you want, for example
+<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">secrets</span> <span class="pre">new</span> <span class="pre">viking-identity</span> <span class="pre">CORRECTION_SERVICE_CLIENT_SECRET</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36.0%" />
+<col style="width: 22.0%" />
+<col style="width: 42.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Generate in</p></th>
+<th class="head"><p>Also copy to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_SECRET</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_API_SECRET</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_MVC_SECRET</span></code>,
+<code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_RO_VIKING_SECRET</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code></p></td>
+<td><p>the clients that use them (<a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/accounts_and_tokens.html">Viking accounts and tokens</a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CORRECTION_SERVICE_CLIENT_SECRET</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-corrections</span></code> as <code class="docutils literal notranslate"><span class="pre">IdentityServer__ClientSecret</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GALLERY_*_CLIENT_SECRET</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code></p></td>
+<td><p>the gallery’s env in the Sam2Trainer repository (not a <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> stack)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SBFSEM_TOOLS_CLIENT_SECRET</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code></p></td>
+<td><p>SBFSEM-tools configuration</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_TOKEN</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code></p></td>
+<td><p>your browser (<code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8087/?token=...</span></code>), only when the bind host is widened</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SEGMENTATION_DEMO_TOKEN</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code></p></td>
+<td><p>people given the demo page</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MSSQL_SA_PASSWORD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-annotation</span></code> (<code class="docutils literal notranslate"><span class="pre">local-sql</span></code> profile only)</p></td>
+<td><p>nothing; production uses the external SQL Server</p></td>
+</tr>
+</tbody>
+</table>
+<p>Rotate a value by deleting its line and re-running <code class="docutils literal notranslate"><span class="pre">secrets</span> <span class="pre">new</span></code>, then update every consumer
+and <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">restart</span></code> each one.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="configuration_reference.html" class="btn btn-neutral float-left" title="Configuration reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ports_and_remote_access.html" class="btn btn-neutral float-right" title="Ports and remote access" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

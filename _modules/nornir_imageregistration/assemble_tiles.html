@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
@@ -127,6 +131,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.prettyoutput</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prettyoutput</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">nornir_shared.tasktimer</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.env_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">env_flag</span><span class="p">,</span> <span class="n">is_basic_falsey</span><span class="p">,</span> <span class="n">is_basic_truthy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.type_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShapeLike</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.image_filter_cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">WindowFilterCache</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">nornir_imageregistration.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">CreateDistanceImage</span>
@@ -402,10 +407,10 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_prefetch_enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Return True when TilesToImage should prefetch upcoming tile PNGs on a thread pool."""</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_ASSEMBLE_PREFETCH'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">raw</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'0'</span><span class="p">,</span> <span class="s1">'false'</span><span class="p">,</span> <span class="s1">'no'</span><span class="p">):</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">env_flag</span><span class="p">(</span><span class="s1">'NORNIR_ASSEMBLE_PREFETCH'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_basic_falsey</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">raw</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'true'</span><span class="p">,</span> <span class="s1">'yes'</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_basic_truthy</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">GetActiveComputationLib</span><span class="p">()</span>
             <span class="o">==</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">ComputationLib</span><span class="o">.</span><span class="n">cupy</span><span class="p">)</span>
@@ -413,10 +418,10 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_grid_extrapolate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Whether tile warps request RBF/grid extrapolation outside the discrete mesh."""</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'NORNIR_ASSEMBLE_GRID_EXTRAPOLATE'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">raw</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'0'</span><span class="p">,</span> <span class="s1">'false'</span><span class="p">,</span> <span class="s1">'no'</span><span class="p">):</span>
+    <span class="n">raw</span> <span class="o">=</span> <span class="n">env_flag</span><span class="p">(</span><span class="s1">'NORNIR_ASSEMBLE_GRID_EXTRAPOLATE'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_basic_falsey</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">raw</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'true'</span><span class="p">,</span> <span class="s1">'yes'</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_basic_truthy</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="c1"># Production default: skip RBF extrapolation for assemble; edge tiles are rare and costly.</span>
     <span class="k">return</span> <span class="kc">False</span>
@@ -544,17 +549,13 @@
                                                                            <span class="n">target_space_scale</span><span class="p">)</span>
     <span class="n">scaled_targetRect</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">SafeRound</span><span class="p">(</span><span class="n">scaled_targetRect</span><span class="p">)</span>
 
-    <span class="n">tiles_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mosaic_tileset</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">tiles_list</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Mosaic Tileset has no tiles."</span><span class="p">)</span>
-
     <span class="n">output_dtype</span> <span class="o">=</span> <span class="n">_assemble_output_dtype</span><span class="p">(</span><span class="n">mosaic_tileset</span><span class="p">)</span>
 
     <span class="p">(</span><span class="n">fullImage</span><span class="p">,</span> <span class="n">fullImageZbuffer</span><span class="p">)</span> <span class="o">=</span> <span class="n">__CreateOutputBufferForArea</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">scaled_targetRect</span><span class="o">.</span><span class="n">Height</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">scaled_targetRect</span><span class="o">.</span><span class="n">Width</span><span class="p">),</span>
                                                                 <span class="n">dtype</span><span class="o">=</span><span class="n">output_dtype</span><span class="p">)</span>
 
     <span class="n">work_items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">tile</span><span class="o">.</span><span class="n">Tile</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="n">tiles_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="n">mosaic_tileset</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="n">region_to_render</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">Intersect</span><span class="p">(</span><span class="n">targetRect</span><span class="p">,</span> <span class="n">tile</span><span class="o">.</span><span class="n">TargetSpaceBoundingBox</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">region_to_render</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">region_to_render</span><span class="o">.</span><span class="n">Area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">work_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">tile</span><span class="p">,</span> <span class="n">region_to_render</span><span class="p">))</span>
@@ -711,17 +712,13 @@
                                                                             <span class="n">target_space_scale</span><span class="p">)</span>
     <span class="n">scaled_target_rect</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">SafeRound</span><span class="p">(</span><span class="n">scaled_target_rect</span><span class="p">)</span>
 
-    <span class="n">tiles_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mosaic_tileset</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">tiles_list</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Mosaic Tileset has no tiles."</span><span class="p">)</span>
-
     <span class="n">output_dtype</span> <span class="o">=</span> <span class="n">_assemble_output_dtype</span><span class="p">(</span><span class="n">mosaic_tileset</span><span class="p">)</span>
 
     <span class="n">full_image</span><span class="p">,</span> <span class="n">full_image_zbuffer</span> <span class="o">=</span> <span class="n">__CreateOutputBufferForArea</span><span class="p">(</span>
         <span class="nb">int</span><span class="p">(</span><span class="n">scaled_target_rect</span><span class="o">.</span><span class="n">Height</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">scaled_target_rect</span><span class="o">.</span><span class="n">Width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">output_dtype</span><span class="p">)</span>
 
     <span class="n">work_items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">tile</span><span class="o">.</span><span class="n">Tile</span><span class="p">,</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="n">tiles_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">tile</span> <span class="ow">in</span> <span class="n">mosaic_tileset</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="n">region_to_render</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">Rectangle</span><span class="o">.</span><span class="n">Intersect</span><span class="p">(</span><span class="n">target_rect</span><span class="p">,</span> <span class="n">tile</span><span class="o">.</span><span class="n">TargetSpaceBoundingBox</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">region_to_render</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">region_to_render</span><span class="o">.</span><span class="n">Area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">work_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">tile</span><span class="p">,</span> <span class="n">region_to_render</span><span class="p">))</span>
@@ -1096,17 +1093,14 @@
     <span class="k">del</span> <span class="n">source_image</span>
     <span class="k">del</span> <span class="n">distanceImage</span>
 
-    <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transformed_image_data_temp_files</span><span class="o">.</span><span class="n">TransformedImageDataViaTempFile</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">fixedImage</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
-                                                                                                             <span class="n">centerDistanceImage</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
-                                                                                                             <span class="n">transform</span><span class="p">,</span>
-                                                                                                             <span class="n">source_space_scale</span><span class="p">,</span>
-                                                                                                             <span class="n">target_space_scale</span><span class="p">,</span>
-                                                                                                             <span class="n">rendered_target_space_origin</span><span class="o">=</span><span class="p">(</span>
-                                                                                                                 <span class="n">target_minY</span> <span class="o">*</span> <span class="p">(</span>
-                                                                                                                         <span class="mf">1.0</span> <span class="o">/</span> <span class="n">target_space_scale</span><span class="p">),</span>
-                                                                                                                 <span class="n">target_minX</span> <span class="o">*</span> <span class="p">(</span>
-                                                                                                                         <span class="mf">1.0</span> <span class="o">/</span> <span class="n">target_space_scale</span><span class="p">)),</span>
-                                                                                                             <span class="n">SingleThreadedInvoke</span><span class="o">=</span><span class="n">SingleThreadedInvoke</span><span class="p">)</span></div>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transformed_image_data</span><span class="o">.</span><span class="n">TransformedTileMetadata</span><span class="o">.</span><span class="n">from_scaled_target_origin</span><span class="p">(</span>
+        <span class="n">source_space_scale</span><span class="p">,</span> <span class="n">target_space_scale</span><span class="p">,</span> <span class="n">target_minY</span><span class="p">,</span> <span class="n">target_minX</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">transformed_image_data_temp_files</span><span class="o">.</span><span class="n">TransformedImageDataViaTempFile</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span>
+        <span class="n">fixedImage</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+        <span class="n">centerDistanceImage</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+        <span class="n">transform</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">SingleThreadedInvoke</span><span class="o">=</span><span class="n">SingleThreadedInvoke</span><span class="p">)</span></div>
 
 
 

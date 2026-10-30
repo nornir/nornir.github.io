@@ -1,0 +1,532 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stacks and commands &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration reference" href="configuration_reference.html" />
+    <link rel="prev" title="Host layout" href="host_layout.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Stacks and commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stacks">Stacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stack-actions">Stack actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#local-and-remote">Local and remote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#where-to-run-what">Where to run what</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exit-codes">Exit codes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nd-build-one-nornir-build-command-in-a-container"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code>: one <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> command in a container</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Stacks and commands</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/stacks_and_commands.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stacks-and-commands">
+<h1>Stacks and commands<a class="headerlink" href="#stacks-and-commands" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> is the one entry point for every stack. This page is the command reference; the
+Viking deployment docs link here instead of repeating it. <code class="docutils literal notranslate"><span class="pre">Get-Help</span> <span class="pre">&lt;root&gt;/stack.ps1</span> <span class="pre">-Full</span></code>
+prints the same options from the script. Viking service specifics (what each stack needs) start at
+the <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/index.html">Viking bring-up checklist</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">stack</span><span class="o">&gt;|</span><span class="nb">all</span><span class="o">|&lt;</span><span class="n">tool</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">action</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Target</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;|</span><span class="nb">all</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Sync</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Images</span> <span class="n">build</span><span class="o">|</span><span class="n">ghcr</span><span class="o">|</span><span class="n">load</span><span class="p">]</span>
+          <span class="p">[</span><span class="o">-</span><span class="n">Profile</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">[,</span><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">Service</span> <span class="o">&lt;</span><span class="n">svc</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Follow</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Tail</span> <span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Force</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Days</span> <span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span><span class="p">]</span>
+          <span class="p">[</span><span class="o">-</span><span class="n">Root</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Cert</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">Key</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">-</span><span class="n">Chain</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">PfxPassword</span> <span class="o">&lt;</span><span class="n">pw</span><span class="o">&gt;</span><span class="p">]]</span>
+          <span class="p">[</span><span class="o">--</span> <span class="o">&lt;</span><span class="n">command</span> <span class="k">for</span> <span class="n">exec</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>With no arguments it runs <code class="docutils literal notranslate"><span class="pre">list</span></code>. A stack with no action runs <code class="docutils literal notranslate"><span class="pre">status</span></code>. The stack and the
+action can come in either order: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">viking-identity</span> <span class="pre">up</span></code> and <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">up</span>
+<span class="pre">viking-identity</span></code> are the same (the Viking docs use the second form).</p>
+<section id="stacks">
+<h2>Stacks<a class="headerlink" href="#stacks" title="Link to this heading"></a></h2>
+<p>Stack keys are kebab-case and are also the <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/</span></code> folder name and the compose project
+name. The registries are <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/stacks.psd1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;VIKING_REPO_ROOT_HOST&gt;/deploy/stacks.psd1</span></code> (Viking stacks appear only when
+<code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code> is set in <code class="docutils literal notranslate"><span class="pre">host.env</span></code>). <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">list</span></code> prints both, with a
+<code class="docutils literal notranslate"><span class="pre">ThisHost</span></code> column for the stacks in <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 10.0%" />
+<col style="width: 12.0%" />
+<col style="width: 56.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Stack</p></th>
+<th class="head"><p>Engine</p></th>
+<th class="head"><p>Host</p></th>
+<th class="head"><p>What it is</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code></p></td>
+<td><p>script</p></td>
+<td><p>compute</p></td>
+<td><p>Build appliance container <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> (<code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> or <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code>) with
+in-container CIFS. <a class="reference internal" href="nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code></p></td>
+<td><p>script</p></td>
+<td><p>compute, dev</p></td>
+<td><p>Mosquitto + build dashboard on 127.0.0.1:8087. <a class="reference internal" href="dashboard.html"><span class="doc">Build dashboard (nornir-dashboard)</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-dev</span></code></p></td>
+<td><p>script</p></td>
+<td><p>dev</p></td>
+<td><p>Programmer shell (<code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code> compose service). <a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code></p></td>
+<td><p>script</p></td>
+<td><p>dev</p></td>
+<td><p>Cursor self-hosted agent worker. <a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code></p></td>
+<td><p>compose</p></td>
+<td><p>web</p></td>
+<td><p>nginx SNI passthrough on 443; ACME HTTP-01 webroot and https redirect on 80</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-certs</span></code></p></td>
+<td><p>compose</p></td>
+<td><p>web</p></td>
+<td><p>The single certificate renewer (<code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code> / <code class="docutils literal notranslate"><span class="pre">acme-eab</span></code>; idle in <code class="docutils literal notranslate"><span class="pre">manual</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code></p></td>
+<td><p>compose</p></td>
+<td><p>web</p></td>
+<td><p>Duende IdentityServer (OIDC issuer, WebApi, Management)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-annotation</span></code></p></td>
+<td><p>compose</p></td>
+<td><p>web</p></td>
+<td><p>gRPC annotation service</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-corrections</span></code></p></td>
+<td><p>compose</p></td>
+<td><p>web</p></td>
+<td><p>gRPC section-correction service</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code></p></td>
+<td><p>compose</p></td>
+<td><p>compute</p></td>
+<td><p>SAM2 segmentation gRPC servers (GPU); profile <code class="docutils literal notranslate"><span class="pre">models</span></code> adds v3, v4, and sem-v1</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-iis</span></code></p></td>
+<td><p>iis</p></td>
+<td><p>iis</p></td>
+<td><p>Legacy IIS sites behind <code class="docutils literal notranslate"><span class="pre">websvc.&lt;domain&gt;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The annotation gallery (<code class="docutils literal notranslate"><span class="pre">gallery</span></code>, <code class="docutils literal notranslate"><span class="pre">gallery-tem</span></code>, <code class="docutils literal notranslate"><span class="pre">gallery-sem</span></code>) is not a <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code>
+stack: its compose file lives in the Sam2Trainer repository, and the proxy routes those names to
+port 8442 on <code class="docutils literal notranslate"><span class="pre">web</span></code>. Start and update it from that repository.</p>
+<p><code class="docutils literal notranslate"><span class="pre">all</span></code> means the stacks in this host’s <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code>, in that order (<code class="docutils literal notranslate"><span class="pre">down</span></code>
+runs in reverse). It stops at the first failure, except for <code class="docutils literal notranslate"><span class="pre">status</span></code>.</p>
+</section>
+<section id="stack-actions">
+<h2>Stack actions<a class="headerlink" href="#stack-actions" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 44.0%" />
+<col style="width: 44.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Action</p></th>
+<th class="head"><p>Compose stacks</p></th>
+<th class="head"><p>Script stacks (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>; <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code> noted)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">up</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span> <span class="pre">--remove-orphans</span></code>, then the health check</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>: starts a detached, kept container named <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>; if it exists
+and is stopped, <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span></code>; if running, does nothing. Dashboard: <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">down</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">down</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">rm</span> <span class="pre">-f</span> <span class="pre">nornir-build</span></code>. Dashboard: <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span> <span class="pre">-Down</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">restart</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span> <span class="pre">--force-recreate</span> <span class="pre">--remove-orphans</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">restart</span> <span class="pre">nornir-build</span></code> (or <code class="docutils literal notranslate"><span class="pre">up</span></code> when absent).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rebuild</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">build</span> <span class="pre">--pull</span></code>, then <code class="docutils literal notranslate"><span class="pre">up</span> <span class="pre">-d</span> <span class="pre">--force-recreate</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>: remove the container and <code class="docutils literal notranslate"><span class="pre">up</span></code> again (new <code class="docutils literal notranslate"><span class="pre">Work/</span></code> session; picks up a
+pulled image). Dashboard: <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span> <span class="pre">-Rebuild</span></code> (Mosquitto keeps running).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">build</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">build</span></code></p></td>
+<td><p>via the stack’s compose files, when it has them</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pull</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">pull</span> <span class="pre">--ignore-buildable</span></code>, then pulls buildable services whose image is a
+registry ref (for example <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_IMAGE=ghcr.io/...</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>: <code class="docutils literal notranslate"><span class="pre">docker-pull.ps1</span></code> (<code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> and <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> from GHCR)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">push</span></code></p></td>
+<td><p>not supported</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>: <code class="docutils literal notranslate"><span class="pre">docker-push.ps1</span></code> (maintainers only)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logs</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">logs</span> <span class="pre">--tail</span> <span class="pre">&lt;Tail&gt;</span> <span class="pre">[-f]</span> <span class="pre">[&lt;Service&gt;]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">logs</span> <span class="pre">--tail</span> <span class="pre">&lt;Tail&gt;</span> <span class="pre">[-f]</span> <span class="pre">nornir-build</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ps</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">ps</span></code>; <code class="docutils literal notranslate"><span class="pre">status</span></code> also probes the health URL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code> filtered to the container</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">exec</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">exec</span> <span class="pre">&lt;Service&gt;</span> <span class="pre">&lt;command</span> <span class="pre">after</span> <span class="pre">--&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">nornir-build</span> <span class="pre">&lt;command</span> <span class="pre">after</span> <span class="pre">--&gt;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shell</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">exec</span> <span class="pre">&lt;Service&gt;</span></code> bash (or sh)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">exec</span> <span class="pre">-it</span> <span class="pre">nornir-build</span> <span class="pre">bash</span></code> when running, otherwise a new
+interactive <code class="docutils literal notranslate"><span class="pre">--rm</span></code> container</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">config</span> <span class="pre">--quiet</span></code> (validates the merged env and files)</p></td>
+<td><p>via the stack’s compose files, when it has them</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">deploy</span></code></p></td>
+<td><p>iis only: runs the Viking IIS deploy script (<code class="docutils literal notranslate"><span class="pre">up</span></code> and <code class="docutils literal notranslate"><span class="pre">rebuild</span></code> are aliases)</p></td>
+<td><p>not supported</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">-Service</span></code> defaults to the registry’s <code class="docutils literal notranslate"><span class="pre">DefaultService</span></code>. <code class="docutils literal notranslate"><span class="pre">up</span></code>, <code class="docutils literal notranslate"><span class="pre">restart</span></code>, <code class="docutils literal notranslate"><span class="pre">rebuild</span></code>,
+<code class="docutils literal notranslate"><span class="pre">build</span></code> and <code class="docutils literal notranslate"><span class="pre">config</span></code> first check the stack’s required keys and secret files and stop with a
+list of what is missing.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="nb">list</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">up</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Follow</span> <span class="o">-</span><span class="n">Tail</span> <span class="mi">500</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">annotation</span> <span class="n">exec</span> <span class="o">-</span><span class="n">Service</span> <span class="o">&lt;</span><span class="n">service</span><span class="o">&gt;</span> <span class="o">--</span> <span class="n">ls</span> <span class="o">/</span><span class="n">app</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">segmentation</span> <span class="n">up</span> <span class="o">-</span><span class="n">Profile</span> <span class="n">seg</span><span class="o">-</span><span class="n">v3</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="nb">all</span> <span class="n">down</span>
+</pre></div>
+</div>
+</section>
+<section id="tools">
+<h2>Tools<a class="headerlink" href="#tools" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">list</span></code></p></td>
+<td><p>Registered stacks, engines, and which ones this host runs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">targets</span></code></p></td>
+<td><p>The targets in <code class="docutils literal notranslate"><span class="pre">Run/_host/targets.psd1</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code></p></td>
+<td><p>Checks the layout folders, <code class="docutils literal notranslate"><span class="pre">host.env</span></code>, Docker engine and compose v2, each host stack’s
+configuration and <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">config</span></code>, launchers, GPU runtime (GPU stacks), certificate
+validity and hostname coverage, DNS for every <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code> (Viking stacks), ufw and
+sshd (Linux). Exit code 1 when any check fails.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">secrets</span> <span class="pre">new</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">[KEY</span> <span class="pre">...]</span></code></p></td>
+<td><p>Generates a random 32-byte URL-safe value for: every <code class="docutils literal notranslate"><span class="pre">*_SECRET</span></code>, <code class="docutils literal notranslate"><span class="pre">*_TOKEN</span></code> or
+<code class="docutils literal notranslate"><span class="pre">*_PASSWORD</span></code> key the stack’s registry lists (<code class="docutils literal notranslate"><span class="pre">Required</span></code> or <code class="docutils literal notranslate"><span class="pre">GeneratedSecrets</span></code>); every
+key in <code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code> or <code class="docutils literal notranslate"><span class="pre">secrets/secrets.env</span></code> still holding a
+<code class="docutils literal notranslate"><span class="pre">REPLACE_WITH_GENERATED...</span></code> placeholder; and every <code class="docutils literal notranslate"><span class="pre">KEY</span></code> named on the command line.
+The value replaces the placeholder in <code class="docutils literal notranslate"><span class="pre">secrets.env</span></code> if the key is there, else in
+<code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code>, else it is appended to <code class="docutils literal notranslate"><span class="pre">secrets.env</span></code>. Keys with a real value are
+kept. Never generates <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_PASSWORD</span></code> or connection strings, and leaves empty
+optional client secrets alone (empty = client disabled) unless you name them.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">status</span></code></p></td>
+<td><p>Installed certificate: key match, issuer, days left, intermediates, SAN coverage of every
+hostname, last renewal.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">letsencrypt</span></code></p></td>
+<td><p>One-shot <code class="docutils literal notranslate"><span class="pre">viking-certs</span></code> issuance with HTTP-01 (needs public port 80 to <code class="docutils literal notranslate"><span class="pre">web</span></code> and
+<code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> up), then starts the renewer. Set <code class="docutils literal notranslate"><span class="pre">TLS_MODE=letsencrypt</span></code> in <code class="docutils literal notranslate"><span class="pre">host.env</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">acme-eab</span></code></p></td>
+<td><p>Same, against <code class="docutils literal notranslate"><span class="pre">TLS_ACME_SERVER</span></code> with External Account Binding (InCommon/Sectigo).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">manual</span> <span class="pre">-Cert</span> <span class="pre">&lt;pem&gt;</span> <span class="pre">-Key</span> <span class="pre">&lt;pem&gt;</span> <span class="pre">[-Chain</span> <span class="pre">&lt;pem&gt;]</span> <span class="pre">[-PfxPassword</span> <span class="pre">&lt;pw&gt;]</span> <span class="pre">[-Force]</span></code></p></td>
+<td><p>Validates that the key matches, the certificate is currently valid and covers every
+hostname (or <code class="docutils literal notranslate"><span class="pre">TLS_HOSTNAMES</span></code>), then writes <code class="docutils literal notranslate"><span class="pre">Certs/&lt;name&gt;/{cert,chain,fullchain,privkey}.pem</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cert.pfx</span></code> and <code class="docutils literal notranslate"><span class="pre">.renewed-at</span></code>, keeping the old files in <code class="docutils literal notranslate"><span class="pre">previous-&lt;stamp&gt;/</span></code>. Refuses a
+certificate that expires sooner than the installed one unless <code class="docutils literal notranslate"><span class="pre">-Force</span></code>. Then restarts
+containers labelled <code class="docutils literal notranslate"><span class="pre">viking.tls-reload=true</span></code>. Set <code class="docutils literal notranslate"><span class="pre">TLS_MODE=manual</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span> <span class="pre">-From</span> <span class="pre">web</span> <span class="pre">[-Target</span> <span class="pre">&lt;name&gt;]</span></code></p></td>
+<td><p>Run on the dev box. <code class="docutils literal notranslate"><span class="pre">-From</span></code> fetches <code class="docutils literal notranslate"><span class="pre">Certs/&lt;name&gt;/</span></code> from that target over <code class="docutils literal notranslate"><span class="pre">scp</span></code>; the
+command then copies it to the given targets, or to every target with <code class="docutils literal notranslate"><span class="pre">CertPush</span> <span class="pre">=</span> <span class="pre">$true</span></code>,
+and runs <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">reload</span></code> (Linux) or <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">install-iis</span></code> (Windows) there. Without
+<code class="docutils literal notranslate"><span class="pre">-From</span></code> it pushes the local <code class="docutils literal notranslate"><span class="pre">Certs/&lt;name&gt;/</span></code>; running <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span></code> on <code class="docutils literal notranslate"><span class="pre">web</span></code>
+itself (for example from cron) works too, but then <code class="docutils literal notranslate"><span class="pre">web</span></code> needs its own
+<code class="docutils literal notranslate"><span class="pre">targets.psd1</span></code> and SSH keys on the destinations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">reload</span></code></p></td>
+<td><p>Restarts running containers labelled <code class="docutils literal notranslate"><span class="pre">viking.tls-reload=true</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">install-iis</span></code></p></td>
+<td><p>On the IIS host: imports <code class="docutils literal notranslate"><span class="pre">Certs/&lt;name&gt;/cert.pfx</span></code> and binds it to <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_WEBSVC</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span> <span class="pre">-Target</span> <span class="pre">&lt;name&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-N</span></code> with a <code class="docutils literal notranslate"><span class="pre">-L</span></code> forward for every entry in that target’s <code class="docutils literal notranslate"><span class="pre">Tunnels</span></code>
+(<a class="reference internal" href="ports_and_remote_access.html"><span class="doc">Ports and remote access</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">prune</span> <span class="pre">[-Days</span> <span class="pre">14]</span> <span class="pre">[-Force]</span></code></p></td>
+<td><p>Lists <code class="docutils literal notranslate"><span class="pre">Work/nornir-build-*</span></code> (and legacy <code class="docutils literal notranslate"><span class="pre">mounted-configs/nornir-build-*</span></code>) folders older
+than <code class="docutils literal notranslate"><span class="pre">-Days</span></code>, skipping any folder a running container mounts. <code class="docutils literal notranslate"><span class="pre">-Force</span></code> deletes them.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="local-and-remote">
+<h2>Local and remote<a class="headerlink" href="#local-and-remote" title="Link to this heading"></a></h2>
+<p>Without <code class="docutils literal notranslate"><span class="pre">-Target</span></code>, everything runs on this machine. With <code class="docutils literal notranslate"><span class="pre">-Target</span> <span class="pre">&lt;name&gt;</span></code> (a key in
+<code class="docutils literal notranslate"><span class="pre">Run/_host/targets.psd1</span></code>, a comma list, or <code class="docutils literal notranslate"><span class="pre">all</span></code>), <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> runs the same arguments on
+each target over SSH, as <code class="docutils literal notranslate"><span class="pre">pwsh</span> <span class="pre">-File</span> <span class="pre">&lt;Root&gt;/stack.ps1</span> <span class="pre">...</span></code>. The target uses its own layout and
+env files; nothing from your machine’s <code class="docutils literal notranslate"><span class="pre">Run/</span></code> is sent. Interactive actions (<code class="docutils literal notranslate"><span class="pre">shell</span></code>,
+<code class="docutils literal notranslate"><span class="pre">exec</span></code>, <code class="docutils literal notranslate"><span class="pre">logs</span> <span class="pre">-Follow</span></code>) get a TTY (<code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-t</span></code>).</p>
+<p>Two commands are exceptions: <code class="docutils literal notranslate"><span class="pre">tunnel</span></code> opens SSH from this machine, and <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">push</span></code> runs
+here, uses <code class="docutils literal notranslate"><span class="pre">-From</span></code> as the source and <code class="docutils literal notranslate"><span class="pre">-Target</span></code> as the destination list.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-Sync</span></code></dt><dd><p>Before running the command, for each checkout in the target’s <code class="docutils literal notranslate"><span class="pre">Repos</span></code>: checks that your local
+branch is pushed (HEAD equals its upstream; stops otherwise) and warns about uncommitted
+changes, then runs <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--ff-only</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span> <span class="pre">--recursive</span></code> on the
+target. Push first; <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> deploys what is on the remote, not your working tree.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-Images</span></code></dt><dd><p>Where the target’s images come from:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">build</span></code> (default): the target builds them (<code class="docutils literal notranslate"><span class="pre">rebuild</span></code> runs <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">build</span> <span class="pre">--pull</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ghcr</span></code>: before <code class="docutils literal notranslate"><span class="pre">up</span></code>, <code class="docutils literal notranslate"><span class="pre">restart</span></code> or <code class="docutils literal notranslate"><span class="pre">rebuild</span></code>, runs <code class="docutils literal notranslate"><span class="pre">pull</span></code> on the target (GHCR login on
+the target required). Services that also have a <code class="docutils literal notranslate"><span class="pre">build:</span></code> section are pulled only when their
+image names a registry. <code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code> does this when <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_IMAGE</span></code> is set in
+its run env; publish that image with <code class="docutils literal notranslate"><span class="pre">docker-push.ps1</span> <span class="pre">-Images</span> <span class="pre">segmentation</span></code> (Viking
+<code class="docutils literal notranslate"><span class="pre">deployment/segmentation</span></code>, “Prebuilt image”). Use <code class="docutils literal notranslate"><span class="pre">up</span></code>, not <code class="docutils literal notranslate"><span class="pre">rebuild</span></code>, because
+<code class="docutils literal notranslate"><span class="pre">rebuild</span></code> builds again after the pull.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load</span></code>: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">save</span></code> each image here and <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">load</span></code> it on the target over SSH; for
+hosts that cannot reach the registry. Images missing locally are skipped with a warning.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">doctor</span> <span class="o">-</span><span class="n">Target</span> <span class="nb">all</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">segmentation</span> <span class="n">rebuild</span> <span class="o">-</span><span class="n">Target</span> <span class="n">compute</span> <span class="o">-</span><span class="n">Sync</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="nb">all</span> <span class="n">up</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span> <span class="o">-</span><span class="n">Sync</span> <span class="o">-</span><span class="n">Images</span> <span class="n">ghcr</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">shell</span> <span class="o">-</span><span class="n">Target</span> <span class="n">compute</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Follow</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span>
+</pre></div>
+</div>
+</section>
+<section id="where-to-run-what">
+<h2>Where to run what<a class="headerlink" href="#where-to-run-what" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Task</p></th>
+<th class="head"><p>Run</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Deploy or update any server stack</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">rebuild</span> <span class="pre">-Target</span> <span class="pre">&lt;host&gt;</span> <span class="pre">-Sync</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Health of everything</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span> <span class="pre">-Target</span> <span class="pre">all</span></code> and <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">all</span> <span class="pre">status</span> <span class="pre">-Target</span> <span class="pre">all</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Issue or renew a certificate</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">letsencrypt|acme-eab|manual</span> <span class="pre">-Target</span> <span class="pre">web</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Distribute the certificate</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span> <span class="pre">-From</span> <span class="pre">web</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Interactive volume build</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">shell</span> <span class="pre">-Target</span> <span class="pre">compute</span></code> (inside <code class="docutils literal notranslate"><span class="pre">tmux</span></code> on <code class="docutils literal notranslate"><span class="pre">compute</span></code>
+for long builds, see <a class="reference internal" href="nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dashboard, debugger ports</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span> <span class="pre">-Target</span> <span class="pre">compute</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Programmer shell, tests</p></td>
+<td><p>Dev box: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-dev</span> <span class="pre">shell</span></code> (<a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exit-codes">
+<h2>Exit codes<a class="headerlink" href="#exit-codes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>A stack action exits with the docker or launcher exit code (0 on success).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">all</span></code> exits with the first failing stack’s code and stops there (<code class="docutils literal notranslate"><span class="pre">status</span></code> keeps going).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">doctor</span></code> exits 1 when any check is <code class="docutils literal notranslate"><span class="pre">[FAIL]</span></code>.</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">-Target</span></code>, the exit code is the last non-zero code from any target (0 when all succeed);
+a failing <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> stops before the command runs.</p></li>
+<li><p>A configuration error (unknown stack, missing required key, unknown target) throws and exits 1.</p></li>
+</ul>
+</section>
+<section id="nd-build-one-nornir-build-command-in-a-container">
+<h2><code class="docutils literal notranslate"><span class="pre">nd-build</span></code>: one <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> command in a container<a class="headerlink" href="#nd-build-one-nornir-build-command-in-a-container" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nornir-docker/nd-build.ps1</span></code> (and <code class="docutils literal notranslate"><span class="pre">nd-build.cmd</span></code>) run the <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> CLI inside a
+throwaway container with the current directory at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, without the appliance’s CIFS
+mounts or <code class="docutils literal notranslate"><span class="pre">Work/</span></code> session:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">nd</span><span class="o">-</span><span class="n">build</span><span class="o">.</span><span class="n">ps1</span> <span class="o">--</span> <span class="o">--</span><span class="n">help</span>
+<span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">nd</span><span class="o">-</span><span class="n">build</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Gpu</span> <span class="o">--</span> <span class="o">&lt;</span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">arguments</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Default image <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code>; set <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_IMAGE=nornir:prod</span></code> for CPU-only or
+<code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code>. <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_GPU=1</span></code> equals <code class="docutils literal notranslate"><span class="pre">-Gpu</span></code>; <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_EXTRA_ARGS</span></code> adds
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> arguments. It publishes to the dashboard when <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code> is set. The
+compose equivalent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">yaml</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">v</span> <span class="s2">"$PWD:/workspace"</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">workspace</span> <span class="n">nornir</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="host_layout.html" class="btn btn-neutral float-left" title="Host layout" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="configuration_reference.html" class="btn btn-neutral float-right" title="Configuration reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

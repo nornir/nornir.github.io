@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programmer shell and Cursor worker &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Build dashboard (nornir-dashboard)" href="dashboard.html" />
+    <link rel="prev" title="Build appliance (nornir-build)" href="nornir_build_appliance.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Programmer shell and Cursor worker</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#programmer-shell-nornir-dev">Programmer shell (<code class="docutils literal notranslate"><span class="pre">nornir-dev</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-one-file-bridged">Configuration: one file, bridged</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start">Start</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#in-the-container">In the container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#workspace-strategy">Workspace strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dev-containers-and-pycharm">Dev Containers and PyCharm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nas-shares-in-cursor-dev">NAS shares in cursor-dev</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#docker-run-nornir-dev-ps1"><code class="docutils literal notranslate"><span class="pre">docker-run-nornir-dev.ps1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#headless-tests-in-the-container">Headless tests in the container</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cursor-worker-nornir-cursor-worker">Cursor worker (<code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#layout">Layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-run">Build and run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cleaning-up-worker-folders">Cleaning up worker folders</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Programmer shell and Cursor worker</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/nornir_dev_and_worker.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="programmer-shell-and-cursor-worker">
+<h1>Programmer shell and Cursor worker<a class="headerlink" href="#programmer-shell-and-cursor-worker" title="Link to this heading"></a></h1>
+<p>Two dev-box roles, both built on <code class="docutils literal notranslate"><span class="pre">nornir:dev-cursor-base</span></code> (Python 3.14, CuPy, pytest, a venv,
+no baked monorepo):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 30.0%" />
+<col style="width: 48.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Stack</p></th>
+<th class="head"><p>Image / compose service</p></th>
+<th class="head"><p>Use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-dev</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code> (or <code class="docutils literal notranslate"><span class="pre">cursor-dev-clone</span></code>) in <code class="docutils literal notranslate"><span class="pre">compose.cursor-dev.yaml</span></code></p></td>
+<td><p>Editable checkout, tests, Dev Containers, PyCharm Docker interpreter</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir:cursor-worker</span></code> (<code class="docutils literal notranslate"><span class="pre">Dockerfile.cursor-worker</span></code>)</p></td>
+<td><p>Cursor’s self-hosted cloud agent: connects outbound to Cursor and runs
+<code class="docutils literal notranslate"><span class="pre">agent</span> <span class="pre">worker</span> <span class="pre">start</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Neither is the build appliance (<a class="reference internal" href="nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>).</p>
+<section id="programmer-shell-nornir-dev">
+<h2>Programmer shell (<code class="docutils literal notranslate"><span class="pre">nornir-dev</span></code>)<a class="headerlink" href="#programmer-shell-nornir-dev" title="Link to this heading"></a></h2>
+<section id="configuration-one-file-bridged">
+<h3>Configuration: one file, bridged<a class="headerlink" href="#configuration-one-file-bridged" title="Link to this heading"></a></h3>
+<p>The machine-local source of truth is <code class="docutils literal notranslate"><span class="pre">D:\Docker\Run\nornir-dev\.env</span></code>. Docker Compose and Dev
+Containers only read <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code> (the compose project folder), so that path is a
+<strong>hardlink</strong> to the Run file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">New</span><span class="o">-</span><span class="n">Item</span> <span class="o">-</span><span class="n">ItemType</span> <span class="n">Directory</span> <span class="o">-</span><span class="n">Force</span> <span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>\<span class="n">Run</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">Copy</span><span class="o">-</span><span class="n">Item</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">dev</span>\<span class="n">example</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">env</span> <span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>\<span class="n">Run</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">dev</span>\<span class="o">.</span><span class="n">env</span>
+<span class="n">New</span><span class="o">-</span><span class="n">Item</span> <span class="o">-</span><span class="n">ItemType</span> <span class="n">HardLink</span> <span class="o">-</span><span class="n">Path</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="o">.</span><span class="n">env</span> <span class="o">-</span><span class="n">Target</span> <span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>\<span class="n">Run</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">dev</span>\<span class="o">.</span><span class="n">env</span>
+</pre></div>
+</div>
+<p>A hardlink needs both paths on the same volume; otherwise copy the file and keep the two in sync.
+Junctions are directories only, and a symbolic link needs Developer Mode or an elevated shell.</p>
+<p><code class="docutils literal notranslate"><span class="pre">compose.cursor-dev.yaml</span></code> uses the file twice: for <code class="docutils literal notranslate"><span class="pre">${VAR}</span></code> substitution in the compose file,
+and as <code class="docutils literal notranslate"><span class="pre">env_file</span></code>, so every setting in it (<code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE</span></code>, <code class="docutils literal notranslate"><span class="pre">NORNIR_SUBMODULE_UPDATE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code>, <code class="docutils literal notranslate"><span class="pre">NORNIR_TILE_*</span></code> …) reaches the container. Keys in the compose
+<code class="docutils literal notranslate"><span class="pre">environment:</span></code> block win over the file. There are no repo-root <code class="docutils literal notranslate"><span class="pre">.env*.example</span></code> stubs any more;
+the template is <code class="docutils literal notranslate"><span class="pre">nornir-docker/dev/example.cursor-dev.run.env</span></code> (every key is in
+<a class="reference internal" href="configuration_reference.html"><span class="doc">Configuration reference</span></a>).</p>
+<p>Set at least <code class="docutils literal notranslate"><span class="pre">NORNIR_TESTDATA_HOST</span></code>. Keep <code class="docutils literal notranslate"><span class="pre">nornir-testdata</span></code> on the <strong>WSL2 Linux filesystem</strong>
+(not <code class="docutils literal notranslate"><span class="pre">D:\</span></code> through DrvFS) for stable I/O, and give Docker Desktop the
+<code class="docutils literal notranslate"><span class="pre">\\wsl.localhost\&lt;Distro&gt;\home\&lt;you&gt;\nornir-testdata</span></code> UNC path (exact distro casing from
+<code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">-l</span> <span class="pre">-v</span></code>), or <code class="docutils literal notranslate"><span class="pre">/home/&lt;you&gt;/nornir-testdata</span></code> when you run compose from a WSL shell.</p>
+</section>
+<section id="start">
+<h3>Start<a class="headerlink" href="#start" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>\<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">dev</span> <span class="n">shell</span>             <span class="c1"># = .\nornir-docker\run-cursor-dev.ps1</span>
+<span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">run</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Gpu</span>
+<span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">run</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Clone</span>        <span class="c1"># cursor-dev-clone service</span>
+</pre></div>
+</div>
+<p>or raw compose from the monorepo root:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">yaml</span> <span class="n">build</span> <span class="n">cursor</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">yaml</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="n">cursor</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">yaml</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">clone</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">run-cursor-dev.ps1</span></code> stops when neither <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code> nor <code class="docutils literal notranslate"><span class="pre">NORNIR_TESTDATA_HOST</span></code> is
+set, and warns when the value is still the template placeholder. With <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code>
+set it adds <code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/compose.net-mounts.override.yaml</span></code> (or the legacy
+<code class="docutils literal notranslate"><span class="pre">Run/nornir-dev/</span></code> copy) when present.</p>
+</section>
+<section id="in-the-container">
+<h3>In the container<a class="headerlink" href="#in-the-container" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/workspace</span></code>: the monorepo. <code class="docutils literal notranslate"><span class="pre">TESTINPUTPATH=/nornir-testdata</span></code> (read-only),
+<code class="docutils literal notranslate"><span class="pre">TESTOUTPUTPATH=/tmp/nornir-test-output</span></code> (from <code class="docutils literal notranslate"><span class="pre">NORNIR_TESTOUTPUT_HOST</span></code>, default
+<code class="docutils literal notranslate"><span class="pre">D:/nornir-test-output</span></code>), <code class="docutils literal notranslate"><span class="pre">INPUT_NORNIR_DATA=/data</span></code> (<code class="docutils literal notranslate"><span class="pre">NORNIR_REPRO_DATA_HOST</span></code>, or an empty
+placeholder), <code class="docutils literal notranslate"><span class="pre">/legacycode</span></code> (read-only), <code class="docutils literal notranslate"><span class="pre">NORNIR_HEADLESS=1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT=/workspace/.nornir-logs</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shm_size</span></code> 64 GB, <code class="docutils literal notranslate"><span class="pre">nofile</span></code> 65536, <code class="docutils literal notranslate"><span class="pre">gpus:</span> <span class="pre">all</span></code>.</p></li>
+<li><p>MQTT goes to the dashboard on the host (<code class="docutils literal notranslate"><span class="pre">host.docker.internal:1883</span></code>) by default.</p></li>
+</ul>
+<p>Outside Docker on Windows, set <code class="docutils literal notranslate"><span class="pre">INPUT_NORNIR_DATA</span></code> yourself (for example <code class="docutils literal notranslate"><span class="pre">D:\Data</span></code>);
+<code class="docutils literal notranslate"><span class="pre">NORNIR_REPRO_DATA_HOST</span></code> is only the bind source.</p>
+</section>
+<section id="workspace-strategy">
+<h3>Workspace strategy<a class="headerlink" href="#workspace-strategy" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code> (default) bind-mounts the monorepo root (<code class="docutils literal notranslate"><span class="pre">${NORNIR_WORKSPACE_HOST:-..}</span></code>) at
+<code class="docutils literal notranslate"><span class="pre">/workspace</span></code>. On start, <code class="docutils literal notranslate"><span class="pre">cursor-dev-entry.sh</span></code>:</p>
+<ol class="arabic simple">
+<li><p>clones <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code> only if <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> is empty;</p></li>
+<li><p>otherwise runs <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code>, and with <code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE=1</span></code> checks out the clone branch and
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--ff-only</span></code>;</p></li>
+<li><p>syncs submodules: by default initializes missing ones only and keeps existing checkouts on
+their branches (warns on <code class="docutils literal notranslate"><span class="pre">+</span></code> in <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">status</span></code>); <code class="docutils literal notranslate"><span class="pre">NORNIR_SUBMODULE_UPDATE=1</span></code> runs
+a full <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span> <span class="pre">--recursive</span></code> (use after bumping umbrella pointers);</p></li>
+<li><p>runs <code class="docutils literal notranslate"><span class="pre">install-monorepo-editables.sh</span></code>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">--no-deps</span></code> for <code class="docutils literal notranslate"><span class="pre">nornir-shared</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nornir-pools</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-imageregistration</span></code>, <code class="docutils literal notranslate"><span class="pre">dm4</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager</span></code>.
+<code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> matters: the <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> files pin siblings by git URL, and without it a
+later install replaces earlier editables with git checkouts.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">cursor-dev-clone</span></code> mounts the named volume <code class="docutils literal notranslate"><span class="pre">cursor-dev-work</span></code> at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> instead:
+clone on first start, fetch/checkout/pull of <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code> later
+(<code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_REFRESH=1</span></code> wipes it first), always a full submodule update. <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_DEPTH</span></code>
+(<code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">full</span></code>) controls the clone depth.</p>
+</section>
+<section id="dev-containers-and-pycharm">
+<h3>Dev Containers and PyCharm<a class="headerlink" href="#dev-containers-and-pycharm" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Default <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>: service <code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code>, <code class="docutils literal notranslate"><span class="pre">workspaceFolder</span></code>
+<code class="docutils literal notranslate"><span class="pre">/workspace</span></code>. Open the monorepo root and <strong>Reopen in Container</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.devcontainer/cursor-dev-clone/devcontainer.json</span></code> (“Nornir (cursor-dev clone)”): the
+named-volume clone.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">postAttachCommand</span></code> reruns the editable installs on attach; reattach never resets submodules.</p></li>
+<li><p>PyCharm: Docker Compose interpreter on <code class="docutils literal notranslate"><span class="pre">nornir-docker/compose.cursor-dev.yaml</span></code>, service
+<code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code>, Python <code class="docutils literal notranslate"><span class="pre">/opt/venv/bin/python</span></code>, project mapped to <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>.</p></li>
+</ul>
+</section>
+<section id="nas-shares-in-cursor-dev">
+<h3>NAS shares in cursor-dev<a class="headerlink" href="#nas-shares-in-cursor-dev" title="Link to this heading"></a></h3>
+<p>Same path-B mounts as the appliance (<a class="reference internal" href="nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>). Copy
+<code class="docutils literal notranslate"><span class="pre">nornir-docker/dev/example.compose.net-mounts.override.yaml</span></code> to
+<code class="docutils literal notranslate"><span class="pre">D:\Docker\Run\nornir-net-mounts\compose.net-mounts.override.yaml</span></code> and set
+<code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_DIR_HOST</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_DIR_HOST</span></code> in <code class="docutils literal notranslate"><span class="pre">Run\nornir-dev\.env</span></code>.
+<code class="docutils literal notranslate"><span class="pre">run-cursor-dev.ps1</span></code> picks the override up; by hand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="o">-</span><span class="n">f</span> <span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">cursor</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">yaml</span> <span class="o">-</span><span class="n">f</span> <span class="n">D</span><span class="p">:</span><span class="o">/</span><span class="n">Docker</span><span class="o">/</span><span class="n">Run</span><span class="o">/</span><span class="n">nornir</span><span class="o">-</span><span class="n">net</span><span class="o">-</span><span class="n">mounts</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">net</span><span class="o">-</span><span class="n">mounts</span><span class="o">.</span><span class="n">override</span><span class="o">.</span><span class="n">yaml</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="n">cursor</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<p>The override is the only thing that grants <code class="docutils literal notranslate"><span class="pre">CAP_SYS_ADMIN</span></code>; plain <code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code> stays
+unprivileged.</p>
+</section>
+<section id="docker-run-nornir-dev-ps1">
+<h3><code class="docutils literal notranslate"><span class="pre">docker-run-nornir-dev.ps1</span></code><a class="headerlink" href="#docker-run-nornir-dev-ps1" title="Link to this heading"></a></h3>
+<p>The older <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> path for <code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> (baked packages) is kept for
+<code class="docutils literal notranslate"><span class="pre">D:\Docker\Run\nornir-dev\run.ps1</span></code>. It reads <code class="docutils literal notranslate"><span class="pre">.run.nornir-dev.env</span></code> and <code class="docutils literal notranslate"><span class="pre">secrets.env</span></code> from
+the directory you call it in, and optionally publishes ports from <code class="docutils literal notranslate"><span class="pre">NORNIR_DEV_PORT_PUBLISH</span></code>.</p>
+</section>
+<section id="headless-tests-in-the-container">
+<h3>Headless tests in the container<a class="headerlink" href="#headless-tests-in-the-container" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The image sets <code class="docutils literal notranslate"><span class="pre">NORNIR_HEADLESS=1</span></code> and ships no PyQt6. <code class="docutils literal notranslate"><span class="pre">nornir-pyre/conftest.py</span></code> skips
+collecting the Qt/OpenGL driver scripts (<code class="docutils literal notranslate"><span class="pre">*_qt.py</span></code>, <code class="docutils literal notranslate"><span class="pre">test_qopengl.py</span></code>, <code class="docutils literal notranslate"><span class="pre">test_enum*.py</span></code>)
+and <code class="docutils literal notranslate"><span class="pre">test_pure_units.py</span></code> when PyQt6 is missing. Mark future display tests
+<code class="docutils literal notranslate"><span class="pre">&#64;pytest.mark.graphical</span></code> and skip them with the <code class="docutils literal notranslate"><span class="pre">is_headless()</span></code> rules
+(<code class="docutils literal notranslate"><span class="pre">nornir_imageregistration/headless.py</span></code>).</p></li>
+<li><p>PyOpenGL with <code class="docutils literal notranslate"><span class="pre">PYOPENGL_PLATFORM=osmesa</span></code> lets <code class="docutils literal notranslate"><span class="pre">OpenGL.GL</span></code> load without a display.</p></li>
+<li><p>Root <code class="docutils literal notranslate"><span class="pre">pytest.ini</span></code> collects <code class="docutils literal notranslate"><span class="pre">nornir-buildmanager/tests</span></code> (the <code class="docutils literal notranslate"><span class="pre">tests</span></code> package), not the
+whole package tree.</p></li>
+<li><p>CuPy JIT needs <code class="docutils literal notranslate"><span class="pre">libnvrtc.so</span></code> from the NVIDIA Container Toolkit at run time. <code class="docutils literal notranslate"><span class="pre">libnvrtc</span></code> or
+<code class="docutils literal notranslate"><span class="pre">cudaErrorInsufficientDriver</span></code> errors mean the host driver is too old for the wheel’s CUDA
+generation; upgrade it or run GPU-free subsets.</p></li>
+<li><p>Tracebacks showing <code class="docutils literal notranslate"><span class="pre">D:\...</span></code> paths inside Linux come from stale <code class="docutils literal notranslate"><span class="pre">__pycache__</span></code> written by a
+Windows interpreter; delete the <code class="docutils literal notranslate"><span class="pre">__pycache__</span></code> trees.</p></li>
+</ul>
+</section>
+</section>
+<section id="cursor-worker-nornir-cursor-worker">
+<h2>Cursor worker (<code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code>)<a class="headerlink" href="#cursor-worker-nornir-cursor-worker" title="Link to this heading"></a></h2>
+<section id="layout">
+<h3>Layout<a class="headerlink" href="#layout" title="Link to this heading"></a></h3>
+<p>Run <code class="docutils literal notranslate"><span class="pre">Initialize-NornirCursorWorkerLayout.ps1</span></code> once (Developer Mode or elevated, for the
+symlinks). It is worker-only; everything else uses <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&amp;</span> <span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">windows</span><span class="o">-</span><span class="n">docker</span><span class="o">-</span><span class="n">layout</span>\<span class="n">Initialize</span><span class="o">-</span><span class="n">NornirCursorWorkerLayout</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">ScriptsRepoRoot</span> <span class="n">D</span><span class="p">:</span>\<span class="n">src</span>\<span class="n">git</span>\<span class="n">nornir</span> <span class="o">-</span><span class="n">DockerUserRoot</span> <span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 46.0%" />
+<col style="width: 54.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Path</p></th>
+<th class="head"><p>Contents</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker\Builds\nornir\</span></code></p></td>
+<td><p>Image build overrides (<code class="docutils literal notranslate"><span class="pre">build.env</span></code>, <code class="docutils literal notranslate"><span class="pre">.build.nornir-dev-cursor-base.env</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.build.nornir-cursor-worker.env</span></code>) and <code class="docutils literal notranslate"><span class="pre">build-nornir-images.ps1</span></code> (link to
+<code class="docutils literal notranslate"><span class="pre">docker-build.ps1</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker\Builds\nornir-cursor-worker\</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">start-nornir-cursor-worker.ps1</span></code> launcher link</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker\Run\nornir-cursor-worker\nornir-cursor-worker.run.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CURSOR_API_KEY</span></code>, <code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code>, clone settings</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker\mounted-configs\nornir-cursor-worker\</span></code></p></td>
+<td><p>Per-run workspaces (<code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker-&lt;stamp&gt;-&lt;guid&gt;</span></code>) and host clones
+(<code class="docutils literal notranslate"><span class="pre">nornir-agent-*</span></code>). The worker still uses <code class="docutils literal notranslate"><span class="pre">mounted-configs</span></code>; only <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>
+moved to <code class="docutils literal notranslate"><span class="pre">Work/</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code> finds the run env in this order: <code class="docutils literal notranslate"><span class="pre">-EnvFilePath</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NORNIR_CURSOR_WORKER_ENV_FILE</span></code>, <code class="docutils literal notranslate"><span class="pre">Run/nornir-cursor-worker/nornir-cursor-worker.run.env</span></code>,
+legacy <code class="docutils literal notranslate"><span class="pre">Builds/nornir-cursor-worker/.env.cursor-worker</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env.cursor-worker</span></code>.
+<code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code> / <code class="docutils literal notranslate"><span class="pre">GH_TOKEN</span></code> are never loaded into the host process (Git Credential Manager
+would pick them up); they reach the container only through <code class="docutils literal notranslate"><span class="pre">--env-file</span></code>.</p>
+</section>
+<section id="build-and-run">
+<h3>Build and run<a class="headerlink" href="#build-and-run" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>\<span class="n">Builds</span>\<span class="n">nornir</span>
+<span class="o">.</span>\<span class="n">build</span><span class="o">-</span><span class="n">nornir</span><span class="o">-</span><span class="n">images</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Images</span> <span class="n">cursor</span><span class="o">-</span><span class="n">worker</span>       <span class="c1"># also builds dev-cursor-base</span>
+
+<span class="n">D</span><span class="p">:</span>\<span class="n">Docker</span>\<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">cursor</span><span class="o">-</span><span class="n">worker</span> <span class="n">up</span>           <span class="c1"># = Builds\nornir-cursor-worker\start-nornir-cursor-worker.ps1</span>
+</pre></div>
+</div>
+<p>The thin launcher calls <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span> <span class="pre">-LiveMount</span> <span class="pre">-UseUniqueWorkspaceFolder</span></code>: a new
+empty folder under <code class="docutils literal notranslate"><span class="pre">mounted-configs\nornir-cursor-worker</span></code> is mounted at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> and the
+entrypoint clones from GitHub into it (not from your dev checkout).</p>
+<p><code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code> modes:</p>
+<ul class="simple">
+<li><p>default: host <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> into a unique folder under <code class="docutils literal notranslate"><span class="pre">-AgentCloneParent</span></code>, mounted with the
+<code class="docutils literal notranslate"><span class="pre">mounted</span></code> strategy;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-LiveMount</span></code>: mount <code class="docutils literal notranslate"><span class="pre">-WorkspaceMountPath</span></code> (or the repo root);</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-LiveMount</span> <span class="pre">-UseUniqueWorkspaceFolder</span></code>: empty per-run folder under <code class="docutils literal notranslate"><span class="pre">-WorkspaceRunParent</span></code>,
+<code class="docutils literal notranslate"><span class="pre">clone</span></code> strategy;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-UseNamedDockerVolume</span></code>: named volume at <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-RemoveCloneAfter</span></code>: delete the per-run folder after exit, unless <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span> <span class="pre">--porcelain</span></code>
+shows changes;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-Rebuild</span></code>, <code class="docutils literal notranslate"><span class="pre">-Gpu</span></code>, <code class="docutils literal notranslate"><span class="pre">-SmokeTest</span></code>, <code class="docutils literal notranslate"><span class="pre">-CloneUrl</span></code>, <code class="docutils literal notranslate"><span class="pre">-CloneBranch</span></code>, <code class="docutils literal notranslate"><span class="pre">-Detach</span></code>,
+<code class="docutils literal notranslate"><span class="pre">-KeepContainer</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-DevParityMounts</span></code> (or <code class="docutils literal notranslate"><span class="pre">NORNIR_WORKER_DEV_PARITY_MOUNTS=1</span></code>): the same testdata, <code class="docutils literal notranslate"><span class="pre">/data</span></code>,
+test output, and in-container CIFS mounts as cursor-dev, read from
+<code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/.run.nornir-net-mounts.env</span></code> and <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code>.</p></li>
+</ul>
+<p>Workspace strategies inside the container (<code class="docutils literal notranslate"><span class="pre">NORNIR_WORKSPACE_STRATEGY</span></code>): <code class="docutils literal notranslate"><span class="pre">clone</span></code> (default;
+clone into an empty <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>, else fetch/checkout/pull; <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_REFRESH=1</span></code> wipes
+first) and <code class="docutils literal notranslate"><span class="pre">mounted</span></code> (existing checkout; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--ff-only</span></code> with
+<code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE=1</span></code>).</p>
+<p>Compose (no dev-parity mounts):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$env:NORNIR_CURSOR_WORKER_ENV_FILE = 'D:\Docker\Run\nornir-cursor-worker\nornir-cursor-worker.run.env'
+docker compose -f nornir-docker/compose.cursor-worker.yaml build nornir-cursor-base nornir-cursor-worker
+docker compose -f nornir-docker/compose.cursor-worker.yaml run --rm nornir-cursor-worker
+</pre></div>
+</div>
+</section>
+<section id="cleaning-up-worker-folders">
+<h3>Cleaning up worker folders<a class="headerlink" href="#cleaning-up-worker-folders" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">nornir-docker/Cleanup-CursorWorkerClones.ps1</span></code> removes <code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker-*</span></code> and
+<code class="docutils literal notranslate"><span class="pre">nornir-agent-*</span></code> folders under <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;\mounted-configs\nornir-cursor-worker</span></code> (override with
+<code class="docutils literal notranslate"><span class="pre">-WorkspaceRunParent</span></code> / <code class="docutils literal notranslate"><span class="pre">-AgentCloneParent</span></code>). It skips any folder that is a bind source of any
+container (running or stopped) and any git checkout with a non-empty <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span> <span class="pre">--porcelain</span></code>.
+Run it with <code class="docutils literal notranslate"><span class="pre">-WhatIf</span></code> first; <code class="docutils literal notranslate"><span class="pre">-Confirm:$false</span></code> skips the prompts.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nornir_build_appliance.html" class="btn btn-neutral float-left" title="Build appliance (nornir-build)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dashboard.html" class="btn btn-neutral float-right" title="Build dashboard (nornir-dashboard)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

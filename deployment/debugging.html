@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debugging &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Build appliance (nornir-build)" href="nornir_build_appliance.html" />
+    <link rel="prev" title="Ports and remote access" href="ports_and_remote_access.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Debugging</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#logs-shells-and-exec">Logs, shells, and exec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#persistent-logs">Persistent logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#health-checks">Health checks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#python-debugpy">Python: debugpy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#net-remote-debugger">.NET: remote debugger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#before-you-change-code">Before you change code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Debugging</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/debugging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="debugging">
+<h1>Debugging<a class="headerlink" href="#debugging" title="Link to this heading"></a></h1>
+<section id="logs-shells-and-exec">
+<h2>Logs, shells, and exec<a class="headerlink" href="#logs-shells-and-exec" title="Link to this heading"></a></h2>
+<p>Every observation command works locally or with <code class="docutils literal notranslate"><span class="pre">-Target</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span>                     <span class="c1"># last 200 lines</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Follow</span> <span class="o">-</span><span class="n">Tail</span> <span class="mi">1000</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">annotation</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Service</span> <span class="o">&lt;</span><span class="n">service</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">shell</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span>                    <span class="c1"># bash (or sh) in DefaultService</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">corrections</span> <span class="n">exec</span> <span class="o">-</span><span class="n">Service</span> <span class="o">&lt;</span><span class="n">service</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">Target</span> <span class="n">web</span> <span class="o">--</span> <span class="n">printenv</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">shell</span> <span class="o">-</span><span class="n">Target</span> <span class="n">compute</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Target</span> <span class="n">compute</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">config</span></code> validates the merged env and compose files without starting
+anything; <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code> runs it for every stack on the host.</p>
+</section>
+<section id="persistent-logs">
+<h2>Persistent logs<a class="headerlink" href="#persistent-logs" title="Link to this heading"></a></h2>
+<p>Container stdout and stderr go to Docker’s log (<code class="docutils literal notranslate"><span class="pre">logs</span></code> above). Files that must survive a
+<code class="docutils literal notranslate"><span class="pre">rebuild</span></code> go under <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Logs/&lt;stack&gt;/</span></code> (<code class="docutils literal notranslate"><span class="pre">STACK_LOGS_DIR</span></code> in compose):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>: <code class="docutils literal notranslate"><span class="pre">Logs/nornir-build</span></code> is mounted at <code class="docutils literal notranslate"><span class="pre">/var/log/nornir</span></code> and
+<code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT=/var/log/nornir</span></code>, so every <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> session writes its unified log
+there (<code class="docutils literal notranslate"><span class="pre">nornir_shared.misc.SetupLogging</span></code>; see <a class="reference internal" href="../development/logging.html"><span class="doc">Logging convention</span></a>).</p></li>
+<li><p>Viking stacks: whatever their compose file mounts from <code class="docutils literal notranslate"><span class="pre">STACK_LOGS_DIR</span></code>.</p></li>
+</ul>
+<p>Read them on the host (<code class="docutils literal notranslate"><span class="pre">less</span> <span class="pre">/srv/docker/Logs/nornir-build/...</span></code>) or through VS Code
+Remote-SSH.</p>
+</section>
+<section id="health-checks">
+<h2>Health checks<a class="headerlink" href="#health-checks" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">status</span></code> (and <code class="docutils literal notranslate"><span class="pre">up</span></code>, <code class="docutils literal notranslate"><span class="pre">restart</span></code>, <code class="docutils literal notranslate"><span class="pre">rebuild</span></code>) probes the stack’s health URL
+after <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">ps</span></code>. Any answer below HTTP 500 counts as healthy; certificate errors are ignored
+so a staging certificate does not hide a running service.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 24.0%" />
+<col style="width: 76.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Stack</p></th>
+<th class="head"><p>Health URL</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8087/</span></code> (<code class="docutils literal notranslate"><span class="pre">/api/health</span></code> returns <code class="docutils literal notranslate"><span class="pre">{&quot;ok&quot;:</span> <span class="pre">true,</span> <span class="pre">...}</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">http://127.0.0.1/healthz</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://identity.&lt;domain&gt;/.well-known/openid-configuration</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-annotation</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://annotation.&lt;domain&gt;/</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-corrections</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://corrections.&lt;domain&gt;/</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-iis</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://websvc.&lt;domain&gt;/</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code>, <code class="docutils literal notranslate"><span class="pre">viking-certs</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code></p></td>
+<td><p>none (gRPC only, a renewer, an interactive container)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="python-debugpy">
+<h2>Python: debugpy<a class="headerlink" href="#python-debugpy" title="Link to this heading"></a></h2>
+<p>For <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> on <code class="docutils literal notranslate"><span class="pre">compute</span></code>. <code class="docutils literal notranslate"><span class="pre">NORNIR_DEBUGPY=1</span></code> only publishes the port; it does not
+start a listener, and debugpy is <strong>not</strong> baked into the images.</p>
+<ol class="arabic">
+<li><p>In <code class="docutils literal notranslate"><span class="pre">Run/nornir-build/nornir-build.run.env</span></code> on <code class="docutils literal notranslate"><span class="pre">compute</span></code>, enable the port and recreate the
+container (<code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code> then publishes <code class="docutils literal notranslate"><span class="pre">127.0.0.1:&lt;port&gt;</span></code> on the container):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NORNIR_DEBUGPY</span><span class="o">=</span><span class="mi">1</span>
+<span class="c1">#NORNIR_DEBUGPY_PORT=5678</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">rebuild</span> <span class="o">-</span><span class="n">Target</span> <span class="n">compute</span>
+</pre></div>
+</div>
+</li>
+<li><p>In the container, install debugpy and start the command under it.
+<code class="docutils literal notranslate"><span class="pre">nornir_buildmanager.build</span></code> is the module behind the <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">shell</span> <span class="o">-</span><span class="n">Target</span> <span class="n">compute</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">debugpy</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">debugpy</span> <span class="o">--</span><span class="n">listen</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">5678</span> <span class="o">--</span><span class="n">wait</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">client</span> <span class="o">-</span><span class="n">m</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">build</span> <span class="o">&lt;</span><span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">arguments</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>On the dev box, open the tunnel (<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span> <span class="pre">-Target</span> <span class="pre">compute</span></code>; its <code class="docutils literal notranslate"><span class="pre">Tunnels</span></code> entry
+forwards 5678, so change it too if you set <code class="docutils literal notranslate"><span class="pre">NORNIR_DEBUGPY_PORT</span></code>) and attach VS Code to
+<code class="docutils literal notranslate"><span class="pre">localhost:5678</span></code> with this <code class="docutils literal notranslate"><span class="pre">.vscode/launch.json</span></code> entry. <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> and <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> run the packages baked under
+<code class="docutils literal notranslate"><span class="pre">/opt/nornir</span></code>; a <code class="docutils literal notranslate"><span class="pre">-Clone</span></code> session runs them from <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Attach: nornir-build on compute"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"debugpy"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attach"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"connect"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w"> </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5678</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"justMyCode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"pathMappings"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"localRoot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"remoteRoot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/workspace"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"localRoot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"remoteRoot"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/opt/nornir"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Breakpoints bind only when your local checkout is at the commit the container runs
+(<code class="docutils literal notranslate"><span class="pre">-Sync</span></code> deploys keep them equal).</p>
+</li>
+</ol>
+<p>The same attach entry works for the local <code class="docutils literal notranslate"><span class="pre">cursor-dev</span></code> container when you publish 5678 there.
+<code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code> has no debugpy wiring.</p>
+</section>
+<section id="net-remote-debugger">
+<h2>.NET: remote debugger<a class="headerlink" href="#net-remote-debugger" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">web</span></code> tunnel forwards port 4024 for the .NET remote debugger attached to the Identity
+container (published on loopback only). How the Viking images start <code class="docutils literal notranslate"><span class="pre">vsdbg</span></code> and which
+configuration to attach with are in <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/identity.html">Viking identity</a>.</p>
+</section>
+<section id="before-you-change-code">
+<h2>Before you change code<a class="headerlink" href="#before-you-change-code" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Reproduce with <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">logs</span></code> and the persistent log first.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code> explains most start failures (missing keys, secret files, certificate,
+DNS). The full symptom list is <a class="reference internal" href="troubleshooting.html"><span class="doc">Troubleshooting</span></a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ports_and_remote_access.html" class="btn btn-neutral float-left" title="Ports and remote access" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nornir_build_appliance.html" class="btn btn-neutral float-right" title="Build appliance (nornir-build)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

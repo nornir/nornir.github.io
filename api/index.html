@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -123,7 +127,9 @@
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#task-objects">Task Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#pool-lifecycle">Pool lifecycle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#optimization">Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.Any"><code class="docutils literal notranslate"><span class="pre">Any</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.ApplyOSThreadLimit"><code class="docutils literal notranslate"><span class="pre">ApplyOSThreadLimit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.Callable"><code class="docutils literal notranslate"><span class="pre">Callable</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.ClosePools"><code class="docutils literal notranslate"><span class="pre">ClosePools()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.CloseProcessPools"><code class="docutils literal notranslate"><span class="pre">CloseProcessPools()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.CloseThreadPools"><code class="docutils literal notranslate"><span class="pre">CloseThreadPools()</span></code></a></li>
@@ -146,6 +152,8 @@
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.IPool"><code class="docutils literal notranslate"><span class="pre">IPool</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.InstrumentedThreadPoolExecutor"><code class="docutils literal notranslate"><span class="pre">InstrumentedThreadPoolExecutor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.IsParallelPythonAvailable"><code class="docutils literal notranslate"><span class="pre">IsParallelPythonAvailable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.Iterable"><code class="docutils literal notranslate"><span class="pre">Iterable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.Iterator"><code class="docutils literal notranslate"><span class="pre">Iterator</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.MergeProfilerStats"><code class="docutils literal notranslate"><span class="pre">MergeProfilerStats()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.ParamSpec"><code class="docutils literal notranslate"><span class="pre">ParamSpec</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.PoolFactory"><code class="docutils literal notranslate"><span class="pre">PoolFactory</span></code></a></li>
@@ -153,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.Protocol"><code class="docutils literal notranslate"><span class="pre">Protocol</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.ReleaseStagePools"><code class="docutils literal notranslate"><span class="pre">ReleaseStagePools()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.TypeVar"><code class="docutils literal notranslate"><span class="pre">TypeVar</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.WaitOnAllPools"><code class="docutils literal notranslate"><span class="pre">WaitOnAllPools()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.WaitOnProcessPools"><code class="docutils literal notranslate"><span class="pre">WaitOnProcessPools()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.WaitOnThreadPools"><code class="docutils literal notranslate"><span class="pre">WaitOnThreadPools()</span></code></a></li>
@@ -162,6 +171,7 @@
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.init_pool_process"><code class="docutils literal notranslate"><span class="pre">init_pool_process()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.invoke_with_profiler"><code class="docutils literal notranslate"><span class="pre">invoke_with_profiler()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.start_profiling"><code class="docutils literal notranslate"><span class="pre">start_profiling()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_pools.html#nornir_pools.submit_bounded"><code class="docutils literal notranslate"><span class="pre">submit_bounded()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nornir_imageregistration.html"><code class="docutils literal notranslate"><span class="pre">nornir_imageregistration</span></code></a><ul>

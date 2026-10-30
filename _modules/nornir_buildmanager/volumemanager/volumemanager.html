@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../concepts.html">Concepts</a></li>
@@ -160,14 +164,7 @@
             <span class="c1">#    XMLTree = __LoadedVolumeXMLDict__[Filename]</span>
             <span class="c1"># else:</span>
 
-            <span class="c1"># I could use ElementTree.parse here.  However, there was a rare</span>
-            <span class="c1"># bug where saving the file would encounter a permissions error</span>
-            <span class="c1"># loading the file and closing it myself seems to have solved</span>
-            <span class="c1"># the problem</span>
-            <span class="n">RawXML</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Filename</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hFile</span><span class="p">:</span>
-                <span class="n">RawXML</span> <span class="o">=</span> <span class="n">hFile</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">RawXML</span><span class="p">)</span>
+            <span class="n">VolumeRoot</span> <span class="o">=</span> <span class="n">nornir_buildmanager</span><span class="o">.</span><span class="n">volumemanager</span><span class="o">.</span><span class="n">XContainerElementWrapper</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">load_container</span><span class="p">(</span><span class="n">VolumePath</span><span class="p">)</span>
             <span class="c1"># VolumeData = Volumes.CreateFromDOM(XMLTree)</span>
             <span class="c1"># __LoadedVolumeXMLDict__[Filename] = XMLTree</span>
 

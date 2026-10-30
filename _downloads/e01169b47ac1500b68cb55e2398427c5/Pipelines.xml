@@ -2317,10 +2317,11 @@
         </Iterate>
     </Pipeline>
 
-    <Pipeline Name="ExportAnnotationCrops"
+    <Pipeline Name="ExportTrainingData"
+              NoDelete="True"
               Help="Export annotation crops for SAM2 / SA-1B training from OData or a saved OData dump."
-              Description="Ingests Locations via -OData or -Geometries, then writes lossless PNG crops, 1-bit masks, COCO RLE JSON, and optional overlays. Does not modify VolumeData.xml."
-              Epilog="Example: nornir-build ExportAnnotationCrops /data/volume -OData http://host/odata -Output /data/sam2 -Channels TEM -Filters Leveled">
+              Description="Ingests Locations via -OData or -Geometries, then writes lossless PNG crops, 1-bit masks, COCO RLE JSON, and optional overlays. Records the OData service root in source.json, each crop JSON, and annotation_crops.sqlite. Also writes circle_annotations.json, rebuilt from the manifest on every run (including -Update, -Repair, and -Cleanup): version 1, diameter_scale, and grid_cells keyed by manifest imageKey, each entry a circle (location_id, center_x, center_y, radius, structure_label, has_polygon_mask, source) in that crop's pixel space at its downsample, x right and y down from the crop's top-left, unclipped, listed in every crop it overlaps. source is annotated for circle-type annotations (center from MosaicShape, radius from the stored Radius, mosaic pixels at D1) and inscribed for masked polygons (largest circle inside the exterior ring). Radii are the true radius (the file records diameter_scale 1.0); the trainer applies its own prompt scale. Circle annotations are ingested separately and never produce masks. Also writes shapes.jsonl, rebuilt from the ingest spills on every run: per polygon location its structure_id, whether it has a mask, its outline relative to its centroid (D1 mosaic pixels), and the locations Viking links it to within 2 sections on the same structure (one LocationLinks pull, cached in _work and repeated with -Update, -RefreshOData or -Force, or when the set of locations changes). manifest.jsonl rows gain structureIds and linkedIds parallel to locationIds. A volume exported before this existed is brought up to date by running the pipeline again; no crop is restitched. -Repair restitches only crop images missing from the output scan. Export only: section walks set Validate=False and NoDelete forces the process no-delete flag so Clean() cannot remove volume inputs. Stale products under -Output may still be replaced."
+              Epilog="Example: nornir-build ExportTrainingData /data/volume -OData http://host/odata -Output /data/sam2 -Channels TEM -Filters Leveled">
         <Arguments>
             <Argument flag="-OData" dest="OData"
                       help="Connectome OData V4 service root. Exactly one of -OData or -Geometries is required."
@@ -2329,11 +2330,29 @@
                       help="Saved OData Locations dump (JSONL, {value:[]}, or concatenated page documents). Exactly one of -OData or -Geometries is required."
                       required="False"/>
             <Argument flag="-ODataFilter" dest="ODataFilter"
-                      help="Override $filter only. Default selects closed polygons on Cell types including subtypes."
+                      help="Override $filter only. When set, -StructureTypeId is ignored. Default selects closed polygons on Cell types including subtypes."
+                      required="False"/>
+            <Argument flag="-StructureTypeId" dest="StructureTypeId" type="IntegerList"
+                      help="Exact Parent/TypeID values for closed polygons. One id or a list, same syntax as -Sections (1,3,5-7). No subtype expansion. Omitted keeps the Cell-plus-subtypes default. Overridden by -ODataFilter."
                       required="False"/>
             <Argument flag="-Output" dest="OutputPath"
-                      help="Directory for PNG crops, JSON, masks, overlays, and _work cache"
-                      required="True"/>
+                      help="Directory for PNG crops, JSON, masks, overlays, and circle_annotations.json. The re-run cache is kept beside it in ../_work_cache/&lt;output folder name&gt;. Optional: defaults to AnnotationCrops inside the volume folder."
+                      required="False"/>
+            <Argument flag="-VolumeName" dest="VolumeName"
+                      help="Name of the volume in the manifest, image keys and links. Optional: defaults to the VikingXML's Name, then to the name of the annotation server (-OData). Required when neither names the volume."
+                      required="False"/>
+            <Argument flag="-VikingXML" dest="VikingXML"
+                      help="Export a volume on another server: URL or file of its VikingXML. Tiles are fetched over HTTP into a cache folder and checked against the server before reuse; no local Nornir volume is needed (the volume path may be an empty folder). Combine with -OData for that lab's annotations. Their endpoints must be open: no credentials are sent."
+                      required="False"/>
+            <Argument flag="-TileHost" dest="TileHost"
+                      help="With -VikingXML: base URL for tiles, replacing the VikingXML's host/path."
+                      required="False"/>
+            <Argument flag="-TileCache" dest="TileCache"
+                      help="With -VikingXML: folder for the fetched-tile cache. Default is remote_tiles in ../_work_cache/&lt;output folder name&gt; beside -Output."
+                      required="False"/>
+            <Argument flag="-TileRevalidate" dest="TileRevalidate" default="once"
+                      help="With -VikingXML: how often cached tiles are checked against the server. once = each level once per run (default), always, never, or a number of hours. A VikingXML unchanged since the last run skips the check."
+                      required="False"/>
             <Argument flag="-Channels" dest="Channels" default="TEM"
                       help="Regular expression for the channel that owns the tileset"
                       required="False"/>
@@ -2375,33 +2394,70 @@
             <Argument flag="-Force" dest="Force" action="store_true"
                       help="Full rebuild: refetch OData MosaicShape and restitch every crop even when watermarks match."/>
             <Argument flag="-RefreshOData" dest="RefreshOData" action="store_true"
-                      help="Refetch OData MosaicShape into Output/_work, then update masks and JSON (and restitch only where crop windows changed). Unchanged crops are skipped."/>
+                      help="Refetch OData MosaicShape into the work folder, then update masks and JSON (and restitch only where crop windows changed). Unchanged crops are skipped."/>
             <Argument flag="-FailMissingTileset" dest="FailMissingTileset" action="store_true"
                       help="Fail instead of skipping a section whose filter has no Tileset/level."/>
-            <Argument flag="-NoOverlay" dest="NoOverlay" action="store_true"
-                      help="Skip QA overlay PNGs (TEM + Viking HCL hue, TEM luma). SAM2 does not use them."/>
+            <Argument flag="-Overlay" dest="Overlay" action="store_true"
+                      help="Also write QA overlay PNGs (overlays/{imageKey}.png). Off by default: the gallery draws overlays itself and SAM2 does not use them. overlays/parts/{locationId}.json is always written; the parts PNGs are written only with this flag."/>
             <Argument flag="-Cleanup" dest="Cleanup" action="store_true"
                       help="Audit and repair corrupt AnnotationCrops products. Does not ingest OData or restitch."/>
+            <Argument flag="-Update" dest="Update" action="store_true"
+                      help="ID-set delta: delete masks for locations that no longer match, mask or stitch newly added locations, and remask survivors whose LastModified changed inside their existing crop. Other survivor masks and TEM crops are left alone. Incompatible with -Force."/>
+            <Argument flag="-SetVersion" dest="SetVersion"
+                      help="The training set this export belongs to: v2, or v2.1 for a repopulated or tweaked v2 made with the same creation rules. Written to training_set.json in -Output. Omitted keeps the set already named there. Refused when the creation rules changed since that set number was started: new rules are a new set number (v3), not a new revision. Sets and models have separate version numbers."
+                      required="False"/>
+            <Argument flag="-ParentSet" dest="ParentSet"
+                      help="The earlier set this one revises or derives from (for example v2 for -SetVersion v3). A revision such as v2.1 defaults to v2. Needs -SetVersion."
+                      required="False"/>
+            <Argument flag="-SetDescription" dest="SetDescription"
+                      help="Free text about the set, kept in training_set.json. Omitted keeps the description already there; an operator may also edit the file."
+                      required="False"/>
+            <Argument flag="-Repair" dest="Repair" action="store_true"
+                      help="Restitch crop images that are missing from -Output. Uses one images/ directory scan, then writes only those files. Other crops in the section are left alone. Does not refetch OData. Incompatible with -Force, -Update, -RefreshOData, and -Cleanup."/>
         </Arguments>
+
+        <PythonCall Function="segmentationtraining.CheckTrainingSet"
+                    OutputPath="#OutputPath"
+                    OData="#OData"
+                    Geometries="#Geometries"
+                    VikingXML="#VikingXML"
+                    ODataFilter="#ODataFilter"
+                    StructureTypeId="#StructureTypeId"
+                    Channels="#Channels"
+                    Filters="#Filters"
+                    Downsample="#Downsample"
+                    Exporter="#Exporter"
+                    Pad="#Pad"
+                    MaxTexture="#MaxTexture"
+                    MinProcessPixels="#MinProcessPixels"
+                    IncludeOffEdge="#IncludeOffEdge"
+                    SetVersion="#SetVersion"
+                    ParentSet="#ParentSet"
+                    SetDescription="#SetDescription"
+                    Cleanup="#Cleanup"
+                    Repair="#Repair"/>
 
         <PythonCall Function="segmentationtraining.IngestGeometries"
                     OutputPath="#OutputPath"
                     OData="#OData"
                     Geometries="#Geometries"
                     ODataFilter="#ODataFilter"
+                    StructureTypeId="#StructureTypeId"
                     Sections="#Sections"
                     IncludeOffEdge="#IncludeOffEdge"
                     Force="#Force"
                     RefreshOData="#RefreshOData"
+                    Update="#Update"
+                    Repair="#Repair"
                     Cleanup="#Cleanup"/>
 
-        <Iterate VariableName="section_node" XPath="Block/Section" SortAttribute="Number">
+        <Iterate VariableName="section_node" XPath="Block/Section" SortAttribute="Number" Validate="False" AllowEmpty="True">
             <RequireSetMembership Attribute="Number" List="#Sections"/>
 
-            <Iterate VariableName="ChannelNode" XPath="Channel">
+            <Iterate VariableName="ChannelNode" XPath="Channel" Validate="False" AllowEmpty="True">
                 <RequireMatch Attribute="Name" RegEx="#Channels"/>
 
-                <Iterate VariableName="FilterNode" XPath="Filter">
+                <Iterate VariableName="FilterNode" XPath="Filter" Validate="False" AllowEmpty="True">
                     <RequireMatch Attribute="Name" RegEx="#Filters"/>
 
                     <PythonCall Function="segmentationtraining.ExportSectionCrops"
@@ -2422,21 +2478,82 @@
                                 StageTiles="#StageTiles"
                                 Force="#Force"
                                 RefreshOData="#RefreshOData"
+                                Update="#Update"
+                                Repair="#Repair"
                                 FailMissingTileset="#FailMissingTileset"
-                                NoOverlay="#NoOverlay"
+                                Overlay="#Overlay"
+                                VolumeName="#VolumeName"
                                 Cleanup="#Cleanup"/>
                 </Iterate>
             </Iterate>
         </Iterate>
+
+        <PythonCall Function="segmentationtraining.ExportRemoteSections"
+                    OutputPath="#OutputPath"
+                    VikingXML="#VikingXML"
+                    TileHost="#TileHost"
+                    TileCache="#TileCache"
+                    TileRevalidate="#TileRevalidate"
+                    Sections="#Sections"
+                    Channels="#Channels"
+                    Filters="#Filters"
+                    Pad="#Pad"
+                    Downsample="#Downsample"
+                    Exporter="#Exporter"
+                    MaxTexture="#MaxTexture"
+                    MaxTiles="#MaxTiles"
+                    MinProcessPixels="#MinProcessPixels"
+                    IncludeOffEdge="#IncludeOffEdge"
+                    Workers="#Workers"
+                    MaskWorkers="#MaskWorkers"
+                    Force="#Force"
+                    RefreshOData="#RefreshOData"
+                    Update="#Update"
+                    Repair="#Repair"
+                    FailMissingTileset="#FailMissingTileset"
+                    Overlay="#Overlay"
+                    VolumeName="#VolumeName"
+                    Cleanup="#Cleanup"/>
 
         <PythonCall Function="segmentationtraining.CleanupAnnotationCrops"
                     OutputPath="#OutputPath"
                     Sections="#Sections"
                     Cleanup="#Cleanup"/>
 
+        <PythonCall Function="segmentationtraining.WriteCircleAnnotations"
+                    OutputPath="#OutputPath"/>
+
+        <PythonCall Function="segmentationtraining.WriteLocationShapes"
+                    OutputPath="#OutputPath"
+                    RefreshOData="#RefreshOData"
+                    Update="#Update"
+                    Force="#Force"/>
+
         <PythonCall Module="nornir_buildmanager.operations.segmentationtraining.sam2"
                     Function="WriteGallery"
-                    OutputPath="#OutputPath"/>
+                    OutputPath="#OutputPath"
+                    Repair="#Repair"/>
+
+        <PythonCall Function="segmentationtraining.WriteTrainingSetInfo"
+                    OutputPath="#OutputPath"
+                    OData="#OData"
+                    Geometries="#Geometries"
+                    VikingXML="#VikingXML"
+                    ODataFilter="#ODataFilter"
+                    StructureTypeId="#StructureTypeId"
+                    Channels="#Channels"
+                    Filters="#Filters"
+                    Downsample="#Downsample"
+                    Exporter="#Exporter"
+                    Pad="#Pad"
+                    MaxTexture="#MaxTexture"
+                    MinProcessPixels="#MinProcessPixels"
+                    IncludeOffEdge="#IncludeOffEdge"
+                    SetVersion="#SetVersion"
+                    ParentSet="#ParentSet"
+                    SetDescription="#SetDescription"
+                    Cleanup="#Cleanup"
+                    Repair="#Repair"/>
     </Pipeline>
 
     <Pipeline Name="RepairAnnotationOverlays"
@@ -2445,7 +2562,7 @@
               Epilog="Example: nornir-build RepairAnnotationOverlays /data/volume -Output /data/volume/AnnotationCrops">
         <Arguments>
             <Argument flag="-Output" dest="OutputPath"
-                      help="Directory that already contains images/, masks/, and optional _work watermarks"
+                      help="Directory that already contains images/, masks/, and optional watermarks in the work folder"
                       required="True"/>
             <Argument flag="-Sections" dest="Sections" type="IntegerList"
                       help="Section numbers to repair. Omitted means every Z with a watermark, else every crop image."

@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build dashboard (nornir-dashboard) &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="Programmer shell and Cursor worker" href="nornir_dev_and_worker.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#start-rebuild-stop">Start, rebuild, stop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-env">Run env</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#publishers">Publishers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#history-and-logs">History and logs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/dashboard.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-dashboard-nornir-dashboard">
+<h1>Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)<a class="headerlink" href="#build-dashboard-nornir-dashboard" title="Link to this heading"></a></h1>
+<p>Mosquitto plus the <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code> web UI, for live MQTT telemetry from <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> on
+the same machine. Sources are the <code class="docutils literal notranslate"><span class="pre">nornir-builddashboard</span></code> submodule; the Docker image and the
+compose service are named <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>. Compose file:
+<code class="docutils literal notranslate"><span class="pre">nornir-docker/compose.dashboard.yaml</span></code> (fixed project name <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>, so volumes and
+the <code class="docutils literal notranslate"><span class="pre">nornir-dashboard_default</span></code> network are the same from any directory).</p>
+<section id="start-rebuild-stop">
+<h2>Start, rebuild, stop<a class="headerlink" href="#start-rebuild-stop" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">up</span>            <span class="c1"># start-dashboard.ps1</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">rebuild</span>       <span class="c1"># start-dashboard.ps1 -Rebuild</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">down</span>          <span class="c1"># start-dashboard.ps1 -Down</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">status</span>        <span class="c1"># compose ps + http://127.0.0.1:8087/</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">nornir</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Follow</span>
+</pre></div>
+</div>
+<p>Add <code class="docutils literal notranslate"><span class="pre">-Target</span> <span class="pre">compute</span></code> for the server. <code class="docutils literal notranslate"><span class="pre">rebuild</span></code> rebuilds the image from local
+<code class="docutils literal notranslate"><span class="pre">nornir-builddashboard</span></code> sources and recreates <strong>only</strong> the dashboard container; Mosquitto keeps
+running, so retained run metadata survives. For a clean layer rebuild run
+<code class="docutils literal notranslate"><span class="pre">.\nornir-docker\start-dashboard.ps1</span> <span class="pre">-Rebuild</span> <span class="pre">-NoCache</span></code>. Hard-refresh the browser afterwards
+(the UI also reloads <code class="docutils literal notranslate"><span class="pre">/api/runs</span></code> when its WebSocket reconnects). Progress published while the
+dashboard was down is not replayed; the run reappears from SQLite and the retained MQTT metadata.</p>
+<p>If the submodule is missing, <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code> initializes it when a local image build is
+needed (or run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span> <span class="pre">nornir-builddashboard</span></code>).</p>
+<p>The UI is at <a class="reference external" href="http://127.0.0.1:8087">http://127.0.0.1:8087</a>. On a server, open it through
+<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span> <span class="pre">-Target</span> <span class="pre">compute</span></code>.</p>
+</section>
+<section id="run-env">
+<h2>Run env<a class="headerlink" href="#run-env" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Run/nornir-dashboard/nornir-dashboard.run.env</span></code>, from
+<code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/examples/example.nornir-dashboard.run.env</span></code>. <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code> falls
+back to the legacy name <code class="docutils literal notranslate"><span class="pre">dashboard.run.env</span></code>. Secrets (the token) go in
+<code class="docutils literal notranslate"><span class="pre">Run/nornir-dashboard/secrets/secrets.env</span></code>; <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> merges both
+(<a class="reference internal" href="host_layout.html"><span class="doc">Host layout</span></a>).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 36.0%" />
+<col style="width: 18.0%" />
+<col style="width: 46.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_BIND_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code></p></td>
+<td><p>Host address for the published UI port 8087.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_BIND_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code></p></td>
+<td><p>Host address for the published broker port 1883 (template and compose default). Keep it
+on loopback: the broker has no authentication, and on Linux published ports bypass ufw.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_TOKEN</span></code></p></td>
+<td><p>unset</p></td>
+<td><p>When set, every <code class="docutils literal notranslate"><span class="pre">/api/*</span></code> request and the WebSocket must present it. Required before
+widening <code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_BIND_HOST</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_ALLOW_DELETE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> refuses <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/api/runs/{run_id}</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_MAX_EVENTS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Max retained events per run in SQLite (<code class="docutils literal notranslate"><span class="pre">0</span></code> = unlimited, no prune).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_RETENTION_DAYS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">30</span></code></p></td>
+<td><p>Delete runs with no activity for this many days (<code class="docutils literal notranslate"><span class="pre">0</span></code> disables).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_STALE_AFTER</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">600</span></code></p></td>
+<td><p>Seconds without traffic before a running build shows as stale (<code class="docutils literal notranslate"><span class="pre">&lt;=0</span></code> falls back to 600).</p></td>
+</tr>
+</tbody>
+</table>
+<p>Set inside the container by the compose file (change only when running the dashboard outside
+Docker): <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code> (<code class="docutils literal notranslate"><span class="pre">mosquitto</span></code>; app default <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>), <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_PORT</span></code>
+(<code class="docutils literal notranslate"><span class="pre">1883</span></code>), <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_RUN_TOPIC_ROOT</span></code> (<code class="docutils literal notranslate"><span class="pre">nornir/run</span></code>), <code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_HOST</span></code>
+(<code class="docutils literal notranslate"><span class="pre">0.0.0.0</span></code>; app default <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>), <code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_PORT</span></code> (<code class="docutils literal notranslate"><span class="pre">8087</span></code>),
+<code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_DB</span></code> (<code class="docutils literal notranslate"><span class="pre">/data/nornir-dashboard.db</span></code> on the <code class="docutils literal notranslate"><span class="pre">dashboard-data</span></code> volume). The app
+also reads <code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_STALE_SWEEP_INTERVAL</span></code> (<code class="docutils literal notranslate"><span class="pre">60</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_RETENTION_SWEEP_INTERVAL</span></code> (<code class="docutils literal notranslate"><span class="pre">86400</span></code>). Malformed numbers log a warning and use
+the default.</p>
+<p>Generate the token with <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">secrets</span> <span class="pre">new</span> <span class="pre">nornir-dashboard</span></code> (<a class="reference internal" href="accounts_and_tokens.html"><span class="doc">Accounts and tokens</span></a>). Clients send it as <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code>, an
+<code class="docutils literal notranslate"><span class="pre">X-Dashboard-Token</span></code> header, or <code class="docutils literal notranslate"><span class="pre">?token=</span></code>; open <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8087/?token=&lt;token&gt;</span></code> once
+and the page keeps it for the session. <code class="docutils literal notranslate"><span class="pre">/</span></code>, <code class="docutils literal notranslate"><span class="pre">/static/*</span></code> and <code class="docutils literal notranslate"><span class="pre">/api/health</span></code> are not gated.</p>
+</section>
+<section id="publishers">
+<h2>Publishers<a class="headerlink" href="#publishers" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> joins the <code class="docutils literal notranslate"><span class="pre">nornir-dashboard_default</span></code> network and publishes to
+<code class="docutils literal notranslate"><span class="pre">mosquitto:1883</span></code> (<a class="reference internal" href="nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>); cursor-dev publishes to
+<code class="docutils literal notranslate"><span class="pre">host.docker.internal:1883</span></code>. Start the dashboard first so the network exists. Topics are
+<code class="docutils literal notranslate"><span class="pre">nornir/run/{run_id}/...</span></code> (<code class="docutils literal notranslate"><span class="pre">meta</span></code> retained, <code class="docutils literal notranslate"><span class="pre">log/&lt;level&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">progress</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code>,
+<code class="docutils literal notranslate"><span class="pre">event</span></code>).</p>
+</section>
+<section id="history-and-logs">
+<h2>History and logs<a class="headerlink" href="#history-and-logs" title="Link to this heading"></a></h2>
+<p>SQLite keeps run summaries and events, so past runs stay visible after the build exits or the
+broker restarts. <code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_MAX_EVENTS</span></code> caps events per run; whole runs age out after
+<code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_RETENTION_DAYS</span></code>. Pruned events are gone from the dashboard; the full session
+log stays under <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> (<code class="docutils literal notranslate"><span class="pre">Logs/nornir-build</span></code> on the host).</p>
+<p>The log pane loads the newest page first and pages back with <strong>Load older</strong> or scrolling. Search
+and the level checkboxes (errors, warnings, info, debug, events, status) run on the server
+against all retained events, and also filter live matches and <strong>Download logs</strong>
+(<code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/runs/{run_id}/events/export</span></code>).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">up</span></code> fails with “attempt to write a readonly database”, the data volume was created by a
+root container; <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code> re-owns <code class="docutils literal notranslate"><span class="pre">nornir-dashboard_dashboard-data</span></code> to uid 10001
+on each start, so run <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-dashboard</span> <span class="pre">up</span></code> again.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nornir_dev_and_worker.html" class="btn btn-neutral float-left" title="Programmer shell and Cursor worker" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="troubleshooting.html" class="btn btn-neutral float-right" title="Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

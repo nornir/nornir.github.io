@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -114,7 +118,7 @@
 <li><p>When hot data must leave the NAS, stage it on local SSD under <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> (or the configured Nornir temp root). Budget 512 GB to 1 TB of scratch when the algorithm needs a large local cache. Do not assume <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> is unlimited.</p></li>
 <li><p>Plan on about 2 GB of RAM per CPU core, sometimes about 3 GB per core. Size pools so the working set fits. Heavy paging is a failure mode for hot loops, even when the page file is on SSD.</p></li>
 <li><p>Typical GPUs are Ada RTX 4500 class or better. A GPU path still has to pay for host-to-device copies. See <a class="reference internal" href="gpu.html"><span class="doc">CPU and GPU</span></a>.</p></li>
-<li><p>Containers that assemble tiles on CIFS set <code class="docutils literal notranslate"><span class="pre">nofile</span></code> to 65536. See <a class="reference internal" href="../docker/remote_deployment.html"><span class="doc">Remote build appliance</span></a>.</p></li>
+<li><p>Containers that assemble tiles on CIFS set <code class="docutils literal notranslate"><span class="pre">nofile</span></code> to 65536. See <a class="reference internal" href="../deployment/nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>.</p></li>
 </ul>
 <p>Before adding a new parallel stage, check four things: it does not issue a storm of small NAS reads; any <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> use states how much disk it needs; worker count times working set fits the RAM guideline; a GPU version is faster after transfer cost, not only in a device-only timer.</p>
 </section>

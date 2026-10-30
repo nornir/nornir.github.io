@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ports and remote access &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Debugging" href="debugging.html" />
+    <link rel="prev" title="Accounts and tokens" href="accounts_and_tokens.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ports and remote access</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#firewall-request">Firewall request</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-and-ufw-on-linux">Docker and ufw on Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ssh-keys">SSH keys</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#windows-openssh-iis">Windows OpenSSH (<code class="docutils literal notranslate"><span class="pre">iis</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tunnels">Tunnels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vs-code-remote-ssh">VS Code Remote-SSH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker-contexts">Docker contexts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tailscale-optional">Tailscale (optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Ports and remote access</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/ports_and_remote_access.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ports-and-remote-access">
+<h1>Ports and remote access<a class="headerlink" href="#ports-and-remote-access" title="Link to this heading"></a></h1>
+<section id="firewall-request">
+<span id="deploy-firewall-request"></span><h2>Firewall request<a class="headerlink" href="#firewall-request" title="Link to this heading"></a></h2>
+<p>Send this table to Pitt IT. “Campus/VPN” means the Pitt campus network and the Pitt VPN
+(GlobalProtect); Pitt typically requires the VPN for SSH from off campus (confirm with Pitt IT).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 18.0%" />
+<col style="width: 22.0%" />
+<col style="width: 48.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Host</p></th>
+<th class="head"><p>Port</p></th>
+<th class="head"><p>Allow from</p></th>
+<th class="head"><p>Why</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p>22/tcp</p></td>
+<td><p>campus/VPN</p></td>
+<td><p>SSH for deploys (<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">-Target</span> <span class="pre">web</span></code>), key-only</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p>80/tcp</p></td>
+<td><p>internet</p></td>
+<td><p>Let’s Encrypt HTTP-01 validation and http-to-https redirect. Only needed for
+<code class="docutils literal notranslate"><span class="pre">TLS_MODE=letsencrypt</span></code>; otherwise campus only or closed.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p>443/tcp</p></td>
+<td><p>internet</p></td>
+<td><p>Every public Viking name (SNI passthrough)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<td><p>22/tcp</p></td>
+<td><p>campus/VPN</p></td>
+<td><p>SSH for deploys and tunnels</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<td><p>40443/tcp, 40444/tcp, 40445-40447/tcp</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> only</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code> servers (default model and demo on 40443-40444; the <code class="docutils literal notranslate"><span class="pre">models</span></code>
+profile’s v3 / v4 / sem-v1 on 40445-40447), reached by the proxy</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<td><p>445/tcp outbound</p></td>
+<td><p>to the NAS</p></td>
+<td><p>CIFS mounts for <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
+<td><p>443/tcp</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> only</p></td>
+<td><p>IIS sites behind <code class="docutils literal notranslate"><span class="pre">websvc.&lt;domain&gt;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
+<td><p>22/tcp</p></td>
+<td><p>campus/VPN</p></td>
+<td><p>Windows OpenSSH for <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">-Target</span> <span class="pre">iis</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>SQL Server</p></td>
+<td><p>1433/tcp</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> and <code class="docutils literal notranslate"><span class="pre">iis</span></code> only</p></td>
+<td><p>Identity, annotation, and IIS databases</p></td>
+</tr>
+</tbody>
+</table>
+<p>Never open these to the network; reach them through an SSH tunnel:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 78.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Port</p></th>
+<th class="head"><p>Service</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1883</p></td>
+<td><p>Mosquitto (dashboard broker; unauthenticated)</p></td>
+</tr>
+<tr class="row-odd"><td><p>8087</p></td>
+<td><p>Build dashboard</p></td>
+</tr>
+<tr class="row-even"><td><p>4024</p></td>
+<td><p>.NET remote debugger (vsdbg)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5678</p></td>
+<td><p>debugpy</p></td>
+</tr>
+<tr class="row-even"><td><p>81</p></td>
+<td><p>Nginx Proxy Manager admin UI (old layout; removed)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2375 / 2376</p></td>
+<td><p>Docker daemon API</p></td>
+</tr>
+<tr class="row-even"><td><p>5985 / 5986</p></td>
+<td><p>WinRM</p></td>
+</tr>
+<tr class="row-odd"><td><p>3389</p></td>
+<td><p>Remote Desktop (use it over the VPN or an SSH tunnel if at all)</p></td>
+</tr>
+</tbody>
+</table>
+<p>The service ports on <code class="docutils literal notranslate"><span class="pre">web</span></code> (Identity 5001/6001/4001, annotation 5010/5011, corrections
+41080/41443, the Sam2Trainer annotation gallery 8442) are internal: the proxy reaches them on the
+host. They are not part of the firewall request. Viking’s per-port table is
+<a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/ports_and_remote_access.html">Viking ports and remote access</a>.</p>
+</section>
+<section id="docker-and-ufw-on-linux">
+<h2>Docker and ufw on Linux<a class="headerlink" href="#docker-and-ufw-on-linux" title="Link to this heading"></a></h2>
+<p>Ports published by Docker (<code class="docutils literal notranslate"><span class="pre">ports:</span></code> in compose, <code class="docutils literal notranslate"><span class="pre">-p</span></code> in <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code>) are inserted into
+iptables ahead of ufw’s rules, so <strong>ufw does not filter them</strong>. Two rules follow:</p>
+<ul class="simple">
+<li><p>Internal ports are published on <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> only (the dashboard and broker templates do this:
+<code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_BIND_HOST=127.0.0.1</span></code>, <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_BIND_HOST=127.0.0.1</span></code>). Do not widen
+them.</p></li>
+<li><p>Ports another host must reach are filtered in the <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code> chain, which Docker evaluates
+before its own rules and never rewrites.</p></li>
+</ul>
+<p>On <code class="docutils literal notranslate"><span class="pre">compute</span></code>, allow only <code class="docutils literal notranslate"><span class="pre">web</span></code> to reach the segmentation ports. Replace the interface name
+(<code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">-br</span> <span class="pre">link</span></code>) and the address of <code class="docutils literal notranslate"><span class="pre">web</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EXT_IF</span><span class="o">=</span><span class="n">eno1</span>
+<span class="n">WEB_IP</span><span class="o">=</span><span class="mf">203.0.113.10</span>
+<span class="c1"># Inserted in reverse order: the ACCEPT ends up above the DROP.</span>
+<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">I</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">i</span> <span class="s2">"$EXT_IF"</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">m</span> <span class="n">conntrack</span> <span class="o">--</span><span class="n">ctorigdstport</span> <span class="mi">40443</span><span class="p">:</span><span class="mi">40447</span> <span class="o">--</span><span class="n">ctdir</span> <span class="n">ORIGINAL</span> <span class="o">-</span><span class="n">j</span> <span class="n">DROP</span>
+<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">I</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">i</span> <span class="s2">"$EXT_IF"</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">s</span> <span class="s2">"$WEB_IP"</span> <span class="o">-</span><span class="n">m</span> <span class="n">conntrack</span> <span class="o">--</span><span class="n">ctorigdstport</span> <span class="mi">40443</span><span class="p">:</span><span class="mi">40447</span> <span class="o">--</span><span class="n">ctdir</span> <span class="n">ORIGINAL</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">L</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">v</span> <span class="o">--</span><span class="n">line</span><span class="o">-</span><span class="n">numbers</span>
+
+<span class="c1"># Keep the rules across reboots</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">iptables</span><span class="o">-</span><span class="n">persistent</span>
+<span class="n">sudo</span> <span class="n">netfilter</span><span class="o">-</span><span class="n">persistent</span> <span class="n">save</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--ctorigdstport</span></code> matches the port the client connected to, before Docker’s DNAT, so the rule
+holds even if the container port differs from the host port. <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code> prints a
+reminder when ufw is installed.</p>
+</section>
+<section id="ssh-keys">
+<h2>SSH keys<a class="headerlink" href="#ssh-keys" title="Link to this heading"></a></h2>
+<p>On the dev box (Windows OpenSSH client, PowerShell):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ssh-keygen -t ed25519 -C "deploy from &lt;your name&gt;"
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh deploy@compute.connectomes.pitt.edu "mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys &amp;&amp; chmod 600 ~/.ssh/authorized_keys"
+ssh deploy@compute.connectomes.pitt.edu true      # must not prompt for a password
+</pre></div>
+</div>
+<p>Then turn off password login on each Ubuntu server (the script refuses if <code class="docutils literal notranslate"><span class="pre">authorized_keys</span></code> is
+empty):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">bash</span> <span class="n">bootstrap</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">harden</span><span class="o">-</span><span class="n">ssh</span>
+</pre></div>
+</div>
+<p>Optional <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code> aliases make <code class="docutils literal notranslate"><span class="pre">targets.psd1</span></code> shorter and work for VS Code too:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Host</span> <span class="n">compute</span>
+    <span class="n">HostName</span> <span class="n">compute</span><span class="o">.</span><span class="n">connectomes</span><span class="o">.</span><span class="n">pitt</span><span class="o">.</span><span class="n">edu</span>
+    <span class="n">User</span> <span class="n">deploy</span>
+    <span class="n">IdentityFile</span> <span class="o">~/.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_ed25519</span>
+<span class="n">Host</span> <span class="n">web</span>
+    <span class="n">HostName</span> <span class="n">web</span><span class="o">.</span><span class="n">connectomes</span><span class="o">.</span><span class="n">pitt</span><span class="o">.</span><span class="n">edu</span>
+    <span class="n">User</span> <span class="n">deploy</span>
+</pre></div>
+</div>
+<p>The servers do not need keys on each other: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span> <span class="pre">-From</span> <span class="pre">web</span></code> runs on the dev
+box. Only if you run <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">push</span></code> on <code class="docutils literal notranslate"><span class="pre">web</span></code> itself (for example from cron) does <code class="docutils literal notranslate"><span class="pre">web</span></code> need a
+key on <code class="docutils literal notranslate"><span class="pre">compute</span></code> and <code class="docutils literal notranslate"><span class="pre">iis</span></code> and its own <code class="docutils literal notranslate"><span class="pre">targets.psd1</span></code>.</p>
+<section id="windows-openssh-iis">
+<span id="deploy-windows-openssh"></span><h3>Windows OpenSSH (<code class="docutils literal notranslate"><span class="pre">iis</span></code>)<a class="headerlink" href="#windows-openssh-iis" title="Link to this heading"></a></h3>
+<p>In an elevated PowerShell on the IIS host (PowerShell 7 must already be installed):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Add</span><span class="o">-</span><span class="n">WindowsCapability</span> <span class="o">-</span><span class="n">Online</span> <span class="o">-</span><span class="n">Name</span> <span class="n">OpenSSH</span><span class="o">.</span><span class="n">Server</span><span class="o">~~~~</span><span class="mf">0.0.1.0</span>
+<span class="n">Set</span><span class="o">-</span><span class="n">Service</span> <span class="n">sshd</span> <span class="o">-</span><span class="n">StartupType</span> <span class="n">Automatic</span>
+<span class="n">Start</span><span class="o">-</span><span class="n">Service</span> <span class="n">sshd</span>
+<span class="n">New</span><span class="o">-</span><span class="n">ItemProperty</span> <span class="o">-</span><span class="n">Path</span> <span class="s1">'HKLM:\SOFTWARE\OpenSSH'</span> <span class="o">-</span><span class="n">Name</span> <span class="n">DefaultShell</span> <span class="o">-</span><span class="n">Value</span> <span class="s1">'C:\Program Files\PowerShell</span><span class="se">\7</span><span class="s1">\pwsh.exe'</span> <span class="o">-</span><span class="n">PropertyType</span> <span class="n">String</span> <span class="o">-</span><span class="n">Force</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> sends PowerShell syntax to Windows targets, so <code class="docutils literal notranslate"><span class="pre">DefaultShell</span></code> must be <code class="docutils literal notranslate"><span class="pre">pwsh</span></code>.
+For an account in the Administrators group, keys go in
+<code class="docutils literal notranslate"><span class="pre">C:\ProgramData\ssh\administrators_authorized_keys</span></code> (not the user profile), with an ACL that
+only Administrators and SYSTEM can read:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">icacls</span> <span class="n">C</span><span class="p">:</span>\<span class="n">ProgramData</span>\<span class="n">ssh</span>\<span class="n">administrators_authorized_keys</span> <span class="o">/</span><span class="n">inheritance</span><span class="p">:</span><span class="n">r</span> <span class="o">/</span><span class="n">grant</span> <span class="s2">"Administrators:F"</span> <span class="o">/</span><span class="n">grant</span> <span class="s2">"SYSTEM:F"</span>
+</pre></div>
+</div>
+<p>Set <code class="docutils literal notranslate"><span class="pre">PasswordAuthentication</span> <span class="pre">no</span></code> in <code class="docutils literal notranslate"><span class="pre">C:\ProgramData\ssh\sshd_config</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Restart-Service</span> <span class="pre">sshd</span></code> once key login works.</p>
+</section>
+</section>
+<section id="tunnels">
+<h2>Tunnels<a class="headerlink" href="#tunnels" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span> <span class="pre">-Target</span> <span class="pre">&lt;name&gt;</span></code> opens every forward in that target’s <code class="docutils literal notranslate"><span class="pre">Tunnels</span></code> list and
+holds it until Ctrl+C. The template defines:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14.0%" />
+<col style="width: 30.0%" />
+<col style="width: 56.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Target</p></th>
+<th class="head"><p>Forward</p></th>
+<th class="head"><p>Use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">8087:127.0.0.1:8087</span></code></p></td>
+<td><p>Build dashboard at <a class="reference external" href="http://127.0.0.1:8087">http://127.0.0.1:8087</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5678:127.0.0.1:5678</span></code></p></td>
+<td><p>debugpy (<a class="reference internal" href="debugging.html"><span class="doc">Debugging</span></a>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4024:127.0.0.1:4024</span></code></p></td>
+<td><p>Identity .NET remote debugger</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1433:&lt;sql-host&gt;:1433</span></code></p></td>
+<td><p>SQL Server as seen from <code class="docutils literal notranslate"><span class="pre">web</span></code> (for SSMS / Azure Data Studio on the dev box)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Plain <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-L</span></code> works the same way: <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-N</span> <span class="pre">-L</span> <span class="pre">8087:127.0.0.1:8087</span> <span class="pre">deploy&#64;compute.connectomes.pitt.edu</span></code>.</p>
+</section>
+<section id="vs-code-remote-ssh">
+<h2>VS Code Remote-SSH<a class="headerlink" href="#vs-code-remote-ssh" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Install the <strong>Remote - SSH</strong> and <strong>Dev Containers</strong> extensions.</p></li>
+<li><p><strong>Remote-SSH: Connect to Host…</strong> <code class="docutils literal notranslate"><span class="pre">deploy&#64;compute.connectomes.pitt.edu</span></code> (or the alias), open
+<code class="docutils literal notranslate"><span class="pre">/srv/src/nornir</span></code> or <code class="docutils literal notranslate"><span class="pre">/srv/docker/Run</span></code> to edit env files in place.</p></li>
+<li><p>To work inside a running container (for example <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>): <strong>Dev Containers: Attach to
+Running Container…</strong> from the Remote-SSH window.</p></li>
+</ol>
+</section>
+<section id="docker-contexts">
+<h2>Docker contexts<a class="headerlink" href="#docker-contexts" title="Link to this heading"></a></h2>
+<p>For quick inspection from the dev box without a shell on the server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">context</span> <span class="n">create</span> <span class="n">compute</span> <span class="o">--</span><span class="n">docker</span> <span class="s2">"host=ssh://deploy@compute.connectomes.pitt.edu"</span>
+<span class="n">docker</span> <span class="n">context</span> <span class="n">create</span> <span class="n">web</span> <span class="o">--</span><span class="n">docker</span> <span class="s2">"host=ssh://deploy@web.connectomes.pitt.edu"</span>
+<span class="n">docker</span> <span class="o">--</span><span class="n">context</span> <span class="n">compute</span> <span class="n">ps</span>
+<span class="n">docker</span> <span class="o">--</span><span class="n">context</span> <span class="n">web</span> <span class="n">logs</span> <span class="o">--</span><span class="n">tail</span> <span class="mi">100</span> <span class="o">&lt;</span><span class="n">container</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">-Target</span></code> for anything that starts or changes a stack: compose bind paths and env
+files must resolve on the target, which a context does not do for you.</p>
+</section>
+<section id="tailscale-optional">
+<h2>Tailscale (optional)<a class="headerlink" href="#tailscale-optional" title="Link to this heading"></a></h2>
+<p>A Tailscale tailnet gives the dev box a stable private route to <code class="docutils literal notranslate"><span class="pre">compute</span></code> and <code class="docutils literal notranslate"><span class="pre">web</span></code> without
+opening SSH beyond campus. It is a third-party service on university hardware: get Pitt IT’s
+approval first. With it, point <code class="docutils literal notranslate"><span class="pre">Ssh</span></code> in <code class="docutils literal notranslate"><span class="pre">targets.psd1</span></code> at the Tailscale host names; nothing
+else changes.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="accounts_and_tokens.html" class="btn btn-neutral float-left" title="Accounts and tokens" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="debugging.html" class="btn btn-neutral float-right" title="Debugging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

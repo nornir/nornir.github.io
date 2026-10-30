@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
@@ -139,7 +143,9 @@
 <span class="sd">    Distances are measured in pixels, and the distance is zero at the center pixel.  Distances are measured</span>
 <span class="sd">    to the center of each pixel.</span>
 <span class="sd">    """</span>
-    <span class="c1"># TODO, this has some obvious optimizations available</span>
+    <span class="c1"># The half-plane row loop below was measured against a single broadcast</span>
+    <span class="c1"># (np.sqrt(y_range[:, np.newaxis] + x_range)) and was not faster; see</span>
+    <span class="c1"># .cursor/issue-handoff/optimization-loop-rejections.md before vectorizing it.</span>
     <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">nornir_imageregistration</span><span class="o">.</span><span class="n">default_depth_image_dtype</span><span class="p">()</span>
 
@@ -147,12 +153,9 @@
     <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
     <span class="n">is_odd_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fmod</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
-    <span class="n">half_shape</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">even_shape</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">even_shape</span><span class="p">[</span><span class="n">is_odd_shape</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-        <span class="n">half_shape</span> <span class="o">=</span> <span class="n">even_shape</span> <span class="o">/</span> <span class="mi">2</span>
-        <span class="n">half_shape</span> <span class="o">=</span> <span class="n">half_shape</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">even_shape</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">even_shape</span><span class="p">[</span><span class="n">is_odd_shape</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">half_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">even_shape</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
 
     <span class="n">y_range</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_odd_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>

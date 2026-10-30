@@ -48,6 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
@@ -165,7 +169,7 @@ from local trees. Pyre depends on:</p>
 <section id="editable-install-bom-order">
 <h3>Editable install (BOM order)<a class="headerlink" href="#editable-install-bom-order" title="Link to this heading"></a></h3>
 <p>Install siblings with <code class="docutils literal notranslate"><span class="pre">--no-deps</span></code> so git URL pins in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> do not
-override local sources (same pattern as <a class="reference internal" href="../docker/cursor_dev.html"><span class="doc">Cursor / local agent dev shell</span></a>):</p>
+override local sources (same pattern as <a class="reference internal" href="../deployment/nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a>):</p>
 <div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="n">venv</span><span class="p">\</span><span class="n">pyre314</span>
 <span class="n">venv</span><span class="p">\</span><span class="n">pyre314</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">activate</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="n">nornir-shared</span>
@@ -290,7 +294,10 @@ monorepo packages, and runs PyInstaller via <code class="docutils literal notran
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">sys.frozen</span></code> is set by PyInstaller; <code class="docutils literal notranslate"><span class="pre">pyre.frozen_paths</span></code> centralizes AppData paths.</p></li>
 <li><p>Missing modules: add hidden imports in <code class="docutils literal notranslate"><span class="pre">pyre.spec</span></code> or <code class="docutils literal notranslate"><span class="pre">hook-pyre.py</span></code>.</p></li>
-<li><p>Smoke test without GUI: <code class="docutils literal notranslate"><span class="pre">pyre.exe</span> <span class="pre">--smoke-test</span></code></p></li>
+<li><p>Smoke test without GUI: <code class="docutils literal notranslate"><span class="pre">pyre.exe</span> <span class="pre">--smoke-test</span></code> (imports, then a process-pool round-trip
+that fails if workers die and respawn)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyre.__main__.main</span></code> must call <code class="docutils literal notranslate"><span class="pre">multiprocessing.freeze_support()</span></code> first. Without it a
+frozen pool worker re-runs Pyre, exits on its arguments, and is respawned in a loop.</p></li>
 </ul>
 </section>
 <section id="ci-and-releases">

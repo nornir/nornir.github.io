@@ -48,10 +48,14 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Host requirements</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pyre-on-windows">Pyre on Windows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#headless-pipeline-on-a-workstation">Headless pipeline on a workstation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#docker-and-the-build-appliance">Docker and the build appliance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-hosts">Docker hosts</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment/index.html">Deployment and configuration</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
@@ -123,18 +127,22 @@
 <li><p>Plan on about 2 GB of RAM per CPU core you will keep busy. That is a sizing guideline, not a startup check. Heavy pipelines sometimes need closer to 3 GB per core; see <a class="reference internal" href="performance/envelope.html"><span class="doc">Production envelope</span></a>.</p></li>
 </ul>
 </section>
-<section id="docker-and-the-build-appliance">
-<h2>Docker and the build appliance<a class="headerlink" href="#docker-and-the-build-appliance" title="Link to this heading"></a></h2>
+<section id="docker-hosts">
+<h2>Docker hosts<a class="headerlink" href="#docker-hosts" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p>Docker Desktop with WSL2.</p></li>
-<li><p>The CIFS kernel module when the container mounts NAS shares.</p></li>
+<li><p>Servers: Ubuntu 24.04 or 26.04 with Docker Engine, the compose v2 plugin, PowerShell 7, and
+<code class="docutils literal notranslate"><span class="pre">cifs-utils</span></code>; <code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code> installs them. Workstations: Docker Desktop with WSL2
+and PowerShell 7.</p></li>
+<li><p>The CIFS kernel module when the build container mounts NAS shares.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> is CPU-only and does not need a GPU.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> and <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> need an NVIDIA driver on the host and a GPU with compute capability 7.5 or newer (Turing and later). The image does not need a GPU at build time. Pass <code class="docutils literal notranslate"><span class="pre">--gpus</span> <span class="pre">all</span></code> (or the launcher’s GPU switch) at run time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code> and <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> need an NVIDIA driver on the host (and the NVIDIA container
+toolkit on Linux) and a GPU with compute capability 7.5 or newer (Turing and later). The image
+does not need a GPU at build time; pass <code class="docutils literal notranslate"><span class="pre">--gpus</span> <span class="pre">all</span></code> (or the launcher’s GPU switch) at run time.</p></li>
 <li><p>Container images use Python 3.14 and do not ship Pyre.</p></li>
-<li><p>Tile I/O on CIFS needs a raised open-file limit. Launchers set <code class="docutils literal notranslate"><span class="pre">nofile</span></code> to 65536. Confirm with <code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span></code> inside the container.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code>. Many lab machines set it to <code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code>. Each example on the Docker pages states which path it assumes.</p></li>
+<li><p>Tile I/O on CIFS needs a raised open-file limit. Launchers set <code class="docutils literal notranslate"><span class="pre">nofile</span></code> to 65536. Confirm with
+<code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span></code> inside the container.</p></li>
 </ul>
-<p>Roles and launchers are in <a class="reference internal" href="guides/run_the_stack.html"><span class="doc">Run the stack</span></a>.</p>
+<p>Host layout, launchers, and every container role are in <a class="reference internal" href="deployment/index.html"><span class="doc">Deployment and configuration</span></a>.</p>
 </section>
 </section>
 

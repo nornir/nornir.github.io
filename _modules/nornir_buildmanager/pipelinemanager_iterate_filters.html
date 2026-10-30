@@ -45,6 +45,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../concepts.html">Concepts</a></li>
@@ -570,7 +574,7 @@
         <span class="n">attribute</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">XElementWrapper</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Return *candidates* ordered by *attribute*, numeric when the value is an int.</span>
 
-<span class="sd">    ExportAnnotationCrops uses this so a block stored high-Z first (RPC2) is</span>
+<span class="sd">    ExportTrainingData uses this so a block stored high-Z first (RPC2) is</span>
 <span class="sd">    visited in ascending section number, matching a block stored low-Z first.</span>
 <span class="sd">    """</span>
 

@@ -47,6 +47,10 @@
 <li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment/index.html">Deployment and configuration</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts</a></li>
@@ -113,7 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="host_requirements.html">Host requirements</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="host_requirements.html#pyre-on-windows">Pyre on Windows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="host_requirements.html#headless-pipeline-on-a-workstation">Headless pipeline on a workstation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="host_requirements.html#docker-and-the-build-appliance">Docker and the build appliance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="host_requirements.html#docker-hosts">Docker hosts</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
@@ -122,6 +126,27 @@
 <li class="toctree-l2"><a class="reference internal" href="overview.html#related-tools">Related tools</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#system-notes">System notes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#terminology">Terminology</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="deployment/index.html">Deployment and configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="deployment/host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deployment/index.html#zero-to-running">Zero to running</a></li>
 </ul>
 </li>
 </ul>
@@ -146,10 +171,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="guides/index.html">Guides</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="guides/pyre_use.html">Using Pyre</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guides/deploy_build_container.html">Deploy the build container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/tem_scripts.html">TEM build scripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guides/build_volume.html">Build a volume</a></li>
-<li class="toctree-l2"><a class="reference internal" href="guides/run_the_stack.html">Run the stack</a></li>
 </ul>
 </li>
 </ul>
@@ -212,13 +235,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docker/index.html">Docker images</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docker/images.html">Image catalogue</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker/nd_build.html"><code class="docutils literal notranslate"><span class="pre">nd-build</span></code> — run nornir-build inside Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker/remote_deployment.html">Remote build appliance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker/dashboard.html">Build dashboard (co-located)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docker/annotation_gallery.html">Annotation overlay gallery</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker/cursor_dev.html">Cursor / local agent dev shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker/cursor_worker.html">Cursor self-hosted cloud agent worker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docker/windows_cursor_layout.html">Standard <code class="docutils literal notranslate"><span class="pre">D:\</span></code> layout for nornir-cursor-worker</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="development/index.html">Development</a><ul>

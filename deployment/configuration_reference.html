@@ -1,0 +1,811 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration reference &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Accounts and tokens" href="accounts_and_tokens.html" />
+    <link rel="prev" title="Stacks and commands" href="stacks_and_commands.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuration reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#naming-rules">Naming rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-host-host-env"><code class="docutils literal notranslate"><span class="pre">Run/_host/host.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-host-secrets-secrets-env"><code class="docutils literal notranslate"><span class="pre">Run/_host/secrets/secrets.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-host-targets-psd1"><code class="docutils literal notranslate"><span class="pre">Run/_host/targets.psd1</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-nornir-build-nornir-build-run-env"><code class="docutils literal notranslate"><span class="pre">Run/nornir-build/nornir-build.run.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-nornir-dashboard-nornir-dashboard-run-env"><code class="docutils literal notranslate"><span class="pre">Run/nornir-dashboard/nornir-dashboard.run.env</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-nornir-net-mounts"><code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cursor-dev-run-nornir-dev-env-bridged-to-nornir-docker-env">cursor-dev (<code class="docutils literal notranslate"><span class="pre">Run/nornir-dev/.env</span></code> bridged to <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cursor-worker-run-nornir-cursor-worker-nornir-cursor-worker-run-env">Cursor worker (<code class="docutils literal notranslate"><span class="pre">Run/nornir-cursor-worker/nornir-cursor-worker.run.env</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-launcher-variables">Other launcher variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#viking-keys-that-stack-ps1-checks">Viking keys that <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> checks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deprecated-names">Deprecated names</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Configuration reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/configuration_reference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration-reference">
+<h1>Configuration reference<a class="headerlink" href="#configuration-reference" title="Link to this heading"></a></h1>
+<p>Every key in the committed templates, plus the run-time variables the <code class="docutils literal notranslate"><span class="pre">nornir-docker</span></code> launchers
+read. Templates are in <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/examples/</span></code> unless a path is given. Viking service
+keys (SQL connection strings, identity clients, segmentation models) are in the Viking
+<code class="docutils literal notranslate"><span class="pre">deploy/examples/</span></code> templates and the Viking deployment docs (<a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/proxy.html">proxy</a>,
+<a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/tls.html">TLS</a>, <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/identity.html">identity</a>, <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/segmentation.html">segmentation</a>).</p>
+<p>“Required” means <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> (or the launcher) stops without it. Blank defaults mean unset.</p>
+<section id="naming-rules">
+<h2>Naming rules<a class="headerlink" href="#naming-rules" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28.0%" />
+<col style="width: 72.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pattern</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_*</span></code></p></td>
+<td><p>Nornir behaviour (build, dashboard, MQTT, mounts).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_*</span></code></p></td>
+<td><p>Machine-level Docker settings for this host (layout root, host stacks, <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code>
+limits).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_*</span></code></p></td>
+<td><p>Viking deployment settings (domain, host names, repository path).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_*</span></code></p></td>
+<td><p>The shared certificate.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">*_HOST</span></code> suffix</p></td>
+<td><p>A host filesystem path used as a bind source (<code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NORNIR_TESTDATA_HOST</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">*_HOSTNAME</span></code> / <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code></p></td>
+<td><p>A DNS name.</p></td>
+</tr>
+<tr class="row-even"><td><p>Stack keys</p></td>
+<td><p>kebab-case; the same string is the registry key, the <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/</span></code> folder, the
+<code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code> file name, and the compose project name.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="run-host-host-env">
+<h2><code class="docutils literal notranslate"><span class="pre">Run/_host/host.env</span></code><a class="headerlink" href="#run-host-host-env" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">example.host.env</span></code>. Machine settings for every stack on the host; no secrets.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Consumer / meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> / <code class="docutils literal notranslate"><span class="pre">/srv/docker</span></code></p></td>
+<td><p>yes</p></td>
+<td><p>Layout root (<a class="reference internal" href="host_layout.html"><span class="doc">Host layout</span></a>). Filled in by <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>. Also read from
+the process environment by every launcher.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code></p></td>
+<td><p>checkout containing <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code></p></td>
+<td><p>yes</p></td>
+<td><p>nornir checkout on this host; forwarding launchers and <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> use it.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code></p></td>
+<td></td>
+<td><p>Viking hosts</p></td>
+<td><p>Viking checkout; without it the Viking registry is not loaded.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code></p></td>
+<td><p>role preset</p></td>
+<td><p>yes</p></td>
+<td><p>Comma list of stacks this host runs (<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">all</span></code>, <code class="docutils literal notranslate"><span class="pre">doctor</span></code>). Presets:
+compute <code class="docutils literal notranslate"><span class="pre">nornir-build,nornir-dashboard,viking-segmentation</span></code>; web
+<code class="docutils literal notranslate"><span class="pre">viking-proxy,viking-certs,viking-identity,viking-annotation,viking-corrections</span></code>;
+iis <code class="docutils literal notranslate"><span class="pre">viking-iis</span></code>; dev <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_DOMAIN</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">connectomes.pitt.edu</span></code></p></td>
+<td><p>Viking hosts</p></td>
+<td><p>Parent domain; every <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">&lt;sub&gt;.$VIKING_DOMAIN</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_IDENTITY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">identity.&lt;domain&gt;</span></code></p></td>
+<td></td>
+<td><p>Override for one service name. Same for <code class="docutils literal notranslate"><span class="pre">_WEBSVC</span></code> (<code class="docutils literal notranslate"><span class="pre">websvc</span></code>), <code class="docutils literal notranslate"><span class="pre">_ANNOTATION</span></code>
+(<code class="docutils literal notranslate"><span class="pre">annotation</span></code>), <code class="docutils literal notranslate"><span class="pre">_CORRECTIONS</span></code> (<code class="docutils literal notranslate"><span class="pre">corrections</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEGMENTATION</span></code>
+(<code class="docutils literal notranslate"><span class="pre">segmentation</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEGMENTATIONDEMO</span></code> (<code class="docutils literal notranslate"><span class="pre">segmentationdemo</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEG_V3</span></code>
+(<code class="docutils literal notranslate"><span class="pre">segmentation-v3</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEG_V4</span></code> (<code class="docutils literal notranslate"><span class="pre">segmentation-v4</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEG_SEM_V1</span></code>
+(<code class="docutils literal notranslate"><span class="pre">segmentation-sem-v1</span></code>), <code class="docutils literal notranslate"><span class="pre">_GALLERY</span></code>
+(<code class="docutils literal notranslate"><span class="pre">gallery</span></code>), <code class="docutils literal notranslate"><span class="pre">_TEM_GALLERY</span></code> (<code class="docutils literal notranslate"><span class="pre">gallery-tem</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEM_GALLERY</span></code> (<code class="docutils literal notranslate"><span class="pre">gallery-sem</span></code>).
+Keep overrides single-label under the domain so one wildcard certificate still covers them.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_COMPUTE_HOST</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p>LAN name or IP of <code class="docutils literal notranslate"><span class="pre">compute</span></code>; the proxy forwards the segmentation names to it (ports
+40443-40447).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_IIS_HOST</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
+<td><p>LAN name or IP of <code class="docutils literal notranslate"><span class="pre">iis</span></code>; the proxy forwards <code class="docutils literal notranslate"><span class="pre">websvc</span></code> to it on 443.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_UPSTREAM_DEFAULT</span></code></p></td>
+<td><p>the IIS host</p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">host:port</span></code> for TLS connections whose SNI name matches no service.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_HTTP_UPSTREAM_WEBSVC</span></code></p></td>
+<td></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">host:port</span></code>: pass plain-HTTP <code class="docutils literal notranslate"><span class="pre">websvc</span></code> traffic through on port 80 instead of redirecting
+it to https, so old Viking clients’ <code class="docutils literal notranslate"><span class="pre">http://</span></code> WCF and tile requests keep working.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_MODE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code></p></td>
+<td><p>Viking hosts</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code> | <code class="docutils literal notranslate"><span class="pre">acme-eab</span></code> | <code class="docutils literal notranslate"><span class="pre">manual</span></code>; tells <code class="docutils literal notranslate"><span class="pre">viking-certs</span></code> what to renew.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_EMAIL</span></code></p></td>
+<td></td>
+<td><p>letsencrypt, acme-eab</p></td>
+<td><p>ACME account contact for expiry notices.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_CERT_NAME</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$VIKING_DOMAIN</span></code></p></td>
+<td></td>
+<td><p>Folder under <code class="docutils literal notranslate"><span class="pre">Certs/</span></code>; every TLS service loads <code class="docutils literal notranslate"><span class="pre">/certs/&lt;TLS_CERT_NAME&gt;/</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_HOSTNAMES</span></code></p></td>
+<td><p>every <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code></p></td>
+<td></td>
+<td><p>Comma list the certificate must cover (<code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">manual</span></code>, <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">status</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_ACME_SERVER</span></code></p></td>
+<td></td>
+<td><p>acme-eab</p></td>
+<td><p>ACME directory URL from Pitt IT. The EAB key id and HMAC key go in
+<code class="docutils literal notranslate"><span class="pre">Run/viking-certs/secrets/secrets.env</span></code> as <code class="docutils literal notranslate"><span class="pre">TLS_EAB_KID</span></code> and <code class="docutils literal notranslate"><span class="pre">TLS_EAB_HMAC_KEY</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_STAGING</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> uses the Let’s Encrypt staging endpoint (untrusted certificates; no rate limits).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_PFX_PASSWORD</span></code></p></td>
+<td><p>empty</p></td>
+<td></td>
+<td><p>Password for <code class="docutils literal notranslate"><span class="pre">Certs/&lt;name&gt;/cert.pfx</span></code>. Also accepted as <code class="docutils literal notranslate"><span class="pre">-PfxPassword</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_GHCR_OWNER</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jamesra</span></code></p></td>
+<td></td>
+<td><p>GHCR namespace for <code class="docutils literal notranslate"><span class="pre">docker-pull.ps1</span></code> / <code class="docutils literal notranslate"><span class="pre">docker-push.ps1</span></code> (<code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;owner&gt;/nornir:*</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="run-host-secrets-secrets-env">
+<h2><code class="docutils literal notranslate"><span class="pre">Run/_host/secrets/secrets.env</span></code><a class="headerlink" href="#run-host-secrets-secrets-env" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">example.host.secrets.env</span></code>. Mode <code class="docutils literal notranslate"><span class="pre">600</span></code> on Linux.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Consumer / meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code></p></td>
+<td></td>
+<td></td>
+<td><p>GitHub fine-grained PAT (<a class="reference internal" href="accounts_and_tokens.html"><span class="doc">Accounts and tokens</span></a>). The launchers never load it into the
+host process; it reaches containers only through <code class="docutils literal notranslate"><span class="pre">--env-file</span></code>. Also run
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span> <span class="pre">ghcr.io</span></code> once per host.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="run-host-targets-psd1">
+<h2><code class="docutils literal notranslate"><span class="pre">Run/_host/targets.psd1</span></code><a class="headerlink" href="#run-host-targets-psd1" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">example.targets.psd1</span></code>; a PowerShell data file, one entry per target under <code class="docutils literal notranslate"><span class="pre">Targets</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18.0%" />
+<col style="width: 82.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Ssh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">user&#64;host</span></code> or a <code class="docutils literal notranslate"><span class="pre">Host</span></code> alias from <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code>. Must log in without a password
+prompt.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SshOptions</span></code></p></td>
+<td><p>Extra <code class="docutils literal notranslate"><span class="pre">ssh</span></code>/<code class="docutils literal notranslate"><span class="pre">scp</span></code> arguments, for example <code class="docutils literal notranslate"><span class="pre">&#64;('-p',</span> <span class="pre">'2222')</span></code> or <code class="docutils literal notranslate"><span class="pre">&#64;('-J',</span> <span class="pre">'jump.example.edu')</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Os</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">linux</span></code> or <code class="docutils literal notranslate"><span class="pre">windows</span></code> (Windows targets need <code class="docutils literal notranslate"><span class="pre">pwsh</span></code> as the OpenSSH default shell).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Root</span></code></p></td>
+<td><p>That host’s <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Stacks</span></code></p></td>
+<td><p>Stacks <code class="docutils literal notranslate"><span class="pre">all</span></code> means for this target (informational for <code class="docutils literal notranslate"><span class="pre">-Images</span> <span class="pre">load</span></code>; the target’s own
+<code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code> decides what <code class="docutils literal notranslate"><span class="pre">all</span></code> runs there).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Repos</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&#64;{</span> <span class="pre">NORNIR_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;';</span> <span class="pre">VIKING_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;'</span> <span class="pre">}</span></code>: checkouts that
+<code class="docutils literal notranslate"><span class="pre">-Sync</span></code> fast-forwards.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Tunnels</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-L</span></code> specs (<code class="docutils literal notranslate"><span class="pre">local:host:port</span></code>) opened by <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CertPush</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$true</span></code>: <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span></code> (usually <code class="docutils literal notranslate"><span class="pre">-From</span> <span class="pre">web</span></code>) without <code class="docutils literal notranslate"><span class="pre">-Target</span></code> copies the
+certificate here.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="run-nornir-build-nornir-build-run-env">
+<h2><code class="docutils literal notranslate"><span class="pre">Run/nornir-build/nornir-build.run.env</span></code><a class="headerlink" href="#run-nornir-build-nornir-build-run-env" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">example.nornir-build.run.env</span></code>. Read by <code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 10.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Consumer / meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_SHM_SIZE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">64g</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--shm-size</span></code>. Multiprocessing pools fail with Docker’s 64 MB default.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_NOFILE_SOFT</span></code> / <code class="docutils literal notranslate"><span class="pre">_HARD</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">65536</span></code> / <code class="docutils literal notranslate"><span class="pre">65536</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--ulimit</span> <span class="pre">nofile</span></code>. Tile I/O on CIFS exhausts the default 1024.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_GPU</span></code></p></td>
+<td><p>auto</p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> forces <code class="docutils literal notranslate"><span class="pre">--gpus</span> <span class="pre">all</span></code>. Unset: <code class="docutils literal notranslate"><span class="pre">Test-NornirGpu.ps1</span></code> probes and sets it, which picks
+<code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code> (GPU) or <code class="docutils literal notranslate"><span class="pre">nornir:prod</span></code> (CPU).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_ENABLE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td></td>
+<td><p>Publish build progress to the dashboard broker.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code></p></td>
+<td><p>auto</p></td>
+<td></td>
+<td><p>Broker host seen from the container. Unset: join <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_NETWORK</span></code> and use
+<code class="docutils literal notranslate"><span class="pre">mosquitto</span></code> when that network exists, else <code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_PORT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1883</span></code></p></td>
+<td></td>
+<td><p>Broker port.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_NETWORK</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-dashboard_default</span></code></p></td>
+<td></td>
+<td><p>Docker network the build container joins to reach Mosquitto by name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DEBUGPY</span></code></p></td>
+<td></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> publishes <code class="docutils literal notranslate"><span class="pre">127.0.0.1:&lt;NORNIR_DEBUGPY_PORT&gt;</span></code> on the container for debugpy. It does not
+start a listener; debugpy is not in the images (<a class="reference internal" href="debugging.html"><span class="doc">Debugging</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DEBUGPY_PORT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5678</span></code></p></td>
+<td></td>
+<td><p>Port for <code class="docutils literal notranslate"><span class="pre">NORNIR_DEBUGPY</span></code>; also passed into the container.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_EXTRA_ARGS</span></code></p></td>
+<td></td>
+<td></td>
+<td><p>Extra <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> tokens, space separated.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="run-nornir-dashboard-nornir-dashboard-run-env">
+<h2><code class="docutils literal notranslate"><span class="pre">Run/nornir-dashboard/nornir-dashboard.run.env</span></code><a class="headerlink" href="#run-nornir-dashboard-nornir-dashboard-run-env" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">example.nornir-dashboard.run.env</span></code> (<code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code> still reads the legacy
+<code class="docutils literal notranslate"><span class="pre">dashboard.run.env</span></code>). Consumed by <code class="docutils literal notranslate"><span class="pre">compose.dashboard.yaml</span></code>. Full table: <a class="reference internal" href="dashboard.html"><span class="doc">Build dashboard (nornir-dashboard)</span></a>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 16.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_BIND_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code></p></td>
+<td><p>Host address the UI port 8087 is published on.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_BIND_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code></p></td>
+<td><p>Host address the broker port 1883 is published on (template and compose default).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_TOKEN</span></code></p></td>
+<td></td>
+<td><p>Required before widening the bind host; put it in <code class="docutils literal notranslate"><span class="pre">Run/nornir-dashboard/secrets/secrets.env</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_ALLOW_DELETE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code> refuses <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">/api/runs/{id}</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_MAX_EVENTS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Max SQLite events per run (<code class="docutils literal notranslate"><span class="pre">0</span></code> = unlimited).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_RETENTION_DAYS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">30</span></code></p></td>
+<td><p>Delete runs idle this many days (<code class="docutils literal notranslate"><span class="pre">0</span></code> disables).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DASHBOARD_STALE_AFTER</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">600</span></code></p></td>
+<td><p>Seconds without events before a run shows as stale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_BUILDDASHBOARD_CONTEXT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">../nornir-builddashboard</span></code></p></td>
+<td><p>Build context for the dashboard image (set by <code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="run-nornir-net-mounts">
+<h2><code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/</span></code><a class="headerlink" href="#run-nornir-net-mounts" title="Link to this heading"></a></h2>
+<p>Shared by <code class="docutils literal notranslate"><span class="pre">start-nornir-build.ps1</span></code>, cursor-dev net mounts, and the worker’s
+<code class="docutils literal notranslate"><span class="pre">-DevParityMounts</span></code>. Format details: <a class="reference internal" href="nornir_build_appliance.html"><span class="doc">Build appliance (nornir-build)</span></a>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 20.0%" />
+<col style="width: 46.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File / key</p></th>
+<th class="head"><p>Template</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">net-mounts/nas-mounts.tsv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-docker/dev/example.nas-mounts.tsv</span></code></p></td>
+<td><p>Tab-separated <code class="docutils literal notranslate"><span class="pre">fstype</span> <span class="pre">source</span> <span class="pre">target</span> <span class="pre">options</span></code> per share.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">secrets/net-creds/&lt;id&gt;.cred</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">example.net-creds.cred</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">username=</span></code>, <code class="docutils literal notranslate"><span class="pre">password=</span></code>, <code class="docutils literal notranslate"><span class="pre">domain=</span></code> (optional), LF line endings.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.run.nornir-net-mounts.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-docker/example.nornir-net-mounts.run.env</span></code></p></td>
+<td><p>Optional overrides below.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_DIR_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Run/nornir-net-mounts/net-mounts</span></code></p></td>
+<td><p>Host folder holding <code class="docutils literal notranslate"><span class="pre">nas-mounts.tsv</span></code>. Set together with the next key, or neither.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_DIR_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Run/nornir-net-mounts/secrets/net-creds</span></code></p></td>
+<td><p>Host folder of <code class="docutils literal notranslate"><span class="pre">*.cred</span></code> files.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code> / <code class="docutils literal notranslate"><span class="pre">_PORT</span></code> / <code class="docutils literal notranslate"><span class="pre">_ENABLE</span></code></p></td>
+<td><p>unset (commented <code class="docutils literal notranslate"><span class="pre">mosquitto</span></code>) / <code class="docutils literal notranslate"><span class="pre">1883</span></code> / <code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>MQTT for containers started with this file. Leave <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code> unset so
+<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> joins the dashboard network; files copied from the old template set it to
+<code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code> (<a class="reference internal" href="troubleshooting.html"><span class="doc">Troubleshooting</span></a>).</p></td>
+</tr>
+</tbody>
+</table>
+<p>Inside the containers (set by the launchers, read by <code class="docutils literal notranslate"><span class="pre">mount-network-shares.sh</span></code>):
+<code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS=1</span></code> (path B enabled), <code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_MANIFEST</span></code>
+(<code class="docutils literal notranslate"><span class="pre">/etc/nornir-net-mounts/nas-mounts.tsv</span></code>), <code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_SRC</span></code>
+(<code class="docutils literal notranslate"><span class="pre">/run/secrets/net-creds</span></code>), <code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_SECURE</span></code> (<code class="docutils literal notranslate"><span class="pre">/run/nornir-cifs-creds</span></code>, the
+<code class="docutils literal notranslate"><span class="pre">0600</span></code> copy mount.cifs uses), <code class="docutils literal notranslate"><span class="pre">NORNIR_LOG_ROOT</span></code> (<code class="docutils literal notranslate"><span class="pre">/var/log/nornir</span></code> in <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>).</p>
+</section>
+<section id="cursor-dev-run-nornir-dev-env-bridged-to-nornir-docker-env">
+<h2>cursor-dev (<code class="docutils literal notranslate"><span class="pre">Run/nornir-dev/.env</span></code> bridged to <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code>)<a class="headerlink" href="#cursor-dev-run-nornir-dev-env-bridged-to-nornir-docker-env" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">nornir-docker/dev/example.cursor-dev.run.env</span></code>. Compose substitutes these and also
+passes the whole file into the container (<code class="docutils literal notranslate"><span class="pre">env_file</span></code>). See <a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 26.0%" />
+<col style="width: 44.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_TESTDATA_HOST</span></code></p></td>
+<td><p>required</p></td>
+<td><p>Host path of <code class="docutils literal notranslate"><span class="pre">nornir-testdata</span></code> (WSL2 filesystem recommended); read-only at
+<code class="docutils literal notranslate"><span class="pre">/nornir-testdata</span></code> (<code class="docutils literal notranslate"><span class="pre">TESTINPUTPATH</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPRO_DATA_HOST</span></code></p></td>
+<td><p>empty placeholder</p></td>
+<td><p>Large repro corpus, read-only at <code class="docutils literal notranslate"><span class="pre">/data</span></code> (<code class="docutils literal notranslate"><span class="pre">INPUT_NORNIR_DATA=/data</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_TESTOUTPUT_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D:/nornir-test-output</span></code></p></td>
+<td><p>Writable <code class="docutils literal notranslate"><span class="pre">/tmp/nornir-test-output</span></code> (<code class="docutils literal notranslate"><span class="pre">TESTOUTPUTPATH</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_LEGACY_CODE_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D:/src/SVN/SCI/trunk</span></code></p></td>
+<td><p>Read-only <code class="docutils literal notranslate"><span class="pre">/legacycode</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_IMPORT_CACHE_PATH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tmp/nornir-test-output/ImportCache</span></code></p></td>
+<td><p>Redirects import caches out of the read-only test input.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_WORKSPACE_HOST</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">..</span></code> (monorepo root)</p></td>
+<td><p>Bind source for <code class="docutils literal notranslate"><span class="pre">/workspace</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://github.com/jamesra/nornir.git</span></code> / <code class="docutils literal notranslate"><span class="pre">dev</span></code></p></td>
+<td><p>Clone source for an empty <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> or <code class="docutils literal notranslate"><span class="pre">cursor-dev-clone</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE</span></code></p></td>
+<td><p>unset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: checkout <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--ff-only</span></code> on every start.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_SUBMODULE_UPDATE</span></code></p></td>
+<td><p>unset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: full <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span> <span class="pre">--recursive</span></code> on container recreate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS_DIR_HOST</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_NET_CREDS_DIR_HOST</span></code></p></td>
+<td></td>
+<td><p>Needed for <code class="docutils literal notranslate"><span class="pre">compose.net-mounts.override.yaml</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST</span></code> / <code class="docutils literal notranslate"><span class="pre">_PORT</span></code> / <code class="docutils literal notranslate"><span class="pre">_ENABLE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code> / <code class="docutils literal notranslate"><span class="pre">1883</span></code> / <code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Dashboard broker on the host.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_TILE_IO_WORKERS</span></code>, <code class="docutils literal notranslate"><span class="pre">NORNIR_TILE_ENCODE_WORKERS</span></code>, <code class="docutils literal notranslate"><span class="pre">NORNIR_TILE_COPY_WORKERS</span></code></p></td>
+<td></td>
+<td><p>AssembleTiles worker counts.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code></p></td>
+<td></td>
+<td><p>Optional, for private submodules or rate limits.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cursor-worker-run-nornir-cursor-worker-nornir-cursor-worker-run-env">
+<h2>Cursor worker (<code class="docutils literal notranslate"><span class="pre">Run/nornir-cursor-worker/nornir-cursor-worker.run.env</span></code>)<a class="headerlink" href="#cursor-worker-run-nornir-cursor-worker-nornir-cursor-worker-run-env" title="Link to this heading"></a></h2>
+<p>Template <code class="docutils literal notranslate"><span class="pre">nornir-docker/example.nornir-cursor-worker.run.env</span></code>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 20.0%" />
+<col style="width: 46.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">CURSOR_API_KEY</span></code></p></td>
+<td><p>required</p></td>
+<td><p>Cursor API key for <code class="docutils literal notranslate"><span class="pre">agent</span> <span class="pre">worker</span> <span class="pre">start</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">GITHUB_TOKEN</span></code></p></td>
+<td></td>
+<td><p>Passed to the container only via <code class="docutils literal notranslate"><span class="pre">--env-file</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_WORKSPACE_STRATEGY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">clone</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">clone</span></code> or <code class="docutils literal notranslate"><span class="pre">mounted</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_BRANCH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://github.com/jamesra/nornir.git</span></code> / <code class="docutils literal notranslate"><span class="pre">dev</span></code></p></td>
+<td><p>Clone source.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_CLONE_REFRESH</span></code></p></td>
+<td><p>unset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> wipes <code class="docutils literal notranslate"><span class="pre">/workspace</span></code> before cloning.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_SYNC_REMOTE</span></code></p></td>
+<td><p>unset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mounted</span></code>: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--ff-only</span></code> on start.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_WORKER_DEV_PARITY_MOUNTS</span></code></p></td>
+<td><p>unset</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> adds the cursor-dev data mounts and in-container CIFS.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_CURSOR_WORKER_ENV_FILE</span></code> (host)</p></td>
+<td><p>discovery</p></td>
+<td><p>Explicit path of this file for <code class="docutils literal notranslate"><span class="pre">start-cursor-worker.ps1</span></code> and <code class="docutils literal notranslate"><span class="pre">compose.cursor-worker.yaml</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="other-launcher-variables">
+<h2>Other launcher variables<a class="headerlink" href="#other-launcher-variables" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Consumer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_IMAGE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir:dev</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nd-build.ps1</span></code> image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DEV_PORT_PUBLISH</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker-run-nornir-dev.ps1</span></code>: <code class="docutils literal notranslate"><span class="pre">host:container</span></code> pairs separated by <code class="docutils literal notranslate"><span class="pre">;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_RELEASE</span></code>, <code class="docutils literal notranslate"><span class="pre">NORNIR_IMAGE_VARIANT</span></code></p></td>
+<td><p>from <code class="docutils literal notranslate"><span class="pre">VERSION</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">docker-build.ps1</span></code> build args (<code class="docutils literal notranslate"><span class="pre">Builds/nornir/build.env</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="viking-keys-that-stack-ps1-checks">
+<h2>Viking keys that <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> checks<a class="headerlink" href="#viking-keys-that-stack-ps1-checks" title="Link to this heading"></a></h2>
+<p>The Viking registry marks these as required; set them in the Viking stack’s run env (templates in
+<code class="docutils literal notranslate"><span class="pre">&lt;Viking&gt;/deploy/examples/</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code>: <code class="docutils literal notranslate"><span class="pre">VIKING_DOMAIN</span></code>, <code class="docutils literal notranslate"><span class="pre">VIKING_COMPUTE_HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">VIKING_IIS_HOST</span></code> (in
+<code class="docutils literal notranslate"><span class="pre">host.env</span></code> on <code class="docutils literal notranslate"><span class="pre">web</span></code>, above).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">viking-certs</span></code>: <code class="docutils literal notranslate"><span class="pre">VIKING_DOMAIN</span></code>, <code class="docutils literal notranslate"><span class="pre">TLS_MODE</span></code>, <code class="docutils literal notranslate"><span class="pre">TLS_CERT_NAME</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">viking-identity</span></code>: <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_HOST</span></code>, <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_USER</span></code>, <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_PASSWORD</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SQL_SERVER_IDENTITY_DB</span></code>, <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_CONFIG_DB</span></code>, <code class="docutils literal notranslate"><span class="pre">SQL_SERVER_GRANTS_DB</span></code>,
+<code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_SECRET</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_API_SECRET</span></code>, <code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_MVC_SECRET</span></code>,
+<code class="docutils literal notranslate"><span class="pre">IDENTITY_SERVER_RO_VIKING_SECRET</span></code>; secret files <code class="docutils literal notranslate"><span class="pre">secrets.json</span></code>, <code class="docutils literal notranslate"><span class="pre">Duende_License.key</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">viking-annotation</span></code>: <code class="docutils literal notranslate"><span class="pre">ConnectionStrings__AnnotationConnection</span></code>,
+<code class="docutils literal notranslate"><span class="pre">IdentityServer__Endpoint</span></code>, <code class="docutils literal notranslate"><span class="pre">IdentityServer__ClientId</span></code>, <code class="docutils literal notranslate"><span class="pre">IdentityServer__ClientSecret</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">viking-corrections</span></code>: <code class="docutils literal notranslate"><span class="pre">IdentityServer__Endpoint</span></code>, <code class="docutils literal notranslate"><span class="pre">IdentityServer__ClientSecret</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CorrectionService__Name</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">viking-iis</span></code>: <code class="docutils literal notranslate"><span class="pre">VIKING_IIS_DEPLOY_ROOT</span></code>.</p></li>
+</ul>
+</section>
+<section id="deprecated-names">
+<h2>Deprecated names<a class="headerlink" href="#deprecated-names" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+<col style="width: 20.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Old</p></th>
+<th class="head"><p>New</p></th>
+<th class="head"><p>Still read?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MONOREPO_ROOT</span></code> (host side)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code></p></td>
+<td><p>yes, with a warning</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-dashboard/dashboard.run.env</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-dashboard/nornir-dashboard.run.env</span></code></p></td>
+<td><p>yes (<code class="docutils literal notranslate"><span class="pre">start-dashboard.ps1</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mounted-configs/nornir-build-*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Work/nornir-build-*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">prune</span></code> still cleans the old folder</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code> default root</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">D:\Docker</span></code> (Windows), <code class="docutils literal notranslate"><span class="pre">/srv/docker</span></code> (Linux)</p></td>
+<td><p>set <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_USER_ROOT</span></code> to keep <code class="docutils literal notranslate"><span class="pre">C:\Docker</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-dev/.run.nornir-dev.env</span></code> (net mounts)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/.run.nornir-net-mounts.env</span></code></p></td>
+<td><p>yes, as a fallback</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds/nornir-cursor-worker/.env.cursor-worker</span></code>, <code class="docutils literal notranslate"><span class="pre">nornir-docker/.env.cursor-worker</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Run/nornir-cursor-worker/nornir-cursor-worker.run.env</span></code></p></td>
+<td><p>yes, as fallbacks</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Initialize-NornirBuildAppliance.ps1</span> <span class="pre">-MonorepoRoot</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">deploy/Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span> <span class="pre">-RepoRoot</span></code></p></td>
+<td><p>removed</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">NORNIR_MONOREPO_ROOT</span></code> inside containers (<code class="docutils literal notranslate"><span class="pre">cursor-dev-entry.sh</span></code>, the image build) is a
+container path and is unaffected.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="stacks_and_commands.html" class="btn btn-neutral float-left" title="Stacks and commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="accounts_and_tokens.html" class="btn btn-neutral float-right" title="Accounts and tokens" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

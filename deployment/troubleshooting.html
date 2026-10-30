@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting &mdash; Nornir 1.7.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6cfcd222"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Migrating from the old layout" href="migrating_from_old_layout.html" />
+    <link rel="prev" title="Build dashboard (nornir-dashboard)" href="dashboard.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Nornir
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Start</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../start.html">Start here</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../host_requirements.html">Host requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Deployment &amp; Configuration</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Deployment and configuration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="host_layout.html">Host layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stacks_and_commands.html">Stacks and commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_reference.html">Configuration reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accounts_and_tokens.html">Accounts and tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ports_and_remote_access.html">Ports and remote access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_build_appliance.html">Build appliance (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nornir_dev_and_worker.html">Programmer shell and Cursor worker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hosts-ssh-and-stack-ps1">Hosts, SSH, and stack.ps1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#network-and-tls">Network and TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-appliance-and-dashboard">Build appliance and dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#programmer-shell">Programmer shell</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="migrating_from_old_layout.html">Migrating from the old layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-runs-where">What runs where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#zero-to-running">Zero to running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview_alignment_theory.html">Overview of volume building</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">Guides</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Agents and contributors</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../agents.html">Agents and contributors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Performance</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../performance/index.html">Performance</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines.html">Pipeline catalogue</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/index.html">Docker images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development/index.html">Development</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Nornir</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Deployment and configuration</a></li>
+      <li class="breadcrumb-item active">Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/deployment/troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h1>
+<p>Run <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code> (or <code class="docutils literal notranslate"><span class="pre">doctor</span> <span class="pre">-Target</span> <span class="pre">all</span></code>) first; most problems below show up there as
+a <code class="docutils literal notranslate"><span class="pre">[FAIL]</span></code> line.</p>
+<section id="hosts-ssh-and-stack-ps1">
+<h2>Hosts, SSH, and stack.ps1<a class="headerlink" href="#hosts-ssh-and-stack-ps1" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 66.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symptom</p></th>
+<th class="head"><p>Cause and fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pwsh:</span> <span class="pre">command</span> <span class="pre">not</span> <span class="pre">found</span></code> on a target, or a remote command hangs</p></td>
+<td><p>PowerShell 7 is missing. Ubuntu: re-run <code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code>. Windows: install PowerShell 7
+and set OpenSSH <code class="docutils literal notranslate"><span class="pre">DefaultShell</span></code> to <code class="docutils literal notranslate"><span class="pre">pwsh</span></code> (<a class="reference internal" href="ports_and_remote_access.html#deploy-windows-openssh"><span class="std std-ref">Windows OpenSSH (iis)</span></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">permission</span> <span class="pre">denied</span> <span class="pre">while</span> <span class="pre">trying</span> <span class="pre">to</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">Docker</span> <span class="pre">daemon</span> <span class="pre">socket</span></code></p></td>
+<td><p>The deploy user was added to the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group but has not logged in again. Log out and
+back in (<code class="docutils literal notranslate"><span class="pre">ssh</span></code> sessions too), or <code class="docutils literal notranslate"><span class="pre">newgrp</span> <span class="pre">docker</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>SSH asks for a password during <code class="docutils literal notranslate"><span class="pre">-Target</span></code></p></td>
+<td><p>The key is not in <code class="docutils literal notranslate"><span class="pre">authorized_keys</span></code> (Windows admins:
+<code class="docutils literal notranslate"><span class="pre">C:\ProgramData\ssh\administrators_authorized_keys</span></code>). <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> cannot answer prompts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-Sync</span></code>: “branch is not pushed (HEAD != upstream)”</p></td>
+<td><p>Push the branch (and submodule commits) first; <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> deploys the remote, not your tree.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">stack</span> <span class="pre">'viking-...'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code> is not set in that host’s <code class="docutils literal notranslate"><span class="pre">host.env</span></code>, so the Viking registry is
+not loaded.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">up</span></code> fails with <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">allocated</span></code> / <code class="docutils literal notranslate"><span class="pre">address</span> <span class="pre">already</span> <span class="pre">in</span> <span class="pre">use</span></code> on the dev box</p></td>
+<td><p>The old <code class="docutils literal notranslate"><span class="pre">viking</span></code> compose project is still running. <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">-p</span> <span class="pre">viking</span> <span class="pre">down</span></code>
+(<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code> shows what holds the port), then <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">up</span></code> again.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span> <span class="pre">is</span> <span class="pre">empty</span></code></p></td>
+<td><p>Set the host’s stacks in <code class="docutils literal notranslate"><span class="pre">Run/_host/host.env</span></code> (or re-run <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">...</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p>“Stack … is not configured” with a list of keys</p></td>
+<td><p>A required key or secret file is missing; the message names the file to edit.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MONOREPO_ROOT</span> <span class="pre">is</span> <span class="pre">deprecated</span></code> warning</p></td>
+<td><p>Rename it to <code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code> in <code class="docutils literal notranslate"><span class="pre">host.env</span></code> or your user environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds/nornir-build/start-nornir-build.ps1</span></code> fails with missing <code class="docutils literal notranslate"><span class="pre">NornirDockerRun.ps1</span></code> /
+<code class="docutils literal notranslate"><span class="pre">NornirDevRunMounts.ps1</span></code></p></td>
+<td><p>It is an old <em>copy</em> of the launcher; copies break because the script dot-sources sibling
+helpers. Re-run <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>: it replaces it with a forwarding launcher
+(the copy is kept as <code class="docutils literal notranslate"><span class="pre">.bak</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="network-and-tls">
+<h2>Network and TLS<a class="headerlink" href="#network-and-tls" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 66.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symptom</p></th>
+<th class="head"><p>Cause and fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A port is reachable from outside although ufw denies it</p></td>
+<td><p>Docker-published ports bypass ufw. Bind internal ports to <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> and filter
+cross-host ports in <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code> (<a class="reference internal" href="ports_and_remote_access.html"><span class="doc">Ports and remote access</span></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">status</span></code>: “certificate does not cover: …”</p></td>
+<td><p>The certificate lacks a SAN for some <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code>. Get a wildcard
+<code class="docutils literal notranslate"><span class="pre">*.&lt;domain&gt;</span></code> (or SAN) certificate; a wildcard only covers single-label names, so keep
+hostname overrides one level under the domain. Or narrow <code class="docutils literal notranslate"><span class="pre">TLS_HOSTNAMES</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">status</span></code>: no intermediate certificates</p></td>
+<td><p>Pass the issuer chain with <code class="docutils literal notranslate"><span class="pre">-Chain</span></code>; gRPC clients and the Viking desktop client reject a
+leaf-only <code class="docutils literal notranslate"><span class="pre">fullchain.pem</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">letsencrypt</span></code> times out or fails HTTP-01</p></td>
+<td><p>Port 80 on <code class="docutils literal notranslate"><span class="pre">web</span></code> is not reachable from the internet, DNS does not point at <code class="docutils literal notranslate"><span class="pre">web</span></code> yet, or
+<code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> is not up. If Pitt will not open port 80, use <code class="docutils literal notranslate"><span class="pre">TLS_MODE=acme-eab</span></code> (Pitt
+IT’s ACME server with EAB) or <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">manual</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Let’s Encrypt rate-limit errors while testing</p></td>
+<td><p>Set <code class="docutils literal notranslate"><span class="pre">TLS_STAGING=1</span></code> until the flow works, then back to <code class="docutils literal notranslate"><span class="pre">0</span></code> and re-issue.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">manual</span></code>: key is encrypted / key does not match / expires sooner</p></td>
+<td><p>Decrypt (<code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">pkey</span> <span class="pre">-in</span> <span class="pre">key.pem</span> <span class="pre">-out</span> <span class="pre">key.dec.pem</span></code>); check you have the key for this
+certificate; use <code class="docutils literal notranslate"><span class="pre">-Force</span></code> to replace a later-expiring certificate on purpose.</p></td>
+</tr>
+<tr class="row-even"><td><p>Segmentation names fail through the proxy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code> does not accept 40443-40447 from <code class="docutils literal notranslate"><span class="pre">web</span></code> (Pitt firewall or <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code>), or
+<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span> <span class="pre">-From</span> <span class="pre">web</span></code> has not copied the certificate to <code class="docutils literal notranslate"><span class="pre">compute</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">doctor</span></code>: <code class="docutils literal notranslate"><span class="pre">DNS</span> <span class="pre">&lt;name&gt;</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">resolve</span> <span class="pre">yet</span></code></p></td>
+<td><p>The Pitt DNS ticket is not done, or the record is not a wildcard.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="build-appliance-and-dashboard">
+<h2>Build appliance and dashboard<a class="headerlink" href="#build-appliance-and-dashboard" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 66.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symptom</p></th>
+<th class="head"><p>Cause and fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">network</span> <span class="pre">nornir-dashboard_default</span> <span class="pre">not</span> <span class="pre">found</span></code>, or builds never appear on the dashboard</p></td>
+<td><p>Start <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code> before <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>, then <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">rebuild</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">Run/nornir-net-mounts/.run.nornir-net-mounts.env</span></code> was copied from the old template,
+it sets <code class="docutils literal notranslate"><span class="pre">NORNIR_MQTT_HOST=host.docker.internal</span></code>; comment that line out. While it is set
+the launcher does not join the dashboard network, and on Linux the loopback-bound broker
+is unreachable.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Bus</span> <span class="pre">error</span></code>, <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">space</span> <span class="pre">left</span> <span class="pre">on</span> <span class="pre">device</span></code> under <code class="docutils literal notranslate"><span class="pre">/dev/shm</span></code>, or pool workers dying</p></td>
+<td><p>Shared memory too small. The launcher passes <code class="docutils literal notranslate"><span class="pre">--shm-size=64g</span></code> (<code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_SHM_SIZE</span></code>);
+recreate containers started by older scripts (<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">rebuild</span></code>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Too</span> <span class="pre">many</span> <span class="pre">open</span> <span class="pre">files</span></code> (<code class="docutils literal notranslate"><span class="pre">EMFILE</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span></code> should be 65536; check <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_NOFILE_*</span></code> and recreate the container.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Missing <code class="docutils literal notranslate"><span class="pre">nas-mounts.tsv</span></code></p></td>
+<td><p>Run <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span></code> and edit the site files.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mount:</span> <span class="pre">...</span> <span class="pre">Operation</span> <span class="pre">not</span> <span class="pre">permitted</span></code></p></td>
+<td><p>Path B not applied: the container lacks <code class="docutils literal notranslate"><span class="pre">SYS_ADMIN</span></code> (started without the launcher or the
+net-mounts override).</p></td>
+</tr>
+<tr class="row-odd"><td><p>CIFS <code class="docutils literal notranslate"><span class="pre">mount</span> <span class="pre">error(2)</span></code></p></td>
+<td><p>The <code class="docutils literal notranslate"><span class="pre">cifs</span></code> driver is not loaded in the host kernel (Ubuntu: <code class="docutils literal notranslate"><span class="pre">modprobe</span> <span class="pre">cifs</span></code>; Windows:
+the WSL2 kernel). Check <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">cifs</span> <span class="pre">/proc/filesystems</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>CIFS <code class="docutils literal notranslate"><span class="pre">mount</span> <span class="pre">error(13):</span> <span class="pre">Permission</span> <span class="pre">denied</span></code></p></td>
+<td><p>Wrong user/password/domain in the <code class="docutils literal notranslate"><span class="pre">.cred</span></code>, a share ACL, or a <code class="docutils literal notranslate"><span class="pre">credentials=</span></code> path in
+<code class="docutils literal notranslate"><span class="pre">nas-mounts.tsv</span></code> that does not match a file in <code class="docutils literal notranslate"><span class="pre">net-creds/</span></code>. Images older than the
+<code class="docutils literal notranslate"><span class="pre">0600</span></code> copy fix need a pull.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/storage4</span></code> (or another target) empty</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_NET_MOUNTS</span></code> is not <code class="docutils literal notranslate"><span class="pre">1</span></code> in the container; check how it was started.</p></td>
+</tr>
+<tr class="row-even"><td><p>Remount fails after the shell starts</p></td>
+<td><p>Expected: <code class="docutils literal notranslate"><span class="pre">CAP_SYS_ADMIN</span></code> is dropped after the mount step. Restart the container.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wrong image or no GPU</p></td>
+<td><p>Run <code class="docutils literal notranslate"><span class="pre">pwsh</span> <span class="pre">nornir-docker/Test-NornirGpu.ps1</span></code>; on Ubuntu install the NVIDIA container
+toolkit (<code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span> <span class="pre">--gpu</span></code>). Force with <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_GPU=1</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>TEM scripts fail importing CuPy on a CPU-only host</p></td>
+<td><p>Fixed: the TEM wrappers select NumPy when no GPU is present. Pull current images.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dashboard unreachable</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-dashboard</span> <span class="pre">status</span></code>; it binds <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> only, so use the tunnel.</p></td>
+</tr>
+<tr class="row-even"><td><p>Dashboard: “attempt to write a readonly database”</p></td>
+<td><p>Run <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">nornir-dashboard</span> <span class="pre">up</span></code> again; the launcher re-owns the data volume to uid
+10001.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="programmer-shell">
+<h2>Programmer shell<a class="headerlink" href="#programmer-shell" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 66.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symptom</p></th>
+<th class="head"><p>Cause and fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_TESTDATA_HOST</span></code> missing, or settings in <code class="docutils literal notranslate"><span class="pre">Run/nornir-dev/.env</span></code> ignored</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-docker/.env</span></code> is missing or is a stale copy; recreate the hardlink
+(<a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DynamicLibNotFoundError:</span> <span class="pre">libnvrtc</span></code> / <code class="docutils literal notranslate"><span class="pre">cudaErrorInsufficientDriver</span></code></p></td>
+<td><p>Host NVIDIA driver too old for the CuPy wheel, or no GPU passthrough.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">distro-services/*.sock</span></code> errors with <code class="docutils literal notranslate"><span class="pre">\\wsl.localhost</span></code> paths</p></td>
+<td><p>Wrong distro name or casing; use the exact name from <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">-l</span> <span class="pre">-v</span></code> (or <code class="docutils literal notranslate"><span class="pre">\\wsl$\...</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dashboard.html" class="btn btn-neutral float-left" title="Build dashboard (nornir-dashboard)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="migrating_from_old_layout.html" class="btn btn-neutral float-right" title="Migrating from the old layout" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Nornir contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
