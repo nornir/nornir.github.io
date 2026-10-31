@@ -113,6 +113,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing.reduction</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
 <span class="c1"># One-time setup so CUDA DLLs (e.g. curand64_*.dll) are found when CUDA_PATH is set.</span>
@@ -302,6 +303,22 @@
     <span class="n">cp</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_has_cupy</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">_active_lib</span> <span class="o">=</span> <span class="n">ComputationLib</span><span class="o">.</span><span class="n">numpy</span> <span class="k">if</span> <span class="n">_active_lib</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_active_lib</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reduce_cupy_array_to_host</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Pickle a CuPy array as its NumPy copy.</span>
+
+<span class="sd">    Pool workers always run NumPy (``ConfigureForkPoolWorker``) and must never open a CUDA</span>
+<span class="sd">    context, so whatever a CuPy session sends them, such as a tile whose grid transform holds</span>
+<span class="sd">    device points, arrives as host arrays. This is what lets GPU sessions hand CPU-bound work</span>
+<span class="sd">    (tile prewarp) to the process pools instead of running it serially.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">,</span> <span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">get</span><span class="p">(),)</span>
+
+
+<span class="k">if</span> <span class="n">cp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">multiprocessing</span><span class="o">.</span><span class="n">reduction</span><span class="o">.</span><span class="n">ForkingPickler</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">_reduce_cupy_array_to_host</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_probe_cupy_runtime</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

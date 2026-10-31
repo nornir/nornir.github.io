@@ -1781,7 +1781,8 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ImportIDoc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
                                    <span class="p">[</span><span class="o">-</span><span class="n">ext</span> <span class="n">EXTENSION</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Min</span> <span class="n">MINVALUE</span><span class="p">]</span>
                                    <span class="p">[</span><span class="o">-</span><span class="n">Max</span> <span class="n">MAXVALUE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Sections</span> <span class="n">SECTIONS</span><span class="p">]</span>
-                                   <span class="p">[</span><span class="o">-</span><span class="n">CameraBpp</span> <span class="n">CAMERABPP</span><span class="p">]</span>
+                                   <span class="p">[</span><span class="o">-</span><span class="n">CameraBpp</span> <span class="n">CAMERABPP</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">NoCrush</span><span class="p">]</span>
+                                   <span class="p">[</span><span class="o">-</span><span class="n">CrushK</span> <span class="n">CRUSHK</span><span class="p">]</span>
                                    <span class="n">volumepath</span> <span class="n">ImportDir</span>
 </pre></div>
 </div>
@@ -1824,6 +1825,14 @@
 </dd>
 <dt><kbd>-CameraBpp</kbd></dt>
 <dd><p>The actual bits-per-pixel of the camera.  Limits the range of image histograms being expanded beyond reason due to errors in input image data or meta-data.</p>
+</dd>
+<dt><kbd>-NoCrush</kbd></dt>
+<dd><p>Store contrast-stretched 8-bit tiles instead of noise-crushed codes.  By default tiles deeper than 8 bits are quantized to a section-wide step of CrushK noise sigmas (about 86% smaller than raw 16-bit).  An existing uncrushed Raw8 filter is never replaced either way.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>-CrushK</kbd></dt>
+<dd><p>Crush step in noise sigmas (default 2.5, about 35-40 levels on TEM).  Larger values give smaller files and coarser intensity steps.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">2.5</span></code></p>
 </dd>
 </dl>
 </section>
@@ -1875,6 +1884,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ImportMRC</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
                                   <span class="p">[</span><span class="o">-</span><span class="n">ext</span> <span class="n">EXTENSION</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Min</span> <span class="n">MINVALUE</span><span class="p">]</span>
                                   <span class="p">[</span><span class="o">-</span><span class="n">Max</span> <span class="n">MAXVALUE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">CameraBpp</span> <span class="n">CAMERABPP</span><span class="p">]</span>
+                                  <span class="p">[</span><span class="o">-</span><span class="n">NoCrush</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">CrushK</span> <span class="n">CRUSHK</span><span class="p">]</span>
                                   <span class="n">volumepath</span> <span class="n">ImportDir</span>
 </pre></div>
 </div>
@@ -1914,6 +1924,14 @@
 </dd>
 <dt><kbd>-CameraBpp</kbd></dt>
 <dd><p>The actual bits-per-pixel of the camera.  Limits the range of image histograms being expanded beyond reason due to errors in input image data or meta-data.</p>
+</dd>
+<dt><kbd>-NoCrush</kbd></dt>
+<dd><p>Store the legacy contrast-stretched Raw16 tiles instead of noise-crushed codes in Raw8.  An existing uncrushed Raw16 import is never replaced either way.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>-CrushK</kbd></dt>
+<dd><p>Crush step in noise sigmas (default 2.5).  Larger values give smaller files and coarser intensity steps.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">2.5</span></code></p>
 </dd>
 </dl>
 </section>
@@ -5811,7 +5829,8 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ImportIDoc</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
                                    <span class="p">[</span><span class="o">-</span><span class="n">ext</span> <span class="n">EXTENSION</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Min</span> <span class="n">MINVALUE</span><span class="p">]</span>
                                    <span class="p">[</span><span class="o">-</span><span class="n">Max</span> <span class="n">MAXVALUE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Sections</span> <span class="n">SECTIONS</span><span class="p">]</span>
-                                   <span class="p">[</span><span class="o">-</span><span class="n">CameraBpp</span> <span class="n">CAMERABPP</span><span class="p">]</span>
+                                   <span class="p">[</span><span class="o">-</span><span class="n">CameraBpp</span> <span class="n">CAMERABPP</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">NoCrush</span><span class="p">]</span>
+                                   <span class="p">[</span><span class="o">-</span><span class="n">CrushK</span> <span class="n">CRUSHK</span><span class="p">]</span>
                                    <span class="n">volumepath</span> <span class="n">ImportDir</span>
 </pre></div>
 </div>
@@ -5854,6 +5873,14 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 </dd>
 <dt><kbd>-CameraBpp</kbd></dt>
 <dd><p>The actual bits-per-pixel of the camera.  Limits the range of image histograms being expanded beyond reason due to errors in input image data or meta-data.</p>
+</dd>
+<dt><kbd>-NoCrush</kbd></dt>
+<dd><p>Store contrast-stretched 8-bit tiles instead of noise-crushed codes.  By default tiles deeper than 8 bits are quantized to a section-wide step of CrushK noise sigmas (about 86% smaller than raw 16-bit).  An existing uncrushed Raw8 filter is never replaced either way.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>-CrushK</kbd></dt>
+<dd><p>Crush step in noise sigmas (default 2.5, about 35-40 levels on TEM).  Larger values give smaller files and coarser intensity steps.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">2.5</span></code></p>
 </dd>
 </dl>
 </section>
@@ -5905,6 +5932,7 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nornir_build</span> <span class="n">volumepath</span> <span class="n">ImportMRC</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">to</span> <span class="p">[</span><span class="n">TO</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">cc</span> <span class="p">[</span><span class="n">CC</span> <span class="o">...</span><span class="p">]]</span>
                                   <span class="p">[</span><span class="o">-</span><span class="n">ext</span> <span class="n">EXTENSION</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">Min</span> <span class="n">MINVALUE</span><span class="p">]</span>
                                   <span class="p">[</span><span class="o">-</span><span class="n">Max</span> <span class="n">MAXVALUE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">CameraBpp</span> <span class="n">CAMERABPP</span><span class="p">]</span>
+                                  <span class="p">[</span><span class="o">-</span><span class="n">NoCrush</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">CrushK</span> <span class="n">CRUSHK</span><span class="p">]</span>
                                   <span class="n">volumepath</span> <span class="n">ImportDir</span>
 </pre></div>
 </div>
@@ -5944,6 +5972,14 @@ Copied from: <a class="reference external" href="http://stackoverflow.com/questi
 </dd>
 <dt><kbd>-CameraBpp</kbd></dt>
 <dd><p>The actual bits-per-pixel of the camera.  Limits the range of image histograms being expanded beyond reason due to errors in input image data or meta-data.</p>
+</dd>
+<dt><kbd>-NoCrush</kbd></dt>
+<dd><p>Store the legacy contrast-stretched Raw16 tiles instead of noise-crushed codes in Raw8.  An existing uncrushed Raw16 import is never replaced either way.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+<dt><kbd>-CrushK</kbd></dt>
+<dd><p>Crush step in noise sigmas (default 2.5).  Larger values give smaller files and coarser intensity steps.</p>
+<p>Default: <code class="docutils literal notranslate"><span class="pre">2.5</span></code></p>
 </dd>
 </dl>
 </section>

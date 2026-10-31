@@ -158,7 +158,7 @@
 <section id="alignment-keys">
 <h2>Alignment keys<a class="headerlink" href="#alignment-keys" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><strong>Rigid:</strong> Space runs a local brute-force refine (±5° at 1° steps) and keeps scale. Shift+Space also refines scale. Both are also in the <strong>Registration</strong> menu.</p></li>
+<li><p><strong>Rigid:</strong> Space runs a brute-force refine of the whole section (downsampled to 1024 px) at the current angle: it finds translation and refines scale. Shift+Space also searches the angle (±7.5° at 1° steps). Both are also in the <strong>Registration</strong> menu.</p></li>
 <li><p><strong>Mesh / RBF:</strong> Space auto-aligns the selected control points and the point under the cursor. Shift+Space auto-aligns all points. Holding Space aligns each point once: sweep the cursor over points to align them in turn, and release and press again to re-align one.</p></li>
 <li><p><strong>Grid:</strong> Space auto-aligns like Mesh. Shift+Space runs one grid-refine pass (settings dialog, then a live preview). <strong>Registration → Refine w/ Grid</strong> runs the chosen number of iterations as one job and updates the view after each pass. Several Shift+Space presses are not the same as that multi-pass job.</p></li>
 <li><p><strong>Esc</strong> (or <strong>Registration → Cancel Registration</strong>, or the status-bar Cancel) cancels queued point alignments and any running refine or rotate job. Points already moved stay moved. While you are creating a point or dragging a selection box, Esc cancels that instead.</p></li>
