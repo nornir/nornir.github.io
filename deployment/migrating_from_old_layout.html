@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="dashboard.html">Build dashboard (<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Migrating from the old layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hosts-set-up-from-nornir-docker-deploy">Hosts set up from <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#copy-files-with-move-dockerhostlayout-ps1">Copy files with <code class="docutils literal notranslate"><span class="pre">Move-DockerHostLayout.ps1</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#old-to-new">Old to new</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#removed-scripts-and-files">Removed scripts and files</a></li>
@@ -131,12 +132,30 @@
 <code class="docutils literal notranslate"><span class="pre">mounted-configs\...</span></code>, <code class="docutils literal notranslate"><span class="pre">Run\segmentation-server</span></code>, Nginx Proxy Manager). The stack layout
 gives every stack the same shape (<a class="reference internal" href="host_layout.html"><span class="doc">Host layout</span></a>). Moving over is a copy, not a rename: old
 files stay where they are until you delete them.</p>
+<section id="hosts-set-up-from-nornir-docker-deploy">
+<h2>Hosts set up from <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy</span></code><a class="headerlink" href="#hosts-set-up-from-nornir-docker-deploy" title="Link to this heading"></a></h2>
+<p>The deploy tooling moved from <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/</span></code> to the <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a> repository on 2026-10-21; the copy left in
+<code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/</span></code> is no longer maintained. On a host whose layout was created from the old
+copy:</p>
+<ol class="arabic simple">
+<li><p>clone connectomes-deploy (<code class="docutils literal notranslate"><span class="pre">/srv/connectomes-deploy</span></code> on Ubuntu, next to the other checkouts
+on Windows);</p></li>
+<li><p>re-run its <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code> with the host’s role and <code class="docutils literal notranslate"><span class="pre">-SetUserEnv</span></code>; it rewrites
+<code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/stack.ps1</span></code> to forward to the new checkout and copies only templates that are missing;</p></li>
+<li><p>add <code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST=&lt;that</span> <span class="pre">checkout&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">Run/_host/host.env</span></code> (the script fills the
+key only when it is already present and empty);</p></li>
+<li><p>on the dev box, add <code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST</span></code> to each target’s <code class="docutils literal notranslate"><span class="pre">Repos</span></code> in <code class="docutils literal notranslate"><span class="pre">targets.psd1</span></code>
+so <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> updates it;</p></li>
+<li><p>compare existing run env files with the current templates, then <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code>.</p></li>
+</ol>
+</section>
 <section id="copy-files-with-move-dockerhostlayout-ps1">
 <h2>Copy files with <code class="docutils literal notranslate"><span class="pre">Move-DockerHostLayout.ps1</span></code><a class="headerlink" href="#copy-files-with-move-dockerhostlayout-ps1" title="Link to this heading"></a></h2>
-<p>Always run with <code class="docutils literal notranslate"><span class="pre">-WhatIf</span></code> first; it prints the old-to-new table without copying:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.\nornir-docker\deploy\Move-DockerHostLayout.ps1 -WhatIf
-.\nornir-docker\deploy\Move-DockerHostLayout.ps1
-.\nornir-docker\deploy\Move-DockerHostLayout.ps1 -From D:\Docker -To \\newserver\c$\srv\docker
+<p>The script is in the <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a>
+repository. Always run with <code class="docutils literal notranslate"><span class="pre">-WhatIf</span></code> first; it prints the old-to-new table without copying:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>D:\src\git\connectomes-deploy\Move-DockerHostLayout.ps1 -WhatIf
+D:\src\git\connectomes-deploy\Move-DockerHostLayout.ps1
+D:\src\git\connectomes-deploy\Move-DockerHostLayout.ps1 -From D:\Docker -To \\newserver\c$\srv\docker
 </pre></div>
 </div>
 <p>It never deletes or overwrites. Env files that map to one <code class="docutils literal notranslate"><span class="pre">&lt;stack&gt;.run.env</span></code> are concatenated
@@ -251,7 +270,7 @@ start, or every user is signed out. <code class="docutils literal notranslate"><
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Initialize-NornirBuildAppliance.ps1</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">deploy/Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span></code></p></td>
+<td><p>connectomes-deploy <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">link-build-env.ps1</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">nornir-docker\.env</span></code>: hardlink to <code class="docutils literal notranslate"><span class="pre">Run\nornir-dev\.env</span></code> (<a class="reference internal" href="nornir_dev_and_worker.html"><span class="doc">Programmer shell and Cursor worker</span></a>).
@@ -286,7 +305,7 @@ Build args: run <code class="docutils literal notranslate"><span class="pre">doc
 <td><p><code class="docutils literal notranslate"><span class="pre">Builds\nornir\build.env</span></code> (per-image templates <code class="docutils literal notranslate"><span class="pre">*/example.&lt;id&gt;.build.env</span></code> remain)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">example.dashboard.run.env</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">deploy/examples/example.nornir-dashboard.run.env</span></code></p></td>
+<td><p>connectomes-deploy <code class="docutils literal notranslate"><span class="pre">stacks/nornir-dashboard/example.nornir-dashboard.run.env</span></code></p></td>
 </tr>
 </tbody>
 </table>
@@ -312,7 +331,7 @@ Build args: run <code class="docutils literal notranslate"><span class="pre">doc
 <td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code> (old name still read, with a warning)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-MonorepoRoot</span></code> (<code class="docutils literal notranslate"><span class="pre">Initialize-NornirBuildAppliance.ps1</span></code>)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">-RepoRoot</span></code> (<code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-NornirRepoRoot</span></code> (<code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>; <code class="docutils literal notranslate"><span class="pre">-RepoRoot</span></code> is an alias)</p></td>
 </tr>
 </tbody>
 </table>

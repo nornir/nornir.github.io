@@ -135,8 +135,10 @@
   <section id="configuration-reference">
 <h1>Configuration reference<a class="headerlink" href="#configuration-reference" title="Link to this heading"></a></h1>
 <p>Every key in the committed templates, plus the run-time variables the <code class="docutils literal notranslate"><span class="pre">nornir-docker</span></code> launchers
-read. Templates are in <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/examples/</span></code> unless a path is given. Viking service
-keys (SQL connection strings, identity clients, segmentation models) are in the Viking
+read. Host templates (<code class="docutils literal notranslate"><span class="pre">example.host.env</span></code>, <code class="docutils literal notranslate"><span class="pre">example.host.secrets.env</span></code>,
+<code class="docutils literal notranslate"><span class="pre">example.targets.psd1</span></code>) are in <code class="docutils literal notranslate"><span class="pre">host/</span></code> of the <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a> repository, and the <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> and
+<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code> templates in its <code class="docutils literal notranslate"><span class="pre">stacks/&lt;stack&gt;/</span></code>; other templates give their path. Viking
+service keys (SQL connection strings, identity clients, segmentation models) are in the Viking
 <code class="docutils literal notranslate"><span class="pre">deploy/examples/</span></code> templates and the Viking deployment docs (<a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/proxy.html">proxy</a>,
 <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/tls.html">TLS</a>, <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/identity.html">identity</a>, <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/segmentation.html">segmentation</a>).</p>
 <p>“Required” means <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> (or the launcher) stops without it. Blank defaults mean unset.</p>
@@ -204,15 +206,31 @@ limits).</p></td>
 <td><p>Layout root (<a class="reference internal" href="host_layout.html"><span class="doc">Host layout</span></a>). Filled in by <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>. Also read from
 the process environment by every launcher.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST</span></code></p></td>
 <td><p>checkout containing <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code></p></td>
 <td><p>yes</p></td>
-<td><p>nornir checkout on this host; forwarding launchers and <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> use it.</p></td>
+<td><p>connectomes-deploy checkout on this host (<code class="docutils literal notranslate"><span class="pre">/srv/connectomes-deploy</span></code> on Ubuntu). Filled in
+by <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>; <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/stack.ps1</span></code> forwards to it, and <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> uses it.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nornir-*</span></code> stacks</p></td>
+<td><p>nornir checkout on this host (<code class="docutils literal notranslate"><span class="pre">/srv/src/nornir</span></code>), needed until the <code class="docutils literal notranslate"><span class="pre">nornir-*</span></code> images run
+without it; the <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code> / <code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code> launchers and the nornir dev-stack
+registry live there. <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> uses it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code></p></td>
 <td></td>
 <td><p>Viking hosts</p></td>
 <td><p>Viking checkout; without it the Viking registry is not loaded.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">STACK_EXTRA_REGISTRIES</span></code></p></td>
+<td><p>see meaning</p></td>
+<td></td>
+<td><p>Source-repo stack registries loaded after connectomes-deploy’s <code class="docutils literal notranslate"><span class="pre">stacks.psd1</span></code>, comma list
+of <code class="docutils literal notranslate"><span class="pre">&lt;RepoRootVar&gt;:&lt;path&gt;</span></code>. Empty loads <code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST:deploy/stacks.psd1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST:nornir-docker/dev-stacks.psd1</span></code>. <code class="docutils literal notranslate"><span class="pre">none</span></code> loads only
+connectomes-deploy’s registry.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code></p></td>
 <td><p>role preset</p></td>
@@ -232,71 +250,107 @@ iis <code class="docutils literal notranslate"><span class="pre">viking-iis</spa
 <td></td>
 <td><p>Override for one service name. Same for <code class="docutils literal notranslate"><span class="pre">_WEBSVC</span></code> (<code class="docutils literal notranslate"><span class="pre">websvc</span></code>), <code class="docutils literal notranslate"><span class="pre">_ANNOTATION</span></code>
 (<code class="docutils literal notranslate"><span class="pre">annotation</span></code>), <code class="docutils literal notranslate"><span class="pre">_CORRECTIONS</span></code> (<code class="docutils literal notranslate"><span class="pre">corrections</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEGMENTATION</span></code>
-(<code class="docutils literal notranslate"><span class="pre">segmentation</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEGMENTATIONDEMO</span></code> (<code class="docutils literal notranslate"><span class="pre">segmentationdemo</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEG_V3</span></code>
-(<code class="docutils literal notranslate"><span class="pre">segmentation-v3</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEG_V4</span></code> (<code class="docutils literal notranslate"><span class="pre">segmentation-v4</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEG_SEM_V1</span></code>
-(<code class="docutils literal notranslate"><span class="pre">segmentation-sem-v1</span></code>), <code class="docutils literal notranslate"><span class="pre">_GALLERY</span></code>
+(<code class="docutils literal notranslate"><span class="pre">segmentation</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEGMENTATIONDEMO</span></code> (<code class="docutils literal notranslate"><span class="pre">segmentationdemo</span></code>), <code class="docutils literal notranslate"><span class="pre">_GALLERY</span></code>
 (<code class="docutils literal notranslate"><span class="pre">gallery</span></code>), <code class="docutils literal notranslate"><span class="pre">_TEM_GALLERY</span></code> (<code class="docutils literal notranslate"><span class="pre">gallery-tem</span></code>), <code class="docutils literal notranslate"><span class="pre">_SEM_GALLERY</span></code> (<code class="docutils literal notranslate"><span class="pre">gallery-sem</span></code>).
-Keep overrides single-label under the domain so one wildcard certificate still covers them.</p></td>
+Keep overrides single-label under the domain so one wildcard certificate still covers them.
+The other segmentation models are rows of <code class="docutils literal notranslate"><span class="pre">Run/viking-segmentation/models.json</span></code>
+(<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">viking-segmentation</span> <span class="pre">model</span></code>), named <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;.segmentation.&lt;domain&gt;</span></code>; the
+certificate needs <code class="docutils literal notranslate"><span class="pre">*.segmentation.&lt;domain&gt;</span></code> (or each name) for them.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_COMPUTE_HOST</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_BACKEND_NETWORK</span></code></p></td>
+<td></td>
+<td></td>
+<td><p>Docker network shared by <code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> and the segmentation model servers on the same
+host (for example <code class="docutils literal notranslate"><span class="pre">viking-backend</span></code>); the proxy then reaches them by name and nothing is
+published (connectomes-deploy <code class="docutils literal notranslate"><span class="pre">stacks/viking-proxy/compose.backend.yaml</span></code>).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_IDENTITY_URL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://$VIKING_HOSTNAME_IDENTITY/</span></code></p></td>
+<td></td>
+<td><p>Token issuer used by identity, annotation, corrections and segmentation. A stack’s own
+setting (<code class="docutils literal notranslate"><span class="pre">IDENTITY_AUTHORITY</span></code>, <code class="docutils literal notranslate"><span class="pre">IdentityServer__Endpoint</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SEGMENTATION_IDENTITY_ENDPOINT</span></code>) wins.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_IDENTITY_API_URL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://$VIKING_HOSTNAME_IDENTITY/webapi/</span></code></p></td>
+<td></td>
+<td><p>Identity WebApi (permissions, resources).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_CORRECTIONS_DIR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Data/viking-corrections</span></code></p></td>
+<td></td>
+<td><p>Published section corrections: <code class="docutils literal notranslate"><span class="pre">viking-corrections</span></code> writes <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;/corrections</span></code>,
+<code class="docutils literal notranslate"><span class="pre">viking-annotation</span></code> reads it.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_ACME_WEBROOT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Data/viking-certs/webroot</span></code></p></td>
+<td></td>
+<td><p>HTTP-01 challenge webroot: <code class="docutils literal notranslate"><span class="pre">viking-certs</span></code> writes it, <code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> serves it on port 80.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_COMPUTE_HOST</span></code></p></td>
 <td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
-<td><p>LAN name or IP of <code class="docutils literal notranslate"><span class="pre">compute</span></code>; the proxy forwards the segmentation names to it (ports
-40443-40447).</p></td>
+<td><p>LAN name or IP of <code class="docutils literal notranslate"><span class="pre">compute</span></code>; the proxy forwards <code class="docutils literal notranslate"><span class="pre">segmentation</span></code> (port 40443) and
+<code class="docutils literal notranslate"><span class="pre">segmentationdemo</span></code> (40444) to it, and it is the default <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_UPSTREAM_HOST</span></code> of
+published <code class="docutils literal notranslate"><span class="pre">models.json</span></code> rows. A segmentation server on its own IP (macvlan) is set with
+<code class="docutils literal notranslate"><span class="pre">VIKING_UPSTREAM_SEGMENTATION=&lt;IP&gt;:443</span></code> in the proxy run env instead
+(<a class="reference internal" href="ports_and_remote_access.html#deploy-segmentation-network"><span class="std std-ref">How the proxy reaches the segmentation servers</span></a>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_IIS_HOST</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_IIS_HOST</span></code></p></td>
 <td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">web</span></code></p></td>
 <td><p>LAN name or IP of <code class="docutils literal notranslate"><span class="pre">iis</span></code>; the proxy forwards <code class="docutils literal notranslate"><span class="pre">websvc</span></code> to it on 443.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_UPSTREAM_DEFAULT</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_UPSTREAM_DEFAULT</span></code></p></td>
 <td><p>the IIS host</p></td>
 <td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">host:port</span></code> for TLS connections whose SNI name matches no service.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> setting; the template puts it in <code class="docutils literal notranslate"><span class="pre">Run/viking-proxy/viking-proxy.run.env</span></code>.
+<code class="docutils literal notranslate"><span class="pre">host:port</span></code> for TLS connections whose SNI name matches no service.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_HTTP_UPSTREAM_WEBSVC</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_HTTP_UPSTREAM_WEBSVC</span></code></p></td>
 <td></td>
 <td></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">host:port</span></code>: pass plain-HTTP <code class="docutils literal notranslate"><span class="pre">websvc</span></code> traffic through on port 80 instead of redirecting
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> setting; the template puts it in <code class="docutils literal notranslate"><span class="pre">Run/viking-proxy/viking-proxy.run.env</span></code>.
+<code class="docutils literal notranslate"><span class="pre">host:port</span></code>: pass plain-HTTP <code class="docutils literal notranslate"><span class="pre">websvc</span></code> traffic through on port 80 instead of redirecting
 it to https, so old Viking clients’ <code class="docutils literal notranslate"><span class="pre">http://</span></code> WCF and tile requests keep working.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_MODE</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_MODE</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code></p></td>
 <td><p>Viking hosts</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code> | <code class="docutils literal notranslate"><span class="pre">acme-eab</span></code> | <code class="docutils literal notranslate"><span class="pre">manual</span></code>; tells <code class="docutils literal notranslate"><span class="pre">viking-certs</span></code> what to renew.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_EMAIL</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_EMAIL</span></code></p></td>
 <td></td>
 <td><p>letsencrypt, acme-eab</p></td>
 <td><p>ACME account contact for expiry notices.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_CERT_NAME</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_CERT_NAME</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">$VIKING_DOMAIN</span></code></p></td>
 <td></td>
 <td><p>Folder under <code class="docutils literal notranslate"><span class="pre">Certs/</span></code>; every TLS service loads <code class="docutils literal notranslate"><span class="pre">/certs/&lt;TLS_CERT_NAME&gt;/</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_HOSTNAMES</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_HOSTNAMES</span></code></p></td>
 <td><p>every <code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_*</span></code></p></td>
 <td></td>
 <td><p>Comma list the certificate must cover (<code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">manual</span></code>, <code class="docutils literal notranslate"><span class="pre">certs</span> <span class="pre">status</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_ACME_SERVER</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_ACME_SERVER</span></code></p></td>
 <td></td>
 <td><p>acme-eab</p></td>
 <td><p>ACME directory URL from Pitt IT. The EAB key id and HMAC key go in
 <code class="docutils literal notranslate"><span class="pre">Run/viking-certs/secrets/secrets.env</span></code> as <code class="docutils literal notranslate"><span class="pre">TLS_EAB_KID</span></code> and <code class="docutils literal notranslate"><span class="pre">TLS_EAB_HMAC_KEY</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_STAGING</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_STAGING</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
 <td></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">1</span></code> uses the Let’s Encrypt staging endpoint (untrusted certificates; no rate limits).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_PFX_PASSWORD</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_PFX_PASSWORD</span></code></p></td>
 <td><p>empty</p></td>
 <td></td>
 <td><p>Password for <code class="docutils literal notranslate"><span class="pre">Certs/&lt;name&gt;/cert.pfx</span></code>. Also accepted as <code class="docutils literal notranslate"><span class="pre">-PfxPassword</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_GHCR_OWNER</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_GHCR_OWNER</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">jamesra</span></code></p></td>
 <td></td>
 <td><p>GHCR namespace for <code class="docutils literal notranslate"><span class="pre">docker-pull.ps1</span></code> / <code class="docutils literal notranslate"><span class="pre">docker-push.ps1</span></code> (<code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;owner&gt;/nornir:*</span></code>).</p></td>
@@ -364,8 +418,9 @@ prompt.</p></td>
 <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code> decides what <code class="docutils literal notranslate"><span class="pre">all</span></code> runs there).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Repos</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&#64;{</span> <span class="pre">NORNIR_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;';</span> <span class="pre">VIKING_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;'</span> <span class="pre">}</span></code>: checkouts that
-<code class="docutils literal notranslate"><span class="pre">-Sync</span></code> fast-forwards.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&#64;{</span> <span class="pre">DEPLOY_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;';</span> <span class="pre">NORNIR_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;';</span>
+<span class="pre">VIKING_REPO_ROOT_HOST</span> <span class="pre">=</span> <span class="pre">'&lt;path&gt;'</span> <span class="pre">}</span></code>: checkouts that <code class="docutils literal notranslate"><span class="pre">-Sync</span></code> fast-forwards (list only
+those the target has).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Tunnels</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-L</span></code> specs (<code class="docutils literal notranslate"><span class="pre">local:host:port</span></code>) opened by <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">tunnel</span></code>.</p></td>
@@ -525,7 +580,8 @@ start a listener; debugpy is not in the images (<a class="reference internal" hr
 <td><p>Tab-separated <code class="docutils literal notranslate"><span class="pre">fstype</span> <span class="pre">source</span> <span class="pre">target</span> <span class="pre">options</span></code> per share.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">secrets/net-creds/&lt;id&gt;.cred</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">example.net-creds.cred</span></code></p></td>
+<td><p>connectomes-deploy <code class="docutils literal notranslate"><span class="pre">stacks/nornir-build/example.net-creds.cred</span></code> (copied as
+<code class="docutils literal notranslate"><span class="pre">storage.cred</span></code>)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">username=</span></code>, <code class="docutils literal notranslate"><span class="pre">password=</span></code>, <code class="docutils literal notranslate"><span class="pre">domain=</span></code> (optional), LF line endings.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.run.nornir-net-mounts.env</span></code></p></td>
@@ -705,6 +761,20 @@ passes the whole file into the container (<code class="docutils literal notransl
 <td><p>from <code class="docutils literal notranslate"><span class="pre">VERSION</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">docker-build.ps1</span></code> build args (<code class="docutils literal notranslate"><span class="pre">Builds/nornir/build.env</span></code>).</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">STACK_COMPOSE_OVERLAYS</span></code></p></td>
+<td></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code>, in a compose stack’s run env: comma list of extra compose files merged after
+the registry’s, for host-specific variations. Relative paths resolve against
+connectomes-deploy (<code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST</span></code>). Examples:
+<code class="docutils literal notranslate"><span class="pre">stacks/viking-segmentation/compose.macvlan.yaml</span></code> (<a class="reference internal" href="ports_and_remote_access.html#deploy-segmentation-network"><span class="std std-ref">How the proxy reaches the segmentation servers</span></a>),
+<code class="docutils literal notranslate"><span class="pre">stacks/viking-proxy/compose.backend.yaml</span></code>. A missing file stops <code class="docutils literal notranslate"><span class="pre">up</span></code>.
+<code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/compose.generated.yaml</span></code> (written by <code class="docutils literal notranslate"><span class="pre">model</span></code>) is merged after them.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">STACK_PROFILES</span></code></p></td>
+<td><p>the registry’s <code class="docutils literal notranslate"><span class="pre">Profiles</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code>, in a stack’s run env: replaces the stack’s default compose profiles (<code class="docutils literal notranslate"><span class="pre">none</span></code>
+turns them off). <code class="docutils literal notranslate"><span class="pre">-Profile</span></code> adds to the result.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -767,7 +837,8 @@ passes the whole file into the container (<code class="docutils literal notransl
 <td><p>yes, as fallbacks</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Initialize-NornirBuildAppliance.ps1</span> <span class="pre">-MonorepoRoot</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">deploy/Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span> <span class="pre">-RepoRoot</span></code></p></td>
+<td><p>connectomes-deploy <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">compute</span> <span class="pre">-NornirRepoRoot</span></code> (<code class="docutils literal notranslate"><span class="pre">-RepoRoot</span></code>
+is still accepted as an alias)</p></td>
 <td><p>removed</p></td>
 </tr>
 </tbody>

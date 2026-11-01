@@ -58,6 +58,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Ports and remote access</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#firewall-request">Firewall request</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#docker-and-ufw-on-linux">Docker and ufw on Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-the-proxy-reaches-the-segmentation-servers">How the proxy reaches the segmentation servers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ssh-keys">SSH keys</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#windows-openssh-iis">Windows OpenSSH (<code class="docutils literal notranslate"><span class="pre">iis</span></code>)</a></li>
 </ul>
@@ -173,27 +174,36 @@
 <td><p>SSH for deploys and tunnels</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
-<td><p>40443/tcp, 40444/tcp, 40445-40447/tcp</p></td>
+<td><p>40443/tcp; 40444/tcp; 40445/tcp and up</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> only</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code> servers (default model and demo on 40443-40444; the <code class="docutils literal notranslate"><span class="pre">models</span></code>
-profile’s v3 / v4 / sem-v1 on 40445-40447), reached by the proxy</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code> with published ports (the compose default), reached by the proxy:
+the default model on 40443, its demo page on 40444 (only when enabled), and one port per
+<code class="docutils literal notranslate"><span class="pre">models.json</span></code> row with <code class="docutils literal notranslate"><span class="pre">&quot;network&quot;:</span> <span class="pre">&quot;published&quot;</span></code>, numbered from 40445. Not needed for
+servers on macvlan or the backend network (<a class="reference internal" href="#deploy-segmentation-network"><span class="std std-ref">How the proxy reaches the segmentation servers</span></a>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
+<tr class="row-odd"><td><p>segmentation IP</p></td>
+<td><p>443/tcp</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> only</p></td>
+<td><p>Only when the segmentation server runs on its own MAC and IP (macvlan). A network ACL:
+the host firewall does not see this traffic. If the server reads local tilesets, also
+outbound from that IP to the identity and <code class="docutils literal notranslate"><span class="pre">websvc</span></code> hosts.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code></p></td>
 <td><p>445/tcp outbound</p></td>
 <td><p>to the NAS</p></td>
 <td><p>CIFS mounts for <code class="docutils literal notranslate"><span class="pre">nornir-build</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
 <td><p>443/tcp</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> only</p></td>
 <td><p>IIS sites behind <code class="docutils literal notranslate"><span class="pre">websvc.&lt;domain&gt;</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
 <td><p>22/tcp</p></td>
 <td><p>campus/VPN</p></td>
 <td><p>Windows OpenSSH for <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">-Target</span> <span class="pre">iis</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>SQL Server</p></td>
+<tr class="row-odd"><td><p>SQL Server</p></td>
 <td><p>1433/tcp</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">web</span></code> and <code class="docutils literal notranslate"><span class="pre">iis</span></code> only</p></td>
 <td><p>Identity, annotation, and IIS databases</p></td>
@@ -254,13 +264,14 @@ them.</p></li>
 <li><p>Ports another host must reach are filtered in the <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code> chain, which Docker evaluates
 before its own rules and never rewrites.</p></li>
 </ul>
-<p>On <code class="docutils literal notranslate"><span class="pre">compute</span></code>, allow only <code class="docutils literal notranslate"><span class="pre">web</span></code> to reach the segmentation ports. Replace the interface name
-(<code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">-br</span> <span class="pre">link</span></code>) and the address of <code class="docutils literal notranslate"><span class="pre">web</span></code>:</p>
+<p>On <code class="docutils literal notranslate"><span class="pre">compute</span></code>, allow only <code class="docutils literal notranslate"><span class="pre">web</span></code> to reach the published segmentation ports. Replace the
+interface name (<code class="docutils literal notranslate"><span class="pre">ip</span> <span class="pre">-br</span> <span class="pre">link</span></code>) and the address of <code class="docutils literal notranslate"><span class="pre">web</span></code>, and widen the port range to the
+highest <code class="docutils literal notranslate"><span class="pre">port</span></code> in <code class="docutils literal notranslate"><span class="pre">models.json</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EXT_IF</span><span class="o">=</span><span class="n">eno1</span>
 <span class="n">WEB_IP</span><span class="o">=</span><span class="mf">203.0.113.10</span>
 <span class="c1"># Inserted in reverse order: the ACCEPT ends up above the DROP.</span>
-<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">I</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">i</span> <span class="s2">"$EXT_IF"</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">m</span> <span class="n">conntrack</span> <span class="o">--</span><span class="n">ctorigdstport</span> <span class="mi">40443</span><span class="p">:</span><span class="mi">40447</span> <span class="o">--</span><span class="n">ctdir</span> <span class="n">ORIGINAL</span> <span class="o">-</span><span class="n">j</span> <span class="n">DROP</span>
-<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">I</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">i</span> <span class="s2">"$EXT_IF"</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">s</span> <span class="s2">"$WEB_IP"</span> <span class="o">-</span><span class="n">m</span> <span class="n">conntrack</span> <span class="o">--</span><span class="n">ctorigdstport</span> <span class="mi">40443</span><span class="p">:</span><span class="mi">40447</span> <span class="o">--</span><span class="n">ctdir</span> <span class="n">ORIGINAL</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
+<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">I</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">i</span> <span class="s2">"$EXT_IF"</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">m</span> <span class="n">conntrack</span> <span class="o">--</span><span class="n">ctorigdstport</span> <span class="mi">40443</span><span class="p">:</span><span class="mi">40449</span> <span class="o">--</span><span class="n">ctdir</span> <span class="n">ORIGINAL</span> <span class="o">-</span><span class="n">j</span> <span class="n">DROP</span>
+<span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">I</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">i</span> <span class="s2">"$EXT_IF"</span> <span class="o">-</span><span class="n">p</span> <span class="n">tcp</span> <span class="o">-</span><span class="n">s</span> <span class="s2">"$WEB_IP"</span> <span class="o">-</span><span class="n">m</span> <span class="n">conntrack</span> <span class="o">--</span><span class="n">ctorigdstport</span> <span class="mi">40443</span><span class="p">:</span><span class="mi">40449</span> <span class="o">--</span><span class="n">ctdir</span> <span class="n">ORIGINAL</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span>
 <span class="n">sudo</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">L</span> <span class="n">DOCKER</span><span class="o">-</span><span class="n">USER</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">v</span> <span class="o">--</span><span class="n">line</span><span class="o">-</span><span class="n">numbers</span>
 
 <span class="c1"># Keep the rules across reboots</span>
@@ -271,6 +282,79 @@ before its own rules and never rewrites.</p></li>
 <p><code class="docutils literal notranslate"><span class="pre">--ctorigdstport</span></code> matches the port the client connected to, before Docker’s DNAT, so the rule
 holds even if the container port differs from the host port. <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">doctor</span></code> prints a
 reminder when ufw is installed.</p>
+</section>
+<section id="how-the-proxy-reaches-the-segmentation-servers">
+<span id="deploy-segmentation-network"></span><h2>How the proxy reaches the segmentation servers<a class="headerlink" href="#how-the-proxy-reaches-the-segmentation-servers" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code> (Viking <code class="docutils literal notranslate"><span class="pre">Servers/SegmentationServer/docker-compose.yml</span></code>) has no compose
+profiles. Its base service <code class="docutils literal notranslate"><span class="pre">segmentation-server</span></code> is the default model behind
+<code class="docutils literal notranslate"><span class="pre">segmentation.&lt;domain&gt;</span></code>; every other model is a row of <code class="docutils literal notranslate"><span class="pre">Run/viking-segmentation/models.json</span></code>,
+added with <code class="docutils literal notranslate"><span class="pre">stack</span> <span class="pre">viking-segmentation</span> <span class="pre">model</span> <span class="pre">&lt;prefix&gt;</span> <span class="pre">&lt;file.pt&gt;</span></code> on the host that runs it. Each
+server can be reached in one of three ways:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16.0%" />
+<col style="width: 42.0%" />
+<col style="width: 42.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mode</p></th>
+<th class="head"><p>Default server (<code class="docutils literal notranslate"><span class="pre">segmentation</span></code>)</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">models.json</span></code> rows (<code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;.segmentation</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Published ports</p></td>
+<td><p>The compose default: host port 40443 (<code class="docutils literal notranslate"><span class="pre">SEGMENTATION_HTTPS_PORT</span></code>), demo page 40444
+(loopback unless <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_DEMO_HOST_BIND=0.0.0.0</span></code>). The proxy uses
+<code class="docutils literal notranslate"><span class="pre">VIKING_COMPUTE_HOST:40443</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;network&quot;:</span> <span class="pre">&quot;published&quot;</span></code>, the default when <code class="docutils literal notranslate"><span class="pre">VIKING_BACKEND_NETWORK</span></code> is unset: host port
+<code class="docutils literal notranslate"><span class="pre">port</span></code> (next free from 40445), reached as <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_UPSTREAM_HOST:&lt;port&gt;</span></code> (default
+<code class="docutils literal notranslate"><span class="pre">VIKING_COMPUTE_HOST</span></code>). Filter these ports with <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code> (above).</p></td>
+</tr>
+<tr class="row-odd"><td><p>Own MAC and IP (macvlan)</p></td>
+<td><p>Opt-in with <code class="docutils literal notranslate"><span class="pre">STACK_COMPOSE_OVERLAYS=stacks/viking-segmentation/compose.macvlan.yaml</span></code> in the
+run env (Linux, wired NIC, Docker 25 or newer). The server listens on <code class="docutils literal notranslate"><span class="pre">&lt;IP&gt;:443</span></code> and
+nothing is published; set <code class="docutils literal notranslate"><span class="pre">VIKING_UPSTREAM_SEGMENTATION=&lt;IP&gt;:443</span></code> in the <code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code>
+run env on <code class="docutils literal notranslate"><span class="pre">web</span></code>.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;network&quot;:</span> <span class="pre">&quot;macvlan&quot;</span></code> with <code class="docutils literal notranslate"><span class="pre">mac</span></code>, <code class="docutils literal notranslate"><span class="pre">ip</span></code> and <code class="docutils literal notranslate"><span class="pre">dhcpHostname</span></code> in the row; it shares
+the default server’s <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_MACVLAN_PARENT</span></code> / <code class="docutils literal notranslate"><span class="pre">_LAN_SUBNET</span></code> / <code class="docutils literal notranslate"><span class="pre">_LAN_GATEWAY</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Backend network</p></td>
+<td><p>not used</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;network&quot;:</span> <span class="pre">&quot;backend&quot;</span></code>, the default when <code class="docutils literal notranslate"><span class="pre">VIKING_BACKEND_NETWORK</span></code> is set: only when
+<code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code> runs on the same host. Nothing is published.</p></td>
+</tr>
+</tbody>
+</table>
+<p>macvlan is how connectomes-deploy’s guide for a new segmentation host (<code class="docutils literal notranslate"><span class="pre">docs/segmentation-host.md</span></code>)
+sets up the default server. Its run-env block (template: “Own MAC address and IP” in Viking’s
+<code class="docutils literal notranslate"><span class="pre">deploy/examples/example.viking-segmentation.run.env</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">STACK_COMPOSE_OVERLAYS</span><span class="o">=</span><span class="n">stacks</span><span class="o">/</span><span class="n">viking</span><span class="o">-</span><span class="n">segmentation</span><span class="o">/</span><span class="n">compose</span><span class="o">.</span><span class="n">macvlan</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">SEGMENTATION_MACVLAN_PARENT</span><span class="o">=</span><span class="n">eno1</span>          <span class="c1"># or the tagged VLAN sub-interface, e.g. bond0.1811</span>
+<span class="n">SEGMENTATION_LAN_SUBNET</span><span class="o">=</span><span class="mf">10.20.30.0</span><span class="o">/</span><span class="mi">24</span>     <span class="c1"># CIDR, never a netmask</span>
+<span class="n">SEGMENTATION_LAN_GATEWAY</span><span class="o">=</span><span class="mf">10.20.30.1</span>
+<span class="n">SEGMENTATION_MAC_ADDRESS</span><span class="o">=</span><span class="mi">02</span><span class="p">:</span><span class="mi">5</span><span class="n">e</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">01</span>
+<span class="n">SEGMENTATION_LAN_IP</span><span class="o">=</span><span class="mf">10.20.30.40</span>
+<span class="n">SEGMENTATION_DHCP</span><span class="o">=</span><span class="mi">1</span>                       <span class="c1"># 0 for a static IP without a DHCP client</span>
+<span class="n">SEGMENTATION_DHCP_HOSTNAME</span><span class="o">=</span><span class="n">segmentation</span>
+</pre></div>
+</div>
+<p>The overlay’s <code class="docutils literal notranslate"><span class="pre">segmentation-net</span></code> container holds the macvlan endpoint and keeps a DHCP lease for
+the MAC; <code class="docutils literal notranslate"><span class="pre">segmentation-server</span></code> shares its network. What changes compared with published ports:</p>
+<ul class="simple">
+<li><p>Pitt IT reserves the IP for the MAC, lets the switch port carry a second MAC, and opens 443 to
+<code class="docutils literal notranslate"><span class="pre">&lt;IP&gt;</span></code> from <code class="docutils literal notranslate"><span class="pre">web</span></code> with a network ACL. macvlan traffic bypasses ufw and <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code>.</p></li>
+<li><p>The host itself cannot reach <code class="docutils literal notranslate"><span class="pre">&lt;IP&gt;</span></code>. Test from <code class="docutils literal notranslate"><span class="pre">web</span></code>:
+<code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">s_client</span> <span class="pre">-connect</span> <span class="pre">&lt;IP&gt;:443</span> <span class="pre">-servername</span> <span class="pre">segmentation.&lt;domain&gt;</span></code>.</p></li>
+<li><p>Restart the pair with <code class="docutils literal notranslate"><span class="pre">stack</span> <span class="pre">viking-segmentation</span> <span class="pre">restart</span></code>, never <code class="docutils literal notranslate"><span class="pre">segmentation-net</span></code> alone.
+After changing the parent NIC or the subnet, run <code class="docutils literal notranslate"><span class="pre">down</span></code> first: an existing network keeps its
+old settings.</p></li>
+</ul>
+<p>The model command writes <code class="docutils literal notranslate"><span class="pre">Data/viking-segmentation/proxy-models.map</span></code> and <code class="docutils literal notranslate"><span class="pre">cert-names.names</span></code>.
+On the hosts that run them, they go in <code class="docutils literal notranslate"><span class="pre">Data/viking-proxy/models.d/segmentation.map</span></code> (restart
+<code class="docutils literal notranslate"><span class="pre">viking-proxy</span></code>) and <code class="docutils literal notranslate"><span class="pre">Data/viking-certs/names.d/segmentation.names</span></code>; with
+<code class="docutils literal notranslate"><span class="pre">SEGMENTATION_PROXY_MAP_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_CERT_NAMES_DIR</span></code> set the command writes them there
+itself. Row fields, TLS and the demo pages: <a class="extlink-viking reference external" href="https://jamesra.github.io/Viking/deployment/segmentation.html">Viking segmentation</a>.</p>
 </section>
 <section id="ssh-keys">
 <h2>SSH keys<a class="headerlink" href="#ssh-keys" title="Link to this heading"></a></h2>

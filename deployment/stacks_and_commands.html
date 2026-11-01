@@ -145,10 +145,13 @@ action can come in either order: <code class="docutils literal notranslate"><spa
 <section id="stacks">
 <h2>Stacks<a class="headerlink" href="#stacks" title="Link to this heading"></a></h2>
 <p>Stack keys are kebab-case and are also the <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/</span></code> folder name and the compose project
-name. The registries are <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/stacks.psd1</span></code> and
-<code class="docutils literal notranslate"><span class="pre">&lt;VIKING_REPO_ROOT_HOST&gt;/deploy/stacks.psd1</span></code> (Viking stacks appear only when
-<code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code> is set in <code class="docutils literal notranslate"><span class="pre">host.env</span></code>). <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">list</span></code> prints both, with a
-<code class="docutils literal notranslate"><span class="pre">ThisHost</span></code> column for the stacks in <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code>.</p>
+name. The registries are <code class="docutils literal notranslate"><span class="pre">stacks.psd1</span></code> in the <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a> checkout (<code class="docutils literal notranslate"><span class="pre">nornir-build</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nornir-dashboard</span></code>) plus the source-repo registries named by <code class="docutils literal notranslate"><span class="pre">STACK_EXTRA_REGISTRIES</span></code> in
+<code class="docutils literal notranslate"><span class="pre">host.env</span></code>. Its default loads <code class="docutils literal notranslate"><span class="pre">&lt;VIKING_REPO_ROOT_HOST&gt;/deploy/stacks.psd1</span></code> (the <code class="docutils literal notranslate"><span class="pre">viking-*</span></code>
+stacks) and <code class="docutils literal notranslate"><span class="pre">&lt;NORNIR_REPO_ROOT_HOST&gt;/nornir-docker/dev-stacks.psd1</span></code> (<code class="docutils literal notranslate"><span class="pre">nornir-dev</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code>); a registry is skipped when its checkout variable is not set, and
+<code class="docutils literal notranslate"><span class="pre">none</span></code> loads only connectomes-deploy’s own. <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">list</span></code> prints the stacks of every loaded
+registry, with a <code class="docutils literal notranslate"><span class="pre">ThisHost</span></code> column for the stacks in <code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span></code>.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 22.0%" />
@@ -213,7 +216,8 @@ in-container CIFS. <a class="reference internal" href="nornir_build_appliance.ht
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code></p></td>
 <td><p>compose</p></td>
 <td><p>compute</p></td>
-<td><p>SAM2 segmentation gRPC servers (GPU); profile <code class="docutils literal notranslate"><span class="pre">models</span></code> adds v3, v4, and sem-v1</p></td>
+<td><p>SAM2 segmentation gRPC servers (GPU): the default model, plus one server per row of
+<code class="docutils literal notranslate"><span class="pre">Run/viking-segmentation/models.json</span></code> (<code class="docutils literal notranslate"><span class="pre">model</span></code> action; no compose profiles)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-iis</span></code></p></td>
 <td><p>iis</p></td>
@@ -299,6 +303,15 @@ interactive <code class="docutils literal notranslate"><span class="pre">--rm</s
 <td><p>iis only: runs the Viking IIS deploy script (<code class="docutils literal notranslate"><span class="pre">up</span></code> and <code class="docutils literal notranslate"><span class="pre">rebuild</span></code> are aliases)</p></td>
 <td><p>not supported</p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">model</span></code></p></td>
+<td><p>Stacks with a models table (<code class="docutils literal notranslate"><span class="pre">viking-segmentation</span></code>): <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">&lt;prefix&gt;</span> <span class="pre">&lt;file&gt;</span></code> adds or
+changes a row of <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/models.json</span></code> and starts that server, <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">&lt;prefix&gt;</span></code>
+recreates it, <code class="docutils literal notranslate"><span class="pre">model</span></code> alone recreates every row, <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">-Remove</span> <span class="pre">&lt;prefix&gt;</span></code> deletes it.
+Writes <code class="docutils literal notranslate"><span class="pre">Run/&lt;stack&gt;/compose.generated.yaml</span></code>, merged after the compose files on every
+later action. With <code class="docutils literal notranslate"><span class="pre">SEGMENTATION_CERT_NAMES_DIR</span></code> set, a changed name list restarts
+<code class="docutils literal notranslate"><span class="pre">viking-certs</span></code> when it runs on this host (not with <code class="docutils literal notranslate"><span class="pre">TLS_MODE=manual</span></code>).</p></td>
+<td><p>not supported</p></td>
+</tr>
 </tbody>
 </table>
 <p><code class="docutils literal notranslate"><span class="pre">-Service</span></code> defaults to the registry’s <code class="docutils literal notranslate"><span class="pre">DefaultService</span></code>. <code class="docutils literal notranslate"><span class="pre">up</span></code>, <code class="docutils literal notranslate"><span class="pre">restart</span></code>, <code class="docutils literal notranslate"><span class="pre">rebuild</span></code>,
@@ -309,7 +322,7 @@ list of what is missing.</p>
 <span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">up</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">identity</span> <span class="n">logs</span> <span class="o">-</span><span class="n">Follow</span> <span class="o">-</span><span class="n">Tail</span> <span class="mi">500</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">annotation</span> <span class="n">exec</span> <span class="o">-</span><span class="n">Service</span> <span class="o">&lt;</span><span class="n">service</span><span class="o">&gt;</span> <span class="o">--</span> <span class="n">ls</span> <span class="o">/</span><span class="n">app</span>
-<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">segmentation</span> <span class="n">up</span> <span class="o">-</span><span class="n">Profile</span> <span class="n">seg</span><span class="o">-</span><span class="n">v3</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="n">viking</span><span class="o">-</span><span class="n">segmentation</span> <span class="n">model</span> <span class="n">v3</span> <span class="n">sam2_em_v3_epoch_9</span><span class="o">.</span><span class="n">pt</span>
 <span class="n">stack</span><span class="o">.</span><span class="n">ps1</span> <span class="nb">all</span> <span class="n">down</span>
 </pre></div>
 </div>

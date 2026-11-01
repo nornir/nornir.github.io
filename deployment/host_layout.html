@@ -134,12 +134,12 @@ under one root, <code class="docutils literal notranslate"><span class="pre">NOR
 <li><p>Ubuntu: <code class="docutils literal notranslate"><span class="pre">/srv/docker</span></code></p></li>
 </ul>
 <p>Nothing under the root is committed. Templates live in the repositories (<code class="docutils literal notranslate"><span class="pre">example.*</span></code> files) and
-are copied in by <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy/Initialize-DockerHost.ps1</span></code>, which never overwrites an
+are copied in by <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code> from the <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a> repository, which never overwrites an
 existing file. Re-run it after adding a stack to a host; it only fills in what is missing.</p>
 <section id="the-tree">
 <h2>The tree<a class="headerlink" href="#the-tree" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">root</span><span class="o">&gt;/</span>
-  <span class="n">stack</span><span class="o">.</span><span class="n">ps1</span>                              <span class="n">forwarding</span> <span class="n">launcher</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">repo</span><span class="o">&gt;/</span><span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span>
+  <span class="n">stack</span><span class="o">.</span><span class="n">ps1</span>                              <span class="n">forwarding</span> <span class="n">launcher</span> <span class="o">-&gt;</span> <span class="o">&lt;</span><span class="n">connectomes</span><span class="o">-</span><span class="n">deploy</span><span class="o">&gt;/</span><span class="n">stack</span><span class="o">.</span><span class="n">ps1</span>
   <span class="n">Run</span><span class="o">/</span>
     <span class="n">_host</span><span class="o">/</span>
       <span class="n">host</span><span class="o">.</span><span class="n">env</span>                           <span class="n">machine</span> <span class="n">settings</span> <span class="k">for</span> <span class="n">every</span> <span class="n">stack</span> <span class="n">on</span> <span class="n">this</span> <span class="n">host</span>
@@ -178,8 +178,8 @@ existing file. Re-run it after adding a stack to a host; it only fills in what i
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code></p></td>
-<td><p>A small generated launcher that resolves <code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code> at run time and calls
-the real <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> in the checkout, so it keeps working after <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>. Never copy
+<td><p>A small generated launcher that resolves <code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST</span></code> at run time and calls
+the real <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> in the connectomes-deploy checkout, so it keeps working after <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>. Never copy
 the real script here; it dot-sources sibling helpers and breaks when copied.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Run/_host/</span></code></p></td>
@@ -219,12 +219,14 @@ share can fail or diverge.</p></td>
 </tr>
 </tbody>
 </table>
-<p>Checkouts are outside the root: <code class="docutils literal notranslate"><span class="pre">/srv/src/nornir</span></code> and <code class="docutils literal notranslate"><span class="pre">/srv/src/Viking</span></code> on Ubuntu (created by
-<code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code>), any path on Windows (for example <code class="docutils literal notranslate"><span class="pre">D:\src\git\nornir</span></code>).</p>
+<p>Checkouts are outside the root: <code class="docutils literal notranslate"><span class="pre">/srv/connectomes-deploy</span></code>, <code class="docutils literal notranslate"><span class="pre">/srv/src/nornir</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/srv/src/Viking</span></code> on Ubuntu (<code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code> creates the folders; you clone into them),
+any path on Windows (for example <code class="docutils literal notranslate"><span class="pre">D:\src\git\connectomes-deploy</span></code> and <code class="docutils literal notranslate"><span class="pre">D:\src\git\nornir</span></code>).</p>
 </section>
 <section id="permissions">
 <h2>Permissions<a class="headerlink" href="#permissions" title="Link to this heading"></a></h2>
-<p>On Ubuntu <code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code> makes the deploy user own <code class="docutils literal notranslate"><span class="pre">/srv/docker</span></code> and <code class="docutils literal notranslate"><span class="pre">/srv/src</span></code>.
+<p>On Ubuntu <code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code> makes the deploy user own <code class="docutils literal notranslate"><span class="pre">/srv/docker</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/srv/connectomes-deploy</span></code> and <code class="docutils literal notranslate"><span class="pre">/srv/src</span></code>.
 <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code> and <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code> then set:</p>
 <table class="docutils align-default">
 <colgroup>
@@ -319,18 +321,21 @@ paths. Paths use forward slashes (<code class="docutils literal notranslate"><sp
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DOCKER_WORK_DIR</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/Work</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code></p></td>
-<td><p>nornir checkout on this host (from <code class="docutils literal notranslate"><span class="pre">host.env</span></code>; defaults to the checkout that contains
-<code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code>).</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST</span></code></p></td>
+<td><p>connectomes-deploy checkout on this host (from <code class="docutils literal notranslate"><span class="pre">host.env</span></code>; defaults to the checkout that
+contains <code class="docutils literal notranslate"><span class="pre">stack.ps1</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code></p></td>
+<td><p>nornir checkout on this host (from <code class="docutils literal notranslate"><span class="pre">host.env</span></code>; unset when the host has none).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code></p></td>
 <td><p>Viking checkout on this host (from <code class="docutils literal notranslate"><span class="pre">host.env</span></code>).</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_&lt;SERVICE&gt;</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">VIKING_HOSTNAME_&lt;SERVICE&gt;</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;sub&gt;.&lt;VIKING_DOMAIN&gt;</span></code> for each service not overridden in <code class="docutils literal notranslate"><span class="pre">host.env</span></code>
 (<a class="reference internal" href="configuration_reference.html"><span class="doc">Configuration reference</span></a>).</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_CERT_NAME</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TLS_CERT_NAME</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">VIKING_DOMAIN</span></code> unless set.</p></td>
 </tr>
 </tbody>

@@ -176,15 +176,16 @@ in <a class="reference internal" href="../docker/images.html"><span class="doc">
 <p>Steps 2 to 4 of <a class="reference internal" href="index.html"><span class="doc">Deployment and configuration</span></a> cover this host. In short:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ubuntu</span><span class="o">-</span><span class="n">drivers</span> <span class="n">install</span> <span class="o">&amp;&amp;</span> <span class="n">sudo</span> <span class="n">reboot</span>
 <span class="n">sudo</span> <span class="n">bash</span> <span class="n">bootstrap</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">gpu</span>      <span class="c1"># as the deploy account: Docker, pwsh, cifs-utils, NVIDIA toolkit</span>
-<span class="c1"># re-login, clone /srv/src/nornir and /srv/src/Viking</span>
-<span class="n">pwsh</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">nornir</span><span class="o">/</span><span class="n">nornir</span><span class="o">-</span><span class="n">docker</span><span class="o">/</span><span class="n">deploy</span><span class="o">/</span><span class="n">Initialize</span><span class="o">-</span><span class="n">DockerHost</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Role</span> <span class="n">compute</span> <span class="o">-</span><span class="n">VikingRepoRoot</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">Viking</span> <span class="o">-</span><span class="n">SetUserEnv</span>
+<span class="c1"># re-login, clone /srv/connectomes-deploy, /srv/src/nornir and /srv/src/Viking</span>
+<span class="n">pwsh</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">connectomes</span><span class="o">-</span><span class="n">deploy</span><span class="o">/</span><span class="n">Initialize</span><span class="o">-</span><span class="n">DockerHost</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Role</span> <span class="n">compute</span> <span class="o">-</span><span class="n">NornirRepoRoot</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">nornir</span> <span class="o">-</span><span class="n">VikingRepoRoot</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">Viking</span> <span class="o">-</span><span class="n">SetUserEnv</span>
 <span class="n">echo</span> <span class="n">cifs</span> <span class="o">|</span> <span class="n">sudo</span> <span class="n">tee</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">modules</span><span class="o">-</span><span class="n">load</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">nornir</span><span class="o">-</span><span class="n">cifs</span><span class="o">.</span><span class="n">conf</span>
 <span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">cifs</span> <span class="o">&amp;&amp;</span> <span class="n">grep</span> <span class="n">cifs</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">filesystems</span>
 </pre></div>
 </div>
-<p>Then edit the site files (next section) and pull the images:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">login</span> <span class="n">ghcr</span><span class="o">.</span><span class="n">io</span> <span class="o">-</span><span class="n">u</span> <span class="o">&lt;</span><span class="n">github</span><span class="o">-</span><span class="n">user</span><span class="o">&gt;</span>          <span class="c1"># token: Packages read</span>
-<span class="n">stack</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">pull</span>
+<p><code class="docutils literal notranslate"><span class="pre">bootstrap-ubuntu.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code> are in the <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a> repository. Then edit the site files (next
+section) and pull the images (<code class="docutils literal notranslate"><span class="pre">ghcr.io/jamesra/nornir:prod</span></code> and <code class="docutils literal notranslate"><span class="pre">:cupy</span></code> are public; no login
+needed):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stack</span> <span class="n">nornir</span><span class="o">-</span><span class="n">build</span> <span class="n">pull</span>
 </pre></div>
 </div>
 </section>
@@ -193,8 +194,8 @@ in <a class="reference internal" href="../docker/images.html"><span class="doc">
 <ol class="arabic">
 <li><p>Install Docker Desktop with the WSL2 backend, Git, PowerShell 7, and (for <code class="docutils literal notranslate"><span class="pre">nornir:cupy</span></code>) a
 current NVIDIA driver.</p></li>
-<li><p>Clone the monorepo with submodules and run, from the checkout:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">nornir</span><span class="o">-</span><span class="n">docker</span>\<span class="n">deploy</span>\<span class="n">Initialize</span><span class="o">-</span><span class="n">DockerHost</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Role</span> <span class="n">compute</span> <span class="o">-</span><span class="n">SetUserEnv</span>
+<li><p>Clone the monorepo with submodules and <a class="reference external" href="https://github.com/jamesra/connectomes-deploy">connectomes-deploy</a>, then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">:</span>\<span class="n">src</span>\<span class="n">git</span>\<span class="n">connectomes</span><span class="o">-</span><span class="n">deploy</span>\<span class="n">Initialize</span><span class="o">-</span><span class="n">DockerHost</span><span class="o">.</span><span class="n">ps1</span> <span class="o">-</span><span class="n">Role</span> <span class="n">compute</span> <span class="o">-</span><span class="n">NornirRepoRoot</span> <span class="n">D</span><span class="p">:</span>\<span class="n">src</span>\<span class="n">git</span>\<span class="n">nornir</span> <span class="o">-</span><span class="n">SetUserEnv</span>
 </pre></div>
 </div>
 </li>
@@ -208,7 +209,7 @@ distro, with <code class="docutils literal notranslate"><span class="pre">system
 <p>Without systemd, add <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">=</span> <span class="pre">/sbin/modprobe</span> <span class="pre">cifs</span> <span class="pre">nfsv4</span></code> under <code class="docutils literal notranslate"><span class="pre">[boot]</span></code> instead. Run
 <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">--shutdown</span></code> and check again.</p>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span> <span class="pre">ghcr.io</span></code> and <code class="docutils literal notranslate"><span class="pre">D:\Docker\stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">pull</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">D:\Docker\stack.ps1</span> <span class="pre">nornir-build</span> <span class="pre">pull</span></code> (public images; no <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span></code> needed).</p></li>
 </ol>
 </section>
 </section>

@@ -158,22 +158,30 @@ back in (<code class="docutils literal notranslate"><span class="pre">ssh</span>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Unknown</span> <span class="pre">stack</span> <span class="pre">'viking-...'</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">VIKING_REPO_ROOT_HOST</span></code> is not set in that host’s <code class="docutils literal notranslate"><span class="pre">host.env</span></code>, so the Viking registry is
-not loaded.</p></td>
+not loaded (or <code class="docutils literal notranslate"><span class="pre">STACK_EXTRA_REGISTRIES</span></code> is set and does not name it). The same applies to
+<code class="docutils literal notranslate"><span class="pre">nornir-dev</span></code> / <code class="docutils literal notranslate"><span class="pre">nornir-cursor-worker</span></code> and <code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">up</span></code> fails with <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">allocated</span></code> / <code class="docutils literal notranslate"><span class="pre">address</span> <span class="pre">already</span> <span class="pre">in</span> <span class="pre">use</span></code> on the dev box</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/stack.ps1</span></code>: <code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">found:</span> <span class="pre">.../stack.ps1</span> <span class="pre">(set</span> <span class="pre">DEPLOY_REPO_ROOT_HOST</span> <span class="pre">in</span>
+<span class="pre">Run/_host/host.env)</span></code></p></td>
+<td><p>The launcher cannot find the connectomes-deploy checkout. Set <code class="docutils literal notranslate"><span class="pre">DEPLOY_REPO_ROOT_HOST</span></code> in
+<code class="docutils literal notranslate"><span class="pre">host.env</span></code>, or re-run connectomes-deploy’s <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>. A launcher
+written by the old <code class="docutils literal notranslate"><span class="pre">nornir-docker/deploy</span></code> copy still forwards to that copy
+(<a class="reference internal" href="migrating_from_old_layout.html"><span class="doc">Migrating from the old layout</span></a>).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">up</span></code> fails with <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">allocated</span></code> / <code class="docutils literal notranslate"><span class="pre">address</span> <span class="pre">already</span> <span class="pre">in</span> <span class="pre">use</span></code> on the dev box</p></td>
 <td><p>The old <code class="docutils literal notranslate"><span class="pre">viking</span></code> compose project is still running. <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">-p</span> <span class="pre">viking</span> <span class="pre">down</span></code>
 (<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code> shows what holds the port), then <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">&lt;stack&gt;</span> <span class="pre">up</span></code> again.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span> <span class="pre">is</span> <span class="pre">empty</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_DOCKER_HOST_STACKS</span> <span class="pre">is</span> <span class="pre">empty</span></code></p></td>
 <td><p>Set the host’s stacks in <code class="docutils literal notranslate"><span class="pre">Run/_host/host.env</span></code> (or re-run <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span> <span class="pre">-Role</span> <span class="pre">...</span></code>).</p></td>
 </tr>
-<tr class="row-odd"><td><p>“Stack … is not configured” with a list of keys</p></td>
+<tr class="row-even"><td><p>“Stack … is not configured” with a list of keys</p></td>
 <td><p>A required key or secret file is missing; the message names the file to edit.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MONOREPO_ROOT</span> <span class="pre">is</span> <span class="pre">deprecated</span></code> warning</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NORNIR_MONOREPO_ROOT</span> <span class="pre">is</span> <span class="pre">deprecated</span></code> warning</p></td>
 <td><p>Rename it to <code class="docutils literal notranslate"><span class="pre">NORNIR_REPO_ROOT_HOST</span></code> in <code class="docutils literal notranslate"><span class="pre">host.env</span></code> or your user environment.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Builds/nornir-build/start-nornir-build.ps1</span></code> fails with missing <code class="docutils literal notranslate"><span class="pre">NornirDockerRun.ps1</span></code> /
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Builds/nornir-build/start-nornir-build.ps1</span></code> fails with missing <code class="docutils literal notranslate"><span class="pre">NornirDockerRun.ps1</span></code> /
 <code class="docutils literal notranslate"><span class="pre">NornirDevRunMounts.ps1</span></code></p></td>
 <td><p>It is an old <em>copy</em> of the launcher; copies break because the script dot-sources sibling
 helpers. Re-run <code class="docutils literal notranslate"><span class="pre">Initialize-DockerHost.ps1</span></code>: it replaces it with a forwarding launcher
@@ -221,8 +229,22 @@ IT’s ACME server with EAB) or <code class="docutils literal notranslate"><span
 certificate; use <code class="docutils literal notranslate"><span class="pre">-Force</span></code> to replace a later-expiring certificate on purpose.</p></td>
 </tr>
 <tr class="row-even"><td><p>Segmentation names fail through the proxy</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">compute</span></code> does not accept 40443-40447 from <code class="docutils literal notranslate"><span class="pre">web</span></code> (Pitt firewall or <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code>), or
-<code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span> <span class="pre">-From</span> <span class="pre">web</span></code> has not copied the certificate to <code class="docutils literal notranslate"><span class="pre">compute</span></code>.</p></td>
+<td><p>With published ports: <code class="docutils literal notranslate"><span class="pre">compute</span></code> does not accept 40443 (or a model’s <code class="docutils literal notranslate"><span class="pre">port</span></code>) from
+<code class="docutils literal notranslate"><span class="pre">web</span></code> (Pitt firewall or <code class="docutils literal notranslate"><span class="pre">DOCKER-USER</span></code>). On macvlan: the network ACL does not allow
+<code class="docutils literal notranslate"><span class="pre">web</span></code> to <code class="docutils literal notranslate"><span class="pre">&lt;IP&gt;:443</span></code>, or <code class="docutils literal notranslate"><span class="pre">VIKING_UPSTREAM_SEGMENTATION</span></code> is not set in the proxy run
+env. Either way, <code class="docutils literal notranslate"><span class="pre">stack.ps1</span> <span class="pre">certs</span> <span class="pre">push</span> <span class="pre">-From</span> <span class="pre">web</span></code> may not have copied the certificate to
+the segmentation host (<a class="reference internal" href="ports_and_remote_access.html#deploy-segmentation-network"><span class="std std-ref">How the proxy reaches the segmentation servers</span></a>).</p></td>
+</tr>
+<tr class="row-odd"><td><p>A <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;.segmentation</span></code> model name fails, the default one works</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">segmentation.map</span></code> is not in <code class="docutils literal notranslate"><span class="pre">Data/viking-proxy/models.d/</span></code> on <code class="docutils literal notranslate"><span class="pre">web</span></code> or the proxy was
+not restarted after it changed; or the certificate lacks <code class="docutils literal notranslate"><span class="pre">*.segmentation.&lt;domain&gt;</span></code> (or
+that name).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">viking-segmentation</span> <span class="pre">up</span></code> with the macvlan overlay: <code class="docutils literal notranslate"><span class="pre">invalid</span> <span class="pre">subnet</span></code>, or the old NIC or
+subnet is still used</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SEGMENTATION_LAN_SUBNET</span></code> must be CIDR (<code class="docutils literal notranslate"><span class="pre">10.20.30.0/24</span></code>), not a netmask. After changing
+<code class="docutils literal notranslate"><span class="pre">SEGMENTATION_MACVLAN_PARENT</span></code> or the subnet, run <code class="docutils literal notranslate"><span class="pre">stack</span> <span class="pre">viking-segmentation</span> <span class="pre">down</span></code>
+before <code class="docutils literal notranslate"><span class="pre">up</span></code>: an existing network keeps its old settings.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">doctor</span></code>: <code class="docutils literal notranslate"><span class="pre">DNS</span> <span class="pre">&lt;name&gt;</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">resolve</span> <span class="pre">yet</span></code></p></td>
 <td><p>The Pitt DNS ticket is not done, or the record is not a wildcard.</p></td>
